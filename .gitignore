@@ -1,0 +1,15 @@
+/beforeLightningBackend/nbproject/private/
+/beforeLightningBackend/beforeLightningBackend-war/nbproject/private/
+
+/beforeLightningBackend/beforeLightningBackend-ejb/nbproject/private/
+/beforeLightningBackend/beforeLightningBackend-ejb/build/
+/beforeLightningBackend/beforeLightningBackend-ejb/dist/
+
+
+/beforeLightningBackend/beforeLightningBackendClient/nbproject/private/
+/beforeLightningBackend/beforeLightningBackendClient/build/
+/beforeLightningBackend/beforeLightningBackendClient/dist/
+
+/beforeLightningBackend/beforeLightningBackendLibrary/nbproject/private/
+/beforeLightningBackend/beforeLightningBackendLibrary/build/
+/beforeLightningBackend/beforeLightningBackendLibrary/dist/
