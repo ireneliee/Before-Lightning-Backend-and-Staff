@@ -1,5 +1,10 @@
 /beforeLightningBackend/nbproject/private/
 /beforeLightningBackend/beforeLightningBackend-war/nbproject/private/
+/beforeLightningBackend/beforeLightningBackend-war/nbproject/ant-deploy.xml
+/beforeLightningBackend/beforeLightningBackend-war/nbproject/build-impl.xml
+/beforeLightningBackend/beforeLightningBackend-war/nbproject/genfiles.properties
+/beforeLightningBackend/beforeLightningBackend-war/web/WEB-INF/glassfish-web.xml
+/beforeLightningBackend/beforeLightningBackend-war/web/WEB-INF/web.xml
 
 /beforeLightningBackend/beforeLightningBackend-ejb/nbproject/private/
 /beforeLightningBackend/beforeLightningBackend-ejb/build/
