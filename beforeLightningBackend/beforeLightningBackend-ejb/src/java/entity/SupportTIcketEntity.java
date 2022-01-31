@@ -9,9 +9,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import util.enumeration.SupportTicketStatusEnum;
@@ -21,7 +24,7 @@ import util.enumeration.SupportTicketStatusEnum;
  * @author Koh Wen Jie
  */
 @Entity
-public class SupportTIcketEntity implements Serializable {
+public class SupportTicketEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,10 +39,14 @@ public class SupportTIcketEntity implements Serializable {
     @Column(nullable = false)
     private SupportTicketStatusEnum supportTIcketStatus;
 
-    public SupportTIcketEntity() {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    private PurchaseOrderLineItemEntity purchaseOrderLineItemEntity;
+
+    public SupportTicketEntity() {
     }
 
-    public SupportTIcketEntity(String issue, SupportTicketStatusEnum supportTIcketStatus) {
+    public SupportTicketEntity(String issue, SupportTicketStatusEnum supportTIcketStatus) {
         this();
         this.issue = issue;
         this.supportTIcketStatus = supportTIcketStatus;
@@ -81,6 +88,20 @@ public class SupportTIcketEntity implements Serializable {
         this.supportTIcketStatus = supportTIcketStatus;
     }
 
+    /**
+     * @return the purchaseOrderLineItemEntity
+     */
+    public PurchaseOrderLineItemEntity getPurchaseOrderLineItemEntity() {
+        return purchaseOrderLineItemEntity;
+    }
+
+    /**
+     * @param purchaseOrderLineItemEntity the purchaseOrderLineItemEntity to set
+     */
+    public void setPurchaseOrderLineItemEntity(PurchaseOrderLineItemEntity purchaseOrderLineItemEntity) {
+        this.purchaseOrderLineItemEntity = purchaseOrderLineItemEntity;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -91,10 +112,10 @@ public class SupportTIcketEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the supportTIcketId fields are not set
-        if (!(object instanceof SupportTIcketEntity)) {
+        if (!(object instanceof SupportTicketEntity)) {
             return false;
         }
-        SupportTIcketEntity other = (SupportTIcketEntity) object;
+        SupportTicketEntity other = (SupportTicketEntity) object;
         if ((this.supportTIcketId == null && other.supportTIcketId != null) || (this.supportTIcketId != null && !this.supportTIcketId.equals(other.supportTIcketId))) {
             return false;
         }

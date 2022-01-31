@@ -8,11 +8,18 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -40,7 +47,16 @@ public class PurchaseOrderEntity implements Serializable {
     @Column(nullable = false)
     private LocalDateTime datePaid;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    private MemberEntity memberEntity;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    private AddressEntity addressEntity;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrderEntity")
+    private List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities;
+
     public PurchaseOrderEntity() {
+        this.purchaseOrderLineItemEntities = new ArrayList<PurchaseOrderLineItemEntity>();
     }
 
     public PurchaseOrderEntity(BigDecimal totalPrice, LocalDateTime dateCreated, LocalDateTime datePaid) {
@@ -98,6 +114,49 @@ public class PurchaseOrderEntity implements Serializable {
      */
     public void setDatePaid(LocalDateTime datePaid) {
         this.datePaid = datePaid;
+    }
+
+    /**
+     * @return the memberEntity
+     */
+    public MemberEntity getMemberEntity() {
+        return memberEntity;
+    }
+
+    /**
+     * @param memberEntity the memberEntity to set
+     */
+    public void setMemberEntity(MemberEntity memberEntity) {
+        this.memberEntity = memberEntity;
+    }
+
+    /**
+     * @return the addressEntity
+     */
+    public AddressEntity getAddressEntity() {
+        return addressEntity;
+    }
+
+    /**
+     * @param addressEntity the addressEntity to set
+     */
+    public void setAddressEntity(AddressEntity addressEntity) {
+        this.addressEntity = addressEntity;
+    }
+
+    /**
+     * @return the purchaseOrderLineItemEntities
+     */
+    public List<PurchaseOrderLineItemEntity> getPurchaseOrderLineItemEntities() {
+        return purchaseOrderLineItemEntities;
+    }
+
+    /**
+     * @param purchaseOrderLineItemEntities the purchaseOrderLineItemEntities to
+     * set
+     */
+    public void setPurchaseOrderLineItemEntities(List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities) {
+        this.purchaseOrderLineItemEntities = purchaseOrderLineItemEntities;
     }
 
     @Override

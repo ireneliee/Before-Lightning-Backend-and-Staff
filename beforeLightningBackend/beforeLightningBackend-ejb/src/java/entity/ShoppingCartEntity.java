@@ -6,10 +6,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -23,7 +27,11 @@ public class ShoppingCartEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shoppingCartEntityId;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shoppingCartEntity")
+    private List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities;
+
     public ShoppingCartEntity() {
+        this.purchaseOrderLineItemEntities = new ArrayList<PurchaseOrderLineItemEntity>();
     }
 
     public Long getShoppingCartEntityId() {
@@ -32,6 +40,21 @@ public class ShoppingCartEntity implements Serializable {
 
     public void setShoppingCartEntityId(Long shoppingCartEntityId) {
         this.shoppingCartEntityId = shoppingCartEntityId;
+    }
+
+    /**
+     * @return the purchaseOrderLineItemEntities
+     */
+    public List<PurchaseOrderLineItemEntity> getPurchaseOrderLineItemEntities() {
+        return purchaseOrderLineItemEntities;
+    }
+
+    /**
+     * @param purchaseOrderLineItemEntities the purchaseOrderLineItemEntities to
+     * set
+     */
+    public void setPurchaseOrderLineItemEntities(List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities) {
+        this.purchaseOrderLineItemEntities = purchaseOrderLineItemEntities;
     }
 
     @Override
@@ -58,5 +81,5 @@ public class ShoppingCartEntity implements Serializable {
     public String toString() {
         return "entity.ShoppingCartEntity[ id=" + shoppingCartEntityId + " ]";
     }
-    
+
 }

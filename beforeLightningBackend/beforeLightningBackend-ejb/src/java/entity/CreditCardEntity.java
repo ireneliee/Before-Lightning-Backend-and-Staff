@@ -8,9 +8,12 @@ package entity;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,6 +43,10 @@ public class CreditCardEntity implements Serializable {
     @NotNull
     @Size(min = 4, max = 7)
     private String expiryDate;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    private MemberEntity memberEntity;
 
     public CreditCardEntity() {
     }
@@ -99,6 +106,20 @@ public class CreditCardEntity implements Serializable {
      */
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    /**
+     * @return the memberEntity
+     */
+    public MemberEntity getMemberEntity() {
+        return memberEntity;
+    }
+
+    /**
+     * @param memberEntity the memberEntity to set
+     */
+    public void setMemberEntity(MemberEntity memberEntity) {
+        this.memberEntity = memberEntity;
     }
 
     @Override

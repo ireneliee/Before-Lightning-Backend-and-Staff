@@ -7,12 +7,17 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -49,7 +54,13 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     @Column(nullable = false)
     private PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrderLineItemEntity")
+    private List<SupportTicketEntity> supportTicketEntities;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    private ProductTypeEntity productTypeEntity;
+
     public PurchaseOrderLineItemEntity() {
+        this.supportTicketEntities = new ArrayList<SupportTicketEntity>();
     }
 
     public PurchaseOrderLineItemEntity(String lineItemName, Integer quantity, BigDecimal subTotalPrice, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus) {
@@ -122,6 +133,34 @@ public class PurchaseOrderLineItemEntity implements Serializable {
      */
     public void setPurchaseOrderLineItemStatus(PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus) {
         this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
+    }
+
+    /**
+     * @return the supportTicketEntities
+     */
+    public List<SupportTicketEntity> getSupportTicketEntities() {
+        return supportTicketEntities;
+    }
+
+    /**
+     * @param supportTicketEntities the supportTicketEntities to set
+     */
+    public void setSupportTicketEntities(List<SupportTicketEntity> supportTicketEntities) {
+        this.supportTicketEntities = supportTicketEntities;
+    }
+
+    /**
+     * @return the productTypeEntity
+     */
+    public ProductTypeEntity getProductTypeEntity() {
+        return productTypeEntity;
+    }
+
+    /**
+     * @param productTypeEntity the productTypeEntity to set
+     */
+    public void setProductTypeEntity(ProductTypeEntity productTypeEntity) {
+        this.productTypeEntity = productTypeEntity;
     }
 
     @Override
