@@ -51,6 +51,9 @@ public class PromotionEntity implements Serializable {
     
     @ManyToMany(mappedBy = "promotions")
     private List<PartChoiceEntity> partChoices;
+	
+	@ManyToMany(mappedBy = "promotions")
+	private List<AccessoryEntity> accessoryEntities;
 
     public PromotionEntity() {
         this.partChoices = new ArrayList<>();
@@ -137,5 +140,15 @@ public class PromotionEntity implements Serializable {
     public void setPartChoices(List<PartChoiceEntity> partChoices) {
         this.partChoices = partChoices;
     }
+
+	public List<AccessoryEntity> getAccessoryEntities() {
+		return accessoryEntities;
+	}
+
+	public void setAccessoryEntities(List<AccessoryEntity> accessoryEntities) {
+		this.accessoryEntities = accessoryEntities;
+	}
+	
+	
     
 }
