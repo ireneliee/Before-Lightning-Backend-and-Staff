@@ -41,7 +41,7 @@ public class MemberEntity extends UserEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity")
     private List<CreditCardEntity> creditCardEntities;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<AddressEntity> addressEntities;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity")

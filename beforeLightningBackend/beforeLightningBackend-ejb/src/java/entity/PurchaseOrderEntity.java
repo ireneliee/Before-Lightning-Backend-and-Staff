@@ -52,7 +52,7 @@ public class PurchaseOrderEntity implements Serializable {
     private MemberEntity memberEntity;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     private AddressEntity addressEntity;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrderEntity")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities;
 
     public PurchaseOrderEntity() {

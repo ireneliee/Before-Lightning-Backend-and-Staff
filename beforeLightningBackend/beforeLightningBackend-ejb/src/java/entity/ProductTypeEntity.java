@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 
 /**
  *
@@ -22,64 +23,60 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ProductTypeEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Long id;
-	@Column(nullable=false)
-	private String productTypeName;
+    protected Long id;
+    @Column(nullable = false)
+    private String productTypeName;
 
-	public ProductTypeEntity() {
-	}
+    public ProductTypeEntity() {
+    }
 
-	public ProductTypeEntity(Long productTypeId, String productTypeName) {
-		this.id = productTypeId;
-		this.productTypeName = productTypeName;
-	}
-	
-	
+    public ProductTypeEntity(Long productTypeId, String productTypeName) {
+        this.id = productTypeId;
+        this.productTypeName = productTypeName;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getProductTypeName() {
-		return productTypeName;
-	}
+    public String getProductTypeName() {
+        return productTypeName;
+    }
 
-	public void setProductTypeName(String productTypeName) {
-		this.productTypeName = productTypeName;
-	}
-	
-	
+    public void setProductTypeName(String productTypeName) {
+        this.productTypeName = productTypeName;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof ProductTypeEntity)) {
-			return false;
-		}
-		ProductTypeEntity other = (ProductTypeEntity) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof ProductTypeEntity)) {
+            return false;
+        }
+        ProductTypeEntity other = (ProductTypeEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "entity.ProductType[ id=" + id + " ]";
-	}
-	
+    @Override
+    public String toString() {
+        return "entity.ProductType[ id=" + id + " ]";
+    }
+
 }

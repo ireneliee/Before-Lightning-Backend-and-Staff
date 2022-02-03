@@ -27,7 +27,7 @@ public class ShoppingCartEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shoppingCartEntityId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shoppingCartEntity")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities;
 
     public ShoppingCartEntity() {

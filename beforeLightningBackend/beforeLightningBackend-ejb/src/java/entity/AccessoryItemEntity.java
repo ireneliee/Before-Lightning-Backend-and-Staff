@@ -28,104 +28,103 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class AccessoryItemEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
+    private static final long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long accessoryItemId;
-	@Column(nullable=false)	
-	private String accessoryItemName;
-	@Column(nullable=false)		
-	private Integer quantityOnHand;
-	@Column(nullable=false)
-	@DecimalMin("1.00")
+    private Long accessoryItemId;
+    @Column(nullable = false)
+    private String accessoryItemName;
+    @Column(nullable = false)
+    private Integer quantityOnHand;
+    @Column(nullable = false)
+    @DecimalMin("1.00")
     @DecimalMax("9999.00")
     @NotNull
-	private BigDecimal price;
+    private BigDecimal price;
 
-	
-	@ManyToOne
-	@JoinColumn(nullable=false)
-	private AccessoryEntity accessory;
-	
-	@ManyToMany(mappedBy = "accessoryItemEntities")
-	private List<PromotionEntity> promotions;
-	
-	
-	public Integer getQuantityOnHand() {
-		return quantityOnHand;
-	}
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private AccessoryEntity accessory;
 
-	public void setQuantityOnHand(Integer quantityOnHand) {
-		this.quantityOnHand = quantityOnHand;
-	}
+    @ManyToMany
+    private List<PromotionEntity> promotionEntities;
 
-	public String getAccessoryItemName() {
-		return accessoryItemName;
-	}
+    public Integer getQuantityOnHand() {
+        return quantityOnHand;
+    }
 
-	public void setAccessoryItemName(String accessoryItemName) {
-		this.accessoryItemName = accessoryItemName;
-	}
+    public void setQuantityOnHand(Integer quantityOnHand) {
+        this.quantityOnHand = quantityOnHand;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public String getAccessoryItemName() {
+        return accessoryItemName;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-	
-	
-	
+    public void setAccessoryItemName(String accessoryItemName) {
+        this.accessoryItemName = accessoryItemName;
+    }
 
-	public Long getAccessoryItemId() {
-		return accessoryItemId;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setAccessoryItemId(Long accessoryItemId) {
-		this.accessoryItemId = accessoryItemId;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	public List<PromotionEntity> getPromotions() {
-		return promotions;
-	}
+    public Long getAccessoryItemId() {
+        return accessoryItemId;
+    }
 
-	public void setPromotions(List<PromotionEntity> promotions) {
-		this.promotions = promotions;
-	}
+    public void setAccessoryItemId(Long accessoryItemId) {
+        this.accessoryItemId = accessoryItemId;
+    }
 
-	
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (accessoryItemId != null ? accessoryItemId.hashCode() : 0);
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (accessoryItemId != null ? accessoryItemId.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the accessoryItemId fields are not set
-		if (!(object instanceof AccessoryItemEntity)) {
-			return false;
-		}
-		AccessoryItemEntity other = (AccessoryItemEntity) object;
-		if ((this.accessoryItemId == null && other.accessoryItemId != null) || (this.accessoryItemId != null && !this.accessoryItemId.equals(other.accessoryItemId))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the accessoryItemId fields are not set
+        if (!(object instanceof AccessoryItemEntity)) {
+            return false;
+        }
+        AccessoryItemEntity other = (AccessoryItemEntity) object;
+        if ((this.accessoryItemId == null && other.accessoryItemId != null) || (this.accessoryItemId != null && !this.accessoryItemId.equals(other.accessoryItemId))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "entity.AccessoryItem[ id=" + accessoryItemId + " ]";
-	}
+    @Override
+    public String toString() {
+        return "entity.AccessoryItem[ id=" + accessoryItemId + " ]";
+    }
 
-	public AccessoryEntity getAccessory() {
-		return accessory;
-	}
+    public AccessoryEntity getAccessory() {
+        return accessory;
+    }
 
-	public void setAccessory(AccessoryEntity accessory) {
-		this.accessory = accessory;
-	}
-	
+    public void setAccessory(AccessoryEntity accessory) {
+        this.accessory = accessory;
+    }
+
+    /**
+     * @return the promotionEntities
+     */
+    public List<PromotionEntity> getPromotionEntities() {
+        return promotionEntities;
+    }
+
+    /**
+     * @param promotionEntities the promotionEntities to set
+     */
+    public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
+        this.promotionEntities = promotionEntities;
+    }
 }

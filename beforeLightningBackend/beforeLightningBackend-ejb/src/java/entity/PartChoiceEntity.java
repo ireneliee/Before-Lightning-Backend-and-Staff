@@ -66,15 +66,13 @@ public class PartChoiceEntity implements Serializable {
     @Size(max = 128)
     private String partDescription;
     
-    @ManyToMany(mappedBy = "rightSuitablePartChocies")
+    @ManyToMany
     private List<PartChoiceEntity> leftSuitablePartChoices;
     
     @ManyToMany
-    @JoinColumn(name = "leftSuitablePartChoices")
     private List<PartChoiceEntity> rightSuitablePartChoices;
     
     @ManyToMany
-    @JoinColumn
     private List<PromotionEntity> promotions;
     
     public PartChoiceEntity() {
