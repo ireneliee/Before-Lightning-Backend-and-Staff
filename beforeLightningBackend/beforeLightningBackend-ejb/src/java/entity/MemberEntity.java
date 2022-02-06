@@ -39,27 +39,27 @@ public class MemberEntity extends UserEntity implements Serializable {
     private ShoppingCartEntity shoppingCart;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity")
-    private List<CreditCardEntity> creditCardEntities;
+    private List<CreditCardEntity> creditCards;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<AddressEntity> addressEntities;
+    private List<AddressEntity> addresses;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity")
-    private List<PurchaseOrderEntity> purchaseOrderEntities;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+    private List<PurchaseOrderEntity> purchaseOrders;
 
     public MemberEntity() {
-        this.creditCardEntities = new ArrayList<CreditCardEntity>();
-        this.addressEntities = new ArrayList<AddressEntity>();
-        this.purchaseOrderEntities = new ArrayList<PurchaseOrderEntity>();
+        this.creditCards = new ArrayList<CreditCardEntity>();
+        this.addresses = new ArrayList<AddressEntity>();
+        this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
     }
 
     public MemberEntity(String email, String contact, String username, String password, String firstname, String lastname) {
         super(username, password, firstname, lastname);
         this.email = email;
         this.contact = contact;
-        this.creditCardEntities = new ArrayList<CreditCardEntity>();
-        this.addressEntities = new ArrayList<AddressEntity>();
-        this.purchaseOrderEntities = new ArrayList<PurchaseOrderEntity>();
+        this.creditCards = new ArrayList<CreditCardEntity>();
+        this.addresses = new ArrayList<AddressEntity>();
+        this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
     }
 
     /**
@@ -105,45 +105,45 @@ public class MemberEntity extends UserEntity implements Serializable {
     }
 
     /**
-     * @return the creditCardEntities
+     * @return the creditCards
      */
-    public List<CreditCardEntity> getCreditCardEntities() {
-        return creditCardEntities;
+    public List<CreditCardEntity> getCreditCards() {
+        return creditCards;
     }
 
     /**
-     * @param creditCardEntities the creditCardEntities to set
+     * @param creditCards the creditCards to set
      */
-    public void setCreditCardEntities(List<CreditCardEntity> creditCardEntities) {
-        this.creditCardEntities = creditCardEntities;
+    public void setCreditCards(List<CreditCardEntity> creditCards) {
+        this.creditCards = creditCards;
     }
 
     /**
-     * @return the addressEntities
+     * @return the addresses
      */
-    public List<AddressEntity> getAddressEntities() {
-        return addressEntities;
+    public List<AddressEntity> getAddresses() {
+        return addresses;
     }
 
     /**
-     * @param addressEntities the addressEntities to set
+     * @param addresses the addresses to set
      */
-    public void setAddressEntities(List<AddressEntity> addressEntities) {
-        this.addressEntities = addressEntities;
+    public void setAddresses(List<AddressEntity> addresses) {
+        this.addresses = addresses;
     }
 
     /**
-     * @return the purchaseOrderEntities
+     * @return the purchaseOrders
      */
-    public List<PurchaseOrderEntity> getPurchaseOrderEntities() {
-        return purchaseOrderEntities;
+    public List<PurchaseOrderEntity> getPurchaseOrders() {
+        return purchaseOrders;
     }
 
     /**
-     * @param purchaseOrderEntities the purchaseOrderEntities to set
+     * @param purchaseOrders the purchaseOrders to set
      */
-    public void setPurchaseOrderEntities(List<PurchaseOrderEntity> purchaseOrderEntities) {
-        this.purchaseOrderEntities = purchaseOrderEntities;
+    public void setPurchaseOrders(List<PurchaseOrderEntity> purchaseOrders) {
+        this.purchaseOrders = purchaseOrders;
     }
 
     @Override

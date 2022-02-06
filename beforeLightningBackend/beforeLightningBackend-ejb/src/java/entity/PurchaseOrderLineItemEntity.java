@@ -54,7 +54,7 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     @Column(nullable = false)
     private PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrderLineItemEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrderLineItem")
     private List<SupportTicketEntity> supportTicketEntities;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     private ProductTypeEntity productTypeEntity;

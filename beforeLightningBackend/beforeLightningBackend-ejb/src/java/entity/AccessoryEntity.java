@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -34,16 +30,16 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
     private String accessoryName;
 
     @JoinColumn(nullable = false)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "accessory")
+    @OneToMany(mappedBy = "accessory")
     private List<AccessoryItemEntity> accessoryItem;
 
     @ManyToMany
-    private List<PromotionEntity> promotionEntities;
+    private List<PromotionEntity> promotions;
 
     public AccessoryEntity() {
         super();
         this.accessoryItem = new ArrayList<>();
-        this.promotionEntities = new ArrayList<>();
+        this.promotions = new ArrayList<>();
     }
 
     public AccessoryEntity(String accessoryName) {
@@ -93,17 +89,17 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
     }
 
     /**
-     * @return the promotionEntities
+     * @return the promotions
      */
-    public List<PromotionEntity> getPromotionEntities() {
-        return promotionEntities;
+    public List<PromotionEntity> getPromotions() {
+        return promotions;
     }
 
     /**
-     * @param promotionEntities the promotionEntities to set
+     * @param promotions the promotions to set
      */
-    public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
-        this.promotionEntities = promotionEntities;
+    public void setPromotions(List<PromotionEntity> promotions) {
+        this.promotions = promotions;
     }
 
 }

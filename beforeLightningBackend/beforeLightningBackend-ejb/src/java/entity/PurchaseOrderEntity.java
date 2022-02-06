@@ -49,14 +49,14 @@ public class PurchaseOrderEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
-    private MemberEntity memberEntity;
+    private MemberEntity member;
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private AddressEntity addressEntity;
+    private AddressEntity address;
     @OneToMany(fetch = FetchType.LAZY)
-    private List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities;
+    private List<PurchaseOrderLineItemEntity> purchaseOrderLineItems;
 
     public PurchaseOrderEntity() {
-        this.purchaseOrderLineItemEntities = new ArrayList<PurchaseOrderLineItemEntity>();
+        this.purchaseOrderLineItems = new ArrayList<PurchaseOrderLineItemEntity>();
     }
 
     public PurchaseOrderEntity(BigDecimal totalPrice, LocalDateTime dateCreated, LocalDateTime datePaid) {
@@ -117,46 +117,46 @@ public class PurchaseOrderEntity implements Serializable {
     }
 
     /**
-     * @return the memberEntity
+     * @return the member
      */
-    public MemberEntity getMemberEntity() {
-        return memberEntity;
+    public MemberEntity getMember() {
+        return member;
     }
 
     /**
-     * @param memberEntity the memberEntity to set
+     * @param member the member to set
      */
-    public void setMemberEntity(MemberEntity memberEntity) {
-        this.memberEntity = memberEntity;
+    public void setMember(MemberEntity member) {
+        this.member = member;
     }
 
     /**
-     * @return the addressEntity
+     * @return the address
      */
-    public AddressEntity getAddressEntity() {
-        return addressEntity;
+    public AddressEntity getAddress() {
+        return address;
     }
 
     /**
-     * @param addressEntity the addressEntity to set
+     * @param address the address to set
      */
-    public void setAddressEntity(AddressEntity addressEntity) {
-        this.addressEntity = addressEntity;
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 
     /**
-     * @return the purchaseOrderLineItemEntities
+     * @return the purchaseOrderLineItems
      */
-    public List<PurchaseOrderLineItemEntity> getPurchaseOrderLineItemEntities() {
-        return purchaseOrderLineItemEntities;
+    public List<PurchaseOrderLineItemEntity> getPurchaseOrderLineItems() {
+        return purchaseOrderLineItems;
     }
 
     /**
-     * @param purchaseOrderLineItemEntities the purchaseOrderLineItemEntities to
-     * set
+     * @param purchaseOrderLineItems the purchaseOrderLineItems to
+ set
      */
-    public void setPurchaseOrderLineItemEntities(List<PurchaseOrderLineItemEntity> purchaseOrderLineItemEntities) {
-        this.purchaseOrderLineItemEntities = purchaseOrderLineItemEntities;
+    public void setPurchaseOrderLineItems(List<PurchaseOrderLineItemEntity> purchaseOrderLineItems) {
+        this.purchaseOrderLineItems = purchaseOrderLineItems;
     }
 
     @Override

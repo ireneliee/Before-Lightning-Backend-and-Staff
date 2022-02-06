@@ -57,9 +57,7 @@ public class ProductEntity extends ProductTypeEntity implements Serializable {
     @Max(5)
     private Integer productRating;
     
-    @ManyToMany(mappedBy = "productEntities",
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "products")
     private List<PartEntity> parts;
 
     public ProductEntity() {

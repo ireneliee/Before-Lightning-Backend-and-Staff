@@ -40,16 +40,14 @@ public class PartEntity implements Serializable {
     @Size(max = 128)
     private String description;
     
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    private List<ProductEntity> productEntities;
+    @ManyToMany
+    private List<ProductEntity> products;
     
-    @OneToMany(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+    @OneToMany
     private List<PartChoiceEntity> partChoices;
     
     public PartEntity() {
-        this.productEntities = new ArrayList<>();
+        this.products = new ArrayList<>();
         this.partChoices = new ArrayList<>();
     }
     
@@ -110,12 +108,12 @@ public class PartEntity implements Serializable {
         this.description = description;
     }
 
-    public List<ProductEntity> getProductEntities() {
-        return productEntities;
+    public List<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setProductEntities(List<ProductEntity> productEntities) {
-        this.productEntities = productEntities;
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
     public List<PartChoiceEntity> getPartChoices() {

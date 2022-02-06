@@ -53,7 +53,7 @@ public class PromotionEntity implements Serializable {
     private List<PartChoiceEntity> partChoices;
 
     @ManyToMany
-    private List<AccessoryEntity> accessoryEntities;
+    private List<AccessoryEntity> accessories;
 
     public PromotionEntity() {
         this.partChoices = new ArrayList<>();
@@ -140,12 +140,12 @@ public class PromotionEntity implements Serializable {
         this.partChoices = partChoices;
     }
 
-    public List<AccessoryEntity> getAccessoryEntities() {
-        return accessoryEntities;
+    public List<AccessoryEntity> getAccessories() {
+        return accessories;
     }
 
-    public void setAccessoryEntities(List<AccessoryEntity> accessoryEntities) {
-        this.accessoryEntities = accessoryEntities;
+    public void setAccessories(List<AccessoryEntity> accessories) {
+        this.accessories = accessories;
     }
 
 }

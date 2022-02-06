@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +46,7 @@ public class AccessoryItemEntity implements Serializable {
     private AccessoryEntity accessory;
 
     @ManyToMany
-    private List<PromotionEntity> promotionEntities;
+    private List<PromotionEntity> promotions;
 
     public Integer getQuantityOnHand() {
         return quantityOnHand;
@@ -115,16 +114,16 @@ public class AccessoryItemEntity implements Serializable {
     }
 
     /**
-     * @return the promotionEntities
+     * @return the promotions
      */
-    public List<PromotionEntity> getPromotionEntities() {
-        return promotionEntities;
+    public List<PromotionEntity> getPromotions() {
+        return promotions;
     }
 
     /**
-     * @param promotionEntities the promotionEntities to set
+     * @param promotions the promotions to set
      */
-    public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
-        this.promotionEntities = promotionEntities;
+    public void setPromotions(List<PromotionEntity> promotions) {
+        this.promotions = promotions;
     }
 }
