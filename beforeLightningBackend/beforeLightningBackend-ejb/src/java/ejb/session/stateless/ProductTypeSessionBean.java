@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+
 import entity.ProductTypeEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.util.List;
@@ -68,9 +69,17 @@ public class ProductTypeSessionBean implements ProductTypeSessionBeanLocal {
         return msg;
     }
 
+    private ProductTypeEntity retrieveProductTypeByProductId(Long productTypeId) {
+
+        ProductTypeEntity productType = entityManager.find(ProductTypeEntity.class, productTypeId);
+
+        return productType;
+    }
+
+    @Override
     public void deleteProductType(Long productTypeId) throws DeleteProductTypeException, ProductTypeNotFoundException {
 
-        ProductTypeEntity productTypeToBeDeleted = entityManager.find(ProductTypeEntity.class, productTypeId);
+        ProductTypeEntity productTypeToBeDeleted = retrieveProductTypeByProductId(productTypeId);
 
         if (productTypeToBeDeleted != null) {
 
@@ -96,6 +105,25 @@ public class ProductTypeSessionBean implements ProductTypeSessionBeanLocal {
             throw new ProductTypeNotFoundException("Product type id: " + productTypeId + " does not exist.");
         }
 
+    }
+
+    public void updateProductType(ProductTypeEntity productTypeEntity) throws ProductTypeNotFoundException {
+
+        if (productTypeEntity != null && productTypeEntity.getProductTypeId() != null) {
+
+            Set<ConstraintViolation<ProductTypeEntity>> constraintViolations = validator.validate(productTypeEntity);
+
+            if (constraintViolations.isEmpty()) {
+
+                ProductTypeEntity productTypeEntityToUpdate = retrieveProductTypeByProductId(productTypeEntity.getProductTypeId());
+
+                productTypeEntityToUpdate.setProductTypeName(productTypeEntity.getProductTypeName());
+            }
+
+        } else {
+
+            throw new ProductTypeNotFoundException("Product Id is not provided.");
+        }
     }
 
 }

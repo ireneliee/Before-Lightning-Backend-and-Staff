@@ -58,18 +58,18 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (productTypeId != null ? productTypeId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the productTypeId fields are not set
         if (!(object instanceof AccessoryEntity)) {
             return false;
         }
         AccessoryEntity other = (AccessoryEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.productTypeId == null && other.productTypeId != null) || (this.productTypeId != null && !this.productTypeId.equals(other.productTypeId))) {
             return false;
         }
         return true;
@@ -77,7 +77,7 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Accessory[ id=" + id + " ]";
+        return "entity.Accessory[ id=" + productTypeId + " ]";
     }
 
     public List<AccessoryItemEntity> getAccessoryItem() {

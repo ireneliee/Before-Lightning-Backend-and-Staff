@@ -26,7 +26,7 @@ public class ProductTypeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    protected Long productTypeId;
     @Column(nullable = false)
     private String productTypeName;
 
@@ -34,16 +34,16 @@ public class ProductTypeEntity implements Serializable {
     }
 
     public ProductTypeEntity(Long productTypeId, String productTypeName) {
-        this.id = productTypeId;
+        this.productTypeId = productTypeId;
         this.productTypeName = productTypeName;
     }
 
-    public Long getId() {
-        return id;
+    public Long getProductTypeId() {
+        return productTypeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProductTypeId(Long productTypeId) {
+        this.productTypeId = productTypeId;
     }
 
     public String getProductTypeName() {
@@ -57,18 +57,18 @@ public class ProductTypeEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (productTypeId != null ? productTypeId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the productTypeId fields are not set
         if (!(object instanceof ProductTypeEntity)) {
             return false;
         }
         ProductTypeEntity other = (ProductTypeEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.productTypeId == null && other.productTypeId != null) || (this.productTypeId != null && !this.productTypeId.equals(other.productTypeId))) {
             return false;
         }
         return true;
@@ -76,7 +76,7 @@ public class ProductTypeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ProductType[ id=" + id + " ]";
+        return "entity.ProductType[ id=" + productTypeId + " ]";
     }
 
 }

@@ -7,7 +7,9 @@ package ejb.session.stateless;
 
 import entity.ProductTypeEntity;
 import javax.ejb.Local;
+import util.exception.DeleteProductTypeException;
 import util.exception.InputDataValidationException;
+import util.exception.ProductTypeNotFoundException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -18,5 +20,7 @@ import util.exception.UnknownPersistenceException;
 public interface ProductTypeSessionBeanLocal {
 
     public ProductTypeEntity createNewProductTypeEntity(ProductTypeEntity newProductTypeEntity) throws InputDataValidationException, UnknownPersistenceException;
+
+    public void deleteProductType(Long productTypeId) throws DeleteProductTypeException, ProductTypeNotFoundException;
     
 }
