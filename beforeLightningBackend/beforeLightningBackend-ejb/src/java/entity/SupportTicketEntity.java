@@ -29,7 +29,7 @@ public class SupportTicketEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long supportTIcketId;
+    private Long supportTicketId;
     @Column(nullable = false, length = 400)
     @NotNull
     @Size(min = 1, max = 400)
@@ -37,7 +37,7 @@ public class SupportTicketEntity implements Serializable {
     @Enumerated
     @NotNull
     @Column(nullable = false)
-    private SupportTicketStatusEnum supportTIcketStatus;
+    private SupportTicketStatusEnum supportTicketStatus;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
@@ -46,18 +46,18 @@ public class SupportTicketEntity implements Serializable {
     public SupportTicketEntity() {
     }
 
-    public SupportTicketEntity(String issue, SupportTicketStatusEnum supportTIcketStatus) {
+    public SupportTicketEntity(String issue, SupportTicketStatusEnum supportTicketStatus) {
         this();
         this.issue = issue;
-        this.supportTIcketStatus = supportTIcketStatus;
+        this.supportTicketStatus = supportTicketStatus;
     }
 
-    public Long getSupportTIcketId() {
-        return supportTIcketId;
+    public Long getSupportTicketId() {
+        return supportTicketId;
     }
 
-    public void setSupportTIcketId(Long supportTIcketId) {
-        this.supportTIcketId = supportTIcketId;
+    public void setSupportTIcketId(Long supportTicketId) {
+        this.supportTicketId = supportTicketId;
     }
 
     /**
@@ -75,17 +75,17 @@ public class SupportTicketEntity implements Serializable {
     }
 
     /**
-     * @return the supportTIcketStatus
+     * @return the supportTicketStatus
      */
-    public SupportTicketStatusEnum getSupportTIcketStatus() {
-        return supportTIcketStatus;
+    public SupportTicketStatusEnum getSupportTicketStatus() {
+        return supportTicketStatus;
     }
 
     /**
-     * @param supportTIcketStatus the supportTIcketStatus to set
+     * @param supportTicketStatus the supportTicketStatus to set
      */
-    public void setSupportTIcketStatus(SupportTicketStatusEnum supportTIcketStatus) {
-        this.supportTIcketStatus = supportTIcketStatus;
+    public void setSupportTicketStatus(SupportTicketStatusEnum supportTicketStatus) {
+        this.supportTicketStatus = supportTicketStatus;
     }
 
     /**
@@ -105,18 +105,18 @@ public class SupportTicketEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (supportTIcketId != null ? supportTIcketId.hashCode() : 0);
+        hash += (supportTicketId != null ? supportTicketId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the supportTIcketId fields are not set
+        // TODO: Warning - this method won't work in the case the supportTicketId fields are not set
         if (!(object instanceof SupportTicketEntity)) {
             return false;
         }
         SupportTicketEntity other = (SupportTicketEntity) object;
-        if ((this.supportTIcketId == null && other.supportTIcketId != null) || (this.supportTIcketId != null && !this.supportTIcketId.equals(other.supportTIcketId))) {
+        if ((this.supportTicketId == null && other.supportTicketId != null) || (this.supportTicketId != null && !this.supportTicketId.equals(other.supportTicketId))) {
             return false;
         }
         return true;
@@ -124,7 +124,7 @@ public class SupportTicketEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.SupportTIcketEntity[ id=" + supportTIcketId + " ]";
+        return "entity.SupportTicketEntity[ id=" + supportTicketId + " ]";
     }
 
 }
