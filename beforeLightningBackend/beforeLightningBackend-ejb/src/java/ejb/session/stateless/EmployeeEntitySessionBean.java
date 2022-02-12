@@ -125,12 +125,12 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanLocal
             Set<ConstraintViolation<EmployeeEntity>> constraintViolations = validator.validate(employeeEntity);
 
             if (constraintViolations.isEmpty()) {
-                EmployeeEntity employeeEntityEntityToUpdate = retrieveEmployeeEntityByEmployeeEntityId(employeeEntity.getUserEntityId());
+                EmployeeEntity employeeEntityToUpdate = retrieveEmployeeEntityByEmployeeEntityId(employeeEntity.getUserEntityId());
 
-                if (employeeEntityEntityToUpdate.getUsername().equals(employeeEntity.getUsername())) {
-                    employeeEntityEntityToUpdate.setFirstname(employeeEntity.getFirstname());
-                    employeeEntityEntityToUpdate.setLastname(employeeEntity.getLastname());
-                    employeeEntityEntityToUpdate.setEmployeeAccessRight(employeeEntity.getEmployeeAccessRight());
+                if (employeeEntityToUpdate.getUsername().equals(employeeEntity.getUsername())) {
+                    employeeEntityToUpdate.setFirstname(employeeEntity.getFirstname());
+                    employeeEntityToUpdate.setLastname(employeeEntity.getLastname());
+                    employeeEntityToUpdate.setEmployeeAccessRight(employeeEntity.getEmployeeAccessRight());
                     // Username and password are deliberately NOT updated to demonstrate that client is not allowed to update account credential through this business method
                 } else {
                     throw new UpdateEmployeeEntityException("Username of employeeEntity record to be updated does not match the existing record");
@@ -145,9 +145,9 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanLocal
 
     @Override
     public void deleteEmployeeEntity(Long employeeEntityId) throws EmployeeEntityNotFoundException, DeleteEmployeeEntityException {
-        EmployeeEntity employeeEntityEntityToRemove = retrieveEmployeeEntityByEmployeeEntityId(employeeEntityId);
+        EmployeeEntity employeeEntityToRemove = retrieveEmployeeEntityByEmployeeEntityId(employeeEntityId);
         //need to check for any conditions before removing employee?
-        em.remove(employeeEntityEntityToRemove);
+        em.remove(employeeEntityToRemove);
 
     }
 

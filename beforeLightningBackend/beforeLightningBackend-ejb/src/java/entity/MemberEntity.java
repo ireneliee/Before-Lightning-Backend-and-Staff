@@ -151,6 +151,20 @@ public class MemberEntity extends UserEntity implements Serializable {
         this.purchaseOrders = purchaseOrders;
     }
 
+    /**
+     * @return the salt
+     */
+    public String getSalt() {
+        return salt;
+    }
+
+    /**
+     * @param salt the salt to set
+     */
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
