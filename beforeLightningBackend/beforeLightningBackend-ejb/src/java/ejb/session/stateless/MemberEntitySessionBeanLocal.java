@@ -5,15 +5,19 @@
  */
 package ejb.session.stateless;
 
+import entity.AddressEntity;
 import entity.MemberEntity;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.AddressEntityNotFoundException;
+import util.exception.DeleteAddressEntityException;
 import util.exception.DeleteMemberEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.MemberEntityNotFoundException;
 import util.exception.MemberEntityUsernameExistException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateAddressEntityException;
 import util.exception.UpdateMemberEntityException;
 
 /**
@@ -36,5 +40,14 @@ public interface MemberEntitySessionBeanLocal {
     public void updateMemberEntity(MemberEntity memberEntity) throws MemberEntityNotFoundException, UpdateMemberEntityException, InputDataValidationException;
 
     public void deleteMemberEntity(Long memberEntityId) throws MemberEntityNotFoundException, DeleteMemberEntityException;
+
+    public Long createNewAddressEntity(AddressEntity newAddressEntity) throws InputDataValidationException, UnknownPersistenceException;
+
+    public AddressEntity retrieveAddressEntityByAddressEntityId(Long addressId) throws AddressEntityNotFoundException;
+
+    public void updateAddressEntity(AddressEntity addressEntity) throws AddressEntityNotFoundException, UpdateAddressEntityException, InputDataValidationException;
+
+    public void deleteAddressEntity(Long memberEntityId, Long addressEntityId) throws AddressEntityNotFoundException, DeleteAddressEntityException, MemberEntityNotFoundException;
+
     
 }

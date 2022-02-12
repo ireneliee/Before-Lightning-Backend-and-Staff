@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.AddressEntity;
 import entity.MemberEntity;
 import java.util.List;
 import java.util.Set;
@@ -19,12 +20,15 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.AddressEntityNotFoundException;
+import util.exception.DeleteAddressEntityException;
 import util.exception.DeleteMemberEntityException;
 import util.exception.MemberEntityNotFoundException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.MemberEntityUsernameExistException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateAddressEntityException;
 import util.exception.UpdateMemberEntityException;
 import util.security.CryptographicHelper;
 
@@ -46,8 +50,6 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         validator = validatorFactory.getValidator();
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     @Override
     public Long createNewMemberEntity(MemberEntity newMemberEntity) throws MemberEntityUsernameExistException, InputDataValidationException, UnknownPersistenceException {
 
@@ -85,6 +87,10 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         MemberEntity memberEntity = em.find(MemberEntity.class, memberId);
 
         if (memberEntity != null) {
+            memberEntity.getAddresses().size();
+            memberEntity.getCreditCards().size();
+            memberEntity.getPurchaseOrders().size();
+            memberEntity.getShoppingCart();
             return memberEntity;
         } else {
             throw new MemberEntityNotFoundException("Member ID " + memberId + " does not exist!");
@@ -97,6 +103,11 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         query.setParameter("inUsername", username);
 
         try {
+            MemberEntity memberEntity = (MemberEntity) query.getSingleResult();
+            memberEntity.getAddresses().size();
+            memberEntity.getCreditCards().size();
+            memberEntity.getPurchaseOrders().size();
+            memberEntity.getShoppingCart();
             return (MemberEntity) query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException ex) {
             throw new MemberEntityNotFoundException("Member Username " + username + " does not exist!");
@@ -149,17 +160,89 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         MemberEntity memberEntityToRemove = retrieveMemberEntityByMemberEntityId(memberEntityId);
         //need to check for any conditions before removing member?
         em.remove(memberEntityToRemove);
-
-//        if (memberEntityToRemove.getSaleTransactionEntities().isEmpty()) {
+//
+//        if (memberEntityToRemove.getAddresses().isEmpty() && memberEntityToRemove.getCreditCards().isEmpty() && memberEntityToRemove.getPurchaseOrders().isEmpty()) {
 //            em.remove(memberEntityToRemove);
 //        } else {
-//            // New in v4.1 to prevent deleting staff with existing sale transaction(s)
-//            throw new DeleteMemberEntityException("Staff ID " + memberId + " is associated with existing sale transaction(s) and cannot be deleted!");
+//            throw new DeleteMemberEntityException("Member ID " + memberEntityId + " is associated with existing sale transaction(s) and cannot be deleted!");
 //        }
+    }
+
+    @Override
+    public Long createNewAddressEntity(AddressEntity newAddressEntity) throws InputDataValidationException, UnknownPersistenceException {
+
+        Set<ConstraintViolation<AddressEntity>> constraintViolations = validator.validate(newAddressEntity);
+
+        if (constraintViolations.isEmpty()) {
+            try {
+                em.persist(newAddressEntity);
+                em.flush();
+                return newAddressEntity.getAddressEntityId();
+            } catch (PersistenceException ex) {
+                throw new UnknownPersistenceException(ex.getMessage());
+            }
+        } else {
+            throw new InputDataValidationException(prepareAddressInputDataValidationErrorsMessage(constraintViolations));
+        }
+    }
+
+    @Override
+    public AddressEntity retrieveAddressEntityByAddressEntityId(Long addressId) throws AddressEntityNotFoundException {
+        AddressEntity addressEntity = em.find(AddressEntity.class, addressId);
+
+        if (addressEntity != null) {
+            return addressEntity;
+        } else {
+            throw new AddressEntityNotFoundException("Address ID " + addressId + " does not exist!");
+        }
+    }
+
+    @Override
+    public void updateAddressEntity(AddressEntity addressEntity) throws AddressEntityNotFoundException, UpdateAddressEntityException, InputDataValidationException {
+        if (addressEntity != null && addressEntity.getAddressEntityId() != null) {
+            Set<ConstraintViolation<AddressEntity>> constraintViolations = validator.validate(addressEntity);
+
+            if (constraintViolations.isEmpty()) {
+                AddressEntity addressEntityToUpdate = retrieveAddressEntityByAddressEntityId(addressEntity.getAddressEntityId());
+                addressEntityToUpdate.setBlock(addressEntity.getBlock());
+                addressEntityToUpdate.setUnit(addressEntity.getUnit());
+                addressEntityToUpdate.setCountry(addressEntity.getCountry());
+                addressEntityToUpdate.setPostalCode(addressEntity.getPostalCode());
+            } else {
+                throw new InputDataValidationException(prepareAddressInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } else {
+            throw new AddressEntityNotFoundException("AddressEntity ID not provided for addressEntity to be updated");
+        }
+    }
+
+    @Override
+    public void deleteAddressEntity(Long memberEntityId, Long addressEntityId) throws AddressEntityNotFoundException, DeleteAddressEntityException, MemberEntityNotFoundException {
+        
+        MemberEntity memberEntity = retrieveMemberEntityByMemberEntityId(memberEntityId);
+        
+        AddressEntity addressEntityToRemove = retrieveAddressEntityByAddressEntityId(addressEntityId);
+        
+        if (memberEntity.getAddresses().contains(addressEntityToRemove)) {
+            memberEntity.getAddresses().remove(addressEntityToRemove);
+            em.remove(addressEntityToRemove);
+        } else {
+            throw new DeleteAddressEntityException("Address ID " + addressEntityId + " does not exist in Member " + memberEntityId + " list of addresses");
+        }
 
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<MemberEntity>> constraintViolations) {
+        String msg = "Input data validation error!:";
+
+        for (ConstraintViolation constraintViolation : constraintViolations) {
+            msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
+        }
+
+        return msg;
+    }
+
+    private String prepareAddressInputDataValidationErrorsMessage(Set<ConstraintViolation<AddressEntity>> constraintViolations) {
         String msg = "Input data validation error!:";
 
         for (ConstraintViolation constraintViolation : constraintViolations) {
