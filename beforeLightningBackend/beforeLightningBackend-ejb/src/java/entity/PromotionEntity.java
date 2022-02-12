@@ -30,7 +30,7 @@ public class PromotionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long promotionId;
+    private Long promotionEntityId;
 
     @Column(nullable = false)
     @NotNull
@@ -67,29 +67,29 @@ public class PromotionEntity implements Serializable {
         this.discountedPrice = discountedPrice;
     }
 
-    public Long getPromotionId() {
-        return promotionId;
+    public Long getPromotionEntityId() {
+        return promotionEntityId;
     }
 
-    public void setPromotionId(Long promotionId) {
-        this.promotionId = promotionId;
+    public void setPromotionEntityId(Long promotionEntityId) {
+        this.promotionEntityId = promotionEntityId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (promotionId != null ? promotionId.hashCode() : 0);
+        hash += (promotionEntityId != null ? promotionEntityId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the promotionId fields are not set
+        // TODO: Warning - this method won't work in the case the promotionEntityId fields are not set
         if (!(object instanceof PromotionEntity)) {
             return false;
         }
         PromotionEntity other = (PromotionEntity) object;
-        if ((this.promotionId == null && other.promotionId != null) || (this.promotionId != null && !this.promotionId.equals(other.promotionId))) {
+        if ((this.promotionEntityId == null && other.promotionEntityId != null) || (this.promotionEntityId != null && !this.promotionEntityId.equals(other.promotionEntityId))) {
             return false;
         }
         return true;
@@ -97,7 +97,7 @@ public class PromotionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.PromotionEntity[ id=" + promotionId + " ]";
+        return "entity.PromotionEntity[ id=" + promotionEntityId + " ]";
     }
 
     public LocalDate getStartDate() {

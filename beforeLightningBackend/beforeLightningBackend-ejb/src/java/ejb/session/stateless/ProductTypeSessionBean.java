@@ -5,7 +5,8 @@
  */
 package ejb.session.stateless;
 
-
+import entity.AccessoryEntity;
+import entity.ProductEntity;
 import entity.ProductTypeEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.util.List;
@@ -21,7 +22,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.DeleteProductTypeException;
 import util.exception.InputDataValidationException;
-import util.exception.ProductTypeNotFoundException;
+import util.exception.ProductTypeEntityNotFoundException;
 import util.exception.UnknownPersistenceException;
 
 @Stateless
@@ -77,7 +78,7 @@ public class ProductTypeSessionBean implements ProductTypeSessionBeanLocal {
     }
 
     @Override
-    public void deleteProductType(Long productTypeId) throws DeleteProductTypeException, ProductTypeNotFoundException {
+    public void deleteProductType(Long productTypeId) throws DeleteProductTypeException, ProductTypeEntityNotFoundException {
 
         ProductTypeEntity productTypeToBeDeleted = retrieveProductTypeByProductId(productTypeId);
 
@@ -102,28 +103,73 @@ public class ProductTypeSessionBean implements ProductTypeSessionBeanLocal {
             }
 
         } else {
-            throw new ProductTypeNotFoundException("Product type id: " + productTypeId + " does not exist.");
+            throw new ProductTypeEntityNotFoundException("Product type id: " + productTypeId + " does not exist.");
         }
 
     }
 
-    public void updateProductType(ProductTypeEntity productTypeEntity) throws ProductTypeNotFoundException {
+    @Override
+    public void updateProductType(ProductTypeEntity productTypeEntity) throws ProductTypeEntityNotFoundException {
 
-        if (productTypeEntity != null && productTypeEntity.getProductTypeId() != null) {
+        if (productTypeEntity != null && productTypeEntity.getProductTypeEntityId() != null) {
 
             Set<ConstraintViolation<ProductTypeEntity>> constraintViolations = validator.validate(productTypeEntity);
 
             if (constraintViolations.isEmpty()) {
 
-                ProductTypeEntity productTypeEntityToUpdate = retrieveProductTypeByProductId(productTypeEntity.getProductTypeId());
+                ProductTypeEntity productTypeEntityToUpdate = retrieveProductTypeByProductId(productTypeEntity.getProductTypeEntityId());
 
                 productTypeEntityToUpdate.setProductTypeName(productTypeEntity.getProductTypeName());
             }
 
         } else {
 
-            throw new ProductTypeNotFoundException("Product Id is not provided.");
+            throw new ProductTypeEntityNotFoundException("Product Id is not provided.");
         }
+    }
+
+    @Override
+    public ProductTypeEntity retrieveProductTypeByProductTypeId(Long productTypeEntityId) throws ProductTypeEntityNotFoundException {
+        
+        ProductTypeEntity productTypeEntity = entityManager.find(ProductTypeEntity.class, productTypeEntityId);
+        
+        if (productTypeEntity != null) {
+            
+            return productTypeEntity;
+            
+        } else {
+            
+            throw new ProductTypeEntityNotFoundException("Product type with id " + productTypeEntityId + " does not exist.");
+        }
+        
+    }
+    
+    @Override
+    public List<ProductTypeEntity> retrieveAllProductTypeEntities() {
+        
+        String databaseQueryString = "SELECT p FROM ProductTypeEntity p";
+        
+        Query databaseQuery = entityManager.createQuery(databaseQueryString);
+        
+        List<ProductTypeEntity> listOfProductTypeEntites = databaseQuery.getResultList();
+        
+        
+        listOfProductTypeEntites.forEach(p -> {
+            
+            if(p instanceof ProductEntity) {
+                
+                ((ProductEntity) p).getParts().size();
+                
+            } else if (p instanceof AccessoryEntity) {
+                
+                ((AccessoryEntity) p).getAccessoryItem().size();
+                
+            }
+            
+        });
+        
+        return  listOfProductTypeEntites;
+        
     }
 
 }

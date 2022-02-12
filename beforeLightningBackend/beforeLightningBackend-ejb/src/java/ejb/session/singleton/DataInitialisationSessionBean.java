@@ -6,17 +6,18 @@
 package ejb.session.singleton;
 
 import ejb.session.stateless.EmployeeEntitySessionBeanLocal;
+import ejb.session.stateless.ProductTypeSessionBeanLocal;
 import entity.EmployeeEntity;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import entity.ProductTypeEntity;
+import entity.UserEntity;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import util.enumeration.EmployeeAccessRightEnum;
+import util.exception.InputDataValidationException;
+import util.exception.UnknownPersistenceException;
 
 /**
  *
@@ -27,6 +28,8 @@ import util.enumeration.EmployeeAccessRightEnum;
 @Startup
 public class DataInitialisationSessionBean {
 
+    @EJB
+    private ProductTypeSessionBeanLocal productTypeSessionBean;
 
     @EJB
     private EmployeeEntitySessionBeanLocal employeeEntitySessionBeanLocal;
@@ -36,11 +39,12 @@ public class DataInitialisationSessionBean {
 
     @PostConstruct
     public void postConstruct() {
-
+        initializeData();
     }
 
     private void initializeData() {
 
+       
+
     }
 }
-

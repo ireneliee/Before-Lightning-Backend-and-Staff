@@ -6,10 +6,11 @@
 package ejb.session.stateless;
 
 import entity.ProductTypeEntity;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.DeleteProductTypeException;
 import util.exception.InputDataValidationException;
-import util.exception.ProductTypeNotFoundException;
+import util.exception.ProductTypeEntityNotFoundException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -21,6 +22,12 @@ public interface ProductTypeSessionBeanLocal {
 
     public ProductTypeEntity createNewProductTypeEntity(ProductTypeEntity newProductTypeEntity) throws InputDataValidationException, UnknownPersistenceException;
 
-    public void deleteProductType(Long productTypeId) throws DeleteProductTypeException, ProductTypeNotFoundException;
+    public void deleteProductType(Long productTypeId) throws DeleteProductTypeException, ProductTypeEntityNotFoundException;
+
+    public void updateProductType(ProductTypeEntity productTypeEntity) throws ProductTypeEntityNotFoundException;
+
+    public ProductTypeEntity retrieveProductTypeByProductTypeId(Long productTypeEntityId) throws ProductTypeEntityNotFoundException;
+
+    public List<ProductTypeEntity> retrieveAllProductTypeEntities();
     
 }
