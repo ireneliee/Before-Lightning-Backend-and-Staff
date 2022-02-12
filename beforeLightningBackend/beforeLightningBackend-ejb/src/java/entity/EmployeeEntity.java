@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import util.enumeration.EmployeeAccessRightEnum;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -20,11 +21,13 @@ import util.enumeration.EmployeeAccessRightEnum;
 public class EmployeeEntity extends UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Enumerated
     @NotNull
     @Column(nullable = false)
     private EmployeeAccessRightEnum EmployeeAccessRight;
+    @Column(columnDefinition = "CHAR(32) NOT NULL")
+    private String salt;
 
     public EmployeeEntity() {
     }
@@ -32,6 +35,7 @@ public class EmployeeEntity extends UserEntity implements Serializable {
     public EmployeeEntity(EmployeeAccessRightEnum EmployeeAccessRight, String username, String password, String firstname, String lastname) {
         super(username, password, firstname, lastname);
         this.EmployeeAccessRight = EmployeeAccessRight;
+        this.salt = CryptographicHelper.getInstance().generateRandomString(32);
     }
 
     /**
@@ -46,6 +50,20 @@ public class EmployeeEntity extends UserEntity implements Serializable {
      */
     public void setEmployeeAccessRight(EmployeeAccessRightEnum EmployeeAccessRight) {
         this.EmployeeAccessRight = EmployeeAccessRight;
+    }
+
+    /**
+     * @return the salt
+     */
+    public String getSalt() {
+        return salt;
+    }
+
+    /**
+     * @param salt the salt to set
+     */
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     @Override

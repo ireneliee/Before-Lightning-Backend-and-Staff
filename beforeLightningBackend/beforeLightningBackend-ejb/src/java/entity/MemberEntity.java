@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import util.security.CryptographicHelper;
 
 /**
  *
@@ -34,6 +35,8 @@ public class MemberEntity extends UserEntity implements Serializable {
     @Column(nullable = false, length = 8)
     @Size(min = 8, max = 8)
     private String contact;
+    @Column(columnDefinition = "CHAR(32) NOT NULL")
+    private String salt;
 
     @OneToOne(fetch = FetchType.LAZY, optional = true)
     private ShoppingCartEntity shoppingCart;
@@ -48,6 +51,7 @@ public class MemberEntity extends UserEntity implements Serializable {
     private List<PurchaseOrderEntity> purchaseOrders;
 
     public MemberEntity() {
+        this.salt = CryptographicHelper.getInstance().generateRandomString(32);
         this.creditCards = new ArrayList<CreditCardEntity>();
         this.addresses = new ArrayList<AddressEntity>();
         this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
@@ -55,6 +59,7 @@ public class MemberEntity extends UserEntity implements Serializable {
 
     public MemberEntity(String email, String contact, String username, String password, String firstname, String lastname) {
         super(username, password, firstname, lastname);
+        this.salt = CryptographicHelper.getInstance().generateRandomString(32);
         this.email = email;
         this.contact = contact;
         this.creditCards = new ArrayList<CreditCardEntity>();

@@ -40,7 +40,7 @@ public class EmployeeResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllEmployees() {
         try {
-            List<EmployeeEntity> employeeEntities = employeeEntitySessionBeanLocal.retrieveAllEmployees();
+            List<EmployeeEntity> employeeEntities = employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities();
 
             GenericEntity<List<EmployeeEntity>> genericEntity = new GenericEntity<List<EmployeeEntity>>(employeeEntities) {
             };
