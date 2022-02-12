@@ -5,7 +5,13 @@
  */
 package ejb.session.stateless;
 
+import entity.SupportTicketEntity;
+import java.util.List;
 import javax.ejb.Local;
+import util.exception.CreateNewSupportTicketEntityException;
+import util.exception.DeleteSupportTicketEntityException;
+import util.exception.InputDataValidationException;
+import util.exception.SupportTicketEntityNotFoundException;
 
 /**
  *
@@ -13,5 +19,13 @@ import javax.ejb.Local;
  */
 @Local
 public interface SupportTicketEntitySessionBeanLocal {
+
+    public SupportTicketEntity retrieveSupportTicketBySupportTicketId(Long supportTicketId) throws SupportTicketEntityNotFoundException;
+
+    public SupportTicketEntity createNewSupportTicketEntity(SupportTicketEntity newSupportTicketEntity) throws InputDataValidationException, CreateNewSupportTicketEntityException;
+
+    public List<SupportTicketEntity> retrieveAllSupportTickets();
+
+    public void deleteSupportTicket(Long supportTicketId) throws SupportTicketEntityNotFoundException, DeleteSupportTicketEntityException;
     
 }
