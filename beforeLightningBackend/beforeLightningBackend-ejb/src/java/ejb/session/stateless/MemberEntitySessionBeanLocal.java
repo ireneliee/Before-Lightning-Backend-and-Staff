@@ -6,11 +6,14 @@
 package ejb.session.stateless;
 
 import entity.AddressEntity;
+import entity.CreditCardEntity;
 import entity.MemberEntity;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.AddressEntityNotFoundException;
+import util.exception.CreditCardEntityNotFoundException;
 import util.exception.DeleteAddressEntityException;
+import util.exception.DeleteCreditCardEntityException;
 import util.exception.DeleteMemberEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
@@ -27,7 +30,7 @@ import util.exception.UpdateMemberEntityException;
 @Local
 public interface MemberEntitySessionBeanLocal {
 
-    public Long createNewMemberEntity(MemberEntity newMemberEntity) throws MemberEntityUsernameExistException, InputDataValidationException, UnknownPersistenceException;
+    public Long createNewMemberEntity(MemberEntity newMemberEntity, AddressEntity newAddressEntity) throws MemberEntityUsernameExistException, InputDataValidationException, UnknownPersistenceException, AddressEntityNotFoundException;
 
     public List<MemberEntity> retrieveAllMemberEntities();
 
@@ -49,5 +52,12 @@ public interface MemberEntitySessionBeanLocal {
 
     public void deleteAddressEntity(Long memberEntityId, Long addressEntityId) throws AddressEntityNotFoundException, DeleteAddressEntityException, MemberEntityNotFoundException;
 
-    
+    public Long createNewCreditCardEntity(Long memberEntityId, CreditCardEntity newCreditCardEntity) throws InputDataValidationException, UnknownPersistenceException, MemberEntityNotFoundException;
+
+    public CreditCardEntity retrieveCreditCardEntityByCreditCardEntityId(Long creditCardEntityId) throws CreditCardEntityNotFoundException;
+
+    public void updateCreditCardEntity(CreditCardEntity creditCardEntity) throws CreditCardEntityNotFoundException, UpdateAddressEntityException, InputDataValidationException;
+
+    public void deleteCreditCardEntity(Long memberEntityId, Long creditCardEntityId) throws CreditCardEntityNotFoundException, DeleteCreditCardEntityException, MemberEntityNotFoundException;
+
 }

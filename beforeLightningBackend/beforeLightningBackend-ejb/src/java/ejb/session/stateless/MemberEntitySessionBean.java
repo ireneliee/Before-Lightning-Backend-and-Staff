@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.AddressEntity;
+import entity.CreditCardEntity;
 import entity.MemberEntity;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,9 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.AddressEntityNotFoundException;
+import util.exception.CreditCardEntityNotFoundException;
 import util.exception.DeleteAddressEntityException;
+import util.exception.DeleteCreditCardEntityException;
 import util.exception.DeleteMemberEntityException;
 import util.exception.MemberEntityNotFoundException;
 import util.exception.InputDataValidationException;
@@ -51,12 +54,17 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
     }
 
     @Override
-    public Long createNewMemberEntity(MemberEntity newMemberEntity) throws MemberEntityUsernameExistException, InputDataValidationException, UnknownPersistenceException {
+    //Need to make address also when you first create a member
+    public Long createNewMemberEntity(MemberEntity newMemberEntity, AddressEntity newAddressEntity) throws MemberEntityUsernameExistException, InputDataValidationException, UnknownPersistenceException, AddressEntityNotFoundException {
 
         Set<ConstraintViolation<MemberEntity>> constraintViolations = validator.validate(newMemberEntity);
 
+        Long addressEntityId = createNewAddressEntity(newAddressEntity);
+        AddressEntity addressEntity = retrieveAddressEntityByAddressEntityId(addressEntityId);
+
         if (constraintViolations.isEmpty()) {
             try {
+                newMemberEntity.getAddresses().add(addressEntity);
                 em.persist(newMemberEntity);
                 em.flush();
                 return newMemberEntity.getUserEntityId();
@@ -79,7 +87,14 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
     @Override
     public List<MemberEntity> retrieveAllMemberEntities() {
         Query query = em.createQuery("SELECT e FROM MemberEntity e");
-        return query.getResultList();
+        List<MemberEntity> list = query.getResultList();
+        for (MemberEntity memberEntity : list) {
+            memberEntity.getAddresses().size();
+            memberEntity.getCreditCards().size();
+            memberEntity.getPurchaseOrders().size();
+            memberEntity.getShoppingCart();
+        }
+        return list;
     }
 
     @Override
@@ -159,13 +174,21 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
     public void deleteMemberEntity(Long memberEntityId) throws MemberEntityNotFoundException, DeleteMemberEntityException {
         MemberEntity memberEntityToRemove = retrieveMemberEntityByMemberEntityId(memberEntityId);
         //need to check for any conditions before removing member?
-        em.remove(memberEntityToRemove);
-//
-//        if (memberEntityToRemove.getAddresses().isEmpty() && memberEntityToRemove.getCreditCards().isEmpty() && memberEntityToRemove.getPurchaseOrders().isEmpty()) {
-//            em.remove(memberEntityToRemove);
-//        } else {
-//            throw new DeleteMemberEntityException("Member ID " + memberEntityId + " is associated with existing sale transaction(s) and cannot be deleted!");
-//        }
+//        em.remove(memberEntityToRemove);
+
+        if (memberEntityToRemove.getPurchaseOrders().isEmpty()) {
+            for (CreditCardEntity cc : memberEntityToRemove.getCreditCards()) {
+                //deleteCreditCardEntity(cc);
+            }
+            List<AddressEntity> listOfAddresses = memberEntityToRemove.getAddresses();
+            em.remove(memberEntityToRemove);
+            for (AddressEntity ad : listOfAddresses) {
+                em.remove(ad);
+            }
+            //HOW TO REMOVE SHOPPING CART??????
+        } else {
+            throw new DeleteMemberEntityException("Member ID " + memberEntityId + " is associated with existing sale transaction(s) and cannot be deleted!");
+        }
     }
 
     @Override
@@ -218,16 +241,84 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
 
     @Override
     public void deleteAddressEntity(Long memberEntityId, Long addressEntityId) throws AddressEntityNotFoundException, DeleteAddressEntityException, MemberEntityNotFoundException {
-        
+
         MemberEntity memberEntity = retrieveMemberEntityByMemberEntityId(memberEntityId);
-        
+
         AddressEntity addressEntityToRemove = retrieveAddressEntityByAddressEntityId(addressEntityId);
-        
-        if (memberEntity.getAddresses().contains(addressEntityToRemove)) {
+
+        if (memberEntity.getAddresses().contains(addressEntityToRemove) && memberEntity.getAddresses().size() >= 2) {
             memberEntity.getAddresses().remove(addressEntityToRemove);
             em.remove(addressEntityToRemove);
         } else {
             throw new DeleteAddressEntityException("Address ID " + addressEntityId + " does not exist in Member " + memberEntityId + " list of addresses");
+        }
+
+    }
+
+    @Override
+    public Long createNewCreditCardEntity(Long memberEntityId, CreditCardEntity newCreditCardEntity) throws InputDataValidationException, UnknownPersistenceException, MemberEntityNotFoundException {
+
+        MemberEntity memberEntity = retrieveMemberEntityByMemberEntityId(memberEntityId);
+
+        Set<ConstraintViolation<CreditCardEntity>> constraintViolations = validator.validate(newCreditCardEntity);
+
+        if (constraintViolations.isEmpty()) {
+            try {
+                newCreditCardEntity.setMemberEntity(memberEntity);
+                memberEntity.getCreditCards().add(newCreditCardEntity);
+                em.persist(newCreditCardEntity);
+                em.flush();
+                return newCreditCardEntity.getCreditCardEntityId();
+            } catch (PersistenceException ex) {
+                throw new UnknownPersistenceException(ex.getMessage());
+            }
+        } else {
+            throw new InputDataValidationException(prepareCreditCardInputDataValidationErrorsMessage(constraintViolations));
+        }
+    }
+
+    @Override
+    public CreditCardEntity retrieveCreditCardEntityByCreditCardEntityId(Long creditCardEntityId) throws CreditCardEntityNotFoundException {
+        CreditCardEntity creditCardEntity = em.find(CreditCardEntity.class, creditCardEntityId);
+
+        if (creditCardEntity != null) {
+            return creditCardEntity;
+        } else {
+            throw new CreditCardEntityNotFoundException("CreditCard ID " + creditCardEntityId + " does not exist!");
+        }
+    }
+
+    @Override
+    public void updateCreditCardEntity(CreditCardEntity creditCardEntity) throws CreditCardEntityNotFoundException, UpdateAddressEntityException, InputDataValidationException {
+        if (creditCardEntity != null && creditCardEntity.getCreditCardEntityId() != null) {
+            Set<ConstraintViolation<CreditCardEntity>> constraintViolations = validator.validate(creditCardEntity);
+
+            if (constraintViolations.isEmpty()) {
+                CreditCardEntity creditCreditEntityToUpdate = retrieveCreditCardEntityByCreditCardEntityId(creditCardEntity.getCreditCardEntityId());
+                creditCreditEntityToUpdate.setCreditCardNumber(creditCardEntity.getCreditCardNumber());
+                creditCreditEntityToUpdate.setExpiryDate(creditCardEntity.getExpiryDate());
+                creditCreditEntityToUpdate.setNameOnCard(creditCardEntity.getNameOnCard());
+
+            } else {
+                throw new InputDataValidationException(prepareCreditCardInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } else {
+            throw new CreditCardEntityNotFoundException("CreditCardEntity ID not provided for CreditCardEntity to be updated");
+        }
+    }
+
+    @Override
+    public void deleteCreditCardEntity(Long memberEntityId, Long creditCardEntityId) throws CreditCardEntityNotFoundException, DeleteCreditCardEntityException, MemberEntityNotFoundException {
+
+        MemberEntity memberEntity = retrieveMemberEntityByMemberEntityId(memberEntityId);
+
+        CreditCardEntity creditCardEntityToRemove = retrieveCreditCardEntityByCreditCardEntityId(creditCardEntityId);
+
+        if (memberEntity.getCreditCards().contains(creditCardEntityToRemove)) {
+            memberEntity.getCreditCards().remove(creditCardEntityToRemove);
+            em.remove(creditCardEntityToRemove);
+        } else {
+            throw new DeleteCreditCardEntityException("CreditCard ID " + creditCardEntityId + " does not exist in Member " + memberEntityId + " list of addresses");
         }
 
     }
@@ -243,6 +334,16 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
     }
 
     private String prepareAddressInputDataValidationErrorsMessage(Set<ConstraintViolation<AddressEntity>> constraintViolations) {
+        String msg = "Input data validation error!:";
+
+        for (ConstraintViolation constraintViolation : constraintViolations) {
+            msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
+        }
+
+        return msg;
+    }
+
+    private String prepareCreditCardInputDataValidationErrorsMessage(Set<ConstraintViolation<CreditCardEntity>> constraintViolations) {
         String msg = "Input data validation error!:";
 
         for (ConstraintViolation constraintViolation : constraintViolations) {
