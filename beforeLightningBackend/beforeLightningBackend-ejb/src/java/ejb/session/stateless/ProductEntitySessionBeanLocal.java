@@ -5,7 +5,9 @@
  */
 package ejb.session.stateless;
 
+import entity.ProductEntity;
 import javax.ejb.Local;
+import util.exception.ProductSkuNotFoundException;
 
 /**
  *
@@ -13,5 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface ProductEntitySessionBeanLocal {
+
+    public ProductEntity retrieveProductEntityBySkuCode(String skuCode) throws ProductSkuNotFoundException;
     
 }

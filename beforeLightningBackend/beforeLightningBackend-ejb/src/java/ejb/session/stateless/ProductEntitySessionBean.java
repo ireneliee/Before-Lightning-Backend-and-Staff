@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -21,6 +22,7 @@ import javax.validation.ValidatorFactory;
 import util.exception.CreateNewProductEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.ProductSkuCodeExistException;
+import util.exception.ProductSkuNotFoundException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -109,6 +111,20 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         }
 
         return msg;
+    }
+    
+    @Override
+    public ProductEntity retrieveProductEntityBySkuCode(String skuCode) throws ProductSkuNotFoundException{
+        String queryInString = "SELECT p FROM ProductEntity p WHERE p.skuCode = iSkuCode";
+        Query retrievalQuery = entityManager.createQuery(queryInString);
+        retrievalQuery.setParameter("iSkuCode", skuCode);
+        ProductEntity result =  (ProductEntity) retrievalQuery.getSingleResult();
+        if(result == null) {
+            throw new ProductSkuNotFoundException("Product with SKU Code of " + skuCode + " does not exist.");
+        }
+        
+        return result;
+        
     }
 
 }
