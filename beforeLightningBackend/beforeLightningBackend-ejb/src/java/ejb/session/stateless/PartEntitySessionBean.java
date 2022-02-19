@@ -11,6 +11,8 @@ import entity.ProductEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,6 +23,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.CreateNewPartEntityException;
+import util.exception.DeletePartEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.PartEntityNotFoundException;
 import util.exception.ProductSkuNotFoundException;
@@ -90,7 +93,8 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
         }
     }
 
-    private PartEntity retrievePartEntityByPartEntityId(Long partEntityId) throws PartEntityNotFoundException {
+    @Override
+    public PartEntity retrievePartEntityByPartEntityId(Long partEntityId) throws PartEntityNotFoundException {
         PartEntity pe = entityManager.find(PartEntity.class, partEntityId);
         if (pe == null) {
             throw new PartEntityNotFoundException();
@@ -110,7 +114,7 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
                 try {
                     PartEntity partToBeUpdated = retrievePartEntityByPartEntityId(updatedPartEntity.getPartId());
                     List<ProductEntity> newProductLists = new ArrayList<>();
-                    
+
                     // update the product
                     for (ProductEntity p : updatedPartEntity.getProducts()) {
                         ProductEntity pToBeUpdated = entityManager.find(ProductEntity.class, p.getProductTypeEntityId());
@@ -123,29 +127,28 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
                     }
 
                     partToBeUpdated.setProducts(newProductLists);
-                    
+
                     // update part choices of individual product
                     for (ProductEntity p : partToBeUpdated.getProducts()) {
-                            p.getParts().remove(partToBeUpdated);
+                        p.getParts().remove(partToBeUpdated);
                     }
-                    
+
                     // one way adding part choices
                     List<PartChoiceEntity> listOfPartChoices = new ArrayList<>();
-                    for(PartChoiceEntity p: updatedPartEntity.getPartChoices()) {
+                    for (PartChoiceEntity p : updatedPartEntity.getPartChoices()) {
                         PartChoiceEntity toBeAdded = entityManager.find(PartChoiceEntity.class, p.getPartChoiceId());
-                        
+
                         // if the part choices do not currently exist in database
-                        if(toBeAdded == null) {
+                        if (toBeAdded == null) {
                             entityManager.persist(toBeAdded);
                             entityManager.flush();
                             toBeAdded = entityManager.find(PartChoiceEntity.class, toBeAdded.getPartChoiceId());
                         }
-                        
+
                         listOfPartChoices.add(toBeAdded);
                     }
 
-                    
-                   partToBeUpdated.setPartChoices(listOfPartChoices);
+                    partToBeUpdated.setPartChoices(listOfPartChoices);
 
                     entityManager.persist(this);
 
@@ -159,6 +162,34 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
         } else {
             throw new PartEntityNotFoundException("Part entity ID is not provided. ");
         }
+    }
+
+    public void removePartEntity(Long partEntityId) throws PartEntityNotFoundException, DeletePartEntityException {
+        try {
+            PartEntity partEntity = retrievePartEntityByPartEntityId(partEntityId);
+
+            List<ProductEntity> listOfProductEntitiesLinked = partEntity.getProducts();
+            
+            if(listOfProductEntitiesLinked.isEmpty()) {
+                List<PartChoiceEntity> listOfPartChoiceEntity = partEntity.getPartChoices();
+                if(listOfPartChoiceEntity.isEmpty()) {
+                    
+                    entityManager.remove(partEntity);
+                
+                } else {
+                    
+                   throw new DeletePartEntityException("An error has occured while removing part entity: part entity is linked to a part choice entity. ");
+                   
+                }
+                
+            
+            } else {
+                throw new DeletePartEntityException("An error has occured while removing part entity: part entity is linked to a product. ");
+            }
+        } catch (PartEntityNotFoundException ex) {
+            throw new PartEntityNotFoundException("An error has occured while removing part entity: part ID does not exist.");
+        }
+
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<PartEntity>> constraintViolations) {

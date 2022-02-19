@@ -9,6 +9,7 @@ import entity.PartEntity;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewPartEntityException;
+import util.exception.DeletePartEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.PartEntityNotFoundException;
 import util.exception.UnknownPersistenceException;
@@ -24,5 +25,9 @@ public interface PartEntitySessionBeanLocal {
     public PartEntity createNewPartEntity(List<String> productCodes, PartEntity newPartEntity) throws CreateNewPartEntityException, UnknownPersistenceException, InputDataValidationException;
 
     public void updatePartEntity(PartEntity updatedPartEntity) throws PartEntityNotFoundException, UpdatePartEntityException, InputDataValidationException;
+
+    public PartEntity retrievePartEntityByPartEntityId(Long partEntityId) throws PartEntityNotFoundException;
+
+    public void removePartEntity(Long partEntityId) throws PartEntityNotFoundException, DeletePartEntityException;
     
 }

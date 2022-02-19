@@ -5,7 +5,13 @@
  */
 package ejb.session.stateless;
 
+import entity.PartChoiceEntity;
+import java.util.List;
 import javax.ejb.Local;
+import util.exception.CreateNewPartChoiceEntityException;
+import util.exception.InputDataValidationException;
+import util.exception.PartEntityNotFoundException;
+import util.exception.UnknownPersistenceException;
 
 /**
  *
@@ -13,5 +19,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface PartChoiceEntitySessionBeanLocal {
+
+    public PartChoiceEntity createPartChoiceEntityException(List<Long> relatedPartChoiceEntityIds, Long partEntityId, PartChoiceEntity newPartChoice) throws UnknownPersistenceException, InputDataValidationException, CreateNewPartChoiceEntityException, PartEntityNotFoundException;
     
 }
