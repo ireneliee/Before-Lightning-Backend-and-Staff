@@ -82,7 +82,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
             } catch (PersistenceException ex) {
 
                 if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
-                    
+
                     if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
 
                         throw new ProductSkuCodeExistException();
@@ -104,20 +104,19 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         }
 
     }
-	
-	public void updateProduct(ProductEntity updatedProductEntity) throws UpdateProductEntityException {
-		
-		//assume that if a part (eg.CPU) was related to a product, it wont become unrelated to the product 
-		//ie will only add parts to a product, wont remove parts from a product
-		
-		 if (updatedProductEntity != null && updatedProductEntity.getSkuCode() != null) {
+
+    public void updateProduct(ProductEntity updatedProductEntity) throws UpdateProductEntityException {
+
+        //assume that if a part (eg.CPU) was related to a product, it wont become unrelated to the product 
+        //ie will only add parts to a product, wont remove parts from a product
+        if (updatedProductEntity != null && updatedProductEntity.getSkuCode() != null) {
             Set<ConstraintViolation<ProductEntity>> constraintViolations = validator.validate(updatedProductEntity);
             if (constraintViolations.isEmpty()) {
 
                 try {
                     ProductEntity productToBeUpdated = retrieveProductEntityBySkuCode(updatedProductEntity.getSkuCode());
                     List<PartEntity> newPartList = new ArrayList<>();
-                    
+
                     // update the part
                     for (PartEntity p : updatedProductEntity.getParts()) {
                         PartEntity pToBeUpdated = entityManager.find(PartEntity.class, p.getPartId());
@@ -127,22 +126,19 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
                             newPartList.add(p);
                         }
                     }
-					
-					productToBeUpdated.setParts(newPartList);
-					
-					//not finished yet tbc
-					
-				} catch(ProductSkuNotFoundException ex) {
-					//do something
-				}
-				
-			}
-			
-		 }
-		 
-	
-		
-	}
+
+                    productToBeUpdated.setParts(newPartList);
+
+                    //not finished yet tbc
+                } catch (ProductSkuNotFoundException ex) {
+                    //do something
+                }
+
+            }
+
+        }
+
+    }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<ProductEntity>> constraintViolations) {
         String msg = "Input data validation error!:";
@@ -153,19 +149,19 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 
         return msg;
     }
-    
+
     @Override
-    public ProductEntity retrieveProductEntityBySkuCode(String skuCode) throws ProductSkuNotFoundException{
+    public ProductEntity retrieveProductEntityBySkuCode(String skuCode) throws ProductSkuNotFoundException {
         String queryInString = "SELECT p FROM ProductEntity p WHERE p.skuCode = iSkuCode";
         Query retrievalQuery = entityManager.createQuery(queryInString);
         retrievalQuery.setParameter("iSkuCode", skuCode);
-        ProductEntity result =  (ProductEntity) retrievalQuery.getSingleResult();
-        if(result == null) {
+        ProductEntity result = (ProductEntity) retrievalQuery.getSingleResult();
+        if (result == null) {
             throw new ProductSkuNotFoundException("Product with SKU Code of " + skuCode + " does not exist.");
         }
-        
+
         return result;
-        
+
     }
 
 }

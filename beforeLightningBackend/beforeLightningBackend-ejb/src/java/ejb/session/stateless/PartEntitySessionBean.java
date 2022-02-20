@@ -167,6 +167,7 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
         }
     }
 
+    @Override
     public void removePartEntity(Long partEntityId) throws PartEntityNotFoundException, DeletePartEntityException {
         try {
             PartEntity partEntity = retrievePartEntityByPartEntityId(partEntityId);

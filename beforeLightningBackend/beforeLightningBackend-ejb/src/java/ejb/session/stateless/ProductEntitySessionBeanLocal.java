@@ -7,7 +7,11 @@ package ejb.session.stateless;
 
 import entity.ProductEntity;
 import javax.ejb.Local;
+import util.exception.CreateNewProductEntityException;
+import util.exception.InputDataValidationException;
+import util.exception.ProductSkuCodeExistException;
 import util.exception.ProductSkuNotFoundException;
+import util.exception.UnknownPersistenceException;
 
 /**
  *
@@ -17,5 +21,7 @@ import util.exception.ProductSkuNotFoundException;
 public interface ProductEntitySessionBeanLocal {
 
     public ProductEntity retrieveProductEntityBySkuCode(String skuCode) throws ProductSkuNotFoundException;
+
+    public ProductEntity createNewProduct(ProductEntity newProductEntity) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
     
 }
