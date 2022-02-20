@@ -29,5 +29,7 @@ public interface PartChoiceEntitySessionBeanLocal {
     public List<PartChoiceEntity> retrieveAllPartChoices();
 
     public PartChoiceEntity retrievePartChoiceEntityById(Long partChoiceEntityId) throws PartChoiceEntityNotFoundException;
+
+    public void deletePartChoiceEntity(Long toBeDeletedId) throws PartChoiceEntityNotFoundException;
     
 }

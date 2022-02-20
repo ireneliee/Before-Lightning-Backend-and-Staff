@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ejb.session.stateless;
 
 import entity.PartChoiceEntity;
@@ -93,6 +89,21 @@ public class PartChoiceEntitySessionBean implements PartChoiceEntitySessionBeanL
         }
     }
     
+    // when one delete a part choice, it will be deleted from the list of related part choices, but the promotions linked to the part choices remain
+    @Override
+    public void deletePartChoiceEntity(Long toBeDeletedId) throws PartChoiceEntityNotFoundException {
+        PartChoiceEntity partChoiceToBeDeleted =  retrievePartChoiceEntityById(toBeDeletedId);
+        List<PartChoiceEntity> listOfLeftRelatedPartChoices = partChoiceToBeDeleted.getLeftSuitablePartChoices();
+        for(PartChoiceEntity p: listOfLeftRelatedPartChoices) {
+            p.getRightSuitablePartChoices().remove(partChoiceToBeDeleted);
+        }
+        
+        List<PartChoiceEntity> listOfRightRelatedPartChoices = partChoiceToBeDeleted.getRightSuitablePartChoices();
+        for(PartChoiceEntity p: listOfRightRelatedPartChoices) {
+            p.getLeftSuitablePartChoices().remove(partChoiceToBeDeleted);
+        }
+        
+    }
     
     @Override
     public List<PartChoiceEntity> retrieveAllPartChoices() {
