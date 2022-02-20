@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.PartChoiceEntity;
 import entity.PartEntity;
 import entity.ProductEntity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -24,6 +25,7 @@ import util.exception.InputDataValidationException;
 import util.exception.ProductSkuCodeExistException;
 import util.exception.ProductSkuNotFoundException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateProductEntityException;
 
 /**
  *
@@ -102,6 +104,45 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         }
 
     }
+	
+	public void updateProduct(ProductEntity updatedProductEntity) throws UpdateProductEntityException {
+		
+		//assume that if a part (eg.CPU) was related to a product, it wont become unrelated to the product 
+		//ie will only add parts to a product, wont remove parts from a product
+		
+		 if (updatedProductEntity != null && updatedProductEntity.getSkuCode() != null) {
+            Set<ConstraintViolation<ProductEntity>> constraintViolations = validator.validate(updatedProductEntity);
+            if (constraintViolations.isEmpty()) {
+
+                try {
+                    ProductEntity productToBeUpdated = retrieveProductEntityBySkuCode(updatedProductEntity.getSkuCode());
+                    List<PartEntity> newPartList = new ArrayList<>();
+                    
+                    // update the part
+                    for (PartEntity p : updatedProductEntity.getParts()) {
+                        PartEntity pToBeUpdated = entityManager.find(PartEntity.class, p.getPartId());
+                        if (pToBeUpdated == null) {
+                            throw new UpdateProductEntityException("An error has occured while updating the product: part cannot be found. ");
+                        } else {
+                            newPartList.add(p);
+                        }
+                    }
+					
+					productToBeUpdated.setParts(newPartList);
+					
+					//not finished yet tbc
+					
+				} catch(ProductSkuNotFoundException ex) {
+					//do something
+				}
+				
+			}
+			
+		 }
+		 
+	
+		
+	}
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<ProductEntity>> constraintViolations) {
         String msg = "Input data validation error!:";

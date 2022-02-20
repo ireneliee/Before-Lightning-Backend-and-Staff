@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,13 +32,11 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
     @OneToMany(mappedBy = "accessory")
     private List<AccessoryItemEntity> accessoryItem;
 
-    @ManyToMany
-    private List<PromotionEntity> promotions;
+ 
 
     public AccessoryEntity() {
         super();
         this.accessoryItem = new ArrayList<>();
-        this.promotions = new ArrayList<>();
     }
 
     public AccessoryEntity(String accessoryName) {
@@ -86,20 +83,6 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
 
     public void setAccessoryItem(List<AccessoryItemEntity> accessoryItem) {
         this.accessoryItem = accessoryItem;
-    }
-
-    /**
-     * @return the promotions
-     */
-    public List<PromotionEntity> getPromotions() {
-        return promotions;
-    }
-
-    /**
-     * @param promotions the promotions to set
-     */
-    public void setPromotions(List<PromotionEntity> promotions) {
-        this.promotions = promotions;
     }
 
 }
