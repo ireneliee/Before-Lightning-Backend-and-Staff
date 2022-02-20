@@ -6,7 +6,6 @@
 package ejb.session.stateless;
 
 import entity.AccessoryEntity;
-import entity.EmployeeEntity;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -19,7 +18,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.AccessoryNameExistsException;
-import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.InputDataValidationException;
 import util.exception.UnknownPersistenceException;
 
