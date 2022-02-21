@@ -101,6 +101,7 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
     }
 
     // updating parts with existing products
+    // Use this if you want to update part choice entity 
     @Override
     public void updatePartEntity(PartEntity updatedPartEntity) throws PartEntityNotFoundException,
             UpdatePartEntityException, InputDataValidationException {
