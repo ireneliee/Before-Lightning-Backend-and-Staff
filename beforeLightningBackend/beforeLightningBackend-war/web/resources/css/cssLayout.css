@@ -1,3 +1,7 @@
+#landing-page-content {
+    background-image: url(../images/LandingPage.png);
+    background-size: cover;
+}
 
 #top {
     position: relative;
