@@ -54,6 +54,9 @@ public class PurchaseOrderEntity implements Serializable {
     private AddressEntity address;
     @OneToMany(fetch = FetchType.LAZY)
     private List<PurchaseOrderLineItemEntity> purchaseOrderLineItems;
+    
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    private DeliverySlotEntity deliverySlot;
 
     public PurchaseOrderEntity() {
         this.purchaseOrderLineItems = new ArrayList<PurchaseOrderLineItemEntity>();
@@ -182,6 +185,14 @@ public class PurchaseOrderEntity implements Serializable {
     @Override
     public String toString() {
         return "entity.PurchaseOrderEntity[ id=" + purchaseOrderEntityId + " ]";
+    }
+
+    public DeliverySlotEntity getDeliverySlot() {
+        return deliverySlot;
+    }
+
+    public void setDeliverySlot(DeliverySlotEntity deliverySlot) {
+        this.deliverySlot = deliverySlot;
     }
 
 }
