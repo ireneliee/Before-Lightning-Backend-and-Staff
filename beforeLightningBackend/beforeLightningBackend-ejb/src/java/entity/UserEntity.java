@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -44,19 +45,28 @@ public abstract class UserEntity implements Serializable {
     @NotNull
     @Size(min = 1, max = 32)
     private String lastname;
+    @Email
+    @NotNull
+    @Column(nullable = false)
+    private String email;
+    @NotNull
+    @Column(nullable = false, length = 8)
+    @Size(min = 8, max = 8)
+    private String contact;
 
     public UserEntity() {
     }
 
-    public UserEntity(String username, String password, String firstname, String lastname) {
+    public UserEntity(String username, String password, String firstname, String lastname, String email, String contact) {
         this();
         this.username = username;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.email = email;
+        this.contact = contact;
     }
 
-    
     /**
      * @return the userEntityId
      */
@@ -125,6 +135,22 @@ public abstract class UserEntity implements Serializable {
      */
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     @Override

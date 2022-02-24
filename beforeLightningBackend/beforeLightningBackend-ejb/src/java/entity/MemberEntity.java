@@ -13,9 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import util.security.CryptographicHelper;
 
 /**
@@ -27,14 +24,6 @@ public class MemberEntity extends UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Email
-    @NotNull
-    @Column(nullable = false)
-    private String email;
-    @NotNull
-    @Column(nullable = false, length = 8)
-    @Size(min = 8, max = 8)
-    private String contact;
     @Column(columnDefinition = "CHAR(32) NOT NULL")
     private String salt;
 
@@ -57,42 +46,12 @@ public class MemberEntity extends UserEntity implements Serializable {
         this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
     }
 
-    public MemberEntity(String email, String contact, String username, String password, String firstname, String lastname) {
-        super(username, password, firstname, lastname);
+    public MemberEntity(String username, String password, String firstname, String lastname, String email, String contact) {
+        super(username, password, firstname, lastname, email, contact);
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
-        this.email = email;
-        this.contact = contact;
         this.creditCards = new ArrayList<CreditCardEntity>();
         this.addresses = new ArrayList<AddressEntity>();
         this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return the contact
-     */
-    public String getContact() {
-        return contact;
-    }
-
-    /**
-     * @param contact the contact to set
-     */
-    public void setContact(String contact) {
-        this.contact = contact;
     }
 
     /**
