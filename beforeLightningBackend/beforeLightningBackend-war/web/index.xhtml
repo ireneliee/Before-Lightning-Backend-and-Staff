@@ -1,21 +1,47 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3c.org/1999/xhtml"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui"
-        xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library =" css" name ="cssLayout.css"/>
         <title>Before Lightning Management System</title>
     </h:head>
     <h:body style="background-image: url(resources/images/StartPageBackground.png); background-size: cover" >
-        <section class = "signup-section">
-            <p:button outcome="signup.xhtml" value="Sign up"/>
-        </section>
-        <section class = "login-section">
-            <p:button outcome="login.xhtml" value="Log in"/>
-        </section>
+
+        <p:panelGrid columns="1" layout="flex" columnClasses="p-col-12 p-md-3 p-xl-2" style="" contentStyleClass="p-align ui-fluid">
+            <h:form id="loginForm" >    
+
+                <span class="ui-float-label">
+                    <p:inputText id="username" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32">
+                        <f:validateLength minimum="4" />
+                    </p:inputText>
+                    <p:outputLabel for="@previous" value="Username" />
+                    <h:message for="username" errorClass="errorText" fatalClass="errorText" />
+                </span>
+
+                <br></br>
+
+                <span class="ui-float-label">
+                    <p:inputText id="password" value="#{loginManagedBean.password}" size="16" required="true" requiredMessage="Password is required" maxlength="32">
+                        <f:validateLength minimum="4" />
+                    </p:inputText>
+                    <p:outputLabel for="@previous" value="Password" />
+                    <h:message for="password" errorClass="errorText" fatalClass="errorText" />
+                </span>
+
+                <br></br>
+
+                <p:commandButton value="Forget Password" id="forgetPassword" action="#{loginManagedBean.login}" style="margin-right:20px;" ajax="true" />&nbsp;
+                <p:commandButton type ="submit" value="Login" id="submit" actionListener="#{loginManagedBean.login}" style="margin-right:20px;" ajax="false" />
+
+                <h:messages errorClass="errorTexts" fatalClass="errorTexts" infoClass="infoTexts" globalOnly="true" />
+
+            </h:form>
+        </p:panelGrid>
     </h:body>
 </html>
 
