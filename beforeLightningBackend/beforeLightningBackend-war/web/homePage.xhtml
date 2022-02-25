@@ -12,7 +12,9 @@
             </ui:define>
 
             <ui:define name="left">
-                left
+                <ui:insert  name = "sidebar">
+                    <ui:include src = "./sidebarNavigation.xhtml"/>
+                </ui:insert>
             </ui:define>
 
             <ui:define name="content">

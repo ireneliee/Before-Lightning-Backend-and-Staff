@@ -25,7 +25,7 @@ public class EmployeeEntity extends UserEntity implements Serializable {
     @Enumerated
     @NotNull
     @Column(nullable = false)
-    private EmployeeAccessRightEnum EmployeeAccessRight;
+    private EmployeeAccessRightEnum employeeAccessRight;
     @Column(columnDefinition = "CHAR(32) NOT NULL")
     private String salt;
 
@@ -34,24 +34,11 @@ public class EmployeeEntity extends UserEntity implements Serializable {
 
     public EmployeeEntity(EmployeeAccessRightEnum EmployeeAccessRight, String username, String password, String firstname, String lastname, String email, String contact) {
         super(username, password, firstname, lastname, email, contact);
-        this.EmployeeAccessRight = EmployeeAccessRight;
+        this.employeeAccessRight = EmployeeAccessRight;
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
         this.setPassword(password);
     }
 
-    /**
-     * @return the EmployeeAccessRight
-     */
-    public EmployeeAccessRightEnum getEmployeeAccessRight() {
-        return EmployeeAccessRight;
-    }
-
-    /**
-     * @param EmployeeAccessRight the EmployeeAccessRight to set
-     */
-    public void setEmployeeAccessRight(EmployeeAccessRightEnum EmployeeAccessRight) {
-        this.EmployeeAccessRight = EmployeeAccessRight;
-    }
 
     /**
      * @return the salt
@@ -99,6 +86,14 @@ public class EmployeeEntity extends UserEntity implements Serializable {
     @Override
     public String toString() {
         return "entity.EmployeeEntity[ id=" + this.getUserEntityId() + " ]";
+    }
+
+    public EmployeeAccessRightEnum getEmployeeAccessRight() {
+        return employeeAccessRight;
+    }
+
+    public void setEmployeeAccessRight(EmployeeAccessRightEnum employeeAccessRight) {
+        this.employeeAccessRight = employeeAccessRight;
     }
 
 }

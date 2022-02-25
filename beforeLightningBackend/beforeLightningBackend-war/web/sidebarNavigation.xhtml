@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <aside class="sidebar-navigation">
+        <h:form>  
+            <p:growl id="messages" showDetail="false"/>
+            <p:menu>
+                <p:menuitem value="Home" action="#{sidebarNavigationManagedBean.save}" update="messages" icon="pi pi-save" />
+                <p:menuitem value="Product" action="#{sidebarNavigationManagedBean.update}" rendered="#{ sidebarNavigationManagedBean.accessRight == 0 ||
+                                                      sidebarNavigationManagedBean.accessRight == 2 }" update="messages" icon="pi pi-refresh"/>
+                <p:menuitem value="Promotion" action="#{sidebarNavigationManagedBean.update}" rendered="#{ sidebarNavigationManagedBean.accessRight == 0 || 
+                                                        sidebarNavigationManagedBean.accessRight == 1 }" update="messages" icon="pi pi-refresh"/>
+                <p:menuitem value="Website" action="#{sidebarNavigationManagedBean.update}" rendered="#{ sidebarNavigationManagedBean.accessRight == 0 ||
+                                                      sidebarNavigationManagedBean.accessRight == 1 }" />
+                <p:menuitem value="Staff" action="#{sidebarNavigationManagedBean.update}" rendered="#{sidebarNavigationManagedBean.accessRight == 0 }" update="messages" icon="pi pi-refresh"/>
+                <p:menuitem value="Orders" action="#{sidebarNavigationManagedBean.update}" rendered="#{ sidebarNavigationManagedBean.accessRight == 0 ||
+                                                     sidebarNavigationManagedBean.accessRight == 3 }"  update="messages" icon="pi pi-refresh"/>
+                <p:menuitem value="Support" action="#{sidebarNavigationManagedBean.update}"  rendered="#{ sidebarNavigationManagedBean.accessRight == 0 ||
+                                                      sidebarNavigationManagedBean.accessRight == 3 }" update="messages" icon="pi pi-refresh"/>
+
+
+            </p:menu>
+
+        </h:form>
+    </aside>
+
+</ui:composition>

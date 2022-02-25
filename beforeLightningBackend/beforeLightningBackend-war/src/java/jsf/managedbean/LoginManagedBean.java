@@ -51,7 +51,7 @@ public class LoginManagedBean {
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
     }
-    
+
     public void forgetPassword(ActionEvent event) {
         // DO AFTER TESTING LOGIN 
     }
