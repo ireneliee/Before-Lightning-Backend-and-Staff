@@ -62,3 +62,15 @@
     text-decoration : underline;
 }
 
+.ui-menu {
+    min-height: 80%;
+}
+
+.page-body {
+    display: flex;
+}
+
+.menu-bar {
+    flex-basis: 20%;
+}
+

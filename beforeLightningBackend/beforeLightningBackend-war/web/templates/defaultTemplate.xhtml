@@ -6,28 +6,26 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet library = "css" name="css/default.css"/>
+        <h:outputStylesheet library = "css" name="css/cssLayout.css"/>
         <title>Facelets Template</title>
     </h:head>
 
     <h:body>
-
-        <div id="top">
-            <ui:insert name="top">Top</ui:insert>
-        </div>
-        <div>
-            <div id="left">
-                <ui:insert name="left">Left</ui:insert>
-            </div>
-            <div id="content" class="left_content">
+        <ui:insert name="top">
+            <ui:include src="/header.xhtml"/>
+        </ui:insert>
+        <section class = "page-body">
+            <ui:insert class = "menu-bar" name = "sidebar-navigation">
+                <ui:include src = "/sidebarNavigation.xhtml"/>
+            </ui:insert>
+            <section id="content" class="content">
                 <ui:insert name="content">Content</ui:insert>
-            </div>
-        </div>
-        <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
-        </div>
-
+            </section>
+        </section>
+        <ui:insert name="bottom">
+            <ui:include src="/footer.xhtml" />
+        </ui:insert>
     </h:body>
 
 </html>
