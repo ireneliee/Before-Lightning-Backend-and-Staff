@@ -121,13 +121,13 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
                     // update the product
                     partToBeUpdated.getProducts().clear();
                     for (ProductEntity p : updatedPartEntity.getProducts()) {
-                        ProductEntity pToBeUpdated = entityManager.find(ProductEntity.class, p.getProductTypeEntityId());
-                        if (pToBeUpdated == null) {
+                        ProductEntity productToBeUpdated = entityManager.find(ProductEntity.class, p.getProductTypeEntityId());
+                        if (productToBeUpdated == null) {
                             throw new UpdatePartEntityException("An error has occured while updating the part: product cannot be found. ");
                         } else {
-                            partToBeUpdated.getProducts().add(pToBeUpdated);
+                            partToBeUpdated.getProducts().add(productToBeUpdated);
                             // update part choices of newly added product - add parts to products
-                            pToBeUpdated.getParts().add(partToBeUpdated);
+                            productToBeUpdated.getParts().add(partToBeUpdated);
                         }
 
                     }

@@ -32,6 +32,10 @@ public class PromotionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long promotionEntityId;
 
+	@Column(nullable = false)
+	@NotNull
+	private String promotionName;
+	
     @Column(nullable = false)
     @NotNull
     private LocalDate startDate;
@@ -53,19 +57,28 @@ public class PromotionEntity implements Serializable {
     private List<PartChoiceEntity> partChoices;
 
     @ManyToMany
-    private List<AccessoryEntity> accessories;
+    private List<AccessoryItemEntity> accessoryItems;
 
     public PromotionEntity() {
         this.partChoices = new ArrayList<>();
     }
 
-    public PromotionEntity(LocalDate startDate, LocalDate endDate, Double discount, BigDecimal discountedPrice) {
+    public PromotionEntity(String promotionName, LocalDate startDate, LocalDate endDate, Double discount, BigDecimal discountedPrice) {
         this();
+		this.promotionName = promotionName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.discount = discount;
         this.discountedPrice = discountedPrice;
     }
+	
+	public String getPromotionName() {
+		return promotionName;
+	}
+	
+	public void setPromotionName(String promotionName) {
+		this.promotionName = promotionName;
+	}
 
     public Long getPromotionEntityId() {
         return promotionEntityId;
@@ -140,12 +153,12 @@ public class PromotionEntity implements Serializable {
         this.partChoices = partChoices;
     }
 
-    public List<AccessoryEntity> getAccessories() {
-        return accessories;
+    public List<AccessoryItemEntity> getAccessories() {
+        return accessoryItems;
     }
 
-    public void setAccessories(List<AccessoryEntity> accessories) {
-        this.accessories = accessories;
+    public void setAccessories(List<AccessoryItemEntity> accessoryItems) {
+        this.accessoryItems = accessoryItems;
     }
 
 }
