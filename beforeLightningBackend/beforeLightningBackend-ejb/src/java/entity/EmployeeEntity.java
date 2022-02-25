@@ -36,6 +36,7 @@ public class EmployeeEntity extends UserEntity implements Serializable {
         super(username, password, firstname, lastname, email, contact);
         this.EmployeeAccessRight = EmployeeAccessRight;
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
+        this.setPassword(password);
     }
 
     /**
@@ -64,6 +65,15 @@ public class EmployeeEntity extends UserEntity implements Serializable {
      */
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        if (password != null) {
+            super.setPassword(CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + this.salt)));
+        } else {
+            super.setPassword(CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(null)));
+        } //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

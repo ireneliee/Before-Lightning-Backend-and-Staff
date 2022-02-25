@@ -52,6 +52,7 @@ public class MemberEntity extends UserEntity implements Serializable {
         this.creditCards = new ArrayList<CreditCardEntity>();
         this.addresses = new ArrayList<AddressEntity>();
         this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
+        this.setPassword(password);
     }
 
     /**
@@ -122,6 +123,16 @@ public class MemberEntity extends UserEntity implements Serializable {
      */
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        if (password != null) {
+            super.setPassword(CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + this.salt)));
+
+        } else {
+            super.setPassword(CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(null)));
+        } //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
