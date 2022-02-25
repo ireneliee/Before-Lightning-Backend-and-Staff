@@ -30,7 +30,7 @@ public class SecurityFilter implements Filter {
 
 FilterConfig filterConfig;
     
-    private static final String CONTEXT_ROOT = "/PointOfSaleSystemV53JsfAdv";
+    private static final String CONTEXT_ROOT = "/beforeLightningBackend-war";
     
    
 
