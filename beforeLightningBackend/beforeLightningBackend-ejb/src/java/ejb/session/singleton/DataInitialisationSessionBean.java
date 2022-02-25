@@ -10,12 +10,18 @@ import ejb.session.stateless.ProductTypeSessionBeanLocal;
 import entity.EmployeeEntity;
 import entity.ProductTypeEntity;
 import entity.UserEntity;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import util.enumeration.EmployeeAccessRightEnum;
+import util.exception.EmployeeEntityNotFoundException;
+import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.InputDataValidationException;
 import util.exception.UnknownPersistenceException;
 
@@ -34,17 +40,33 @@ public class DataInitialisationSessionBean {
     @EJB
     private EmployeeEntitySessionBeanLocal employeeEntitySessionBeanLocal;
 
+    @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
+    private EntityManager em;
+
     public DataInitialisationSessionBean() {
     }
 
     @PostConstruct
     public void postConstruct() {
-        initializeData();
+        try {
+            employeeEntitySessionBeanLocal.retrieveEmployeeEntityByEmployeeEntityId(1l);
+        } catch (EmployeeEntityNotFoundException ex) {
+            initializeData();
+        }
     }
 
     private void initializeData() {
+        EmployeeEntity newEmployee = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "manager", "password", "manager", "one", "manager@gmail.com", "99999999");
 
-       
+        try {
+            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee);
+        } catch (EmployeeEntityUsernameExistException ex) {
+            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InputDataValidationException ex) {
+            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownPersistenceException ex) {
+            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 }
