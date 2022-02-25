@@ -12,27 +12,26 @@
     </h:head>
     <h:body style="background-image: url(resources/images/StartPageBackground.png); background-size: cover" >
 
-        <p:panelGrid columns="1" layout="grid" style = "display: block; width: 30%; margin: auto; padding-top: 35%; color: black" >
+        <p:panelGrid columns="1" layout="grid" style = "display: block; width: 30%; margin: auto; padding-top: 35%; bor" >
             <h:form id="loginBox">    
-                <span class="ui-float-label" >
-                    <p:inputText id="username" value="#{loginManagedBean.username}" style="margin-left: 10% ; width: 75%" size="16" required="true" requiredMessage="Username is required" maxlength="32">
-                        <f:validateLength minimum="4" />
-                    </p:inputText>
-                    <p:outputLabel for="@previous" value="Username" style="margin-left: 10%" />
-                    <h:message for="username" errorClass="errorText" fatalClass="errorText" />
-                </span>
+                <p:outputLabel value="Username"/>&nbsp;
+                <p:inputText id="username" value="#{loginManagedBean.username}" style=" width: 75%" size="16" required="true" requiredMessage="Username is required" maxlength="32">
+                    <f:validateLength minimum="4" />
+                </p:inputText>
+                <!--<h:message for="username" errorClass="errorText" fatalClass="errorText" />-->
 
                 <br></br>
+                <br></br>
 
-                <span class="ui-float-label">
-                    <p:inputText id="password" value="#{loginManagedBean.password}" style="margin-left: 10% ; width: 75%" size="16" required="true" requiredMessage="Password is required" maxlength="32">
-                        <f:validateLength minimum="4" />
-                    </p:inputText>
-                    <p:outputLabel for="@previous" value="Password" style="margin-left: 10%"/>
-                    <h:message for="password" errorClass="errorText" fatalClass="errorText" />
-                </span>
+                <p:outputLabel value="Password "/>&nbsp;
+                <p:password id="nonFeedback" value="#{loginManagedBean.password}" style=" width: 75%" size="16" required="true" requiredMessage="Password is required" maxlength="32">
+                    <f:validateLength minimum="4" />
+                </p:password>
+                <!--<h:message for="password" errorClass="errorText" fatalClass="errorText" />-->
 
                 <br></br>
+                <br></br>
+
 
                 <p:growl id="message" showDetail="true" />
 
@@ -42,16 +41,15 @@
                 </p:commandButton>
 
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:inputText id="email" value="#{loginManagedBean.username}" style="margin-left: 10% ; width: 75%" size="16" required="true" requiredMessage="Email is required" maxlength="64">
+                    <p:inputText id="email" value="#{loginManagedBean.email}" style="margin-left: 10% ; width: 75%" size="16" required="true" requiredMessage="Email is required" maxlength="64">
                         <f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
                     </p:inputText>
-                    <p:commandButton value="Confirm" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="Confirm" type="submit" actionListener="#{loginManagedBean.forgetPassword}" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                 </p:confirmDialog>   
 
-                <!--<p:commandButton value="" id="forgetPassword"" />-->
                 <p:commandButton type ="submit" value="Login" id="submit" actionListener="#{loginManagedBean.login}" style="margin-right:10%;" ajax="false" />
 
-                <h:messages errorClass="errorTexts" fatalClass="errorTexts" infoClass="infoTexts" globalOnly="true" />
+                <!--<h:messages errorClass="errorTexts" fatalClass="errorTexts" infoClass="infoTexts" globalOnly="true" />-->
 
             </h:form>
         </p:panelGrid>
