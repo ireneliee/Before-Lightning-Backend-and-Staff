@@ -12,31 +12,44 @@
     </h:head>
     <h:body style="background-image: url(resources/images/StartPageBackground.png); background-size: cover" >
 
-        <p:panelGrid columns="1" layout="flex" columnClasses="p-col-12 p-md-3 p-xl-2" style="" contentStyleClass="p-align ui-fluid">
-            <h:form id="loginForm" >    
-
-                <span class="ui-float-label">
-                    <p:inputText id="username" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32">
+        <p:panelGrid columns="1" layout="grid" style = "display: block; width: 30%; margin: auto; padding-top: 35%; color: black" >
+            <h:form id="loginBox">    
+                <span class="ui-float-label" >
+                    <p:inputText id="username" value="#{loginManagedBean.username}" style="margin-left: 10% ; width: 75%" size="16" required="true" requiredMessage="Username is required" maxlength="32">
                         <f:validateLength minimum="4" />
                     </p:inputText>
-                    <p:outputLabel for="@previous" value="Username" />
+                    <p:outputLabel for="@previous" value="Username" style="margin-left: 10%" />
                     <h:message for="username" errorClass="errorText" fatalClass="errorText" />
                 </span>
 
                 <br></br>
 
                 <span class="ui-float-label">
-                    <p:inputText id="password" value="#{loginManagedBean.password}" size="16" required="true" requiredMessage="Password is required" maxlength="32">
+                    <p:inputText id="password" value="#{loginManagedBean.password}" style="margin-left: 10% ; width: 75%" size="16" required="true" requiredMessage="Password is required" maxlength="32">
                         <f:validateLength minimum="4" />
                     </p:inputText>
-                    <p:outputLabel for="@previous" value="Password" />
+                    <p:outputLabel for="@previous" value="Password" style="margin-left: 10%"/>
                     <h:message for="password" errorClass="errorText" fatalClass="errorText" />
                 </span>
 
                 <br></br>
 
-                <p:commandButton value="Forget Password" id="forgetPassword" action="#{loginManagedBean.login}" style="margin-right:20px;" ajax="true" />&nbsp;
-                <p:commandButton type ="submit" value="Login" id="submit" actionListener="#{loginManagedBean.login}" style="margin-right:20px;" ajax="false" />
+                <p:growl id="message" showDetail="true" />
+
+                <p:commandButton value="Forget Password" action="#{loginManagedBean.login}" update="message" style="margin-left:30%;" ajax="true" >&nbsp;
+                    <p:confirm header="Confirmation" message="Please enter email" icon="pi pi-exclamation-triangle" />
+
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:inputText id="email" value="#{loginManagedBean.username}" style="margin-left: 10% ; width: 75%" size="16" required="true" requiredMessage="Email is required" maxlength="64">
+                        <f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+                    </p:inputText>
+                    <p:commandButton value="Confirm" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                </p:confirmDialog>   
+
+                <!--<p:commandButton value="" id="forgetPassword"" />-->
+                <p:commandButton type ="submit" value="Login" id="submit" actionListener="#{loginManagedBean.login}" style="margin-right:10%;" ajax="false" />
 
                 <h:messages errorClass="errorTexts" fatalClass="errorTexts" infoClass="infoTexts" globalOnly="true" />
 
