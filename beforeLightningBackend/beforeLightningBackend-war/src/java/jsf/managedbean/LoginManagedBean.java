@@ -33,6 +33,13 @@ public class LoginManagedBean {
     private String email;
 
     public LoginManagedBean() {
+        initialiseState();
+    }
+
+    public void initialiseState() {
+        username = "";
+        password = "";
+        email = "";
     }
 
     public void login(ActionEvent event) throws IOException {
@@ -42,8 +49,12 @@ public class LoginManagedBean {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentEmployeeEntity", currentEmployeeEntity);
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/homePage.xhtml");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Logged In", null));
+
         } catch (InvalidLoginCredentialException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid login credential: " + ex.getMessage(), null));
+        } finally {
+            initialiseState();
         }
     }
 
