@@ -10,9 +10,9 @@
         <h:outputStylesheet library =" css" name ="cssLayout.css"/>
         <title>Before Lightning Management System</title>
     </h:head>
-    <h:body style="background-image: url(resources/images/StartPageBackground.png); background-size: cover" >
 
-        <p:panelGrid columns="1" layout="grid" style = "display: block; width: 30%; margin: auto; padding-top: 35%; bor" >
+    <h:body style="background-image: url(#{request.contextPath}/uploadedFiles/StartPageBackground.png); background-size: cover" >
+        <p:panelGrid columns="1" layout="grid" style = "display: block; width: 30%; margin: auto; padding-top: 35%;" >
             <h:form id="loginBox">    
                 <p:outputLabel value="Username"/>&nbsp;
                 <p:inputText id="username" value="#{loginManagedBean.username}" style=" width: 75%" size="16" required="true" requiredMessage="Username is required" maxlength="32">
@@ -27,14 +27,12 @@
                 <p:password id="nonFeedback" value="#{loginManagedBean.password}" style=" width: 75%" size="16" required="true" requiredMessage="Password is required" maxlength="32">
                     <f:validateLength minimum="4" />
                 </p:password>
-                <!--<h:message for="password" errorClass="errorText" fatalClass="errorText" />-->
 
                 <br></br>
                 <br></br>
-
 
                 <p:growl id="message" showDetail="true" />
-
+                <p:commandButton type ="submit" value="Login" id="submit" actionListener="#{loginManagedBean.login}" style="margin-right:10%;" ajax="false" />
                 <p:commandButton value="Forget Password" action="#{loginManagedBean.login}" update="message" style="margin-left:30%;" ajax="true" >&nbsp;
                     <p:confirm header="Confirmation" message="Please enter email" icon="pi pi-exclamation-triangle" />
 
@@ -46,10 +44,6 @@
                     </p:inputText>
                     <p:commandButton value="Confirm" type="submit" actionListener="#{loginManagedBean.forgetPassword}" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                 </p:confirmDialog>   
-
-                <p:commandButton type ="submit" value="Login" id="submit" actionListener="#{loginManagedBean.login}" style="margin-right:10%;" ajax="false" />
-
-                <!--<h:messages errorClass="errorTexts" fatalClass="errorTexts" infoClass="infoTexts" globalOnly="true" />-->
 
             </h:form>
         </p:panelGrid>

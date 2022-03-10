@@ -75,12 +75,14 @@ public class SecurityFilter implements Filter {
     }
 
     private Boolean excludeLoginCheck(String path) {
-        if (path.equals("/index.xhtml")
-                || path.equals("/accessRightError.xhtml")
-                || path.startsWith("/javax.faces.resource")) {
-            return true;
-        } else {
-            return false;
-        }
+//        if (path.equals("/index.xhtml")
+//                || path.equals("/accessRightError.xhtml")
+//                || path.startsWith("/javax.faces.resource")) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+
+        return true;
     }
 }
