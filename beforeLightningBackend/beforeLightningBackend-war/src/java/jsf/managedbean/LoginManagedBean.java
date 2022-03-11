@@ -48,6 +48,7 @@ public class LoginManagedBean {
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentEmployeeEntity", currentEmployeeEntity);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentEmployeeAccessRight", currentEmployeeEntity.getEmployeeAccessRight().ordinal());
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/homePage.xhtml");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Logged In", null));
 
