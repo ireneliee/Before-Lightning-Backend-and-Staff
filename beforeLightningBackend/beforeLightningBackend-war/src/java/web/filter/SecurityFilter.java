@@ -66,7 +66,33 @@ public class SecurityFilter implements Filter {
     }
 
     private Boolean checkAccessRight(String path, EmployeeAccessRightEnum accessRight) {
-        return true;
+
+        if (accessRight.equals(accessRight.ADMIN)) {
+            return true;
+        } else if (accessRight.equals(accessRight.OPERATION)) {
+            if (path.equals("/promotionOperation.xhtml")
+                    || path.equals("/websiteOperation.xhtml")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (accessRight.equals(accessRight.PRODUCT)) {
+            if (path.equals("/productOperation.xhtml")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (accessRight.equals(accessRight.SALES)) {
+            if (path.equals("/orderOperation.xhtml")
+                    || path.equals("/supportOperation.xhtml")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
     }
 
     @Override
@@ -75,14 +101,13 @@ public class SecurityFilter implements Filter {
     }
 
     private Boolean excludeLoginCheck(String path) {
-//        if (path.equals("/index.xhtml")
-//                || path.equals("/accessRightError.xhtml")
-//                || path.startsWith("/javax.faces.resource")) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-
-        return true;
+        if (path.equals("/index.xhtml")
+                || path.equals("/homePage.xhtml")
+                || path.equals("/accessRightError.xhtml")
+                || path.startsWith("/javax.faces.resource")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

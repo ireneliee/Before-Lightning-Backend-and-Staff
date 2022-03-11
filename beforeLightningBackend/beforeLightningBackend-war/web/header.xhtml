@@ -8,24 +8,26 @@
                 xmlns:p="http://primefaces.org/ui">
 
 
-    <header style="text-align: right;">
+    <header style="text-align: right; background-color: grey">
         <span style="display: inline-block; float: left">
-            <p:panel id="panelGroupLoggedInUser">
+            <p:panel id="panelGroupLoggedInUser" >
+                <span style="display: inline-block; float: left">       
+                    <p:graphicImage value="/uploadedFiles/account.png" height="50px" width="50px"/>
+                </span>
                 <p:outputLabel value="Welcome #{sessionScope.currentEmployeeEntity.firstname} #{sessionScope.currentEmployeeEntity.lastname}" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
                 <br></br>
                 <p:outputLabel value="#{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
             </p:panel>
-        </span>
+        </span >
+
         <span style="display: inline-block;">
             <p:panel id="panelGroupBeforeLightning">
-                <p:outputLabel value="BeforeLightning" style="font-family: Helvetica"/>
+                <p:outputLabel value="BeforeLightning" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
                 <br></br>
 
-                <p:outputLabel value="Employee Client" style="font-family: Helvetica"/>
+                <p:outputLabel value="Employee Client" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
             </p:panel>
         </span>
-
-
     </header>
 
 

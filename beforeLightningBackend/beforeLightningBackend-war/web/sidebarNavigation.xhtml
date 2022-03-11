@@ -24,6 +24,7 @@
                                                      sidebarNavigationManagedBean.accessRight == 3 }"  update="messages" icon="pi pi-shopping-cart"/>
                 <p:menuitem value="Support" action="#{sidebarNavigationManagedBean.update}"  rendered="#{ sidebarNavigationManagedBean.accessRight == 0 ||
                                                       sidebarNavigationManagedBean.accessRight == 3 }" update="messages" icon="pi pi-ticket"/>
+                <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}"  update="messages" icon="pi pi-sign-out"/>
             </p:menu>
 
         </h:form>
