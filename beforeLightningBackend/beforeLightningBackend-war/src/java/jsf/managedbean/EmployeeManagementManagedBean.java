@@ -11,10 +11,18 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import util.enumeration.EmployeeAccessRightEnum;
+import util.exception.EmployeeEntityUsernameExistException;
+import util.exception.InputDataValidationException;
+import util.exception.UnknownPersistenceException;
 
 /**
  *
@@ -30,6 +38,10 @@ public class EmployeeManagementManagedBean implements Serializable {
     private List<EmployeeEntity> listOfEmployeeEntities;
     private List<EmployeeEntity> filteredListOfEmployeeEntities;
 
+    private EmployeeEntity newEmployeeEntity;
+    private String newPassword;
+    private String newEmployeeAccessRight;
+
     @Inject
     private ViewEmployeeManagedBean viewEmployeeManagedBean;
 
@@ -42,7 +54,39 @@ public class EmployeeManagementManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
+        newEmployeeEntity = new EmployeeEntity();
+        newEmployeeAccessRight = "";
 
+    }
+
+    public void createNewEmployee(ActionEvent event) {
+        if (newEmployeeAccessRight.equals("ADMIN")) {
+            newEmployeeEntity.setEmployeeAccessRight(EmployeeAccessRightEnum.ADMIN);
+        } else if (newEmployeeAccessRight.equals("SALES")) {
+            newEmployeeEntity.setEmployeeAccessRight(EmployeeAccessRightEnum.SALES);
+
+        } else if (newEmployeeAccessRight.equals("OPERATION")) {
+            newEmployeeEntity.setEmployeeAccessRight(EmployeeAccessRightEnum.OPERATION);
+
+        } else if (newEmployeeAccessRight.equals("PRODUCT")) {
+            newEmployeeEntity.setEmployeeAccessRight(EmployeeAccessRightEnum.PRODUCT);
+        }
+        newEmployeeEntity.setPassword(newPassword);
+
+        try {
+            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployeeEntity);
+        } catch (EmployeeEntityUsernameExistException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is currently in use!", null));
+        } catch (InputDataValidationException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Input Validation Error" + ex.getMessage(), null));
+        } catch (UnknownPersistenceException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Create New Employee now", null));
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee successfully created", null));
+        newEmployeeEntity = new EmployeeEntity();
+        newEmployeeAccessRight = "";
+        newPassword = "";
+        setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
     }
 
     /**
@@ -88,6 +132,36 @@ public class EmployeeManagementManagedBean implements Serializable {
 
     public void setViewEmployeeManagedBean(ViewEmployeeManagedBean viewEmployeeManagedBean) {
         this.viewEmployeeManagedBean = viewEmployeeManagedBean;
+    }
+
+    /**
+     * @return the newEmployeeEntity
+     */
+    public EmployeeEntity getNewEmployeeEntity() {
+        return newEmployeeEntity;
+    }
+
+    /**
+     * @param newEmployeeEntity the newEmployeeEntity to set
+     */
+    public void setNewEmployeeEntity(EmployeeEntity newEmployeeEntity) {
+        this.newEmployeeEntity = newEmployeeEntity;
+    }
+
+    public String getNewEmployeeAccessRight() {
+        return newEmployeeAccessRight;
+    }
+
+    public void setNewEmployeeAccessRight(String newEmployeeAccessRight) {
+        this.newEmployeeAccessRight = newEmployeeAccessRight;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
 }
