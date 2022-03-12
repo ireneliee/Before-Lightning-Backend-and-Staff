@@ -4,12 +4,53 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-                >
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Staff" />
 
-        Staff Home Page
+        <h:form id="formAllEmployee">
+
+            <p:messages id="messages" redisplay="false" closable="true" />
+
+            <p:dataTable id="dataTableAllEmployees" widgetVar="dataTableAllEmployees" value="#{employeeManagementManagedBean.listOfEmployeeEntities}" var="employeeEntity" rowKey="#{employeeEntity.employeeId}" rowIndexVar="row"
+                         filteredValue="#{employeeManagementManagedBean.filteredListOfEmployeeEntities}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <h:outputText value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllEmployees').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Employee ID" sortBy="#{employeeEntity.userEntityId}" filterBy="#{employeeEntity.userEntityId}" filterMatchMode="contains">
+                    <h:outputText value="#{employeeEntity.userEntityId}" />
+                </p:column>
+                <p:column headerText="First Name" sortBy="#{employeeEntity.firstname}" filterBy="#{employeeEntity.firstname}" filterMatchMode="contains">
+                    <h:outputText value="#{employeeEntity.firstname}" />
+                </p:column>
+                <p:column headerText="Last Name" sortBy="#{employeeEntity.lastname}" filterBy="#{employeeEntity.lastname}" filterMatchMode="contains">
+                    <h:outputText value="#{employeeEntity.lastname}" />
+                </p:column>
+                <p:column headerText="Employee Access Right" sortBy="#{employeeEntity.employeeAccessRight}" filterBy="#{employeeEntity.employeeAccessRight}" filterMatchMode="contains">
+                    <h:outputText value="#{employeeEntity.employeeAccessRight}" />
+                </p:column>
+
+                <p:column headerText="Action" >
+                    <p:commandButton update="ccViewEmployee:formViewEmployee" oncomplete="PF('dialogViewEmployee').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.viewEmployeeManagedBean.employeeEntityToView}" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+        <ez:ViewEmployee id="ccViewEmployee" />
+
 
     </ui:define>
 
