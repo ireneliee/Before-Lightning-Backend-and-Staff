@@ -1,22 +1,23 @@
 #navigation-menu {
-    min-height: 80%;
-    
+    width: 17.5em;
+    height: 70%
+
+}
+
+.ui-menu {
+    width: 17.5em;
 }
 
 .ui-menu .ui-menuitem-link {
-     height: 8em;
- }
- 
- .ui-menuitem-text {
-     font-size: 1.5em; 
- }
- 
- .navigation-menu {
-     width: 20%;
-     height: 70%
- }
- 
- .ui-menuitem-icon {
-     font-size: 1.5em;
-     margin-right: 1.5em;
- }
+    height: 3.5em;
+    width: 17.5em;
+}
+
+.ui-menuitem-text {
+    font-size: 1.5em; 
+}
+
+.ui-menuitem-icon {
+    font-size: 1.5em;
+    margin-right: 1.5em;
+}

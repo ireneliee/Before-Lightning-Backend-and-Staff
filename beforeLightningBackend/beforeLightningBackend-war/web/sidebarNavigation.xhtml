@@ -8,10 +8,10 @@
     <h:outputStylesheet library = "css" name="sidebarNavigation.css"/>
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 
-    <section class="sidebar-navigation">
+    <section id="sidebar-navigation" class="sidebar-navigation">
         <h:form id = "navigation-menu">
             <p:growl id = "messages" showDetail="false"/>
-            <p:menu >
+            <p:menu id="menuUI">
                 <p:menuitem value="Home" outcome="/homePage.xhtml" update="messages" icon="pi pi-home" />
                 <p:menuitem value="Product" outcome="/pages/productOperations/productHomePage.xhtml" rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 2 }" update="messages" icon="pi pi-desktop"/>
                 <p:menuitem value="Promotion" outcome="/pages/promotionOperations/promotionHomePage.xhtml" rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 1 }" update="messages" icon="pi pi-money-bill"/>
@@ -19,7 +19,7 @@
                 <p:menuitem value="Staff" outcome="/pages/staffOperations/staffHomePage.xhtml" rendered="#{sessionScope.currentEmployeeAccessRight == 0 }" update="messages" icon="pi pi-users"/>
                 <p:menuitem value="Orders" outcome="/pages/orderOperations/orderHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 3 }"  update="messages" icon="pi pi-shopping-cart"/>
                 <p:menuitem value="Support" outcome="/pages/supportOperations/supportHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 3 }" update="messages" icon="pi pi-ticket"/>
-                <p:menuitem value="Settings" outcome="/settingsPage.xhtml"  update="messages" icon="pi pi-gear"/>
+                <p:menuitem value="Settings" outcome="/settingsPage.xhtml"  update="messages" icon="pi pi-cog"/>
                 <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}"  update="messages" icon="pi pi-sign-out"/>
             </p:menu>
 
