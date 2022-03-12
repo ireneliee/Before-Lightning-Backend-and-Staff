@@ -56,10 +56,17 @@ public class DataInitialisationSessionBean {
     }
 
     private void initializeData() {
-        EmployeeEntity newEmployee = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "manager", "password", "manager", "one", "manager@gmail.com", "99999999");
+        EmployeeEntity newEmployee1 = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "manager", "password", "manager", "one", "manager@gmail.com", "99999999");
+        EmployeeEntity newEmployee2 = new EmployeeEntity(EmployeeAccessRightEnum.OPERATION, "operationstaff", "password", "operation", "one", "operation@gmail.com", "99999999");
+        EmployeeEntity newEmployee3 = new EmployeeEntity(EmployeeAccessRightEnum.PRODUCT, "productstaff", "password", "product", "one", "product@gmail.com", "99999999");
+        EmployeeEntity newEmployee4 = new EmployeeEntity(EmployeeAccessRightEnum.SALES, "salesstaff", "password", "sales", "one", "sales@gmail.com", "99999999");
 
         try {
-            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee);
+            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee1);
+            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee2);
+            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee3);
+            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee4);
+
         } catch (EmployeeEntityUsernameExistException ex) {
             Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InputDataValidationException ex) {

@@ -67,24 +67,27 @@ public class SecurityFilter implements Filter {
 
     private Boolean checkAccessRight(String path, EmployeeAccessRightEnum accessRight) {
 
+        if (path.equals("/homePage.xhtml") || path.equals("/settingsPage.xhtml")) {
+            return true;
+        }
         if (accessRight.equals(accessRight.ADMIN)) {
             return true;
         } else if (accessRight.equals(accessRight.OPERATION)) {
-            if (path.equals("/promotionOperations/promotionHomePage.xhtml")
-                    || path.equals("/websiteOperations/websiteHomePage.xhtml")) {
+            if (path.equals("/pages/promotionOperations/promotionHomePage.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteHomePage.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         } else if (accessRight.equals(accessRight.PRODUCT)) {
-            if (path.equals("/productOperations/productHomePage.xhtml")) {
+            if (path.equals("/pages/productOperations/productHomePage.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         } else if (accessRight.equals(accessRight.SALES)) {
-            if (path.equals("/orderOperations/orderHomePage.xhtml")
-                    || path.equals("/supportOperations/supportHomePage.xhtml")) {
+            if (path.equals("/pages/orderOperations/orderHomePage.xhtml")
+                    || path.equals("/pages/supportOperations/supportHomePage.xhtml")) {
                 return true;
             } else {
                 return false;
