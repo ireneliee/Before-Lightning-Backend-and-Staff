@@ -18,6 +18,13 @@
             <p:breadCrumb homeDisplay="false">
 
                 <p:menuitem icon="pi pi-home" url="#{application.contextPath}/homePage.xhtml" style="text-decoration-line: none;" />
+                <p:menuitem value="Product" url="#{application.contextPath}/pages/productOperations/productHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Product'}" />                        
+                <p:menuitem value="Promotion" url="#{application.contextPath}/pages/promotionOperations/promotionHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Promotion'}" />                        
+                <p:menuitem value="Website" url="#{application.contextPath}/pages/websiteOperations/websiteHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Website'}" />                        
+                <p:menuitem value="Staff" url="#{application.contextPath}/pages/staffOperations/staffHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Staff'}" />                        
+                <p:menuitem value="Orders" url="#{application.contextPath}/pages/orderOperations/orderHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Orders'}" />                        
+                <p:menuitem value="Support" url="#{application.contextPath}/pages/supportOperations/supportHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Support'}" />                        
+                <p:menuitem value="Settings" url="#{application.contextPath}/settingsPage.xhtml" rendered="#{cc.attrs.pageName == 'Settings'}" />                        
 
             </p:breadCrumb>
         </h:form>
