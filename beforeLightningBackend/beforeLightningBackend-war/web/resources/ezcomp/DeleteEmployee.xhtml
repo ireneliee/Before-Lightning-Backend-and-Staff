@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formDeleteEmployee">
+
+            <p:dialog id="dialogDeleteEmployee" widgetVar="dialogDeleteEmployee" header="Delete Employee" closable="true">
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Employee ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteEmployeeManagedBean.employeeEntityToDelete.userEntityId}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteEmployeeManagedBean.employeeEntityToDelete.firstname} #{deleteEmployeeManagedBean.employeeEntityToDelete.lastname}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Username: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteEmployeeManagedBean.employeeEntityToDelete.username}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Contact: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteEmployeeManagedBean.employeeEntityToDelete.contact}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Email: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteEmployeeManagedBean.employeeEntityToDelete.email}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Access Right: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{deleteEmployeeManagedBean.employeeEntityToDelete.employeeAccessRight}" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton icon="ui-icon-trash" actionListener="#{deleteEmployeeManagedBean.deleteEmployee}" update="formAllEmployees:dataTableAllEmployees growl" oncomplete="PF('dialogDeleteEmployee').hide();">
+                    <p:confirm header="Confirmation" message="Are you sure you want to delete #{deleteEmployeeManagedBean.employeeEntityToDelete.firstname} #{deleteEmployeeManagedBean.employeeEntityToDelete.lastname}?"  icon="ui-icon-alert" />
+                </p:commandButton>
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+    </cc:implementation>
+</html>

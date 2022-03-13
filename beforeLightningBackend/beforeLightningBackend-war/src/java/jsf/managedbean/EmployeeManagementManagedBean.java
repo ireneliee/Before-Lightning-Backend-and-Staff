@@ -44,6 +44,8 @@ public class EmployeeManagementManagedBean implements Serializable {
 
     @Inject
     private ViewEmployeeManagedBean viewEmployeeManagedBean;
+    @Inject
+    private DeleteEmployeeManagedBean deleteEmployeeManagedBean;
 
     /**
      * Creates a new instance of EmployeeManagementManagedBean
@@ -88,6 +90,8 @@ public class EmployeeManagementManagedBean implements Serializable {
         newPassword = "";
         setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
     }
+
+
 
     /**
      * @return the listOfEmployeeEntities
@@ -162,6 +166,14 @@ public class EmployeeManagementManagedBean implements Serializable {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public DeleteEmployeeManagedBean getDeleteEmployeeManagedBean() {
+        return deleteEmployeeManagedBean;
+    }
+
+    public void setDeleteEmployeeManagedBean(DeleteEmployeeManagedBean deleteEmployeeManagedBean) {
+        this.deleteEmployeeManagedBean = deleteEmployeeManagedBean;
     }
 
 }

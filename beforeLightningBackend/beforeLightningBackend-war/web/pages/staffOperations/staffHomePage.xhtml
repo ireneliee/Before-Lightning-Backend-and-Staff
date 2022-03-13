@@ -11,7 +11,7 @@
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Staff" />
-        <p:growl id="growl" showDetail="true" sticky="true" />  
+        <p:growl id="growl" showDetail="true" redisplay="false" />  
         <h:form id="formAllEmployees">
             <p:commandButton  value="Create New Employee"  icon="pi pi-plus" onclick="PF('dialogCreateNewEmployee').show()" />
 
@@ -43,15 +43,19 @@
                     <p:commandButton update="ccViewEmployee:formViewEmployee" oncomplete="PF('dialogViewEmployee').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.viewEmployeeManagedBean.employeeEntityToView}" />
                     </p:commandButton>
+                    <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-user-minus" title="Delete">
+                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.deleteEmployeeManagedBean.employeeEntityToDelete}" />
+                    </p:commandButton>
                 </p:column>
 
             </p:dataTable>
 
         </h:form>
         <ez:ViewEmployee id="ccViewEmployee" />
+        <ez:DeleteEmployee id="ccDeleteEmployee" />
+
         <h:form id="formCreateNewEmployee">
             <p:dialog id="dialogCreateNewEmployee" widgetVar="dialogCreateNewEmployee" header="Create New Employee" closable="true">
-                <p:growl id="growlCreateNewEmployee" redisplay="false" />
 
                 <p:wizard>
                     <p:tab id="tabPersonalDetails" title="Personal Details"> 
@@ -178,7 +182,7 @@
                                     <p:outputLabel value="#{employeeManagementManagedBean.newEmployeeAccessRight}" style="font-weight: bold;" styleClass="outputLabel" />
                                 </p:panelGrid>
                             </p:panelGrid>
-                            <p:commandButton  value="Create New Employee" update="@form formAllEmployees:dataTableAllEmployees" actionListener="#{employeeManagementManagedBean.createNewEmployee}" oncomplete="PF('dialogCreateNewEmployee').hide();" />
+                            <p:commandButton  value="Create New Employee" update="@form formAllEmployees:dataTableAllEmployees growl" actionListener="#{employeeManagementManagedBean.createNewEmployee}" oncomplete="PF('dialogCreateNewEmployee').hide();" />
                         </p:panel>
                     </p:tab>
                 </p:wizard>
