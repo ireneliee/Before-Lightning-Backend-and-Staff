@@ -49,9 +49,7 @@ public class DeleteEmployeeManagedBean implements Serializable {
     public void deleteEmployee(ActionEvent event) {
         try {
             employeeEntitySessionBeanLocal.deleteEmployeeEntity(employeeEntityToDelete.getUserEntityId());
-            List<EmployeeEntity> newListOfEmployeeEntities = employeeManagementManagedBean.getListOfEmployeeEntities();
-            newListOfEmployeeEntities.remove(employeeEntityToDelete);
-            employeeManagementManagedBean.setListOfEmployeeEntities(newListOfEmployeeEntities);
+            employeeManagementManagedBean.setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
 
             if (employeeManagementManagedBean.getFilteredListOfEmployeeEntities() != null) {
                 List<EmployeeEntity> newFilteredListOfEmployeeEntities = employeeManagementManagedBean.getFilteredListOfEmployeeEntities();

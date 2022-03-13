@@ -13,7 +13,8 @@
         <ez:Breadcrumb pageName="Staff" />
         <p:growl id="growl" showDetail="true" redisplay="false" />  
         <h:form id="formAllEmployees">
-            <p:commandButton  value="Create New Employee"  icon="pi pi-plus" onclick="PF('dialogCreateNewEmployee').show()" />
+            <p:commandButton value="Create New Employee"  icon="pi pi-plus" update="ccCreateEmployee:formCreateEmployee" oncomplete="PF('dialogCreateEmployee').show()" title="Create New Employee">
+            </p:commandButton>
 
             <p:dataTable id="dataTableAllEmployees" widgetVar="dataTableAllEmployees" value="#{employeeManagementManagedBean.listOfEmployeeEntities}" var="employeeEntity" rowKey="#{employeeEntity.employeeId}" rowIndexVar="row"
                          filteredValue="#{employeeManagementManagedBean.filteredListOfEmployeeEntities}"
@@ -43,7 +44,10 @@
                     <p:commandButton update="ccViewEmployee:formViewEmployee" oncomplete="PF('dialogViewEmployee').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.viewEmployeeManagedBean.employeeEntityToView}" />
                     </p:commandButton>
-                    <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-user-minus" title="Delete">
+                    <p:commandButton update="ccUpdateEmployee:formUpdateEmployee" oncomplete="PF('dialogUpdateEmployee').show()" icon="ui-icon-refresh" title="Update">
+                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-minus" title="Delete">
                         <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.deleteEmployeeManagedBean.employeeEntityToDelete}" />
                     </p:commandButton>
                 </p:column>
@@ -51,145 +55,12 @@
             </p:dataTable>
 
         </h:form>
+        <ez:CreateEmployee id="ccCreateEmployee" />
         <ez:ViewEmployee id="ccViewEmployee" />
+        <ez:UpdateEmployee id="ccUpdateEmployee" />
         <ez:DeleteEmployee id="ccDeleteEmployee" />
 
-        <h:form id="formCreateNewEmployee">
-            <p:dialog id="dialogCreateNewEmployee" widgetVar="dialogCreateNewEmployee" header="Create New Employee" closable="true">
 
-                <p:wizard>
-                    <p:tab id="tabPersonalDetails" title="Personal Details"> 
-                        <p:panel header="Please Enter Details">
-                            <p:panelGrid>
-
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="firstname" value="First Name: " style="font-weight: bold;" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="firstname" value="#{employeeManagementManagedBean.newEmployeeEntity.firstname}" placeholder="Srinivas" required="true" requiredMessage="First Name is required" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:message for="firstname" />
-                                    </p:column>
-                                </p:row>
-
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="lastname" value="Last Name: " style="font-weight: bold;" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="lastname" value="#{employeeManagementManagedBean.newEmployeeEntity.lastname}" placeholder="Ganesan" required="true" requiredMessage="Last Name is required" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:message for="lastname" />
-                                    </p:column>
-                                </p:row>
-
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="email" value="Email: " style="font-weight: bold;" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="email" value="#{employeeManagementManagedBean.newEmployeeEntity.email}" placeholder="srini@gmail.com" required="true" requiredMessage="Email is required" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:message for="email" />
-                                    </p:column>
-                                </p:row>
-
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="contact" value="Contact: " style="font-weight: bold;" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="contact" value="#{employeeManagementManagedBean.newEmployeeEntity.contact}" placeholder="97508916" required="true" requiredMessage="Contact is required" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:message for="contact" />
-                                    </p:column>
-                                </p:row>
-                            </p:panelGrid>
-                        </p:panel>
-                    </p:tab>
-
-                    <p:tab id="tabLoginCredentials" title="Login Credentials"> 
-                        <p:panel header="Please Enter Login Credentials">
-                            <p:panelGrid>
-
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="username" value="Username: " style="font-weight: bold;" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:inputText id="username" value="#{employeeManagementManagedBean.newEmployeeEntity.username}" required="true" requiredMessage="Username is required" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:message for="username" />
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="password" value="Password: " style="font-weight: bold;" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:password feedback="true" id="password" value="#{employeeManagementManagedBean.newPassword}" required="true" requiredMessage="Password is required" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:message for="password" />
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel for="accessRight" value="Access Right: " style="font-weight: bold;" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="accessRight" value="#{employeeManagementManagedBean.newEmployeeAccessRight}">
-                                            <f:selectItem itemValue="0" itemLabel="[Select One]" />
-                                            <f:selectItem itemValue="ADMIN" itemLabel="Admin" />
-                                            <f:selectItem itemValue="OPERATION" itemLabel="Operation" />
-                                            <f:selectItem itemValue="PRODUCT" itemLabel="Product" />
-                                            <f:selectItem itemValue="SALES" itemLabel="Sales" />
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:message for="accessRight" />
-                                    </p:column>
-                                </p:row>
-                            </p:panelGrid>
-                        </p:panel>
-                    </p:tab>
-
-                    <p:tab id="confirmation" title="Confirmation"> 
-                        <p:panel header="Please Confirm Credentials">
-                            <p:panelGrid columns="2" columnClasses="grid,grid">
-                                <p:panelGrid columns="2" columnClasses="label, value">
-                                    <p:outputLabel value="Firstname: " />
-                                    <p:outputLabel value="#{employeeManagementManagedBean.newEmployeeEntity.firstname}" style="font-weight: bold;" styleClass="outputLabel" />
-                                    <p:outputLabel value="LastName: " />
-                                    <p:outputLabel value="#{employeeManagementManagedBean.newEmployeeEntity.lastname}" style="font-weight: bold;" styleClass="outputLabel" />
-                                    <p:outputLabel value="Email: " />
-                                    <p:outputLabel value="#{employeeManagementManagedBean.newEmployeeEntity.email}" style="font-weight: bold;" styleClass="outputLabel" />  
-                                    <p:outputLabel value="Contact: " />
-                                    <p:outputLabel value="#{employeeManagementManagedBean.newEmployeeEntity.contact}" style="font-weight: bold;" styleClass="outputLabel" />  
-                                </p:panelGrid>
-                                <p:panelGrid columns="2" columnClasses="label, value">
-                                    <p:outputLabel value="Username: " />
-                                    <p:outputLabel value="#{employeeManagementManagedBean.newEmployeeEntity.username}" style="font-weight: bold;" styleClass="outputLabel" />
-                                    <p:outputLabel value="Password: " />
-                                    <p:outputLabel value="#{employeeManagementManagedBean.newPassword}" style="font-weight: bold;" styleClass="outputLabel" />
-                                    <p:outputLabel value="Access Right: " />
-                                    <p:outputLabel value="#{employeeManagementManagedBean.newEmployeeAccessRight}" style="font-weight: bold;" styleClass="outputLabel" />
-                                </p:panelGrid>
-                            </p:panelGrid>
-                            <p:commandButton  value="Create New Employee" update="@form formAllEmployees:dataTableAllEmployees growl" actionListener="#{employeeManagementManagedBean.createNewEmployee}" oncomplete="PF('dialogCreateNewEmployee').hide();" />
-                        </p:panel>
-                    </p:tab>
-                </p:wizard>
-
-            </p:dialog>
-
-        </h:form>
 
     </ui:define>
 

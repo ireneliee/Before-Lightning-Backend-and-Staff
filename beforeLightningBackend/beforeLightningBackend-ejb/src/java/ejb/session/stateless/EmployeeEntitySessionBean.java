@@ -132,6 +132,9 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanLocal
                 if (employeeEntityToUpdate.getUsername().equals(employeeEntity.getUsername())) {
                     employeeEntityToUpdate.setFirstname(employeeEntity.getFirstname());
                     employeeEntityToUpdate.setLastname(employeeEntity.getLastname());
+                    employeeEntityToUpdate.setContact(employeeEntity.getContact());
+                    employeeEntityToUpdate.setEmail(employeeEntity.getEmail());
+
                     employeeEntityToUpdate.setEmployeeAccessRight(employeeEntity.getEmployeeAccessRight());
                     // Username and password are deliberately NOT updated to demonstrate that client is not allowed to update account credential through this business method
                 } else {
