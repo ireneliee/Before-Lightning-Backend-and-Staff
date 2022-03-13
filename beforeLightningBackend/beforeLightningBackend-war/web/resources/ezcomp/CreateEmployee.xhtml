@@ -141,7 +141,7 @@
                                     <p:outputLabel value="#{createEmployeeManagedBean.newEmployeeAccessRight}" style="font-weight: bold;" styleClass="outputLabel" />
                                 </p:panelGrid>
                             </p:panelGrid>
-                            <p:commandButton  value="Create New Employee" update="formAllEmployees:dataTableAllEmployees growl" actionListener="#{createEmployeeManagedBean.createNewEmployee}" oncomplete="PF('dialogCreateNewEmployee').hide();" />
+                            <p:commandButton  value="Create New Employee" update="formCreateEmployee formAllEmployees:dataTableAllEmployees growl" actionListener="#{createEmployeeManagedBean.createNewEmployee}" oncomplete="PF('dialogCreateNewEmployee').hide();" />
                         </p:panel>
                     </p:tab>
                 </p:wizard>
