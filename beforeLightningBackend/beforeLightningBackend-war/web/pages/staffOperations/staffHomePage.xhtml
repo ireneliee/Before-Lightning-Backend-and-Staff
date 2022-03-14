@@ -44,10 +44,10 @@
                     <p:commandButton update="ccViewEmployee:formViewEmployee" oncomplete="PF('dialogViewEmployee').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.viewEmployeeManagedBean.employeeEntityToView}" />
                     </p:commandButton>
-                    <p:commandButton update="ccUpdateEmployee:formUpdateEmployee" oncomplete="PF('dialogUpdateEmployee').show()" icon="ui-icon-refresh" title="Update">
+                    <p:commandButton update="ccUpdateEmployee:formUpdateEmployee" oncomplete="PF('dialogUpdateEmployee').show()" icon="ui-icon-refresh" title="Update" rendered="#{employeeEntity.userEntityId ne employeeManagementManagedBean.selfEmployee.userEntityId}">
                         <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
                     </p:commandButton>
-                    <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-minus" title="Delete">
+                    <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-minus" title="Delete" rendered="#{employeeEntity.userEntityId ne employeeManagementManagedBean.selfEmployee.userEntityId}">
                         <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.deleteEmployeeManagedBean.employeeEntityToDelete}" />
                     </p:commandButton>
                 </p:column>

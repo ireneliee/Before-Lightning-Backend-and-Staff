@@ -53,6 +53,9 @@ public abstract class UserEntity implements Serializable {
     @Column(nullable = false, length = 8)
     @Size(min = 8, max = 8)
     private String contact;
+    @Column(nullable = true, length = 256)
+    @Size(max = 256)
+    private String imageLink;
 
     public UserEntity() {
     }
@@ -65,6 +68,7 @@ public abstract class UserEntity implements Serializable {
         this.lastname = lastname;
         this.email = email;
         this.contact = contact;
+        this.imageLink = "";
     }
 
     /**
@@ -176,6 +180,14 @@ public abstract class UserEntity implements Serializable {
     @Override
     public String toString() {
         return "entity.UserEntity[ userEntityId=" + userEntityId + " ]";
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
 }

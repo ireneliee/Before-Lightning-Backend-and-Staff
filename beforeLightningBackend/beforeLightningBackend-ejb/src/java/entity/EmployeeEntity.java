@@ -33,10 +33,10 @@ public class EmployeeEntity extends UserEntity implements Serializable {
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
     }
 
-    public EmployeeEntity(EmployeeAccessRightEnum EmployeeAccessRight, String username, String password, String firstname, String lastname, String email, String contact) {
+    public EmployeeEntity(EmployeeAccessRightEnum employeeAccessRight, String username, String password, String firstname, String lastname, String email, String contact) {
         super(username, password, firstname, lastname, email, contact);
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
-        this.employeeAccessRight = EmployeeAccessRight;
+        this.employeeAccessRight = employeeAccessRight;
         this.setPassword(password);
     }
 

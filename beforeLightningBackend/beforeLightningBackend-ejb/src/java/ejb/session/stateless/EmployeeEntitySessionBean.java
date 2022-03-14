@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -134,6 +134,7 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanLocal
                     employeeEntityToUpdate.setLastname(employeeEntity.getLastname());
                     employeeEntityToUpdate.setContact(employeeEntity.getContact());
                     employeeEntityToUpdate.setEmail(employeeEntity.getEmail());
+                    employeeEntityToUpdate.setImageLink(employeeEntity.getImageLink());
 
                     employeeEntityToUpdate.setEmployeeAccessRight(employeeEntity.getEmployeeAccessRight());
                     // Username and password are deliberately NOT updated to demonstrate that client is not allowed to update account credential through this business method

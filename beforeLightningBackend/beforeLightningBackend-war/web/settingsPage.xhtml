@@ -4,12 +4,107 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-                >
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Settings" />
+        <p:growl id="growl" showDetail="true" redisplay="false" />  
 
-        This is the settings page
+        <h:form id="formSettings" >
+            <div style="margin: 0 auto;">
+                <p:panel id="panelSettings" header="View My Profile" style="margin-bottom:20px; margin: auto" >
+                    <p:panelGrid id="panelGridImage">
+                        <p:row>
+                            <p:column>
+                                <p:graphicImage value="/uploadedFiles/account.png" height="300px" width="300px" rendered="#{empty settingsManagementManagedBean.currentEmployeeEntity.imageLink}"/>
+                                <p:graphicImage value="/uploadedFiles/#{settingsManagementManagedBean.currentEmployeeEntity.imageLink}" height="300px" width="300px" rendered="#{not empty settingsManagementManagedBean.currentEmployeeEntity.imageLink}"/>
+
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:panelGrid >
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Employee ID: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{settingsManagementManagedBean.currentEmployeeEntity.userEntityId}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Full Name: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{settingsManagementManagedBean.currentEmployeeEntity.firstname} #{settingsManagementManagedBean.currentEmployeeEntity.lastname}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Email: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{settingsManagementManagedBean.currentEmployeeEntity.email}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Contact: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{settingsManagementManagedBean.currentEmployeeEntity.contact}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Username: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{settingsManagementManagedBean.currentEmployeeEntity.username}" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Access Right: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{settingsManagementManagedBean.currentEmployeeEntity.employeeAccessRight}" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+                    <p:commandButton update="ccUpdateSettings:formUpdateSettings" oncomplete="PF('dialogUpdateSettings').show()" icon="ui-icon-refresh" title="Update Profile" value="Update Profile">
+                        <f:setPropertyActionListener value="#{settingsManagementManagedBean.currentEmployeeEntity}" target="#{settingsManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton oncomplete="PF('dialogUpdateSettingsImage').show()" icon="ui-icon-refresh" title="Update Image" value="Update Profile Photo">
+                        <f:setPropertyActionListener value="#{settingsManagementManagedBean.currentEmployeeEntity}" target="#{settingsManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
+                    </p:commandButton>
+                </p:panel>    
+            </div>
+
+        </h:form>
+        <ez:UpdateSettings id="ccUpdateSettings" />
+        <h:form id="formSettingsImage" > 
+            <p:dialog id="dialogUpdateSettingsImage" widgetVar="dialogUpdateSettingsImage" header="Update Image" closable="true">
+
+                <p:panel header="Please Upload Image">
+                    <p:panelGrid>
+                        <p:fileUpload id="fileUpload" update="@form dialogUpdateSettingsImage" listener="#{settingsManagementManagedBean.handleFileUpload}"  oncomplete="PF('dialogUpdateSettingsImage').show()" previewWidth="300"/>
+                    </p:panelGrid>
+                    <p:commandButton icon="ui-icon-refresh" title="Update Image" value="Update Image" actionListener="#{settingsManagementManagedBean.updateProfileImage}" update="formSettings:panelGridImage formSettingsImage growl" oncomplete="PF('dialogUpdateSettingsImage').hide();">
+                        <p:confirm header="Confirmation" message="Are you sure you want to update image?"  icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:panel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </p:dialog>
+        </h:form>
+
     </ui:define>
-
 </ui:composition>

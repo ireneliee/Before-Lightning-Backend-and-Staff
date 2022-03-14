@@ -51,7 +51,7 @@ public class SecurityFilter implements Filter {
         if (!excludeLoginCheck(requestServletPath)) {
             if (isLogin == true) {
                 EmployeeEntity currentEmployeeEntity = (EmployeeEntity) httpSession.getAttribute("currentEmployeeEntity");
-
+               
                 if (checkAccessRight(requestServletPath, currentEmployeeEntity.getEmployeeAccessRight())) {
                     chain.doFilter(request, response);
                 } else {
@@ -66,8 +66,8 @@ public class SecurityFilter implements Filter {
     }
 
     private Boolean checkAccessRight(String path, EmployeeAccessRightEnum accessRight) {
-
-        if (path.equals("/homePage.xhtml") || path.equals("/settingsPage.xhtml")) {
+        System.out.println(path);
+        if (path.equals("/homePage.xhtml") || path.equals("/settingsPage.xhtml") || path.endsWith(".png")) {
             return true;
         }
         if (accessRight.equals(accessRight.ADMIN)) {
@@ -106,7 +106,7 @@ public class SecurityFilter implements Filter {
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml")
                 || path.equals("/accessRightError.xhtml")
-                || path.equals("/uploadedFiles/StartPageBackground.png")
+                || path.equals("/uploadedFiles")
                 || path.startsWith("/javax.faces.resource")) {
             return true;
         } else {

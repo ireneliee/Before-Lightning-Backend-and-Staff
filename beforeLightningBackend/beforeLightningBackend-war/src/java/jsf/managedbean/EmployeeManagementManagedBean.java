@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -28,6 +29,7 @@ public class EmployeeManagementManagedBean implements Serializable {
 
     private List<EmployeeEntity> listOfEmployeeEntities;
     private List<EmployeeEntity> filteredListOfEmployeeEntities;
+    private EmployeeEntity selfEmployee;
 
     @Inject
     private CreateEmployeeManagedBean createEmployeeManagedBean;
@@ -47,6 +49,7 @@ public class EmployeeManagementManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
+        selfEmployee = (EmployeeEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentEmployeeEntity");
     }
 
     /**
@@ -116,6 +119,14 @@ public class EmployeeManagementManagedBean implements Serializable {
 
     public void setUpdateEmployeeManagedBean(UpdateEmployeeManagedBean updateEmployeeManagedBean) {
         this.updateEmployeeManagedBean = updateEmployeeManagedBean;
+    }
+
+    public EmployeeEntity getSelfEmployee() {
+        return selfEmployee;
+    }
+
+    public void setSelfEmployee(EmployeeEntity selfEmployee) {
+        this.selfEmployee = selfEmployee;
     }
 
 }

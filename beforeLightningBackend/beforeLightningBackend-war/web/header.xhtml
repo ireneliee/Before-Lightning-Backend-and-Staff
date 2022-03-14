@@ -9,25 +9,28 @@
 
 
     <header style="text-align: right;">
-        <span style="display: inline-block; float: left">
-            <p:panel id="panelGroupLoggedInUser" >
-                <span style="display: inline-block; float: left">       
-                    <p:graphicImage value="/uploadedFiles/account.png" height="50px" width="50px"/>
-                </span>
-                <p:outputLabel value="Welcome #{sessionScope.currentEmployeeEntity.firstname} #{sessionScope.currentEmployeeEntity.lastname}" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
-                <br></br>
-                <p:outputLabel value="#{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
-            </p:panel>
-        </span >
+        <div id="divHeader">
+            <span style="display: inline-block; float: left">
+                <p:panel id="panelGroupLoggedInUser" >
+                    <span style="display: inline-block; float: left">       
+                        <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/account.png" rendered="#{empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
+                        <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/#{sessionScope.currentEmployeeEntity.imageLink}" rendered="#{not empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
+                    </span>
+                    <p:outputLabel value="Welcome #{sessionScope.currentEmployeeEntity.firstname} #{sessionScope.currentEmployeeEntity.lastname}" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
+                    <br></br>
+                    <p:outputLabel value="#{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
+                </p:panel>
+            </span >
 
-        <span style="display: inline-block;">
-            <p:panel id="panelGroupBeforeLightning">
-                <p:outputLabel value="BeforeLightning" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
-                <br></br>
+            <span style="display: inline-block;">
+                <p:panel id="panelGroupBeforeLightning">
+                    <p:outputLabel value="BeforeLightning" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
+                    <br></br>
 
-                <p:outputLabel value="Employee Client" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
-            </p:panel>
-        </span>
+                    <p:outputLabel value="Employee Client" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
+                </p:panel>
+            </span>
+        </div>
     </header>
 
 
