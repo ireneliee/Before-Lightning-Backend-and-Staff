@@ -35,15 +35,14 @@ public class PartEntity implements Serializable {
     @Size(max = 64)
     private String partName;
     
-    @Column(nullable = false, length = 128)
+    @Column(nullable = false)
     @NotNull
-    @Size(max = 128)
     private String description;
     
     @ManyToMany
     private List<ProductEntity> products;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<PartChoiceEntity> partChoices;
     
     public PartEntity() {

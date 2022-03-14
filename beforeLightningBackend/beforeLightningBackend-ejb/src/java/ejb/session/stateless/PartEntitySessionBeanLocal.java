@@ -29,5 +29,7 @@ public interface PartEntitySessionBeanLocal {
     public PartEntity retrievePartEntityByPartEntityId(Long partEntityId) throws PartEntityNotFoundException;
 
     public void removePartEntity(Long partEntityId) throws PartEntityNotFoundException, DeletePartEntityException;
+
+    public PartEntity createNewPartEntity(PartEntity newPartEntity) throws CreateNewPartEntityException, UnknownPersistenceException, InputDataValidationException;
     
 }

@@ -34,13 +34,16 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
 
  
 
-    public AccessoryEntity() {
-        super();
+    public AccessoryEntity(String superclassName) {
+        super(superclassName);
         this.accessoryItem = new ArrayList<>();
     }
 
-    public AccessoryEntity(String accessoryName) {
-        this();
+    public AccessoryEntity() {
+    }
+
+    public AccessoryEntity(String superclassName, String accessoryName) {
+        this(superclassName);
         this.accessoryName = accessoryName;
     }
 

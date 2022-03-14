@@ -57,11 +57,13 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
         if (constraintViolations.isEmpty()) {
             try {
                 // persisting the new part choices
+                /*
                 for (PartChoiceEntity p : newPartEntity.getPartChoices()) {
 
                     entityManager.persist(p);
 
                 }
+*/
 
                 entityManager.persist(newPartEntity);
 
@@ -83,6 +85,35 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
                 }
 
                 return newlyCreatedPart;
+            } catch (PersistenceException ex) {
+                throw new UnknownPersistenceException(ex.getMessage());
+            }
+        } else {
+            throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+        }
+    }
+    
+    @Override
+    public PartEntity createNewPartEntity(PartEntity newPartEntity) throws CreateNewPartEntityException,
+            UnknownPersistenceException, InputDataValidationException {
+        Set<ConstraintViolation<PartEntity>> constraintViolations = validator.validate(newPartEntity);
+
+        if (constraintViolations.isEmpty()) {
+            try {
+                // persisting the new part choices
+                /*
+                for (PartChoiceEntity p : newPartEntity.getPartChoices()) {
+
+                    entityManager.persist(p);
+
+                }
+*/
+
+                entityManager.persist(newPartEntity);
+
+                entityManager.flush();
+
+               return newPartEntity;
             } catch (PersistenceException ex) {
                 throw new UnknownPersistenceException(ex.getMessage());
             }

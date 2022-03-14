@@ -6,8 +6,10 @@
 package ejb.session.stateless;
 
 import entity.AccessoryEntity;
+import entity.ProductTypeEntity;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,9 +30,11 @@ import util.exception.UnknownPersistenceException;
 @Stateless
 public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLocal {
 
-	// Add business logic below. (Right-click in editor and choose
-	// "Insert Code > Add Business Method")
-	
+    @EJB
+    private ProductTypeSessionBeanLocal productTypeSessionBeanLocal;
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
     @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
     private EntityManager em;
 
@@ -41,14 +45,17 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-	
-	@Override
-	public Long createNewAccessoryEntity(AccessoryEntity newAccessoryEntity) throws AccessoryNameExistsException, UnknownPersistenceException, InputDataValidationException {
-		
+
+    @Override
+    public Long createNewAccessoryEntity(AccessoryEntity newAccessoryEntity) throws AccessoryNameExistsException, UnknownPersistenceException, InputDataValidationException {
+
         Set<ConstraintViolation<AccessoryEntity>> constraintViolations = validator.validate(newAccessoryEntity);
 
         if (constraintViolations.isEmpty()) {
             try {
+                String productTypeName = newAccessoryEntity.getProductTypeName();
+                ProductTypeEntity productType = new ProductTypeEntity(productTypeName);
+                productTypeSessionBeanLocal.createNewProductTypeEntity(productType);
                 em.persist(newAccessoryEntity);
                 em.flush();
                 return newAccessoryEntity.getProductTypeEntityId();
@@ -66,41 +73,36 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
         } else {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
         }
-	}
-	
-	
-	public List<AccessoryEntity> retrieveAllAccessoryEntities() {
-		
-		Query query = em.createQuery("SELECT a FROM AccessoryEntity a");
-		return query.getResultList();
-	
-	}
-	
-	public AccessoryEntity retrieveAccessoryEntityById(Long id) {
-		
-		return null;
-		
-	}
-	
-	public AccessoryEntity retrieveAccessoryEntityByAccessoryName(String accessoryName) {
-		
-		return null;
-		
-	}
-	
-	
-	public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) {
-		
-	}
-	
-	public void deleteAccessoryEntity(Long productTypeId) {
-		
-	
-	}
-	
-	
-	
-	 private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<AccessoryEntity>> constraintViolations) {
+    }
+
+    public List<AccessoryEntity> retrieveAllAccessoryEntities() {
+
+        Query query = em.createQuery("SELECT a FROM AccessoryEntity a");
+        return query.getResultList();
+
+    }
+
+    public AccessoryEntity retrieveAccessoryEntityById(Long id) {
+
+        return null;
+
+    }
+
+    public AccessoryEntity retrieveAccessoryEntityByAccessoryName(String accessoryName) {
+
+        return null;
+
+    }
+
+    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) {
+
+    }
+
+    public void deleteAccessoryEntity(Long productTypeId) {
+
+    }
+
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<AccessoryEntity>> constraintViolations) {
         String msg = "Input data validation error!:";
 
         for (ConstraintViolation constraintViolation : constraintViolations) {

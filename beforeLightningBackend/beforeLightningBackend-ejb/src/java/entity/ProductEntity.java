@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -23,9 +25,9 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class ProductEntity extends ProductTypeEntity implements Serializable {
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false, length =128)
     @NotNull
-    @Size(max = 64)
+    @Size(max = 128)
     private String productName;
     
     @Column(nullable = false, unique = true, length = 7)
@@ -33,13 +35,11 @@ public class ProductEntity extends ProductTypeEntity implements Serializable {
     @Size(min = 7, max = 7)
     private String skuCode;
     
-    @Column(nullable = false, length = 128)
+    @Column(nullable = false)
     @NotNull
-    @Size(max = 128)
     private String description;
     
-    @Column(length = 1000)
-    @Size(max = 1000)
+
     private String productOverview;
     
     @Column(nullable = false, precision = 11, scale = 2)
@@ -58,12 +58,16 @@ public class ProductEntity extends ProductTypeEntity implements Serializable {
     @ManyToMany(mappedBy = "products")
     private List<PartEntity> parts;
 
-    public ProductEntity() {
+    public ProductEntity(String superclassName) {
+        super(superclassName);
         this.parts = new ArrayList<>();
     }
 
-    public ProductEntity(String productName, String skuCode, String description, String productOverview, BigDecimal basePrice, Integer productRating) {
-        this();
+    public ProductEntity() {
+    }
+
+    public ProductEntity(String superclassName, String productName, String skuCode, String description, String productOverview, BigDecimal basePrice, Integer productRating) {
+        this(superclassName);
         this.productName = productName;
         this.skuCode = skuCode;
         this.description = description;

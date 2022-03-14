@@ -8,9 +8,11 @@ package ejb.session.stateless;
 import entity.PartChoiceEntity;
 import entity.PartEntity;
 import entity.ProductEntity;
+import entity.ProductTypeEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,6 +36,9 @@ import util.exception.UpdateProductEntityException;
 @Stateless
 public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 
+    @EJB
+    private ProductTypeSessionBeanLocal productTypeSessionBeanLocal;
+
     @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
     private EntityManager entityManager;
 
@@ -47,7 +52,8 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 
     }
 
-    // assuming parts and part choices will only be created tgt
+    // assuming parts have yet to exist
+    @Override
     public ProductEntity createNewProduct(ProductEntity newProductEntity) throws CreateNewProductEntityException, InputDataValidationException,
             UnknownPersistenceException, ProductSkuCodeExistException {
 
@@ -56,24 +62,33 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         if (constraintViolations.isEmpty()) {
 
             try {
-
+                /*
+                String productTypeName = newProductEntity.getProductTypeName();
+                ProductTypeEntity productType = new ProductTypeEntity(productTypeName);
+                productTypeSessionBeanLocal.createNewProductTypeEntity(productType);
+                System.out.println("persist product type");
+                
+                /*
                 List<PartEntity> listOfPartEntities = newProductEntity.getParts();
-
+                
+                
                 for (PartEntity p : listOfPartEntities) {
 
                     List<PartChoiceEntity> listOfPartChoices = p.getPartChoices();
-
+                    
                     for (PartChoiceEntity pc : listOfPartChoices) {
 
                         entityManager.persist(pc);
-
+                        System.out.println("persist part choices");
                     }
 
                     entityManager.persist(p);
+                    System.out.println("persist part");
 
                 }
-
+                */
                 entityManager.persist(newProductEntity);
+                System.out.println("persist product");
 
                 entityManager.flush();
 

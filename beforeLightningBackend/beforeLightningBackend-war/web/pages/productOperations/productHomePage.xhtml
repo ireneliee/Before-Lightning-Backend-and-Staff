@@ -33,7 +33,7 @@
 
         </h:form>
         <h:form id="productTypeForm">
-            <p:carousel value="#{productTypeManagementManagedBean.listOfProductTypeEntities}" headerText="Product type" var="productType" itemStyle="text-align:left" responsive="true">
+            <p:carousel id = "listOfProductType" value="#{productTypeManagementManagedBean.listOfProductTypeEntities}" headerText="Product type" var="productType" itemStyle="text-align:left" responsive="true">
                 <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
 
                     <h:outputText value="Id:" />

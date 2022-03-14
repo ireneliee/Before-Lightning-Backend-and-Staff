@@ -12,6 +12,7 @@ import util.exception.InputDataValidationException;
 import util.exception.ProductSkuCodeExistException;
 import util.exception.ProductSkuNotFoundException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateProductEntityException;
 
 /**
  *
@@ -23,5 +24,7 @@ public interface ProductEntitySessionBeanLocal {
     public ProductEntity retrieveProductEntityBySkuCode(String skuCode) throws ProductSkuNotFoundException;
 
     public ProductEntity createNewProduct(ProductEntity newProductEntity) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
+
+    public void updateProduct(ProductEntity updatedProductEntity) throws UpdateProductEntityException;
     
 }

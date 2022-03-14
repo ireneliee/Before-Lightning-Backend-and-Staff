@@ -13,10 +13,15 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
-        <h:form id="formCreateEmployee">
-            <p:dialog id="dialogCreateEmployee" widgetVar="dialogCreateEmployee" header="Create New Employee" closable="true">
 
-               
+        <h:form id="formCreateEmployee">
+            <p:dialog id="dialogCreateProductType" widgetVar="dialogCreateEmployee" header="Create New Employee" closable="true">
+                <span class="ui-float-label">
+                    <p:inputText id="float-input" value="#{productTypeManagementManagedBean.newProductTypeEntity.productTypeName}" />
+                    <p:outputLabel for="@previous" value="Name" />
+                </span>
+                <p:commandButton  value="Create New Product Type" update="@form productTypeForm:listOfProductType" actionListener="#{productTypeManagementManagedBean.createNewProductType }" oncomplete="PF('dialogCreateNewProduct').show();" />
+
 
             </p:dialog>
 

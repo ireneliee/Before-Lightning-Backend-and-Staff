@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,12 +43,24 @@ public class AccessoryItemEntity implements Serializable {
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn
     private AccessoryEntity accessory;
+
+    public AccessoryItemEntity(String accessoryItemName, Integer quantityOnHand, BigDecimal price, AccessoryEntity accessory) {
+        this.accessoryItemName = accessoryItemName;
+        this.quantityOnHand = quantityOnHand;
+        this.price = price;
+        this.accessory = accessory;
+    }
 
     @ManyToMany
     private List<PromotionEntity> promotions;
 
+    public AccessoryItemEntity() {
+        promotions = new ArrayList<>();
+    }
+
+    
     public Integer getQuantityOnHand() {
         return quantityOnHand;
     }
