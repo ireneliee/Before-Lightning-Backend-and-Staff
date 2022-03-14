@@ -11,10 +11,10 @@
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Staff" />
-
-        <h:form id="formAllEmployee">
-
-            <p:messages id="messages" redisplay="false" closable="true" />
+        <p:growl id="growl" showDetail="true" redisplay="false" />  
+        <h:form id="formAllEmployees">
+            <p:commandButton value="Create New Employee"  icon="pi pi-plus" update="ccCreateEmployee:formCreateEmployee" oncomplete="PF('dialogCreateEmployee').show()" title="Create New Employee">
+            </p:commandButton>
 
             <p:dataTable id="dataTableAllEmployees" widgetVar="dataTableAllEmployees" value="#{employeeManagementManagedBean.listOfEmployeeEntities}" var="employeeEntity" rowKey="#{employeeEntity.employeeId}" rowIndexVar="row"
                          filteredValue="#{employeeManagementManagedBean.filteredListOfEmployeeEntities}"
@@ -44,12 +44,22 @@
                     <p:commandButton update="ccViewEmployee:formViewEmployee" oncomplete="PF('dialogViewEmployee').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.viewEmployeeManagedBean.employeeEntityToView}" />
                     </p:commandButton>
+                    <p:commandButton update="ccUpdateEmployee:formUpdateEmployee" oncomplete="PF('dialogUpdateEmployee').show()" icon="ui-icon-refresh" title="Update">
+                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-minus" title="Delete">
+                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.deleteEmployeeManagedBean.employeeEntityToDelete}" />
+                    </p:commandButton>
                 </p:column>
 
             </p:dataTable>
 
         </h:form>
+        <ez:CreateEmployee id="ccCreateEmployee" />
         <ez:ViewEmployee id="ccViewEmployee" />
+        <ez:UpdateEmployee id="ccUpdateEmployee" />
+        <ez:DeleteEmployee id="ccDeleteEmployee" />
+
 
 
     </ui:define>

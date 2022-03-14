@@ -14,7 +14,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Inject;
-import util.enumeration.EmployeeAccessRightEnum;
 
 /**
  *
@@ -31,7 +30,13 @@ public class EmployeeManagementManagedBean implements Serializable {
     private List<EmployeeEntity> filteredListOfEmployeeEntities;
 
     @Inject
+    private CreateEmployeeManagedBean createEmployeeManagedBean;
+    @Inject
     private ViewEmployeeManagedBean viewEmployeeManagedBean;
+    @Inject
+    private UpdateEmployeeManagedBean updateEmployeeManagedBean;
+    @Inject
+    private DeleteEmployeeManagedBean deleteEmployeeManagedBean;
 
     /**
      * Creates a new instance of EmployeeManagementManagedBean
@@ -42,7 +47,6 @@ public class EmployeeManagementManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
-
     }
 
     /**
@@ -88,6 +92,30 @@ public class EmployeeManagementManagedBean implements Serializable {
 
     public void setViewEmployeeManagedBean(ViewEmployeeManagedBean viewEmployeeManagedBean) {
         this.viewEmployeeManagedBean = viewEmployeeManagedBean;
+    }
+
+    public DeleteEmployeeManagedBean getDeleteEmployeeManagedBean() {
+        return deleteEmployeeManagedBean;
+    }
+
+    public void setDeleteEmployeeManagedBean(DeleteEmployeeManagedBean deleteEmployeeManagedBean) {
+        this.deleteEmployeeManagedBean = deleteEmployeeManagedBean;
+    }
+
+    public CreateEmployeeManagedBean getCreateEmployeeManagedBean() {
+        return createEmployeeManagedBean;
+    }
+
+    public void setCreateEmployeeManagedBean(CreateEmployeeManagedBean createEmployeeManagedBean) {
+        this.createEmployeeManagedBean = createEmployeeManagedBean;
+    }
+
+    public UpdateEmployeeManagedBean getUpdateEmployeeManagedBean() {
+        return updateEmployeeManagedBean;
+    }
+
+    public void setUpdateEmployeeManagedBean(UpdateEmployeeManagedBean updateEmployeeManagedBean) {
+        this.updateEmployeeManagedBean = updateEmployeeManagedBean;
     }
 
 }
