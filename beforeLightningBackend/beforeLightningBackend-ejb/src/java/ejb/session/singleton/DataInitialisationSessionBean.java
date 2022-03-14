@@ -51,6 +51,7 @@ public class DataInitialisationSessionBean {
         try {
             employeeEntitySessionBeanLocal.retrieveEmployeeEntityByEmployeeEntityId(1l);
         } catch (EmployeeEntityNotFoundException ex) {
+            System.out.println("done");
             initializeData();
         }
     }
