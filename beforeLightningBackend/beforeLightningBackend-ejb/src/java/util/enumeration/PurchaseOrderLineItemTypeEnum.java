@@ -7,12 +7,10 @@ package util.enumeration;
 
 /**
  *
- * @author mingy
+ * @author irene
  */
-public enum PurchaseOrderLineItemStatusEnum {
-    NOT_PAID,
-    PAID,
-    PROCESSED,
-    IN_PROGRESS,
-    READY_FOR_SHIPMENT
+public enum PurchaseOrderLineItemTypeEnum {
+    BUILD,
+    ACCESSORY
+
 }

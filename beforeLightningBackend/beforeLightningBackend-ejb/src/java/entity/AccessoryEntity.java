@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -20,34 +24,30 @@ import javax.validation.constraints.Size;
  * @author kaiyu
  */
 @Entity
-public class AccessoryEntity extends ProductTypeEntity implements Serializable {
+public class AccessoryEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long accessoryEntityId;
     @Column(nullable = false, length = 64)
     @Size(max = 64)
     @NotNull
     private String accessoryName;
-
-    @JoinColumn(nullable = false)
-    @OneToMany(mappedBy = "accessory")
-    private List<AccessoryItemEntity> accessoryItem;
-    
-    @Column(length = 5000)
-    @Size(max = 5000)
+    @NotNull
     private String description;
 
- 
-
-    public AccessoryEntity(String superclassName) {
-        super(superclassName);
-        this.accessoryItem = new ArrayList<>();
-    }
+    @JoinColumn(nullable = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "accessoryEntity")
+    private List<AccessoryItemEntity> accessoryItemEntities;
 
     public AccessoryEntity() {
+        this.accessoryItemEntities = new ArrayList<>();
+        this.description = "";
     }
 
-    public AccessoryEntity(String superclassName, String accessoryName) {
-        this(superclassName);
+    public AccessoryEntity(String accessoryName) {
+        this();
         this.accessoryName = accessoryName;
     }
 
@@ -62,7 +62,7 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (productTypeEntityId != null ? productTypeEntityId.hashCode() : 0);
+        hash += (accessoryEntityId != null ? accessoryEntityId.hashCode() : 0);
         return hash;
     }
 
@@ -73,7 +73,7 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
             return false;
         }
         AccessoryEntity other = (AccessoryEntity) object;
-        if ((this.productTypeEntityId == null && other.productTypeEntityId != null) || (this.productTypeEntityId != null && !this.productTypeEntityId.equals(other.productTypeEntityId))) {
+        if ((this.accessoryEntityId == null && other.accessoryEntityId != null) || (this.accessoryEntityId != null && !this.accessoryEntityId.equals(other.accessoryEntityId))) {
             return false;
         }
         return true;
@@ -81,15 +81,7 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Accessory[ id=" + productTypeEntityId + " ]";
-    }
-
-    public List<AccessoryItemEntity> getAccessoryItem() {
-        return accessoryItem;
-    }
-
-    public void setAccessoryItem(List<AccessoryItemEntity> accessoryItem) {
-        this.accessoryItem = accessoryItem;
+        return "entity.Accessory[ id=" + accessoryEntityId + " ]";
     }
 
     public String getDescription() {
@@ -98,6 +90,22 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getAccessoryEntityId() {
+        return accessoryEntityId;
+    }
+
+    public void setAccessoryEntityId(Long accessoryEntityId) {
+        this.accessoryEntityId = accessoryEntityId;
+    }
+
+    public List<AccessoryItemEntity> getAccessoryItemEntities() {
+        return accessoryItemEntities;
+    }
+
+    public void setAccessoryItemEntities(List<AccessoryItemEntity> accessoryItemEntities) {
+        this.accessoryItemEntities = accessoryItemEntities;
     }
 
 }

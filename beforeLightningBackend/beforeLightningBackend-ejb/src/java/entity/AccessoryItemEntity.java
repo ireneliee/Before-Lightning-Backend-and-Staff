@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,10 +21,11 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author kaiyu
+ * @author Koh Wen Jie
  */
 @Entity
 public class AccessoryItemEntity implements Serializable {
@@ -31,7 +33,7 @@ public class AccessoryItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accessoryItemId;
+    private Long accessoryItemEntityId;
     @Column(nullable = false)
     private String accessoryItemName;
     @Column(nullable = false)
@@ -41,32 +43,59 @@ public class AccessoryItemEntity implements Serializable {
     @DecimalMax("9999.00")
     @NotNull
     private BigDecimal price;
+    @Column(nullable = true, length = 256)
+    @Size(max = 256)
+    private String imageLink;
 
-    @ManyToOne
-    @JoinColumn
-    private AccessoryEntity accessory;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    private AccessoryEntity accessoryEntity;
+    @ManyToMany(mappedBy = "accessoryItemsEntities")
+    private List<PromotionEntity> promotionEntities;
 
-    public AccessoryItemEntity(String accessoryItemName, Integer quantityOnHand, BigDecimal price, AccessoryEntity accessory) {
+    public AccessoryItemEntity() {
+        this.promotionEntities = new ArrayList<>();
+        this.imageLink = "";
+    }
+
+    public AccessoryItemEntity(String accessoryItemName, Integer quantityOnHand, BigDecimal price) {
+        this();
         this.accessoryItemName = accessoryItemName;
         this.quantityOnHand = quantityOnHand;
         this.price = price;
-        this.accessory = accessory;
     }
 
-    @ManyToMany
-    private List<PromotionEntity> promotions;
-
-    public AccessoryItemEntity() {
-        promotions = new ArrayList<>();
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (accessoryItemEntityId != null ? accessoryItemEntityId.hashCode() : 0);
+        return hash;
     }
 
-    
-    public Integer getQuantityOnHand() {
-        return quantityOnHand;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the accessoryItemEntityId fields are not set
+        if (!(object instanceof AccessoryItemEntity)) {
+            return false;
+        }
+        AccessoryItemEntity other = (AccessoryItemEntity) object;
+        if ((this.accessoryItemEntityId == null && other.accessoryItemEntityId != null) || (this.accessoryItemEntityId != null && !this.accessoryItemEntityId.equals(other.accessoryItemEntityId))) {
+            return false;
+        }
+        return true;
     }
 
-    public void setQuantityOnHand(Integer quantityOnHand) {
-        this.quantityOnHand = quantityOnHand;
+    @Override
+    public String toString() {
+        return "entity.AccessoryItemEntity[ accessoryItemEntityId=" + accessoryItemEntityId + " ]";
+    }
+
+    public Long getAccessoryItemEntityId() {
+        return accessoryItemEntityId;
+    }
+
+    public void setAccessoryItemEntityId(Long accessoryItemEntityId) {
+        this.accessoryItemEntityId = accessoryItemEntityId;
     }
 
     public String getAccessoryItemName() {
@@ -77,6 +106,14 @@ public class AccessoryItemEntity implements Serializable {
         this.accessoryItemName = accessoryItemName;
     }
 
+    public Integer getQuantityOnHand() {
+        return quantityOnHand;
+    }
+
+    public void setQuantityOnHand(Integer quantityOnHand) {
+        this.quantityOnHand = quantityOnHand;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -85,58 +122,28 @@ public class AccessoryItemEntity implements Serializable {
         this.price = price;
     }
 
-    public Long getAccessoryItemId() {
-        return accessoryItemId;
+    public AccessoryEntity getAccessoryEntity() {
+        return accessoryEntity;
     }
 
-    public void setAccessoryItemId(Long accessoryItemId) {
-        this.accessoryItemId = accessoryItemId;
+    public void setAccessoryEntity(AccessoryEntity accessoryEntity) {
+        this.accessoryEntity = accessoryEntity;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (accessoryItemId != null ? accessoryItemId.hashCode() : 0);
-        return hash;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the accessoryItemId fields are not set
-        if (!(object instanceof AccessoryItemEntity)) {
-            return false;
-        }
-        AccessoryItemEntity other = (AccessoryItemEntity) object;
-        if ((this.accessoryItemId == null && other.accessoryItemId != null) || (this.accessoryItemId != null && !this.accessoryItemId.equals(other.accessoryItemId))) {
-            return false;
-        }
-        return true;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
-    @Override
-    public String toString() {
-        return "entity.AccessoryItem[ id=" + accessoryItemId + " ]";
+    public List<PromotionEntity> getPromotionEntities() {
+        return promotionEntities;
     }
 
-    public AccessoryEntity getAccessory() {
-        return accessory;
+    public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
+        this.promotionEntities = promotionEntities;
     }
 
-    public void setAccessory(AccessoryEntity accessory) {
-        this.accessory = accessory;
-    }
-
-    /**
-     * @return the promotions
-     */
-    public List<PromotionEntity> getPromotions() {
-        return promotions;
-    }
-
-    /**
-     * @param promotions the promotions to set
-     */
-    public void setPromotions(List<PromotionEntity> promotions) {
-        this.promotions = promotions;
-    }
 }

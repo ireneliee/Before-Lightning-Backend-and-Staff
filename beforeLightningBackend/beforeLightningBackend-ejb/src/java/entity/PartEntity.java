@@ -6,79 +6,58 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-
+/**
+ *
+ * @author Koh Wen Jie
+ */
 @Entity
 public class PartEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partId;
-    @Column(nullable = false, length = 64)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long partEntityId;
+    @Column(nullable = false)
     @NotNull
-    @Size(max = 64)
     private String partName;
     @Column(nullable = false)
     @NotNull
     private String description;
-    
+
     @ManyToMany
-    private List<ProductEntity> products;
-    
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private List<PartChoiceEntity> partChoices;
-    
-    public PartEntity() {
-        this.products = new ArrayList<>();
-        this.partChoices = new ArrayList<>();
-    }
-    
-    public PartEntity(String partName, String description) {
-        this();
-        this.partName = partName;
-        this.description = description;
-    }
-    
-    
+    private List<ProductEntity> productEntities;
 
-    public Long getPartId() {
-        return partId;
-    }
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<PartChoiceEntity> partChoiceEntities;
 
-    public void setPartId(Long partId) {
-        this.partId = partId;
-    }
+
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (partId != null ? partId.hashCode() : 0);
+        hash += (getPartEntityId() != null ? getPartEntityId().hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the partId fields are not set
+        // TODO: Warning - this method won't work in the case the partEntityId fields are not set
         if (!(object instanceof PartEntity)) {
             return false;
         }
         PartEntity other = (PartEntity) object;
-        if ((this.partId == null && other.partId != null) || (this.partId != null && !this.partId.equals(other.partId))) {
+        if ((this.getPartEntityId() == null && other.getPartEntityId() != null) || (this.getPartEntityId() != null && !this.partEntityId.equals(other.partEntityId))) {
             return false;
         }
         return true;
@@ -86,39 +65,77 @@ public class PartEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.PartEntity[ id=" + partId + " ]";
+        return "entity.PartEntity[ partEntityId=" + getPartEntityId() + " ]";
     }
 
+    /**
+     * @return the partEntityId
+     */
+    public Long getPartEntityId() {
+        return partEntityId;
+    }
+
+    /**
+     * @param partEntityId the partEntityId to set
+     */
+    public void setPartEntityId(Long partEntityId) {
+        this.partEntityId = partEntityId;
+    }
+
+    /**
+     * @return the partName
+     */
     public String getPartName() {
         return partName;
     }
 
+    /**
+     * @param partName the partName to set
+     */
     public void setPartName(String partName) {
         this.partName = partName;
     }
 
+    /**
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @param description the description to set
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public List<ProductEntity> getProducts() {
-        return products;
+    /**
+     * @return the productEntities
+     */
+    public List<ProductEntity> getProductEntities() {
+        return productEntities;
     }
 
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
+    /**
+     * @param productEntities the productEntities to set
+     */
+    public void setProductEntities(List<ProductEntity> productEntities) {
+        this.productEntities = productEntities;
     }
 
-    public List<PartChoiceEntity> getPartChoices() {
-        return partChoices;
+    /**
+     * @return the partChoiceEntities
+     */
+    public List<PartChoiceEntity> getPartChoiceEntities() {
+        return partChoiceEntities;
     }
 
-    public void setPartChoices(List<PartChoiceEntity> partChoices) {
-        this.partChoices = partChoices;
+    /**
+     * @param partChoiceEntities the partChoiceEntities to set
+     */
+    public void setPartChoiceEntities(List<PartChoiceEntity> partChoiceEntities) {
+        this.partChoiceEntities = partChoiceEntities;
     }
-    
+
 }
