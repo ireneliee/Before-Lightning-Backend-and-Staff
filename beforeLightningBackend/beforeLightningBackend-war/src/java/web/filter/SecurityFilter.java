@@ -66,7 +66,6 @@ public class SecurityFilter implements Filter {
     }
 
     private Boolean checkAccessRight(String path, EmployeeAccessRightEnum accessRight) {
-        System.out.println(path);
         if (path.equals("/homePage.xhtml") || path.equals("/settingsPage.xhtml") || path.endsWith(".png")) {
             return true;
         }

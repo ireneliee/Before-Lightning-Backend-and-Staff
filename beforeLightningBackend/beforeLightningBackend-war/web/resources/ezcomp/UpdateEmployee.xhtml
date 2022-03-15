@@ -82,7 +82,7 @@
                         </p:row>
                     </p:panelGrid>
                 </p:panel>
-                <p:commandButton icon="ui-icon-refresh" title="Update" actionListener="#{updateEmployeeManagedBean.updateEmployee}" update="formAllEmployees:dataTableAllEmployees growl" oncomplete="PF('dialogUpdateEmployee').hide();">
+                <p:commandButton icon="ui-icon-refresh" title="Update" actionListener="#{updateEmployeeManagedBean.updateEmployee}" update="formAllEmployees:dataTableAllEmployees :growl" oncomplete="PF('dialogUpdateEmployee').hide();">
                     <p:confirm header="Confirmation" message="Are you sure you want to update #{updateEmployeeManagedBean.employeeEntityToUpdate.firstname} #{updateEmployeeManagedBean.employeeEntityToUpdate.lastname}?"  icon="ui-icon-alert" />
                 </p:commandButton>
             </p:dialog>

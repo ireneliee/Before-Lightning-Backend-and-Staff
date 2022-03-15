@@ -15,37 +15,37 @@
     <h:body>
 
         <p:layout fullPage="true" >
-            
+            <p:growl id="growl" showDetail="true" redisplay="false" />  
             <p:layoutUnit position="north" size="120" >
-            
+
                 <ui:insert name="header">
                     <ui:include src="/header.xhtml" />
                 </ui:insert>
-                
+
             </p:layoutUnit>
-            
+
             <p:layoutUnit size="240" position="west" >
-                
+
                 <ui:insert name="sidebar-navigation">
                     <ui:include src="/sidebarNavigation.xhtml" />
                 </ui:insert>        
-                
+
             </p:layoutUnit>
-            
+
             <p:layoutUnit position="center" >
-                
+
                 <ui:insert name="content">Content</ui:insert>
-                
+
             </p:layoutUnit>
-           
+
             <p:layoutUnit position="south" size="70" >
-                
+
                 <ui:insert name="footer">
                     <ui:include src="/footer.xhtml" />
                 </ui:insert>
-                
+
             </p:layoutUnit>                
-            
+
         </p:layout>
 
     </h:body>

@@ -104,13 +104,6 @@ public class SettingsManagementManagedBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Image updated successfully", ""));
         imageLink = "";
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentEmployeeEntity", currentEmployeeEntity);
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/settingsPage.xhtml");
-        } catch (IOException ex) {
-            Logger.getLogger(SettingsManagementManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile Image updated successfully", ""));
-
     }
 
     public EmployeeEntity getCurrentEmployeeEntity() {
