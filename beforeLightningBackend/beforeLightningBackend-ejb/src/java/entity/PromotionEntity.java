@@ -32,53 +32,50 @@ public class PromotionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long promotionEntityId;
 
-	@Column(nullable = false)
-	@NotNull
-	private String promotionName;
-	
+    @Column(nullable = false)
+    @NotNull
+    private String promotionName;
     @Column(nullable = false)
     @NotNull
     private LocalDate startDate;
-
     @Column(nullable = false)
     @NotNull
     private LocalDate endDate;
-
     @Column(scale = 2)
     @DecimalMin("0.00")
     private Double discount;
-
     @Column(precision = 11, scale = 2)
     @DecimalMin("0.00")
     @Digits(integer = 9, fraction = 2)
     private BigDecimal discountedPrice;
-
+    
     @ManyToMany
-    private List<PartChoiceEntity> partChoices;
-
+    private List<PartChoiceEntity> partChoiceEntities;
     @ManyToMany
-    private List<AccessoryItemEntity> accessoryItems;
+    private List<AccessoryItemEntity> accessoryItemEntities;
 
     public PromotionEntity() {
-        this.partChoices = new ArrayList<>();
+        this.partChoiceEntities = new ArrayList<>();
+        this.accessoryItemEntities = new ArrayList<>();
+
     }
 
     public PromotionEntity(String promotionName, LocalDate startDate, LocalDate endDate, Double discount, BigDecimal discountedPrice) {
         this();
-		this.promotionName = promotionName;
+        this.promotionName = promotionName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.discount = discount;
         this.discountedPrice = discountedPrice;
     }
-	
-	public String getPromotionName() {
-		return promotionName;
-	}
-	
-	public void setPromotionName(String promotionName) {
-		this.promotionName = promotionName;
-	}
+
+    public String getPromotionName() {
+        return promotionName;
+    }
+
+    public void setPromotionName(String promotionName) {
+        this.promotionName = promotionName;
+    }
 
     public Long getPromotionEntityId() {
         return promotionEntityId;
@@ -145,20 +142,20 @@ public class PromotionEntity implements Serializable {
         this.discountedPrice = discountedPrice;
     }
 
-    public List<PartChoiceEntity> getPartChoices() {
-        return partChoices;
+    public List<PartChoiceEntity> getPartChoiceEntities() {
+        return partChoiceEntities;
     }
 
-    public void setPartChoices(List<PartChoiceEntity> partChoices) {
-        this.partChoices = partChoices;
+    public void setPartChoiceEntities(List<PartChoiceEntity> partChoiceEntities) {
+        this.partChoiceEntities = partChoiceEntities;
     }
 
-    public List<AccessoryItemEntity> getAccessories() {
-        return accessoryItems;
+    public List<AccessoryItemEntity> getAccessoryItemEntities() {
+        return accessoryItemEntities;
     }
 
-    public void setAccessories(List<AccessoryItemEntity> accessoryItems) {
-        this.accessoryItems = accessoryItems;
+    public void setAccessoryItemEntities(List<AccessoryItemEntity> accessoryItemEntities) {
+        this.accessoryItemEntities = accessoryItemEntities;
     }
 
 }

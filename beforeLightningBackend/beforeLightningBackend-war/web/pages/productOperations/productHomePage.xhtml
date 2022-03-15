@@ -10,49 +10,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <style type="text/css">
-            .value {
-                font-weight: bold;
-            }
-
-            .ui-carousel {
-                margin-bottom: 20px;
-            }
-        </style>
-        <ez:Breadcrumb pageName="Product" />
-        <h:form>
-
-            <p:menubar>
-
-                <p:submenu label="File" icon="ui-icon-document">
-                    <p:menuitem value="Create New Product Type" onclick="PF('dialogCreateNewProduct').show()" icon="pi pi-plus" />
-                </p:submenu>                                        
-
-            </p:menubar>
-            <br/>
-
-        </h:form>
-        <h:form id="productTypeForm">
-            <p:carousel id = "listOfProductType" value="#{productTypeManagementManagedBean.listOfProductTypeEntities}" headerText="Product type" var="productType" itemStyle="text-align:left" responsive="true">
-                <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
-
-                    <h:outputText value="Id:" />
-                    <h:outputText value="#{productType.productTypeEntityId}" />
-
-                    <h:outputText value="Name: " />
-                    <h:outputText value="#{productType.productTypeName}" />
-
-
-                </p:panelGrid>
-
-                <f:facet name="footer">
-                    In total there are #{fn:length(productTypeManagementManagedBean.listOfProductTypeEntities)} product type.
-                </f:facet>
-            </p:carousel>
-        </h:form>
-        <ez:CreateProductType id="ccCreateProductType" />
-
-
 
 
     </ui:define>

@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -60,18 +59,20 @@ public class PartChoiceEntity implements Serializable {
     @Column(nullable = true, length = 256)
     @Size(max = 256)
     private String imageLink;
+    
+    
     @ManyToMany
-    private List<PartChoiceEntity> leftSuitablePartChoices;
+    private List<PartChoiceEntity> compatibleChassisPartChoiceEntities;
 
     @ManyToMany
-    private List<PartChoiceEntity> rightSuitablePartChoices;
+    private List<PartChoiceEntity> compatiblePartsPartChoiceEntities;
 
     @ManyToMany
     private List<PromotionEntity> promotions;
 
     public PartChoiceEntity() {
-        this.rightSuitablePartChoices = new ArrayList<>();
-        this.leftSuitablePartChoices = new ArrayList<>();
+        this.compatibleChassisPartChoiceEntities = new ArrayList<>();
+        this.compatiblePartsPartChoiceEntities = new ArrayList<>();
         this.promotions = new ArrayList<>();
         this.imageLink = "";
 
@@ -189,22 +190,6 @@ public class PartChoiceEntity implements Serializable {
         this.partDescription = partDescription;
     }
 
-    public List<PartChoiceEntity> getLeftSuitablePartChoices() {
-        return leftSuitablePartChoices;
-    }
-
-    public void setLeftSuitablePartChoices(List<PartChoiceEntity> leftSuitablePartChoices) {
-        this.leftSuitablePartChoices = leftSuitablePartChoices;
-    }
-
-    public List<PartChoiceEntity> getRightSuitablePartChoices() {
-        return rightSuitablePartChoices;
-    }
-
-    public void setRightSuitablePartChoices(List<PartChoiceEntity> rightSuitablePartChoices) {
-        this.rightSuitablePartChoices = rightSuitablePartChoices;
-    }
-
     public List<PromotionEntity> getPromotions() {
         return promotions;
     }
@@ -219,6 +204,22 @@ public class PartChoiceEntity implements Serializable {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public List<PartChoiceEntity> getCompatibleChassisPartChoiceEntities() {
+        return compatibleChassisPartChoiceEntities;
+    }
+
+    public void setCompatibleChassisPartChoiceEntities(List<PartChoiceEntity> compatibleChassisPartChoiceEntities) {
+        this.compatibleChassisPartChoiceEntities = compatibleChassisPartChoiceEntities;
+    }
+
+    public List<PartChoiceEntity> getCompatiblePartsPartChoiceEntities() {
+        return compatiblePartsPartChoiceEntities;
+    }
+
+    public void setCompatiblePartsPartChoiceEntities(List<PartChoiceEntity> compatiblePartsPartChoiceEntities) {
+        this.compatiblePartsPartChoiceEntities = compatiblePartsPartChoiceEntities;
     }
 
 }
