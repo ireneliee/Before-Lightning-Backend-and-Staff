@@ -53,12 +53,16 @@ public class ProductEntity implements Serializable {
     @Column(nullable = true, length = 256)
     @Size(max = 256)
     private String imageLink;
+    @NotNull
+    private Boolean isDisabled;
 
     @ManyToMany(mappedBy = "productEntities")
     private List<PartEntity> partEntities;
 
     public ProductEntity() {
         this.partEntities = new ArrayList<>();
+        this.isDisabled = false;
+        this.imageLink = "";
     }
 
     public ProductEntity(String productName, String skuCode, Double productRating, String description, String productOverview) {
@@ -69,7 +73,6 @@ public class ProductEntity implements Serializable {
         this.description = description;
         this.productOverview = productOverview;
     }
-    
 
     public Long getProductEntityId() {
         return productEntityId;
@@ -194,6 +197,14 @@ public class ProductEntity implements Serializable {
 
     public void setPartEntities(List<PartEntity> partEntities) {
         this.partEntities = partEntities;
+    }
+
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
 
 }

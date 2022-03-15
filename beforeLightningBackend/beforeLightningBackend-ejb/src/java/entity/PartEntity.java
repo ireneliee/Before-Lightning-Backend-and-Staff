@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +35,8 @@ public class PartEntity implements Serializable {
     @Column(nullable = false)
     @NotNull
     private String description;
+    @NotNull
+    private Boolean isDisabled;
 
     @ManyToMany
     private List<ProductEntity> productEntities;
@@ -41,7 +44,17 @@ public class PartEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     private List<PartChoiceEntity> partChoiceEntities;
 
+    public PartEntity() {
+        this.productEntities = new ArrayList<>();
+        this.partChoiceEntities = new ArrayList<>();
+        this.isDisabled = false;
+    }
 
+    public PartEntity(String partName, String description) {
+        this();
+        this.partName = partName;
+        this.description = description;
+    }
 
     @Override
     public int hashCode() {
@@ -136,6 +149,14 @@ public class PartEntity implements Serializable {
      */
     public void setPartChoiceEntities(List<PartChoiceEntity> partChoiceEntities) {
         this.partChoiceEntities = partChoiceEntities;
+    }
+
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
 
 }

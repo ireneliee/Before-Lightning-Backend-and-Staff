@@ -46,6 +46,8 @@ public class AccessoryItemEntity implements Serializable {
     @Column(nullable = true, length = 256)
     @Size(max = 256)
     private String imageLink;
+    @NotNull
+    private Boolean isDisabled;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
@@ -56,6 +58,7 @@ public class AccessoryItemEntity implements Serializable {
     public AccessoryItemEntity() {
         this.promotionEntities = new ArrayList<>();
         this.imageLink = "";
+        this.isDisabled = false;
     }
 
     public AccessoryItemEntity(String accessoryItemName, Integer quantityOnHand, BigDecimal price) {
@@ -144,6 +147,14 @@ public class AccessoryItemEntity implements Serializable {
 
     public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
         this.promotionEntities = promotionEntities;
+    }
+
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
 
 }

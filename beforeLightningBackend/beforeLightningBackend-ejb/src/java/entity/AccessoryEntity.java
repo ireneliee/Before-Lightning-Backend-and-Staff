@@ -36,6 +36,8 @@ public class AccessoryEntity implements Serializable {
     private String accessoryName;
     @NotNull
     private String description;
+    @NotNull
+    private Boolean isDisabled;
 
     @JoinColumn(nullable = true)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accessoryEntity")
@@ -44,6 +46,7 @@ public class AccessoryEntity implements Serializable {
     public AccessoryEntity() {
         this.accessoryItemEntities = new ArrayList<>();
         this.description = "";
+        this.isDisabled = false;
     }
 
     public AccessoryEntity(String accessoryName) {
@@ -106,6 +109,14 @@ public class AccessoryEntity implements Serializable {
 
     public void setAccessoryItemEntities(List<AccessoryItemEntity> accessoryItemEntities) {
         this.accessoryItemEntities = accessoryItemEntities;
+    }
+
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
 
 }

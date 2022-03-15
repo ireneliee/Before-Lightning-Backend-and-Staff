@@ -59,8 +59,9 @@ public class PartChoiceEntity implements Serializable {
     @Column(nullable = true, length = 256)
     @Size(max = 256)
     private String imageLink;
-    
-    
+    @NotNull
+    private Boolean isDisabled;
+
     @ManyToMany
     private List<PartChoiceEntity> compatibleChassisPartChoiceEntities;
 
@@ -68,14 +69,14 @@ public class PartChoiceEntity implements Serializable {
     private List<PartChoiceEntity> compatiblePartsPartChoiceEntities;
 
     @ManyToMany
-    private List<PromotionEntity> promotions;
+    private List<PromotionEntity> promotionEntities;
 
     public PartChoiceEntity() {
         this.compatibleChassisPartChoiceEntities = new ArrayList<>();
         this.compatiblePartsPartChoiceEntities = new ArrayList<>();
-        this.promotions = new ArrayList<>();
+        this.promotionEntities = new ArrayList<>();
         this.imageLink = "";
-
+        this.isDisabled = false;
     }
 
     public PartChoiceEntity(String specification, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partOverview, String partDescription) {
@@ -87,18 +88,6 @@ public class PartChoiceEntity implements Serializable {
         this.price = price;
         this.partOverview = partOverview;
         this.partDescription = partDescription;
-        this.imageLink = "";
-    }
-
-    public PartChoiceEntity(String specification, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partDescription) {
-        this();
-        this.specification = specification;
-        this.quantityOnHand = quantityOnHand;
-        this.reorderQuantity = reorderQuantity;
-        this.brand = brand;
-        this.price = price;
-        this.partDescription = partDescription;
-        this.imageLink = "";
     }
 
     public Long getPartChoiceId() {
@@ -190,14 +179,6 @@ public class PartChoiceEntity implements Serializable {
         this.partDescription = partDescription;
     }
 
-    public List<PromotionEntity> getPromotions() {
-        return promotions;
-    }
-
-    public void setPromotions(List<PromotionEntity> promotions) {
-        this.promotions = promotions;
-    }
-
     public String getImageLink() {
         return imageLink;
     }
@@ -220,6 +201,22 @@ public class PartChoiceEntity implements Serializable {
 
     public void setCompatiblePartsPartChoiceEntities(List<PartChoiceEntity> compatiblePartsPartChoiceEntities) {
         this.compatiblePartsPartChoiceEntities = compatiblePartsPartChoiceEntities;
+    }
+
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
+
+    public List<PromotionEntity> getPromotionEntities() {
+        return promotionEntities;
+    }
+
+    public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
+        this.promotionEntities = promotionEntities;
     }
 
 }
