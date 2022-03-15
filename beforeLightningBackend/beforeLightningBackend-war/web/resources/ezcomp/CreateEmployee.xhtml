@@ -13,11 +13,15 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
 
+
         <h:form id="formCreateEmployee">
             <p:dialog id="dialogCreateEmployee" widgetVar="dialogCreateEmployee" header="Create New Employee" closable="true">
 
                 <p:wizard>
+                    <p:focus /> 
                     <p:tab id="tabPersonalDetails" title="Personal Details"> 
+
+
                         <p:panel header="Please Enter Details">
                             <p:panelGrid>
 
@@ -141,7 +145,9 @@
                                     <p:outputLabel value="#{createEmployeeManagedBean.newEmployeeAccessRight}" style="font-weight: bold;" styleClass="outputLabel" />
                                 </p:panelGrid>
                             </p:panelGrid>
-                            <p:commandButton  value="Create New Employee" update="formCreateEmployee :formAllEmployees :growl" actionListener="#{createEmployeeManagedBean.createNewEmployee}" oncomplete="PF('dialogCreateNewEmployee').hide();" />
+                            <p:commandButton  value="Create New Employee" update = "formCreateEmployee :formAllEmployees :growl" actionListener="#{createEmployeeManagedBean.createNewEmployee}" oncomplete="PF('dialogCreateEmployee').hide();">
+
+                            </p:commandButton> 
                         </p:panel>
                     </p:tab>
                 </p:wizard>
@@ -149,5 +155,6 @@
             </p:dialog>
 
         </h:form>
+
     </cc:implementation>
 </html>

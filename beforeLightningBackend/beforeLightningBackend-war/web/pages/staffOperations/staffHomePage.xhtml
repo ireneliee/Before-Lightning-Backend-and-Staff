@@ -9,58 +9,57 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="content">
-        <ez:Breadcrumb pageName="Staff" />
-        <h:form id="formAllEmployees">
-            <p:commandButton value="Create New Employee"  icon="pi pi-plus" update="ccCreateEmployee:formCreateEmployee" oncomplete="PF('dialogCreateEmployee').show()" title="Create New Employee">
-            </p:commandButton>
+    <ui:define name="content" >
+        <section id = "staff-content">
+            <ez:Breadcrumb pageName="Staff" />
+            <h:form id="formAllEmployees">
+                <p:commandButton value="Create New Employee"  icon="pi pi-plus"  oncomplete="PF('dialogCreateEmployee').show()" title="Create New Employee">
+                </p:commandButton>
 
-            <p:dataTable id="dataTableAllEmployees" widgetVar="dataTableAllEmployees" value="#{employeeManagementManagedBean.listOfEmployeeEntities}" var="employeeEntity" rowKey="#{employeeEntity.employeeId}" rowIndexVar="row"
-                         filteredValue="#{employeeManagementManagedBean.filteredListOfEmployeeEntities}"
-                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                <p:dataTable id="dataTableAllEmployees" widgetVar="dataTableAllEmployees" value="#{employeeManagementManagedBean.listOfEmployeeEntities}" var="employeeEntity" rowKey="#{employeeEntity.employeeId}" rowIndexVar="row"
+                             filteredValue="#{employeeManagementManagedBean.filteredListOfEmployeeEntities}"
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
-                <f:facet name="header">
-                    <p:outputPanel style="text-align: right;">
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllEmployees').filter()" style="width:300px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-                </f:facet>
+                    <f:facet name="header">
+                        <p:outputPanel style="text-align: right;">
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableAllEmployees').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
 
-                <p:column headerText="Employee ID" sortBy="#{employeeEntity.userEntityId}" filterBy="#{employeeEntity.userEntityId}" filterMatchMode="contains">
-                    <h:outputText value="#{employeeEntity.userEntityId}" />
-                </p:column>
-                <p:column headerText="First Name" sortBy="#{employeeEntity.firstname}" filterBy="#{employeeEntity.firstname}" filterMatchMode="contains">
-                    <h:outputText value="#{employeeEntity.firstname}" />
-                </p:column>
-                <p:column headerText="Last Name" sortBy="#{employeeEntity.lastname}" filterBy="#{employeeEntity.lastname}" filterMatchMode="contains">
-                    <h:outputText value="#{employeeEntity.lastname}" />
-                </p:column>
-                <p:column headerText="Employee Access Right" sortBy="#{employeeEntity.employeeAccessRight}" filterBy="#{employeeEntity.employeeAccessRight}" filterMatchMode="contains">
-                    <h:outputText value="#{employeeEntity.employeeAccessRight}" />
-                </p:column>
+                    <p:column headerText="Employee ID" sortBy="#{employeeEntity.userEntityId}" filterBy="#{employeeEntity.userEntityId}" filterMatchMode="contains">
+                        <h:outputText value="#{employeeEntity.userEntityId}" />
+                    </p:column>
+                    <p:column headerText="First Name" sortBy="#{employeeEntity.firstname}" filterBy="#{employeeEntity.firstname}" filterMatchMode="contains">
+                        <h:outputText value="#{employeeEntity.firstname}" />
+                    </p:column>
+                    <p:column headerText="Last Name" sortBy="#{employeeEntity.lastname}" filterBy="#{employeeEntity.lastname}" filterMatchMode="contains">
+                        <h:outputText value="#{employeeEntity.lastname}" />
+                    </p:column>
+                    <p:column headerText="Employee Access Right" sortBy="#{employeeEntity.employeeAccessRight}" filterBy="#{employeeEntity.employeeAccessRight}" filterMatchMode="contains">
+                        <h:outputText value="#{employeeEntity.employeeAccessRight}" />
+                    </p:column>
 
-                <p:column headerText="Action" >
-                    <p:commandButton update="ccViewEmployee:formViewEmployee" oncomplete="PF('dialogViewEmployee').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.viewEmployeeManagedBean.employeeEntityToView}" />
-                    </p:commandButton>
-                    <p:commandButton update="ccUpdateEmployee:formUpdateEmployee" oncomplete="PF('dialogUpdateEmployee').show()" icon="ui-icon-refresh" title="Update" rendered="#{employeeEntity.userEntityId ne employeeManagementManagedBean.selfEmployee.userEntityId}">
-                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
-                    </p:commandButton>
-                    <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-minus" title="Delete" rendered="#{employeeEntity.userEntityId ne employeeManagementManagedBean.selfEmployee.userEntityId}">
-                        <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.deleteEmployeeManagedBean.employeeEntityToDelete}" />
-                    </p:commandButton>
-                </p:column>
+                    <p:column headerText="Action" >
+                        <p:commandButton update="ccViewEmployee:formViewEmployee" oncomplete="PF('dialogViewEmployee').show()" icon="ui-icon-document" title="View">
+                            <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.viewEmployeeManagedBean.employeeEntityToView}" />
+                        </p:commandButton>
+                        <p:commandButton update="ccUpdateEmployee:formUpdateEmployee" oncomplete="PF('dialogUpdateEmployee').show()" icon="ui-icon-refresh" title="Update" rendered="#{employeeEntity.userEntityId ne employeeManagementManagedBean.selfEmployee.userEntityId}">
+                            <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
+                        </p:commandButton>
+                        <p:commandButton update="ccDeleteEmployee:formDeleteEmployee" oncomplete="PF('dialogDeleteEmployee').show()" icon="ui-icon-minus" title="Delete" rendered="#{employeeEntity.userEntityId ne employeeManagementManagedBean.selfEmployee.userEntityId}">
+                            <f:setPropertyActionListener value="#{employeeEntity}" target="#{employeeManagementManagedBean.deleteEmployeeManagedBean.employeeEntityToDelete}" />
+                        </p:commandButton>
+                    </p:column>
 
-            </p:dataTable>
+                </p:dataTable>
 
-        </h:form>
-        <ez:CreateEmployee id="ccCreateEmployee" />
-        <ez:ViewEmployee id="ccViewEmployee" />
-        <ez:UpdateEmployee id="ccUpdateEmployee" />
-        <ez:DeleteEmployee id="ccDeleteEmployee" />
-
-
-
+            </h:form>
+            <ez:CreateEmployee id="ccCreateEmployee" />
+            <ez:ViewEmployee id="ccViewEmployee" />
+            <ez:UpdateEmployee id="ccUpdateEmployee" />
+            <ez:DeleteEmployee id="ccDeleteEmployee" />
+        </section>
     </ui:define>
 
 </ui:composition>

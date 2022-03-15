@@ -7,6 +7,7 @@ package jsf.managedbean;
 
 import ejb.session.stateless.EmployeeEntitySessionBeanLocal;
 import entity.EmployeeEntity;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
@@ -16,6 +17,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import org.jboss.weld.context.RequestContext;
+import org.primefaces.component.wizard.Wizard;
 import util.enumeration.EmployeeAccessRightEnum;
 import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.InputDataValidationException;
@@ -46,7 +49,7 @@ public class CreateEmployeeManagedBean implements Serializable {
 
     }
 
-    public void createNewEmployee(ActionEvent event) {
+    public void createNewEmployee(ActionEvent event) throws IOException {
         if (newEmployeeAccessRight.equals("ADMIN")) {
             newEmployeeEntity.setEmployeeAccessRight(EmployeeAccessRightEnum.ADMIN);
         } else if (newEmployeeAccessRight.equals("SALES")) {
@@ -63,11 +66,18 @@ public class CreateEmployeeManagedBean implements Serializable {
         try {
             Long employeeId = employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployeeEntity);
             if (employeeId != null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee successfully created", null));
+
                 newEmployeeEntity = new EmployeeEntity();
                 newEmployeeAccessRight = "";
                 newPassword = "";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee is successfully created", null));
+
+//ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+                //ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+                //PrimeFaces current = PrimeFaces.current();
+                //current.executeScript("PF('dialogSuccessEmployeeCreation').show();");
             }
+
             employeeManagementManagedBean.setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
         } catch (EmployeeEntityUsernameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is currently in use!", null));
@@ -76,6 +86,7 @@ public class CreateEmployeeManagedBean implements Serializable {
         } catch (UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Create New Employee now", null));
         }
+
 
     }
 
@@ -115,6 +126,14 @@ public class CreateEmployeeManagedBean implements Serializable {
 
     public void setNewEmployeeAccessRight(String newEmployeeAccessRight) {
         this.newEmployeeAccessRight = newEmployeeAccessRight;
+    }
+
+    public EmployeeEntitySessionBeanLocal getEmployeeEntitySessionBeanLocal() {
+        return employeeEntitySessionBeanLocal;
+    }
+
+    public void setEmployeeEntitySessionBeanLocal(EmployeeEntitySessionBeanLocal employeeEntitySessionBeanLocal) {
+        this.employeeEntitySessionBeanLocal = employeeEntitySessionBeanLocal;
     }
 
 }

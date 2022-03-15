@@ -133,11 +133,13 @@ public class DataInitialisationSessionBean {
         } catch (CreateNewPartEntityException | UnknownPersistenceException | InputDataValidationException ex) {
             System.out.println("An error has occured while creating new part: " + ex.getMessage());
         }
+        /*
 
         ProductEntity p1 = new ProductEntity("Laptop", "Forge 15S", "PROD001", "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.", new BigDecimal(1385), 5);;
         ProductEntity p2 = new ProductEntity("Laptop", "Vapor 17X", "PROD002", "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series\n", new BigDecimal(2425), 5);
 
         ProductEntity p3 = new ProductEntity("Laptop", "Apex 15S", "PROD003", "High performance notebook", "Introducing the APEX 15S, a high performance ultra portable 15.6 inch laptop.", new BigDecimal(1755), 5);
+
 
         try {
             productEntitySessionBeanLocal.createNewProduct(p1);
@@ -220,6 +222,7 @@ public class DataInitialisationSessionBean {
         } catch (AccessoryNameExistsException | UnknownPersistenceException | InputDataValidationException ex) {
             System.out.println("An error has occured while creating the new accessory: " + ex.getMessage());
         }
+*/
 
         try {
             employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee1);
