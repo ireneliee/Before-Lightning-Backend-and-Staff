@@ -61,7 +61,14 @@ public class CreateEmployeeManagedBean implements Serializable {
         newEmployeeEntity.setPassword(newPassword);
 
         try {
-            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployeeEntity);
+            Long employeeId = employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployeeEntity);
+            if (employeeId != null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee successfully created", null));
+                newEmployeeEntity = new EmployeeEntity();
+                newEmployeeAccessRight = "";
+                newPassword = "";
+            }
+            employeeManagementManagedBean.setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
         } catch (EmployeeEntityUsernameExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is currently in use!", null));
         } catch (InputDataValidationException ex) {
@@ -69,12 +76,7 @@ public class CreateEmployeeManagedBean implements Serializable {
         } catch (UnknownPersistenceException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Create New Employee now", null));
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee successfully created", null));
-        newEmployeeEntity = new EmployeeEntity();
-        newEmployeeAccessRight = "";
-        newPassword = "";
-        
-        employeeManagementManagedBean.setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
+
     }
 
     /**
