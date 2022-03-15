@@ -31,6 +31,10 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
     @JoinColumn(nullable = false)
     @OneToMany(mappedBy = "accessory")
     private List<AccessoryItemEntity> accessoryItem;
+    
+    @Column(length = 5000)
+    @Size(max = 5000)
+    private String description;
 
  
 
@@ -86,6 +90,14 @@ public class AccessoryEntity extends ProductTypeEntity implements Serializable {
 
     public void setAccessoryItem(List<AccessoryItemEntity> accessoryItem) {
         this.accessoryItem = accessoryItem;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
