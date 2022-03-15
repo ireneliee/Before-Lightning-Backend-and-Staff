@@ -29,12 +29,10 @@ public class PartEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long partId;
-    
     @Column(nullable = false, length = 64)
     @NotNull
     @Size(max = 64)
     private String partName;
-    
     @Column(nullable = false)
     @NotNull
     private String description;

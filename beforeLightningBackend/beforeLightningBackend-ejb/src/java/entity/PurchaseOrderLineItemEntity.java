@@ -36,10 +36,10 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long purchaseOrderLineItemEntityId;
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    private String lineItemName;
+    @Min(1)
+    private Integer serialNumber;
     @NotNull
     @Column(nullable = false)
     @Min(1)
@@ -63,9 +63,9 @@ public class PurchaseOrderLineItemEntity implements Serializable {
         this.supportTicketEntities = new ArrayList<SupportTicketEntity>();
     }
 
-    public PurchaseOrderLineItemEntity(String lineItemName, Integer quantity, BigDecimal subTotalPrice, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, BigDecimal subTotalPrice, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus) {
         this();
-        this.lineItemName = lineItemName;
+        this.serialNumber = serialNumber;
         this.quantity = quantity;
         this.subTotalPrice = subTotalPrice;
         this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
@@ -77,20 +77,6 @@ public class PurchaseOrderLineItemEntity implements Serializable {
 
     public void setPurchaseOrderLineItemEntityId(Long purchaseOrderLineItemEntityId) {
         this.purchaseOrderLineItemEntityId = purchaseOrderLineItemEntityId;
-    }
-
-    /**
-     * @return the lineItemName
-     */
-    public String getLineItemName() {
-        return lineItemName;
-    }
-
-    /**
-     * @param lineItemName the lineItemName to set
-     */
-    public void setLineItemName(String lineItemName) {
-        this.lineItemName = lineItemName;
     }
 
     /**
@@ -186,6 +172,14 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     @Override
     public String toString() {
         return "entity.PurchaseOrderLineItemEntity[ id=" + purchaseOrderLineItemEntityId + " ]";
+    }
+
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(Integer serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
 }

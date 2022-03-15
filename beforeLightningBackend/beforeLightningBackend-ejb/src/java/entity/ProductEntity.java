@@ -6,55 +6,45 @@
 package entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-
 @Entity
 public class ProductEntity extends ProductTypeEntity implements Serializable {
-    @Column(nullable = false, length =128)
+
+    @Column(nullable = false, length = 128)
     @NotNull
     @Size(max = 128)
     private String productName;
-    
     @Column(nullable = false, unique = true, length = 7)
     @NotNull
     @Size(min = 7, max = 7)
     private String skuCode;
-    
     @Column(nullable = false)
     @NotNull
     private String description;
-    
-
-    private String productOverview;
-    
-    @Column(nullable = false, precision = 11, scale = 2)
+    @Column(nullable = false)
     @NotNull
-    @DecimalMin("0.00")
-    @Digits(integer = 9, fraction = 2) 
-    private BigDecimal basePrice;
-    
+    private String productOverview;
     @Column(nullable = false)
     @NotNull
     @Positive
     @Min(1)
     @Max(5)
     private Integer productRating;
-    
+    @Column(nullable = true, length = 256)
+    @Size(max = 256)
+    private String imageLink;
+
     @ManyToMany(mappedBy = "products")
     private List<PartEntity> parts;
 
@@ -64,19 +54,19 @@ public class ProductEntity extends ProductTypeEntity implements Serializable {
     }
 
     public ProductEntity() {
+        this.parts = new ArrayList<>();
+        this.imageLink = "";
     }
 
-    public ProductEntity(String superclassName, String productName, String skuCode, String description, String productOverview, BigDecimal basePrice, Integer productRating) {
+    public ProductEntity(String superclassName, String productName, String skuCode, String description, String productOverview, Integer productRating) {
         this(superclassName);
         this.productName = productName;
         this.skuCode = skuCode;
         this.description = description;
         this.productOverview = productOverview;
-        this.basePrice = basePrice;
         this.productRating = productRating;
+        this.imageLink = "";
     }
-    
-    
 
     public String getProductName() {
         return productName;
@@ -110,14 +100,6 @@ public class ProductEntity extends ProductTypeEntity implements Serializable {
         this.productOverview = productOverview;
     }
 
-    public BigDecimal getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(BigDecimal basePrice) {
-        this.basePrice = basePrice;
-    }
-
     public Integer getProductRating() {
         return productRating;
     }
@@ -133,9 +115,13 @@ public class ProductEntity extends ProductTypeEntity implements Serializable {
     public void setParts(List<PartEntity> parts) {
         this.parts = parts;
     }
-    
-    
 
-    
-    
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
 }

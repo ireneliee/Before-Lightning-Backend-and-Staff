@@ -22,7 +22,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
 public class PartChoiceEntity implements Serializable {
 
@@ -30,57 +29,53 @@ public class PartChoiceEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long partChoiceId;
-    
     @Column(nullable = false, length = 128)
     @NotNull
     @Size(max = 128)
     private String specification;
-    
     @Column(nullable = false)
     @NotNull
     @Min(0)
     private Integer quantityOnHand;
-    
     @Column(nullable = false)
     @NotNull
     @Min(0)
     private Integer reorderQuantity;
-    
     @Column(nullable = false, length = 128)
     @NotNull
     @Size(max = 128)
     private String brand;
-    
     @Column(nullable = false, precision = 11, scale = 2)
     @NotNull
     @DecimalMin("0.00")
-    @Digits(integer = 9, fraction = 2) 
+    @Digits(integer = 9, fraction = 2)
     private BigDecimal price;
-    
     @Column(length = 1000)
     @Size(max = 1000)
     private String partOverview;
-    
     @Column(nullable = false, length = 128)
     @NotNull
     @Size(max = 128)
     private String partDescription;
-    
+    @Column(nullable = true, length = 256)
+    @Size(max = 256)
+    private String imageLink;
     @ManyToMany
     private List<PartChoiceEntity> leftSuitablePartChoices;
-    
+
     @ManyToMany
     private List<PartChoiceEntity> rightSuitablePartChoices;
-    
+
     @ManyToMany
     private List<PromotionEntity> promotions;
-    
+
     public PartChoiceEntity() {
         this.rightSuitablePartChoices = new ArrayList<>();
         this.leftSuitablePartChoices = new ArrayList<>();
         this.promotions = new ArrayList<>();
-    }
+        this.imageLink = "";
 
+    }
 
     public PartChoiceEntity(String specification, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partOverview, String partDescription) {
         this();
@@ -91,11 +86,9 @@ public class PartChoiceEntity implements Serializable {
         this.price = price;
         this.partOverview = partOverview;
         this.partDescription = partDescription;
-        
-
+        this.imageLink = "";
     }
 
-    
     public PartChoiceEntity(String specification, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partDescription) {
         this();
         this.specification = specification;
@@ -104,11 +97,8 @@ public class PartChoiceEntity implements Serializable {
         this.brand = brand;
         this.price = price;
         this.partDescription = partDescription;
+        this.imageLink = "";
     }
-    
-    
-    
-    
 
     public Long getPartChoiceId() {
         return partChoiceId;
@@ -222,5 +212,13 @@ public class PartChoiceEntity implements Serializable {
     public void setPromotions(List<PromotionEntity> promotions) {
         this.promotions = promotions;
     }
-    
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
+
 }
