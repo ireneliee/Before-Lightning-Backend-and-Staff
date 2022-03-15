@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.AccessoryItemEntity;
+import entity.AccessoryItemEntity;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -20,10 +21,12 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.AccessoryItemEntityNotFoundException;
+import util.exception.AccessoryItemEntityNotFoundException;
 import util.exception.AccessoryItemNameExists;
 import util.exception.InputDataValidationException;
 import util.exception.QuantityOnHandNotZeroException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateAccessoryItemEntityException;
 import util.exception.UpdateAccessoryItemEntityException;
 
 /**
@@ -55,7 +58,7 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
             try {
                 em.persist(newAccessoryItem);
                 em.flush();
-                return newAccessoryItem.getAccessoryItemId();
+                return newAccessoryItem.getAccessoryItemEntityId();
             } catch (PersistenceException ex) {
                 if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
                     if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
@@ -104,11 +107,11 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
 
     public void updateAccessoryItem(AccessoryItemEntity newAccessoryItem) throws UpdateAccessoryItemEntityException, InputDataValidationException, AccessoryItemEntityNotFoundException {
 
-        if (newAccessoryItem != null && newAccessoryItem.getAccessoryItemId() != null) {
+        if (newAccessoryItem != null && newAccessoryItem.getAccessoryItemEntityId()!= null) {
             Set<ConstraintViolation<AccessoryItemEntity>> constraintViolations = validator.validate(newAccessoryItem);
 
             if (constraintViolations.isEmpty()) {
-                AccessoryItemEntity accessoryItemToUpdate = retrieveAccessoryItemById(newAccessoryItem.getAccessoryItemId());
+                AccessoryItemEntity accessoryItemToUpdate = retrieveAccessoryItemById(newAccessoryItem.getAccessoryItemEntityId());
                 accessoryItemToUpdate.setAccessoryItemName(newAccessoryItem.getAccessoryItemName());
                 accessoryItemToUpdate.setQuantityOnHand(newAccessoryItem.getQuantityOnHand());
                 accessoryItemToUpdate.setPrice(newAccessoryItem.getPrice());
@@ -118,7 +121,7 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
         } else {
-            throw new AccessoryItemEntityNotFoundException("AccessoryItem ID not provided for accessoryEntity to be updated");
+            throw new AccessoryItemEntityNotFoundException("AccessoryItem ID not provided for accessoryItemEntity to be updated");
         }
 
     }
@@ -133,6 +136,28 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
             em.remove(accessoryItemToDelete);
         }
 
+    }
+    
+    @Override
+    public void toggleDisableAccessoryItemEntity(AccessoryItemEntity accessoryItemEntity) throws AccessoryItemEntityNotFoundException, UpdateAccessoryItemEntityException, InputDataValidationException {
+        if (accessoryItemEntity != null && accessoryItemEntity.getAccessoryItemEntityId() != null) {
+            Set<ConstraintViolation<AccessoryItemEntity>> constraintViolations = validator.validate(accessoryItemEntity);
+
+            if (constraintViolations.isEmpty()) {
+                AccessoryItemEntity accessoryItemEntityToUpdate =retrieveAccessoryItemById(accessoryItemEntity.getAccessoryItemEntityId());
+
+                if (accessoryItemEntityToUpdate.getAccessoryItemEntityId().equals(accessoryItemEntity.getAccessoryItemEntityId())) {
+                    accessoryItemEntityToUpdate.setIsDisabled(accessoryItemEntity.getIsDisabled());
+                    
+                } else {
+                    throw new UpdateAccessoryItemEntityException();
+                }
+            } else {
+                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+            }
+        } else {
+            throw new AccessoryItemEntityNotFoundException("AccessoryItemEntity ID not provided for accessoryItemEntity to be updated");
+        }
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<AccessoryItemEntity>> constraintViolations) {

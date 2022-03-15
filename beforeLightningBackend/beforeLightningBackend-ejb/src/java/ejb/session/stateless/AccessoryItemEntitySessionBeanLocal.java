@@ -25,5 +25,7 @@ public interface AccessoryItemEntitySessionBeanLocal {
 	public List<AccessoryItemEntity> retrieveAllAccessoryItemEntities();
 	public AccessoryItemEntity retrieveAccessoryItemById(Long id) throws AccessoryItemEntityNotFoundException;
 	public void updateAccessoryItem(AccessoryItemEntity newAccessoryItem) throws UpdateAccessoryItemEntityException, InputDataValidationException, AccessoryItemEntityNotFoundException;
+
+    public void toggleDisableAccessoryItemEntity(AccessoryItemEntity accessoryItemEntity) throws AccessoryItemEntityNotFoundException, UpdateAccessoryItemEntityException, InputDataValidationException;
 	
 }
