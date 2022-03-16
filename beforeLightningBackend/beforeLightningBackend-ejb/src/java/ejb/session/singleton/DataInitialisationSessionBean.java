@@ -80,6 +80,26 @@ public class DataInitialisationSessionBean {
     }
 
     private void initializeData() {
+//        
+//        Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand,
+//            BigDecimal price, String partOverview, String partDescription) throws CreateNewProductEntityException, InputDataValidationException,
+//            UnknownPersistenceException, ProductSkuCodeExistException {
+
+        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", 5.0, "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.");
+        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", 5.0, "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series");
+        try {
+            productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500), "Overview", "Description");
+            productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "Aftershock", new BigDecimal(600), "Overview", "Description");
+
+        } catch (CreateNewProductEntityException ex) {
+            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InputDataValidationException ex) {
+            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownPersistenceException ex) {
+            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProductSkuCodeExistException ex) {
+            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 //        // product related
 //        PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
@@ -129,7 +149,6 @@ public class DataInitialisationSessionBean {
 //        } catch (CreateNewPartEntityException | UnknownPersistenceException | InputDataValidationException ex) {
 //            System.out.println("An error has occured while creating new part: " + ex.getMessage());
 //        }
-
 //        ProductEntity p1 = new ProductEntity("Laptop", "Forge 15S", "PROD001", "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.", new BigDecimal(1385), 5);;
 //        ProductEntity p2 = new ProductEntity("Laptop", "Vapor 17X", "PROD002", "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series\n", new BigDecimal(2425), 5);
 //

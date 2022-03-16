@@ -9,9 +9,13 @@ import entity.PartChoiceEntity;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewPartChoiceEntityException;
+import util.exception.DeletePartChoiceEntityException;
 import util.exception.InputDataValidationException;
+import util.exception.PartChoiceEntityExistException;
 import util.exception.PartChoiceEntityNotFoundException;
 import util.exception.PartEntityNotFoundException;
+import util.exception.UnableToAddPartChoiceToPartChoiceException;
+import util.exception.UnableToRemovePartChoiceFromPartChoiceException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdatePartChoiceEntityException;
 
@@ -22,14 +26,22 @@ import util.exception.UpdatePartChoiceEntityException;
 @Local
 public interface PartChoiceEntitySessionBeanLocal {
 
-    public PartChoiceEntity createPartChoiceEntity(List<Long> relatedPartChoiceEntityIds, Long partEntityId, PartChoiceEntity newPartChoice) throws UnknownPersistenceException, InputDataValidationException, CreateNewPartChoiceEntityException, PartEntityNotFoundException;
+    public List<PartChoiceEntity> retrieveAllPartChoiceEntities();
 
-    public void updatePartChoiceEntity(List<Long> newRelatedPartChoiceEntityIds, PartChoiceEntity updatedPartChoiceEntity) throws PartChoiceEntityNotFoundException, UpdatePartChoiceEntityException;
+    public PartChoiceEntity retrievePartChoiceEntityByPartChoiceEntityId(Long partChoiceId) throws PartChoiceEntityNotFoundException;
 
-    public List<PartChoiceEntity> retrieveAllPartChoices();
+    public PartChoiceEntity retrievePartChoiceEntityByPartChoiceName(String partChoiceName) throws PartChoiceEntityNotFoundException;
 
-    public PartChoiceEntity retrievePartChoiceEntityById(Long partChoiceEntityId) throws PartChoiceEntityNotFoundException;
+    public void deletePartChoiceEntity(Long partChoiceEntityId) throws PartChoiceEntityNotFoundException, DeletePartChoiceEntityException;
 
-    public void deletePartChoiceEntity(Long toBeDeletedId) throws PartChoiceEntityNotFoundException;
-    
+    public Long createNewPartChoiceEntity(PartChoiceEntity newPartChoiceEntity) throws PartChoiceEntityExistException, InputDataValidationException, UnknownPersistenceException;
+
+    public void updatePartChoiceEntity(PartChoiceEntity partChoiceEntity) throws PartChoiceEntityNotFoundException, UpdatePartChoiceEntityException, InputDataValidationException;
+
+    public void toggleDisablePartChoiceEntity(PartChoiceEntity partChoiceEntity) throws PartChoiceEntityNotFoundException, UpdatePartChoiceEntityException, InputDataValidationException;
+
+    public void addPartChoiceToChassisChoice(Long partChoiceToAddId, Long chassisToAddId) throws PartChoiceEntityNotFoundException, UnableToAddPartChoiceToPartChoiceException;
+
+    public void removePartChoiceFromChassisChoice(Long partChoiceToRemoveId, Long chassisToRemoveId) throws PartChoiceEntityNotFoundException, UnableToRemovePartChoiceFromPartChoiceException;
+
 }

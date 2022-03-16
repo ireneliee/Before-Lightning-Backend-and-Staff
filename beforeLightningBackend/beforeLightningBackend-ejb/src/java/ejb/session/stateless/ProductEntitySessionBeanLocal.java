@@ -6,11 +6,19 @@
 package ejb.session.stateless;
 
 import entity.ProductEntity;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewProductEntityException;
+import util.exception.DeleteProductEntityException;
 import util.exception.InputDataValidationException;
+import util.exception.PartEntityNotFoundException;
+import util.exception.ProductEntityNotFoundException;
+import util.exception.ProductNameNotFoundException;
 import util.exception.ProductSkuCodeExistException;
 import util.exception.ProductSkuNotFoundException;
+import util.exception.UnableToAddPartToProductException;
+import util.exception.UnableToRemovePartFromProductException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateProductEntityException;
 
@@ -21,10 +29,27 @@ import util.exception.UpdateProductEntityException;
 @Local
 public interface ProductEntitySessionBeanLocal {
 
+    public Long createNewProductEntity(ProductEntity newProductEntity) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
+
+    public List<ProductEntity> retrieveAllProductEntities();
+
     public ProductEntity retrieveProductEntityBySkuCode(String skuCode) throws ProductSkuNotFoundException;
 
-    public ProductEntity createNewProduct(ProductEntity newProductEntity) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
+    public ProductEntity retrieveProductEntityByProductName(String productName) throws ProductNameNotFoundException;
 
-    public void updateProduct(ProductEntity updatedProductEntity) throws UpdateProductEntityException;
-    
+    public ProductEntity retrieveProductEntityByProductEntityId(Long productId) throws ProductEntityNotFoundException;
+
+    public void updateProductEntity(ProductEntity productEntity) throws ProductEntityNotFoundException, UpdateProductEntityException, InputDataValidationException;
+
+    public void deleteProductEntity(Long productEntityId) throws ProductEntityNotFoundException, DeleteProductEntityException;
+
+    public void toggleDisableProductEntity(ProductEntity productEntity) throws ProductEntityNotFoundException, UpdateProductEntityException, InputDataValidationException;
+
+    public void addPartToProduct(Long partEntityId, Long productEntityId) throws PartEntityNotFoundException, ProductEntityNotFoundException, UnableToAddPartToProductException;
+
+    public void removePartFromProduct(Long partEntityId, Long productEntityId) throws PartEntityNotFoundException, ProductEntityNotFoundException, UnableToRemovePartFromProductException;
+
+    public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partOverview, String partDescription) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
+
+
 }

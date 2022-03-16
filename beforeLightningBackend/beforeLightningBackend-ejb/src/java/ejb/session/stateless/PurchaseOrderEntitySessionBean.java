@@ -7,11 +7,12 @@ package ejb.session.stateless;
 
 import entity.MemberEntity;
 import entity.PurchaseOrderEntity;
+import entity.PurchaseOrderLineItemEntity;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContext;    
 import javax.persistence.Query;
 import util.exception.CreateNewPurchaseOrderException;
 import util.exception.MemberEntityNotFoundException;
@@ -45,7 +46,10 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
                 memberEntity.getPurchaseOrders().add(newPurchaseOrderEntity);
 
                 em.persist(newPurchaseOrderEntity);
-
+                   
+                for(PurchaseOrderLineItemEntity p: newPurchaseOrderEntity.getPurchaseOrderLineItems()) {
+                    em.persist(p);
+                }
 
                 em.flush();
 
