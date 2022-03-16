@@ -11,6 +11,7 @@ import entity.PartChoiceEntity;
 import entity.PromotionEntity;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,8 +21,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.AccessoryItemEntityNotFoundException;
 import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.InputDataValidationException;
+import util.exception.PartChoiceEntityNotFoundException;
 import util.exception.PromotionEntityNameExistsException;
 import util.exception.PromotionEntityNotFoundException;
 import util.exception.UnknownPersistenceException;
@@ -33,6 +36,12 @@ import util.exception.UpdatePromotionException;
  */
 @Stateless
 public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLocal {
+
+    @EJB
+    private AccessoryItemEntitySessionBeanLocal accessoryItemEntitySessionBean;
+
+    @EJB
+    private PartChoiceEntitySessionBeanLocal partChoiceEntitySessionBean;
 
 	// Add business logic below. (Right-click in editor and choose
 	// "Insert Code > Add Business Method")
@@ -71,6 +80,26 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 			throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
 		}
 	}
+        
+        public List<PartChoiceEntity> addPartChoice(Long PromotionId, List<PartChoiceEntity> partChoice) throws PromotionEntityNotFoundException, PartChoiceEntityNotFoundException {
+            PromotionEntity managedPromotion = retrievePromotionEntityById(PromotionId);
+            for(PartChoiceEntity choice: partChoice) {
+                PartChoiceEntity managedChoice = partChoiceEntitySessionBean.retrievePartChoiceEntityById(choice.getPartChoiceId());
+                managedChoice.getPromotionEntities().add(managedPromotion);
+                managedPromotion.getPartChoiceEntities().add(managedChoice);
+            }
+            return managedPromotion.getPartChoiceEntities();
+        }
+        
+                public List<AccessoryItemEntity> addAccessoryItem(Long PromotionId, List<AccessoryItemEntity> accessoryItem) throws PromotionEntityNotFoundException, AccessoryItemEntityNotFoundException {
+            PromotionEntity managedPromotion = retrievePromotionEntityById(PromotionId);
+            for(AccessoryItemEntity choice: accessoryItem) {
+                AccessoryItemEntity managedChoice = accessoryItemEntitySessionBean.retrieveAccessoryItemById(choice.getAccessoryItemEntityId());
+                managedChoice.getPromotionEntities().add(managedPromotion);
+                managedPromotion.getAccessoryItemEntities().add(managedChoice);
+            }
+            return managedPromotion.getAccessoryItemEntities();
+        }
 
 	public List<PromotionEntity> retrieveAllPromotions() {
 
@@ -94,31 +123,35 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 		PromotionEntity promotionToUpdate = retrievePromotionEntityById(updatedPromotion.getPromotionEntityId());
 
 		//remove promo from all related partchoices
-		for (PartChoiceEntity p : promotionToUpdate.getPartChoices()) {
-			p.getPromotions().remove(promotionToUpdate);
+		for (PartChoiceEntity p : promotionToUpdate.getPartChoiceEntities()) {
+			p.getPromotionEntities().remove(promotionToUpdate);
 		}
+                
+                for (AccessoryItemEntity a: promotionToUpdate.getAccessoryItemEntities()) {
+                    a.getPromotionEntities().remove(promotionToUpdate);
+                }
 
 		//update partchoices
-		promotionToUpdate.getPartChoices().clear();
-		for (PartChoiceEntity p : updatedPromotion.getPartChoices()) {
+		promotionToUpdate.getPartChoiceEntities().clear();
+		for (PartChoiceEntity p : updatedPromotion.getPartChoiceEntities()) {
 			PartChoiceEntity partChoiceToBeUpdated = em.find(PartChoiceEntity.class, p.getPartChoiceId());
 			if (partChoiceToBeUpdated == null) {
 				throw new UpdatePromotionException("An error has occured while updating the part: part choice cannot be found. ");
 			} else {
-				promotionToUpdate.getPartChoices().add(partChoiceToBeUpdated);
-				partChoiceToBeUpdated.getPromotions().add(promotionToUpdate);
+				promotionToUpdate.getPartChoiceEntities().add(partChoiceToBeUpdated);
+				partChoiceToBeUpdated.getPromotionEntities().add(promotionToUpdate);
 			}
 		}
 
 		//update accessoryItems
-		promotionToUpdate.getAccessories().clear();
-		for (AccessoryItemEntity a : updatedPromotion.getAccessories()) {
-			AccessoryItemEntity aToBeUpdated = em.find(AccessoryItemEntity.class, a.getAccessoryItemId());
+		promotionToUpdate.getAccessoryItemEntities().clear();
+		for (AccessoryItemEntity a : updatedPromotion.getAccessoryItemEntities()) {
+			AccessoryItemEntity aToBeUpdated = em.find(AccessoryItemEntity.class, a.getAccessoryItemEntityId());
 			if (aToBeUpdated == null) {
 				throw new UpdatePromotionException("An error has occured while updating the part: part choice cannot be found. ");
 			} else {
-				promotionToUpdate.getAccessories().add(aToBeUpdated);
-				aToBeUpdated.getPromotions().add(promotionToUpdate);
+				promotionToUpdate.getAccessoryItemEntities().add(aToBeUpdated);
+				aToBeUpdated.getPromotionEntities().add(promotionToUpdate);
 			}
 		}
 
@@ -134,15 +167,15 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 		PromotionEntity promotionEntity = retrievePromotionEntityById(promotionId);
 
 		//remove promotion from related part choices
-		List<PartChoiceEntity> listOfRelatedPartChoices = promotionEntity.getPartChoices();
+		List<PartChoiceEntity> listOfRelatedPartChoices = promotionEntity.getPartChoiceEntities();
 		for (PartChoiceEntity c : listOfRelatedPartChoices) {
-			c.getPromotions().remove(promotionEntity);
+			c.getPromotionEntities().remove(promotionEntity);
 		}
 
 		//remove promotion from related acessory items
-		List<AccessoryItemEntity> listOfRelatedAccessoryItems = promotionEntity.getAccessories();
+		List<AccessoryItemEntity> listOfRelatedAccessoryItems = promotionEntity.getAccessoryItemEntities();
 		for (AccessoryItemEntity a : listOfRelatedAccessoryItems) {
-			a.getPromotions().remove(promotionEntity);
+			a.getPromotionEntities().remove(promotionEntity);
 		}
 
 		em.remove(promotionEntity);
