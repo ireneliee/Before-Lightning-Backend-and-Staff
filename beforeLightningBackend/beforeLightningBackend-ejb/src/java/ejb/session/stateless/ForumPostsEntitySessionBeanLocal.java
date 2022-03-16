@@ -38,6 +38,5 @@ public interface ForumPostsEntitySessionBeanLocal {
 
     public Long createNewForumPostEntity(ForumPostEntity newPost) throws InputDataValidationException, MemberEntityNotFoundException;
 
-    public Long createNewForumPostEntity(ForumPostEntity newPost) throws InputDataValidationException, MemberEntityNotFoundException;
     
 }
