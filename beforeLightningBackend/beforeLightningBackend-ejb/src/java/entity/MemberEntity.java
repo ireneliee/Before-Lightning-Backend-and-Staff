@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import util.security.CryptographicHelper;
@@ -38,6 +39,15 @@ public class MemberEntity extends UserEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private List<PurchaseOrderEntity> purchaseOrders;
+    
+    @OneToMany(mappedBy = "author")
+    private List<ForumPostEntity> forumPosts;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<ForumPostEntity> postsLiked;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<ForumPostEntity> postsDisliked;
 
     public MemberEntity() {
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
@@ -158,6 +168,30 @@ public class MemberEntity extends UserEntity implements Serializable {
     @Override
     public String toString() {
         return "entity.MemberEntity[ id=" + this.getUserEntityId() + " ]";
+    }
+
+    public List<ForumPostEntity> getForumPosts() {
+        return forumPosts;
+    }
+
+    public void setForumPosts(List<ForumPostEntity> forumPosts) {
+        this.forumPosts = forumPosts;
+    }
+
+    public List<ForumPostEntity> getPostsLiked() {
+        return postsLiked;
+    }
+
+    public void setPostsLiked(List<ForumPostEntity> postsLiked) {
+        this.postsLiked = postsLiked;
+    }
+
+    public List<ForumPostEntity> getPostsDisliked() {
+        return postsDisliked;
+    }
+
+    public void setPostsDisliked(List<ForumPostEntity> postsDisliked) {
+        this.postsDisliked = postsDisliked;
     }
 
 }
