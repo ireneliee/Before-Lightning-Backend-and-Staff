@@ -52,7 +52,7 @@ public class AccessoryItemEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private AccessoryEntity accessoryEntity;
-    @ManyToMany(mappedBy = "accessoryItemsEntities")
+    @ManyToMany
     private List<PromotionEntity> promotionEntities;
 
     public AccessoryItemEntity() {

@@ -27,11 +27,11 @@ public class PartChoiceEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partChoiceId;
-    @Column(nullable = false, length = 128)
+    private Long partChoiceEntityId;
+    @Column(nullable = false, length = 128, unique = true)
     @NotNull
     @Size(max = 128)
-    private String specification;
+    private String partChoiceName;
     @Column(nullable = false)
     @NotNull
     @Min(0)
@@ -79,9 +79,9 @@ public class PartChoiceEntity implements Serializable {
         this.isDisabled = false;
     }
 
-    public PartChoiceEntity(String specification, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partOverview, String partDescription) {
+    public PartChoiceEntity(String partChoiceName, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partOverview, String partDescription) {
         this();
-        this.specification = specification;
+        this.partChoiceName = partChoiceName;
         this.quantityOnHand = quantityOnHand;
         this.reorderQuantity = reorderQuantity;
         this.brand = brand;
@@ -90,18 +90,10 @@ public class PartChoiceEntity implements Serializable {
         this.partDescription = partDescription;
     }
 
-    public Long getPartChoiceId() {
-        return partChoiceId;
-    }
-
-    public void setPartChoiceId(Long partChoiceId) {
-        this.partChoiceId = partChoiceId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (partChoiceId != null ? partChoiceId.hashCode() : 0);
+        hash += (partChoiceEntityId != null ? partChoiceEntityId.hashCode() : 0);
         return hash;
     }
 
@@ -112,7 +104,7 @@ public class PartChoiceEntity implements Serializable {
             return false;
         }
         PartChoiceEntity other = (PartChoiceEntity) object;
-        if ((this.partChoiceId == null && other.partChoiceId != null) || (this.partChoiceId != null && !this.partChoiceId.equals(other.partChoiceId))) {
+        if ((this.partChoiceEntityId == null && other.partChoiceEntityId != null) || (this.partChoiceEntityId != null && !this.partChoiceEntityId.equals(other.partChoiceEntityId))) {
             return false;
         }
         return true;
@@ -120,15 +112,7 @@ public class PartChoiceEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.PartChoiceEntity[ id=" + partChoiceId + " ]";
-    }
-
-    public String getSpecification() {
-        return specification;
-    }
-
-    public void setSpecification(String specification) {
-        this.specification = specification;
+        return "entity.PartChoiceEntity[ id=" + partChoiceEntityId + " ]";
     }
 
     public Integer getQuantityOnHand() {
@@ -217,6 +201,22 @@ public class PartChoiceEntity implements Serializable {
 
     public void setPromotionEntities(List<PromotionEntity> promotionEntities) {
         this.promotionEntities = promotionEntities;
+    }
+
+    public String getPartChoiceName() {
+        return partChoiceName;
+    }
+
+    public void setPartChoiceName(String partChoiceName) {
+        this.partChoiceName = partChoiceName;
+    }
+
+    public Long getPartChoiceEntityId() {
+        return partChoiceEntityId;
+    }
+
+    public void setPartChoiceEntityId(Long partChoiceEntityId) {
+        this.partChoiceEntityId = partChoiceEntityId;
     }
 
 }
