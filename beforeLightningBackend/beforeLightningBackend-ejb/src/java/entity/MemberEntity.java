@@ -43,6 +43,9 @@ public class MemberEntity extends UserEntity implements Serializable {
     @OneToMany(mappedBy = "author")
     private List<ForumPostEntity> forumPosts;
     
+    @OneToMany(mappedBy = "author")
+    private List<ReplyEntity> forumReplies;
+    
     @ManyToMany(fetch = FetchType.LAZY)
     private List<ForumPostEntity> postsLiked;
     
@@ -192,6 +195,14 @@ public class MemberEntity extends UserEntity implements Serializable {
 
     public void setPostsDisliked(List<ForumPostEntity> postsDisliked) {
         this.postsDisliked = postsDisliked;
+    }
+
+    public List<ReplyEntity> getForumReplies() {
+        return forumReplies;
+    }
+
+    public void setForumReplies(List<ReplyEntity> forumReplies) {
+        this.forumReplies = forumReplies;
     }
 
 }

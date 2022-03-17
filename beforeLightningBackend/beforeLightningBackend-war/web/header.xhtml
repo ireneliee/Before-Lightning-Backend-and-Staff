@@ -7,10 +7,63 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
+    <h:outputStylesheet library = "css" name="sidebarNavigation.css"/>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+    <style>
 
-    <header style="text-align: right;">
-        <div id="divHeader">
-            <span style="display: inline-block; float: left">
+
+        .divHeader {
+            background-image: linear-gradient(to right, #174b80, #c5c6c7);
+            display: flex;
+            min-height: 100%;
+
+        }
+
+        .before-lightning-label {
+            max-width: 60%;
+        }
+        
+        .label-svg {
+            overflow-y : hidden;
+        }
+
+        .profile-panel {
+            max-width: 30%;
+        }
+
+        svg{
+            font-weight:bold;max-width:600px;height:100%;
+        } 
+        
+
+    </style>
+
+    <section class = "parent-of-header">
+        <div class="divHeader">
+            <section class = "before-lightning-label">
+                <svg class = "label-svg" viewbox="0 0 79 50" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradient">
+                            <stop color="black"/>
+                        </linearGradient>
+                        <pattern id="wave" x="0" y="-0.9" width="100%" height="100%" patternUnits="userSpaceOnUse">
+                            <path id="wavePath" d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-50z" mask="url(#mask)" fill="url(#gradient)"> 
+                                <animateTransform
+                                    attributeName="transform"
+                                    begin="0s"
+                                    dur="1.5s"
+                                    type="translate"
+                                    from="0,0"
+                                    to="40,0"
+                                    repeatCount="indefinite" />
+                            </path>
+                        </pattern>
+                    </defs>
+                    <text text-anchor="middle" x="40" y="8" font-size="7" fill="black" fill-opacity="0.3">Before Lightning Staff</text>
+                    <text text-anchor="middle" x="40" y="8" font-size="7" fill="url(#wave)"  fill-opacity="1">Before Lightning Staff</text>
+                </svg>
+            </section>
+            <section class = "profile-panel">
                 <p:panel id="panelGroupLoggedInUser" >
                     <span style="display: inline-block; float: left">       
                         <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/account.png" rendered="#{empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
@@ -20,18 +73,10 @@
                     <br></br>
                     <p:outputLabel value="#{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
                 </p:panel>
-            </span >
-
-            <span style="display: inline-block;">
-                <p:panel id="panelGroupBeforeLightning">
-                    <p:outputLabel value="BeforeLightning" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
-                    <br></br>
-
-                    <p:outputLabel value="Employee Client" style="font-family: Helvetica; font-size: large; font-weight: bold"/>
-                </p:panel>
-            </span>
+            </section>
+            
         </div>
-    </header>
+    </section>
 
 
 </ui:composition>

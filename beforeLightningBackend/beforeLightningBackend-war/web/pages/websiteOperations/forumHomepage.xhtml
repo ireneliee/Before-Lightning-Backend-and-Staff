@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../templates/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <style type="text/css"> 
+            /*demo*/
+            .ui-dataview-list .ui-dataview-row {
+                border-bottom: 1px solid #A8A8A8;
+                padding: 25px 10px;
+                /* with the exported variables from Nova and Luna Themes*/
+                border-bottom-color: var(--input-border-color, #A8A8A8);
+            }
+
+            .logo {
+                width: 5%;
+            }
+            .detail {
+                width: 85%;
+                padding-left: 25px;
+            }
+        </style>   
+        <h:form id="forumForm">
+            <p:dataView var="forumPostRow" value="#{forumPostManagementBean.forumPosts}"
+                        gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+
+                <p:dataViewGridItem>
+                    <p:panel header="#{forumPostRow.title}" style="text-align:center">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <p:graphicImage style="border-radius: 20%; max-height: 80%; min-height: 80%; max-width: 20%; min-width: 20%" value="/uploadedFiles/forumpost.png" rendered="#{empty forumPostRow.imageLink}" height="80%" width="50%"/>
+
+                            <h:outputText value="#{forumPostRow.content}" />
+                            <h:outputText value="#{forumPostRow.author.username}" />
+
+                            <p:commandLink update="forumForm" oncomplete="PF('forumPostDialogue').show()" title="View Detail">
+                                <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
+                                <f:setPropertyActionListener value="#{forumPostRow}" target="#{ forumPostManagementBean.selectedForumPostToView }" />
+                            </p:commandLink>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:dataViewGridItem>
+
+                <p:dataViewListItem>
+                    <h:panelGrid columns="3" style="width:100%" columnClasses="logo,detail">
+                        <p:graphicImage value="/uploadedFiles/forumpost.png" rendered="#{empty forumPostRow.imageLink}" height="80%" width="50%"/>
+
+                        <p:outputPanel>
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Title:" />
+                                <h:outputText value="#{forumPostRow.title}" style="font-weight: bold"/>
+
+                                <h:outputText value="Contentr:" />
+                                <h:outputText value="#{forumPostRow.content}" style="font-weight: bold"/>
+
+                                <h:outputText value="Color:" />
+                                <h:outputText value="#{car.color}" style="font-weight: bold"/>
+                            </h:panelGrid>
+                            <h:outputText value="#{forumPostRow.author.username}" />
+                        </p:outputPanel>
+
+                        <p:commandLink update="forumForm" oncomplete="PF('forumPostDialogue').show()" title="View Detail">
+                            <h:outputText styleClass="ui-icon pi pi-search" style="margin:0 auto;" />
+                            <f:setPropertyActionListener value="#{forumPostRow}" target="#{forumPostManagementBean.selectedForumPostToView}" />
+                        </p:commandLink>
+                    </h:panelGrid>
+                </p:dataViewListItem>
+            </p:dataView>
+        </h:form>
+        <p:dialog header="Forum post details" widgetVar="forumPostDialogue" modal="true" showEffect="fade" hideEffect="fade" resizable="true">
+            <p:outputPanel id="forumDetail" style="text-align:center;">
+                <p:panelGrid  columns="2" rendered="#{not empty forumPostManagementBean.selectedForumPostToView }" columnClasses="label,value">
+                    <p:outputLabel value = "this is it for now"></p:outputLabel>
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
+
