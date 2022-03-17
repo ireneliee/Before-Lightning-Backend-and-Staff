@@ -65,7 +65,7 @@ public class PartChoiceEntity implements Serializable {
     @ManyToMany
     private List<PartChoiceEntity> compatibleChassisPartChoiceEntities;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "compatibleChassisPartChoiceEntities")
     private List<PartChoiceEntity> compatiblePartsPartChoiceEntities;
 
     @ManyToMany

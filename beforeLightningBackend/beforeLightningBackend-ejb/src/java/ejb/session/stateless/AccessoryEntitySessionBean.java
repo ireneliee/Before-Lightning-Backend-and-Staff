@@ -6,10 +6,8 @@
 package ejb.session.stateless;
 
 import entity.AccessoryEntity;
-import entity.AccessoryItemEntity;
 import java.util.List;
 import java.util.Set;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,13 +20,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.AccessoryEntityNotFoundException;
-import util.exception.AccessoryItemEntityNotFoundException;
 import util.exception.AccessoryNameExistsException;
 import util.exception.InputDataValidationException;
-import util.exception.QuantityOnHandNotZeroException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateAccessoryEntityException;
-import util.exception.UpdateAccessoryItemEntityException;
 
 /**
  *
@@ -64,7 +59,7 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
             } catch (PersistenceException ex) {
                 if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
                     if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
-                        throw new AccessoryNameExistsException();
+                        throw new AccessoryNameExistsException(ex.getMessage());
                     } else {
                         throw new UnknownPersistenceException(ex.getMessage());
                     }
