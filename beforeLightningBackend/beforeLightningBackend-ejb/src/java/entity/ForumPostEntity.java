@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 /**
@@ -58,12 +59,26 @@ public class ForumPostEntity implements Serializable {
     
     @ManyToMany(fetch = FetchType.LAZY)
     private List<MemberEntity> userWhoDislikes;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    private MemberEntity author;
+    
+    @OneToMany(mappedBy = "forumPost")
+    private List<ReplyEntity> replies;
 
     public ForumPostEntity(String title, String content, String imageLink, MemberEntity author) {
         this();
         this.title = title;
         this.content = content;
         this.imageLink = imageLink;
+        this.author = author;
+    }
+    
+    public ForumPostEntity(String title, String content,MemberEntity author) {
+        this();
+        this.title = title;
+        this.content = content;
         this.author = author;
     }
 
@@ -75,11 +90,6 @@ public class ForumPostEntity implements Serializable {
         userWhoDislikes = new ArrayList<>();
     }
     
-    
-    
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
-    private MemberEntity author;
 
     public Long getForumPostEntityId() {
         return forumPostEntityId;
@@ -184,6 +194,14 @@ public class ForumPostEntity implements Serializable {
 
     public void setUserWhoDislikes(List<MemberEntity> userWhoDislikes) {
         this.userWhoDislikes = userWhoDislikes;
+    }
+
+    public List<ReplyEntity> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<ReplyEntity> replies) {
+        this.replies = replies;
     }
     
 }

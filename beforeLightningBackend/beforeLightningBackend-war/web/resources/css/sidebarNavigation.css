@@ -21,3 +21,22 @@
     font-size: 1.5em;
     margin-right: 1.5em;
 }
+
+.ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-north ui-layout-pane ui-layout-pane-north {
+    background-image: linear-gradient(to right, #174b80, #c5c6c7);
+    
+}
+
+.divHeader {
+    display: flex;
+    
+}
+
+.before-lightning-label {
+    max-width: 100%;
+}
+
+.profile-panel {
+    max-width: 30%;
+}
+
