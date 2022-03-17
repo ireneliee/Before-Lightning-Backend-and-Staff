@@ -18,8 +18,6 @@ import entity.PartChoiceEntity;
 import entity.PartEntity;
 import entity.ProductEntity;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -33,7 +31,6 @@ import util.enumeration.EmployeeAccessRightEnum;
 import util.exception.AccessoryEntityNotFoundException;
 import util.exception.AccessoryItemNameExists;
 import util.exception.AccessoryNameExistsException;
-import util.exception.CreateNewPartEntityException;
 import util.exception.CreateNewProductEntityException;
 import util.exception.EmployeeEntityNotFoundException;
 import util.exception.EmployeeEntityUsernameExistException;
@@ -99,8 +96,8 @@ public class DataInitialisationSessionBean {
 //            UnknownPersistenceException, ProductSkuCodeExistException {
 
         //Product
-        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", 5.0, "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.");
-        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", 5.0, "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series");
+        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.");
+        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series");
         //Part
         PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
         PartEntity b = new PartEntity("Graphic Cards", "Single most important piece of hardware for a gaming machine.");
@@ -246,7 +243,7 @@ public class DataInitialisationSessionBean {
             accessoryEntitySessionBeanLocal.createNewAccessoryEntity(ac2);
 
             AccessoryEntity ass1 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityById(ac1.getAccessoryEntityId());
-            AccessoryEntity ass2 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityById(ac1.getAccessoryEntityId());
+            AccessoryEntity ass2 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityById(ac2.getAccessoryEntityId());
 
 //            mouse1.setAccessoryEntity(ac1);
 //            mouse2.setAccessoryEntity(ac1);
@@ -262,13 +259,12 @@ public class DataInitialisationSessionBean {
 //            ac2.getAccessoryItemEntities().add(speaker1);
 //            ac2.getAccessoryItemEntities().add(speaker2);
 //            ac2.getAccessoryItemEntities().add(speaker3);
-
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse1, ac1);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse2, ac1);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse3, ac1);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker1, ac2);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker2, ac2);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker3, ac2);
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse1, ass1);
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse2, ass1);
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse3, ass1);
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker1, ass2);
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker2, ass2);
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker3, ass2);
 
         } catch (CreateNewProductEntityException | InputDataValidationException | UnknownPersistenceException | ProductSkuCodeExistException | PartEntityExistException | PartChoiceEntityExistException | PartEntityNotFoundException | PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartException | ProductEntityNotFoundException | UnableToAddPartToProductException | UnableToAddPartChoiceToPartChoiceException ex) {
             System.out.println("THIS IS THE ERROR");
@@ -435,13 +431,5 @@ public class DataInitialisationSessionBean {
             Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
-
-    public void persist(Object object) {
-        em.persist(object);
-    }
-
-    public void persist1(Object object) {
-        em.persist(object);
     }
 }

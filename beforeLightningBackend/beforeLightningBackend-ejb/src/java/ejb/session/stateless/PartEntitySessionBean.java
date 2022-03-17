@@ -90,7 +90,7 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
     }
 
     @Override
-    public List<PartEntity> retrieveAllPartEntitiess() {
+    public List<PartEntity> retrieveAllPartEntities() {
         Query query = entityManager.createQuery("SELECT p FROM PartEntity p");
         List<PartEntity> list = query.getResultList();
         for (PartEntity part : list) {
@@ -110,7 +110,6 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
             pe.getProductEntities().size();
             return pe;
         }
-
     }
 
     @Override

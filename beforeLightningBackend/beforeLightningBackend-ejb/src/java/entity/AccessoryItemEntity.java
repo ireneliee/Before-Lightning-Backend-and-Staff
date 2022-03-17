@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -75,9 +76,12 @@ public class AccessoryItemEntity implements Serializable {
     private AccessoryEntity accessoryEntity;
     @ManyToMany
     private List<PromotionEntity> promotionEntities;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviewEntities;
 
     public AccessoryItemEntity() {
         this.promotionEntities = new ArrayList<>();
+        this.reviewEntities = new ArrayList<>();
         this.imageLink = "";
         this.isDisabled = false;
     }
@@ -236,6 +240,14 @@ public class AccessoryItemEntity implements Serializable {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<ReviewEntity> getReviewEntities() {
+        return reviewEntities;
+    }
+
+    public void setReviewEntities(List<ReviewEntity> reviewEntities) {
+        this.reviewEntities = reviewEntities;
     }
 
 }

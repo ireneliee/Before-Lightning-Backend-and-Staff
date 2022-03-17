@@ -22,6 +22,7 @@ import javax.validation.ValidatorFactory;
 import util.exception.AccessoryEntityNotFoundException;
 import util.exception.AccessoryNameExistsException;
 import util.exception.InputDataValidationException;
+import util.exception.UnableToDeleteAccessoryEntityException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateAccessoryEntityException;
 
@@ -31,7 +32,6 @@ import util.exception.UpdateAccessoryEntityException;
  */
 @Stateless
 public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLocal {
-
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -75,45 +75,48 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
     public List<AccessoryEntity> retrieveAllAccessoryEntities() {
 
         Query query = em.createQuery("SELECT a FROM AccessoryEntity a");
-        return query.getResultList();
-
+        List<AccessoryEntity> list = query.getResultList();
+        for (AccessoryEntity acc : list) {
+            acc.getAccessoryItemEntities().size();
+        }
+        return list;
     }
 
     @Override
     public AccessoryEntity retrieveAccessoryEntityById(Long id) throws AccessoryEntityNotFoundException {
         AccessoryEntity item = em.find(AccessoryEntity.class, id);
         if (item != null) {
+            item.getAccessoryItemEntities().size();
             return item;
         } else {
             throw new AccessoryEntityNotFoundException("AccessoryId ID " + id + " does not exist!");
         }
 
-
-
     }
 
-    public AccessoryEntity retrieveAccessoryEntityByAccessoryName(String accessoryName) throws AccessoryEntityNotFoundException{
+    public AccessoryEntity retrieveAccessoryEntityByAccessoryName(String accessoryName) throws AccessoryEntityNotFoundException {
 
-               Query query = em.createQuery("SELECT a FROM AccessoryEntity a WHERE a.accessoryName=:inputName");
+        Query query = em.createQuery("SELECT a FROM AccessoryEntity a WHERE a.accessoryName=:inputName");
         query.setParameter("inputName", accessoryName);
 
         try {
-            return (AccessoryEntity) query.getSingleResult();
+            AccessoryEntity item = (AccessoryEntity) query.getSingleResult();
+            item.getAccessoryItemEntities().size();
+            return item;
         } catch (NoResultException | NonUniqueResultException ex) {
             throw new AccessoryEntityNotFoundException("Accessory item name: " + accessoryName + " does not exist!");
         }
 
     }
 
-    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException{
-                if (newAccessoryEntity != null && newAccessoryEntity.getAccessoryEntityId()!= null) {
+    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException {
+        if (newAccessoryEntity != null && newAccessoryEntity.getAccessoryEntityId() != null) {
             Set<ConstraintViolation<AccessoryEntity>> constraintViolations = validator.validate(newAccessoryEntity);
 
             if (constraintViolations.isEmpty()) {
                 AccessoryEntity accessoryToUpdate = retrieveAccessoryEntityById(newAccessoryEntity.getAccessoryEntityId());
                 accessoryToUpdate.setAccessoryName(newAccessoryEntity.getAccessoryName());
                 accessoryToUpdate.setDescription(newAccessoryEntity.getDescription());
-                //promotions updated in promotionEntitySessionbean
 
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
@@ -134,7 +137,7 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
 
                 if (accessoryEntityToUpdate.getAccessoryEntityId().equals(accessoryEntity.getAccessoryEntityId())) {
                     accessoryEntityToUpdate.setIsDisabled(accessoryEntity.getIsDisabled());
-                    
+
                 } else {
                     throw new UpdateAccessoryEntityException();
                 }
@@ -145,14 +148,15 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
             throw new AccessoryEntityNotFoundException("AccessoryEntity ID not provided for accessoryEntity to be updated");
         }
     }
-    
-    public void deleteAccessoryEntity(Long accessoryEntityId) throws AccessoryEntityNotFoundException{
+
+    @Override
+    public void deleteAccessoryEntity(Long accessoryEntityId) throws AccessoryEntityNotFoundException, UnableToDeleteAccessoryEntityException {
         AccessoryEntity accessoryToDelete = retrieveAccessoryEntityById(accessoryEntityId);
-
-        em.remove(accessoryToDelete);
-        
-
-
+        if (accessoryToDelete.getAccessoryItemEntities().size() > 0) {
+            throw new UnableToDeleteAccessoryEntityException();
+        } else {
+            em.remove(accessoryToDelete);
+        }
     }
 
     private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<AccessoryEntity>> constraintViolations) {

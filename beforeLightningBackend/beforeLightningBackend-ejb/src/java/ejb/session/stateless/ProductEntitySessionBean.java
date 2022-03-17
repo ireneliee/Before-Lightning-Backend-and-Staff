@@ -11,8 +11,6 @@ import entity.ProductEntity;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -220,7 +218,6 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 
                 if (productEntityToUpdate.getProductEntityId().equals(productEntity.getProductEntityId())) {
                     productEntityToUpdate.setProductName(productEntity.getProductName());
-                    productEntityToUpdate.setProductRating(productEntity.getProductRating());
                     productEntityToUpdate.setDescription(productEntity.getDescription());
                     productEntityToUpdate.setProductOverview(productEntity.getProductOverview());
                     productEntityToUpdate.setImageLink(productEntity.getImageLink());

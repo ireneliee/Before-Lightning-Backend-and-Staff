@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -41,11 +43,6 @@ public class ProductEntity implements Serializable {
     private String skuCode;
     @Column(nullable = false)
     @NotNull
-    @Min(1)
-    @Max(5)
-    private Double productRating;
-    @Column(nullable = false)
-    @NotNull
     private String description;
     @Column(nullable = false)
     @NotNull
@@ -59,17 +56,20 @@ public class ProductEntity implements Serializable {
     @ManyToMany(mappedBy = "productEntities")
     private List<PartEntity> partEntities;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviewEntities;
+
     public ProductEntity() {
         this.partEntities = new ArrayList<>();
+        this.reviewEntities = new ArrayList<>();
         this.isDisabled = false;
         this.imageLink = "";
     }
 
-    public ProductEntity(String productName, String skuCode, Double productRating, String description, String productOverview) {
+    public ProductEntity(String productName, String skuCode, String description, String productOverview) {
         this();
         this.productName = productName;
         this.skuCode = skuCode;
-        this.productRating = productRating;
         this.description = description;
         this.productOverview = productOverview;
     }
@@ -164,20 +164,6 @@ public class ProductEntity implements Serializable {
     }
 
     /**
-     * @return the productRating
-     */
-    public Double getProductRating() {
-        return productRating;
-    }
-
-    /**
-     * @param productRating the productRating to set
-     */
-    public void setProductRating(Double productRating) {
-        this.productRating = productRating;
-    }
-
-    /**
      * @return the imageLink
      */
     public String getImageLink() {
@@ -205,6 +191,14 @@ public class ProductEntity implements Serializable {
 
     public void setIsDisabled(Boolean isDisabled) {
         this.isDisabled = isDisabled;
+    }
+
+    public List<ReviewEntity> getReviewEntities() {
+        return reviewEntities;
+    }
+
+    public void setReviewEntities(List<ReviewEntity> reviewEntities) {
+        this.reviewEntities = reviewEntities;
     }
 
 }

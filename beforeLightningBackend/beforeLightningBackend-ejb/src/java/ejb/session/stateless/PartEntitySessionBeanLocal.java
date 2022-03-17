@@ -37,8 +37,6 @@ public interface PartEntitySessionBeanLocal {
 
     public PartEntity retrievePartEntityByPartName(String partName) throws PartNameNotFoundException;
 
-    public List<PartEntity> retrieveAllPartEntitiess();
-
     public void deletePartEntity(Long partEntityId) throws PartEntityNotFoundException, DeletePartEntityException;
 
     public void toggleDisablePartEntity(PartEntity partEntity) throws PartEntityNotFoundException, UpdatePartEntityException, InputDataValidationException;
@@ -52,5 +50,7 @@ public interface PartEntitySessionBeanLocal {
     public void addPartChoiceToPart(Long partChoiceEntityId, Long partEntityId) throws PartEntityNotFoundException, PartChoiceEntityNotFoundException, UnableToAddPartChoiceToPartException;
 
     public void removePartChoiceFromPart(Long partChoiceEntityId, Long partEntityId) throws PartEntityNotFoundException, PartChoiceEntityNotFoundException, UnableToRemovePartChoiceFromPartException;
+
+    public List<PartEntity> retrieveAllPartEntities();
 
 }

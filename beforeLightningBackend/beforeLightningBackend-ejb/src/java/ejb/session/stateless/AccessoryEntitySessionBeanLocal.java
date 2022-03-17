@@ -12,6 +12,7 @@ import util.exception.AccessoryEntityNotFoundException;
 import util.exception.AccessoryItemEntityNotFoundException;
 import util.exception.AccessoryNameExistsException;
 import util.exception.InputDataValidationException;
+import util.exception.UnableToDeleteAccessoryEntityException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateAccessoryEntityException;
 
@@ -32,7 +33,7 @@ public interface AccessoryEntitySessionBeanLocal {
 
     public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException;
 
-    public void deleteAccessoryEntity(Long productTypeId) throws AccessoryEntityNotFoundException;
+    public void deleteAccessoryEntity(Long accessoryEntityId) throws AccessoryEntityNotFoundException, UnableToDeleteAccessoryEntityException;
 
     public void toggleDisableAccessoryEntity(AccessoryEntity accessoryEntity) throws AccessoryEntityNotFoundException, UpdateAccessoryEntityException, InputDataValidationException;
 
