@@ -17,8 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
-import org.jboss.weld.context.RequestContext;
-import org.primefaces.component.wizard.Wizard;
+import org.primefaces.PrimeFaces;
 import util.enumeration.EmployeeAccessRightEnum;
 import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.InputDataValidationException;
@@ -70,23 +69,25 @@ public class CreateEmployeeManagedBean implements Serializable {
                 newEmployeeEntity = new EmployeeEntity();
                 newEmployeeAccessRight = "";
                 newPassword = "";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee is successfully created", null));
-
+                FacesContext.getCurrentInstance().addMessage("successEmployeeCreation", new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee is successfully created", null));
+                
 //ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                 //ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
-                //PrimeFaces current = PrimeFaces.current();
-                //current.executeScript("PF('dialogSuccessEmployeeCreation').show();");
+                PrimeFaces current = PrimeFaces.current();
+                current.executeScript("PF('dialogCreateEmployee').hide();");
             }
 
             employeeManagementManagedBean.setListOfEmployeeEntities(employeeEntitySessionBeanLocal.retrieveAllEmployeeEntities());
         } catch (EmployeeEntityUsernameExistException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is currently in use!", null));
+            FacesContext.getCurrentInstance().addMessage("createEmployeeMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is currently in use!", null));
+            
         } catch (InputDataValidationException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Input Validation Error" + ex.getMessage(), null));
+            FacesContext.getCurrentInstance().addMessage("createEmployeeMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Input Validation Error" + ex.getMessage(), null));
+           
         } catch (UnknownPersistenceException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Create New Employee now", null));
+            FacesContext.getCurrentInstance().addMessage("createEmployeeMessage", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Create New Employee now", null));
+            
         }
-
 
     }
 
