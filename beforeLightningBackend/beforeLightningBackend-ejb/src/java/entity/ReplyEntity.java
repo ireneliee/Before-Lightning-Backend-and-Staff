@@ -7,8 +7,6 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
@@ -25,16 +22,12 @@ import javax.validation.constraints.Size;
  * @author irene
  */
 @Entity
-public class ForumPostEntity implements Serializable {
+public class ReplyEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long forumPostEntityId;
-    
-    @Column(nullable = false, length = 256)
-    @Size(max = 256)
-    private String title;
+    private Long replyEntityId;
     
     @Column(nullable = false, length = 10000)
     @Size(max = 10000)
@@ -53,63 +46,41 @@ public class ForumPostEntity implements Serializable {
     @Column(nullable = false)
     private Boolean isBanned;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<MemberEntity> userWhoLikes;
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<MemberEntity> userWhoDislikes;
-    
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private MemberEntity author;
 
-    public ForumPostEntity(String title, String content, String imageLink, MemberEntity author) {
-        this();
-        this.title = title;
-        this.content = content;
-        this.imageLink = imageLink;
-        this.author = author;
+    public Long getReplyEntityId() {
+        return replyEntityId;
     }
     
-    public ForumPostEntity(String title, String content,MemberEntity author) {
-        this();
-        this.title = title;
-        this.content = content;
-        this.author = author;
-    }
-
-    public ForumPostEntity() {
-        timestamp = LocalDateTime.now();
-        isVisible = true;
-        isBanned = false;
-        userWhoLikes = new ArrayList<>();
-        userWhoDislikes = new ArrayList<>();
-    }
+    
     
 
-    public Long getForumPostEntityId() {
-        return forumPostEntityId;
+    public ReplyEntity() {
     }
+    
+    
 
-    public void setForumPostEntityId(Long forumPostEntityId) {
-        this.forumPostEntityId = forumPostEntityId;
+    public void setReplyEntityId(Long replyEntityId) {
+        this.replyEntityId = replyEntityId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (forumPostEntityId != null ? forumPostEntityId.hashCode() : 0);
+        hash += (replyEntityId != null ? replyEntityId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the forumPostEntityId fields are not set
-        if (!(object instanceof ForumPostEntity)) {
+        // TODO: Warning - this method won't work in the case the replyEntityId fields are not set
+        if (!(object instanceof ReplyEntity)) {
             return false;
         }
-        ForumPostEntity other = (ForumPostEntity) object;
-        if ((this.forumPostEntityId == null && other.forumPostEntityId != null) || (this.forumPostEntityId != null && !this.forumPostEntityId.equals(other.forumPostEntityId))) {
+        ReplyEntity other = (ReplyEntity) object;
+        if ((this.replyEntityId == null && other.replyEntityId != null) || (this.replyEntityId != null && !this.replyEntityId.equals(other.replyEntityId))) {
             return false;
         }
         return true;
@@ -117,7 +88,7 @@ public class ForumPostEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.ForumPostEntity[ id=" + forumPostEntityId + " ]";
+        return "entity.ReplyEntity[ id=" + replyEntityId + " ]";
     }
 
     public String getContent() {
@@ -166,30 +137,6 @@ public class ForumPostEntity implements Serializable {
 
     public void setAuthor(MemberEntity author) {
         this.author = author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<MemberEntity> getUserWhoLikes() {
-        return userWhoLikes;
-    }
-
-    public void setUserWhoLikes(List<MemberEntity> userWhoLikes) {
-        this.userWhoLikes = userWhoLikes;
-    }
-
-    public List<MemberEntity> getUserWhoDislikes() {
-        return userWhoDislikes;
-    }
-
-    public void setUserWhoDislikes(List<MemberEntity> userWhoDislikes) {
-        this.userWhoDislikes = userWhoDislikes;
     }
     
 }

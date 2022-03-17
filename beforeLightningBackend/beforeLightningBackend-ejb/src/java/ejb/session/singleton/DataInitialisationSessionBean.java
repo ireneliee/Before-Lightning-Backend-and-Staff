@@ -8,17 +8,16 @@ package ejb.session.singleton;
 import ejb.session.stateless.AccessoryEntitySessionBeanLocal;
 import ejb.session.stateless.AccessoryItemEntitySessionBeanLocal;
 import ejb.session.stateless.EmployeeEntitySessionBeanLocal;
+import ejb.session.stateless.ForumPostsEntitySessionBeanLocal;
+import ejb.session.stateless.MemberEntitySessionBeanLocal;
 import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
-import entity.AccessoryEntity;
-import entity.AccessoryItemEntity;
+import entity.AddressEntity;
 import entity.EmployeeEntity;
-import entity.PartChoiceEntity;
-import entity.PartEntity;
+import entity.ForumPostEntity;
+import entity.MemberEntity;
 import entity.ProductEntity;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -29,13 +28,13 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.EmployeeAccessRightEnum;
-import util.exception.AccessoryItemNameExists;
-import util.exception.AccessoryNameExistsException;
-import util.exception.CreateNewPartEntityException;
+import util.exception.AddressEntityNotFoundException;
 import util.exception.CreateNewProductEntityException;
 import util.exception.EmployeeEntityNotFoundException;
 import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.InputDataValidationException;
+import util.exception.MemberEntityNotFoundException;
+import util.exception.MemberEntityUsernameExistException;
 import util.exception.ProductSkuCodeExistException;
 import util.exception.UnknownPersistenceException;
 
@@ -47,6 +46,12 @@ import util.exception.UnknownPersistenceException;
 @LocalBean
 @Startup
 public class DataInitialisationSessionBean {
+
+    @EJB
+    private MemberEntitySessionBeanLocal memberEntitySessionBeanLocal;
+
+    @EJB
+    private ForumPostsEntitySessionBeanLocal forumPostsEntitySessionBeanLocal;
 
     @EJB
     private PartEntitySessionBeanLocal partEntitySessionBeanLocal;
@@ -80,26 +85,62 @@ public class DataInitialisationSessionBean {
     }
 
     private void initializeData() {
-//        
+        try {
+            MemberEntity m1 = new MemberEntity("marymary", "password", "Mary", "Magdalene", "mary_magdalene@gmail.com", "96726568");
+            MemberEntity m2 = new MemberEntity("bobbybob", "password", "Bobby", "Bob", "bobby_bob@gmail.com", "90418041");
+            MemberEntity m3 = new MemberEntity("aliceinwonderland", "password", "Alice", "lilili", "alice_alice@gmail.com", "84756473");
+            AddressEntity ad1 = new AddressEntity("23", "23", "196758", "Singapore");
+            AddressEntity ad2 = new AddressEntity("24", "266", "196658", "Singapore");
+            AddressEntity ad3 = new AddressEntity("25", "54", "195758", "Singapore");
+
+            memberEntitySessionBeanLocal.createNewAddressEntity(ad1);
+            memberEntitySessionBeanLocal.createNewAddressEntity(ad2);
+            memberEntitySessionBeanLocal.createNewAddressEntity(ad3);
+
+            try {
+                memberEntitySessionBeanLocal.createNewMemberEntity(m1, ad1);
+                memberEntitySessionBeanLocal.createNewMemberEntity(m2, ad2);
+                memberEntitySessionBeanLocal.createNewMemberEntity(m3, ad3);
+
+                ForumPostEntity f1 = new ForumPostEntity("I like my new laptop!", "My new laptop is xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  the specification is xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m1);
+                ForumPostEntity f2 = new ForumPostEntity("I don't like my new laptop!", "I hate my new laptop it sucks big timexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m2);
+                ForumPostEntity f3 = new ForumPostEntity("I like my new mouse!", "I like my new mouse  it moves so fast xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m3);
+                ForumPostEntity f4 = new ForumPostEntity("I need a warranty, what should I do?!", "I broke my laptop within 3 months, it's expensive I don't know what to doxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m1);
+
+                try {
+                    forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f1);
+                    forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f2);
+                    forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f3);
+                    forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f4);
+                } catch (MemberEntityNotFoundException ex) {
+                    Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (MemberEntityUsernameExistException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (AddressEntityNotFoundException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+//
 //        Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand,
 //            BigDecimal price, String partOverview, String partDescription) throws CreateNewProductEntityException, InputDataValidationException,
 //            UnknownPersistenceException, ProductSkuCodeExistException {
+            ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", 5.0, "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.");
+            ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", 5.0, "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series");
+            try {
+                productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500), "Overview", "Description");
+                productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "Aftershock", new BigDecimal(600), "Overview", "Description");
 
-        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", 5.0, "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.");
-        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", 5.0, "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series");
-        try {
-            productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500), "Overview", "Description");
-            productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "Aftershock", new BigDecimal(600), "Overview", "Description");
-
-        } catch (CreateNewProductEntityException ex) {
-            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InputDataValidationException ex) {
-            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnknownPersistenceException ex) {
-            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProductSkuCodeExistException ex) {
-            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            } catch (CreateNewProductEntityException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InputDataValidationException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnknownPersistenceException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ProductSkuCodeExistException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
 //        // product related
 //        PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
@@ -235,19 +276,25 @@ public class DataInitialisationSessionBean {
 //        } catch (AccessoryNameExistsException | UnknownPersistenceException | InputDataValidationException ex) {
 //            System.out.println("An error has occured while creating the new accessory: " + ex.getMessage());
 //        }
-        EmployeeEntity newEmployee1 = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "manager", "password", "manager", "one", "manager@gmail.com", "99999999");
-        EmployeeEntity newEmployee2 = new EmployeeEntity(EmployeeAccessRightEnum.OPERATION, "operationstaff", "password", "operation", "one", "operation@gmail.com", "99999999");
-        EmployeeEntity newEmployee3 = new EmployeeEntity(EmployeeAccessRightEnum.PRODUCT, "productstaff", "password", "product", "one", "product@gmail.com", "99999999");
-        EmployeeEntity newEmployee4 = new EmployeeEntity(EmployeeAccessRightEnum.SALES, "salesstaff", "password", "sales", "one", "sales@gmail.com", "99999999");
+            EmployeeEntity newEmployee1 = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "manager", "password", "manager", "one", "manager@gmail.com", "99999999");
+            EmployeeEntity newEmployee2 = new EmployeeEntity(EmployeeAccessRightEnum.OPERATION, "operationstaff", "password", "operation", "one", "operation@gmail.com", "99999999");
+            EmployeeEntity newEmployee3 = new EmployeeEntity(EmployeeAccessRightEnum.PRODUCT, "productstaff", "password", "product", "one", "product@gmail.com", "99999999");
+            EmployeeEntity newEmployee4 = new EmployeeEntity(EmployeeAccessRightEnum.SALES, "salesstaff", "password", "sales", "one", "sales@gmail.com", "99999999");
 
-        try {
-            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee1);
-            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee2);
-            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee3);
-            employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee4);
+            try {
+                employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee1);
+                employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee2);
+                employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee3);
+                employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee4);
 
-        } catch (EmployeeEntityUsernameExistException ex) {
-            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (EmployeeEntityUsernameExistException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InputDataValidationException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnknownPersistenceException ex) {
+                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } catch (InputDataValidationException ex) {
             Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownPersistenceException ex) {
