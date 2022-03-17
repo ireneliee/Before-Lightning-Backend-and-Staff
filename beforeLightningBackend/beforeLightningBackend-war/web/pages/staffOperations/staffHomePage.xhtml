@@ -15,6 +15,8 @@
             <h:form id="formAllEmployees">
                 <p:commandButton value="Create New Employee"  icon="pi pi-plus"  oncomplete="PF('dialogCreateEmployee').show()" title="Create New Employee">
                 </p:commandButton>
+                <p:messages for ="successEmployeeCreation" showDetail="true" closable="true">
+                </p:messages>
 
                 <p:dataTable id="dataTableAllEmployees" widgetVar="dataTableAllEmployees" value="#{employeeManagementManagedBean.listOfEmployeeEntities}" var="employeeEntity" rowKey="#{employeeEntity.employeeId}" rowIndexVar="row"
                              filteredValue="#{employeeManagementManagedBean.filteredListOfEmployeeEntities}"
