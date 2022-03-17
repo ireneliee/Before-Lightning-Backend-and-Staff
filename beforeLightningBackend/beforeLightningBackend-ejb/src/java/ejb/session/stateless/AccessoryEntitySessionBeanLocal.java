@@ -21,14 +21,19 @@ import util.exception.UpdateAccessoryEntityException;
  */
 @Local
 public interface AccessoryEntitySessionBeanLocal {
-	
-		public Long createNewAccessoryEntity(AccessoryEntity newAccessoryEntity) throws AccessoryNameExistsException, UnknownPersistenceException, InputDataValidationException;
-		public List<AccessoryEntity> retrieveAllAccessoryEntities();
-		public AccessoryEntity retrieveAccessoryEntityById(Long id) throws AccessoryEntityNotFoundException;
-		public AccessoryEntity retrieveAccessoryEntityByAccessoryName(String accessoryName) throws AccessoryEntityNotFoundException;
-		public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException;
-		public void deleteAccessoryEntity(Long productTypeId)throws AccessoryEntityNotFoundException;
+
+    public Long createNewAccessoryEntity(AccessoryEntity newAccessoryEntity) throws AccessoryNameExistsException, UnknownPersistenceException, InputDataValidationException;
+
+    public List<AccessoryEntity> retrieveAllAccessoryEntities();
+
+    public AccessoryEntity retrieveAccessoryEntityById(Long id) throws AccessoryEntityNotFoundException;
+
+    public AccessoryEntity retrieveAccessoryEntityByAccessoryName(String accessoryName) throws AccessoryEntityNotFoundException;
+
+    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException;
+
+    public void deleteAccessoryEntity(Long productTypeId) throws AccessoryEntityNotFoundException;
 
     public void toggleDisableAccessoryEntity(AccessoryEntity accessoryEntity) throws AccessoryEntityNotFoundException, UpdateAccessoryEntityException, InputDataValidationException;
-		
+
 }

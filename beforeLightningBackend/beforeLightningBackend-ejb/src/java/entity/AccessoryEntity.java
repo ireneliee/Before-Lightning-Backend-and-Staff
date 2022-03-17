@@ -45,12 +45,12 @@ public class AccessoryEntity implements Serializable {
 
     public AccessoryEntity() {
         this.accessoryItemEntities = new ArrayList<>();
-        this.description = "";
         this.isDisabled = false;
     }
 
-    public AccessoryEntity(String accessoryName) {
+    public AccessoryEntity(String accessoryName, String description) {
         this();
+        this.description = description;
         this.accessoryName = accessoryName;
     }
 

@@ -20,6 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,15 +35,35 @@ public class AccessoryItemEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accessoryItemEntityId;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 128)
+    @NotNull
+    @Size(max = 128)
     private String accessoryItemName;
+    @Column(nullable = false, unique = true, length = 7)
+    @NotNull
+    @Size(min = 7, max = 7)
+    private String skuCode;
     @Column(nullable = false)
+    @NotNull
+    @Min(0)
     private Integer quantityOnHand;
+    @Column(nullable = false)
+    @NotNull
+    @Min(0)
+    private Integer reorderQuantity;
+    @Column(nullable = false, length = 128)
+    @NotNull
+    @Size(max = 128)
+    private String brand;
     @Column(nullable = false)
     @DecimalMin("1.00")
     @DecimalMax("9999.00")
     @NotNull
     private BigDecimal price;
+    @Column(nullable = false, length = 128)
+    @NotNull
+    @Size(max = 128)
+    private String description;
     @Column(nullable = true, length = 256)
     @Size(max = 256)
     private String imageLink;
@@ -61,11 +82,15 @@ public class AccessoryItemEntity implements Serializable {
         this.isDisabled = false;
     }
 
-    public AccessoryItemEntity(String accessoryItemName, Integer quantityOnHand, BigDecimal price) {
+    public AccessoryItemEntity(String accessoryItemName, String skuCode, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String description) {
         this();
         this.accessoryItemName = accessoryItemName;
+        this.skuCode = skuCode;
         this.quantityOnHand = quantityOnHand;
+        this.reorderQuantity = reorderQuantity;
+        this.brand = brand;
         this.price = price;
+        this.description = description;
     }
 
     @Override
@@ -155,6 +180,62 @@ public class AccessoryItemEntity implements Serializable {
 
     public void setIsDisabled(Boolean isDisabled) {
         this.isDisabled = isDisabled;
+    }
+
+    /**
+     * @return the skuCode
+     */
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    /**
+     * @param skuCode the skuCode to set
+     */
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
+    /**
+     * @return the reorderQuantity
+     */
+    public Integer getReorderQuantity() {
+        return reorderQuantity;
+    }
+
+    /**
+     * @param reorderQuantity the reorderQuantity to set
+     */
+    public void setReorderQuantity(Integer reorderQuantity) {
+        this.reorderQuantity = reorderQuantity;
+    }
+
+    /**
+     * @return the brand
+     */
+    public String getBrand() {
+        return brand;
+    }
+
+    /**
+     * @param brand the brand to set
+     */
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
