@@ -49,6 +49,10 @@ public class ReplyEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private MemberEntity author;
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    private ForumPostEntity forumPost;
 
     public Long getReplyEntityId() {
         return replyEntityId;
@@ -137,6 +141,14 @@ public class ReplyEntity implements Serializable {
 
     public void setAuthor(MemberEntity author) {
         this.author = author;
+    }
+
+    public ForumPostEntity getForumPost() {
+        return forumPost;
+    }
+
+    public void setForumPost(ForumPostEntity forumPost) {
+        this.forumPost = forumPost;
     }
     
 }
