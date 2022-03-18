@@ -10,7 +10,6 @@ import ejb.session.stateless.AccessoryItemEntitySessionBeanLocal;
 import ejb.session.stateless.PartChoiceEntitySessionBeanLocal;
 import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
-import entity.AccessoryItemEntity;
 import entity.ProductEntity;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -18,14 +17,15 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 
 /**
  *
  * @author Koh Wen Jie
  */
-@Named(value = "productAccessoryManagementManagedBean")
+@Named(value = "productManagementManagedBean")
 @ViewScoped
-public class ProductAccessoryManagementManagedBean implements Serializable {
+public class ProductManagementManagedBean implements Serializable {
 
     @EJB(name = "PartChoiceEntitySessionBeanLocal")
     private PartChoiceEntitySessionBeanLocal partChoiceEntitySessionBeanLocal;
@@ -42,22 +42,25 @@ public class ProductAccessoryManagementManagedBean implements Serializable {
     @EJB(name = "AccessoryEntitySessionBeanLocal")
     private AccessoryEntitySessionBeanLocal accessoryEntitySessionBeanLocal;
 
+    @Inject
+    private ViewProductManagedBean viewProductManagedBean;
+
     private List<ProductEntity> listOfProductEntities;
     private List<ProductEntity> filteredListOfProductEntities;
-
-    private List<AccessoryItemEntity> listOfAccessoryItemEntities;
-    private List<AccessoryItemEntity> filteredListOfAccessoryItemEntities;
 
     /**
      * Creates a new instance of ProductManagementManagedBean
      */
-    public ProductAccessoryManagementManagedBean() {
+    public ProductManagementManagedBean() {
     }
 
     @PostConstruct
     public void postConstruct() {
+        initializeState();
+    }
+
+    public void initializeState() {
         listOfProductEntities = productEntitySessionBeanLocal.retrieveAllProductEntities();
-        listOfAccessoryItemEntities = accessoryItemEntitySessionBeanLocal.retrieveAllAccessoryItemEntities();
     }
 
     public List<ProductEntity> getListOfProductEntities() {
@@ -68,14 +71,6 @@ public class ProductAccessoryManagementManagedBean implements Serializable {
         this.listOfProductEntities = listOfProductEntities;
     }
 
-    public List<AccessoryItemEntity> getListOfAccessoryItemEntities() {
-        return listOfAccessoryItemEntities;
-    }
-
-    public void setListOfAccessoryItemEntities(List<AccessoryItemEntity> listOfAccessoryItemEntities) {
-        this.listOfAccessoryItemEntities = listOfAccessoryItemEntities;
-    }
-
     public List<ProductEntity> getFilteredListOfProductEntities() {
         return filteredListOfProductEntities;
     }
@@ -84,12 +79,11 @@ public class ProductAccessoryManagementManagedBean implements Serializable {
         this.filteredListOfProductEntities = filteredListOfProductEntities;
     }
 
-    public List<AccessoryItemEntity> getFilteredListOfAccessoryItemEntities() {
-        return filteredListOfAccessoryItemEntities;
+    public ViewProductManagedBean getViewProductManagedBean() {
+        return viewProductManagedBean;
     }
 
-    public void setFilteredListOfAccessoryItemEntities(List<AccessoryItemEntity> filteredListOfAccessoryItemEntities) {
-        this.filteredListOfAccessoryItemEntities = filteredListOfAccessoryItemEntities;
+    public void setViewProductManagedBean(ViewProductManagedBean viewProductManagedBean) {
+        this.viewProductManagedBean = viewProductManagedBean;
     }
-
 }

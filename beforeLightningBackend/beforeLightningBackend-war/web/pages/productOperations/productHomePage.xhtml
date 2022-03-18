@@ -11,79 +11,18 @@
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Product" />
-        <p:tabView id="tabViewProductAccessory" orientation="top">
-            <p:tab title="All Products">
-                <h:form id="formAllProducts">
-
-                    <p:dataTable id="dataTableAllProducts" widgetVar="dataTableAllProducts" value="#{productAccessoryManagementManagedBean.listOfProductEntities}" var="productEntity" rowKey="#{productEntity.productEntityId}" rowIndexVar="row"
-                                 filteredValue="#{productAccessoryManagementManagedBean.filteredListOfProductEntities}"
-                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
-
-                        <f:facet name="header">
-                            <p:outputPanel style="text-align: right;">
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProducts').filter()" style="width:300px" placeholder="Enter keyword"/>
-                            </p:outputPanel>
-                        </f:facet>
-
-                        <p:column headerText="Product ID" sortBy="#{productEntity.productEntityId}" filterBy="#{productEntity.productEntityId}" filterMatchMode="contains">
-                            <h:outputText value="#{productEntity.productEntityId}" />
-                        </p:column>
-                        <p:column headerText="SKU Code" sortBy="#{productEntity.skuCode}" filterBy="#{productEntity.skuCode}" filterMatchMode="contains">
-                            <h:outputText value="#{productEntity.skuCode}" />
-                        </p:column>
-                        <p:column headerText="Product Overview " sortBy="#{productEntity.productOverview}" filterBy="#{productEntity.productOverview}" filterMatchMode="contains">
-                            <h:outputText value="#{productEntity.productOverview}" />
-                        </p:column>
-                        <p:column headerText="Description" sortBy="#{productEntity.description}" filterBy="#{productEntity.description}" filterMatchMode="contains">
-                            <h:outputText value="#{productEntity.description}" />
-                        </p:column>
-
-                    </p:dataTable>
-                </h:form>
-
+        <p:tabView id="tabViewAllProducts" orientation="top">
+            <p:tab title="All Live Products">
+                <ez:ViewLiveProducts id="ccViewLiveProducts" />
             </p:tab>
-            <p:tab title="All Accessories">
-                <h:form id="formAllAccessories">
-
-                    <p:dataTable id="dataTableAllAccessoriesItems" widgetVar="dataTableAllAccessoriesItems" value="#{productAccessoryManagementManagedBean.listOfAccessoryItemEntities}" var="accessoryItemEntity" rowKey="#{accessoryItemEntity.accessoryItemEntityId}" rowIndexVar="row"
-                                 filteredValue="#{productAccessoryManagementManagedBean.filteredListOfAccessoryItemEntities}"
-                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
-
-                        <f:facet name="header">
-                            <p:outputPanel style="text-align: right;">
-                                <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('dataTableAllAccessoriesItems').filter()" style="width:300px" placeholder="Enter keyword"/>
-                            </p:outputPanel>
-                        </f:facet>
-
-                        <p:column headerText="Accessory Item ID" sortBy="#{accessoryItemEntity.accessoryItemEntityId}" filterBy="#{accessoryItemEntity.accessoryItemEntityId}" filterMatchMode="contains">
-                            <h:outputText value="#{accessoryItemEntity.accessoryItemEntityId}" />
-                        </p:column>                    
-                        <p:column headerText="SKU Code" sortBy="#{accessoryItemEntity.skuCode}" filterBy="#{accessoryItemEntity.skuCode}" filterMatchMode="contains">
-                            <h:outputText value="#{accessoryItemEntity.skuCode}" />
-                        </p:column>                   
-                        <p:column headerText="Name" sortBy="#{accessoryItemEntity.accessoryItemName}" filterBy="#{accessoryItemEntity.accessoryItemName}" filterMatchMode="contains">
-                            <h:outputText value="#{accessoryItemEntity.accessoryItemName}" />
-                        </p:column>                    
-                        <p:column headerText="Brand" sortBy="#{accessoryItemEntity.brand}" filterBy="#{accessoryItemEntity.brand}" filterMatchMode="contains">
-                            <h:outputText value="#{accessoryItemEntity.brand}" />
-                        </p:column>                   
-                        <p:column headerText="Description" sortBy="#{accessoryItemEntity.description}" filterBy="#{accessoryItemEntity.description}" filterMatchMode="contains">
-                            <h:outputText value="#{accessoryItemEntity.description}" />
-                        </p:column>
-                        <p:column headerText="Quantity On Hand" sortBy="#{accessoryItemEntity.quantityOnHand}" filterBy="#{accessoryItemEntity.quantityOnHand}" filterMatchMode="contains">
-                            <h:outputText value="#{accessoryItemEntity.quantityOnHand}" />
-                        </p:column>                                       
-                        <p:column headerText="Accessory Type" sortBy="#{accessoryItemEntity.accessoryEntity.accessoryName}" filterBy="#{accessoryItemEntity.accessoryEntity.accessoryName}" filterMatchMode="contains">
-                            <h:outputText value="#{accessoryItemEntity.accessoryEntity.accessoryName}" />
-                        </p:column>
-
-
-
-                    </p:dataTable>     
-                </h:form>
-
+            <p:tab title="Manage All Products">
+                <ez:ManageAllProducts id="ccManageAllProducts" />
+            </p:tab>
+            <p:tab title="Manage All Parts">
+                <ez:ManageAllParts id="ccManageAllParts" />
+            </p:tab>
+            <p:tab title="Manage All Part Choices">
+                <ez:ManageAllPartChoices id="ccManageAllPartChoices" />
             </p:tab>
         </p:tabView>
     </ui:define>

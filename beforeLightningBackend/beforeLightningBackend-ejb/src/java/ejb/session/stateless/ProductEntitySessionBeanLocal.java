@@ -51,5 +51,7 @@ public interface ProductEntitySessionBeanLocal {
 
     public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partOverview, String partDescription) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
 
+    public List<ProductEntity> retrieveAllProductEntitiesThatCanSell();
+
 
 }

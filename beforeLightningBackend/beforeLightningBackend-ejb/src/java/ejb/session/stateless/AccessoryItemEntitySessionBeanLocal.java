@@ -38,4 +38,8 @@ public interface AccessoryItemEntitySessionBeanLocal {
 
     public Long createNewAccessoryItemEntity(AccessoryItemEntity newAccessoryItem, AccessoryEntity accessoryEntity) throws AccessoryEntityNotFoundException, AccessoryItemNameExists, InputDataValidationException, UnknownPersistenceException;
 
+    public AccessoryItemEntity retrieveAccessoryItemByName(String accessoryItemName) throws AccessoryItemEntityNotFoundException;
+
+    public List<AccessoryItemEntity> retrieveAllAccessoryItemEntitiesThatCanSell();
+
 }
