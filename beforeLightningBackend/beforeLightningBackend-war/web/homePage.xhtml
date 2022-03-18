@@ -19,14 +19,20 @@
                     <p>                    
                         <ui:repeat value="#{motdManagedBean.messageOfTheDayEntities}" var="motd">
 
-                            <div class="motdTitle">
+                            <div class="motdTitle" style="
+                                 padding: 3px 3px 3px 3px;
+                                 background-color: grey;
+                                 color: white;
+                                 font-weight: bold;
+                                 ">
                                 <h:outputText value="#{motd.messageDate}">
                                     <f:convertDateTime pattern="EEE, MMM d, ''yy" />
                                 </h:outputText>
                                 - 
                                 <h:outputText value="#{motd.title}" />
                             </div>
-                            <div class="motdMessage">
+                            <div class="motdMessage" style="padding: 3px 3px 3px 3px;
+                                 background-color: lightsteelblue;">
                                 <h:outputText value="#{motd.message}" />
                             </div>
                             <br/>
