@@ -3,6 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       >
 
     <body>
@@ -11,6 +13,28 @@
             <ui:define name="content">
                 <ez:Breadcrumb pageName="homePage" />
                 This is a customized content 
+
+                <article>
+                    <h3>Message Of The Day</h3>                    
+                    <p>                    
+                        <ui:repeat value="#{motdManagedBean.messageOfTheDayEntities}" var="motd">
+
+                            <div class="motdTitle">
+                                <h:outputText value="#{motd.messageDate}">
+                                    <f:convertDateTime pattern="EEE, MMM d, ''yy" />
+                                </h:outputText>
+                                - 
+                                <h:outputText value="#{motd.title}" />
+                            </div>
+                            <div class="motdMessage">
+                                <h:outputText value="#{motd.message}" />
+                            </div>
+                            <br/>
+
+                        </ui:repeat>                                                              
+                    </p>
+                </article>
+
             </ui:define>
         </ui:composition>
     </body>
