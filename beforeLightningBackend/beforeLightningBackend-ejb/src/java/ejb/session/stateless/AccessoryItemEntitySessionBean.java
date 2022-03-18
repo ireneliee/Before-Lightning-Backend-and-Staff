@@ -7,12 +7,10 @@ package ejb.session.stateless;
 
 import entity.AccessoryEntity;
 import entity.AccessoryItemEntity;
-import entity.AccessoryItemEntity;
 import entity.PurchaseOrderLineItemEntity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -89,22 +87,41 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
         }
     }
 
+    @Override
     public List<AccessoryItemEntity> retrieveAllAccessoryItemEntities() {
 
         Query query = em.createQuery("SELECT a FROM AccessoryItemEntity a");
         List<AccessoryItemEntity> list = query.getResultList();
         for (AccessoryItemEntity accItem : list) {
             accItem.getPromotionEntities().size();
+            accItem.getReviewEntities().size();
             accItem.getAccessoryEntity();
         }
         return list;
     }
 
+    @Override
+    public List<AccessoryItemEntity> retrieveAllAccessoryItemEntitiesThatCanSell() {
+
+        List<AccessoryItemEntity> list = retrieveAllAccessoryItemEntities();
+        List<AccessoryItemEntity> newList = new ArrayList<>();
+        
+        for (AccessoryItemEntity ai : list) {
+            ai.getReviewEntities().size();
+            if (ai.getIsDisabled() == false && ai.getAccessoryEntity().getIsDisabled() == false && ai.getQuantityOnHand() > 0) {
+                newList.add(ai);
+            }
+        }
+        return newList;
+    }
+
+    @Override
     public AccessoryItemEntity retrieveAccessoryItemById(Long id) throws AccessoryItemEntityNotFoundException {
 
         AccessoryItemEntity item = em.find(AccessoryItemEntity.class, id);
         if (item != null) {
             item.getPromotionEntities().size();
+            item.getReviewEntities().size();
             item.getAccessoryEntity();
             return item;
         } else {
@@ -112,6 +129,7 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
         }
     }
 
+    @Override
     public AccessoryItemEntity retrieveAccessoryItemByName(String accessoryItemName) throws AccessoryItemEntityNotFoundException {
 
         Query query = em.createQuery("SELECT a FROM AccessoryItemEntity a WHERE a.accessoryItemName=:inputName");
@@ -120,6 +138,7 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
         try {
             AccessoryItemEntity accItem = (AccessoryItemEntity) query.getSingleResult();
             accItem.getPromotionEntities().size();
+            accItem.getReviewEntities().size();
             accItem.getAccessoryEntity();
             return accItem;
         } catch (NoResultException | NonUniqueResultException ex) {
@@ -136,6 +155,7 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
         try {
             AccessoryItemEntity accItem = (AccessoryItemEntity) query.getSingleResult();
             accItem.getPromotionEntities().size();
+            accItem.getReviewEntities().size();
             accItem.getAccessoryEntity();
             return accItem;
         } catch (NoResultException | NonUniqueResultException ex) {
@@ -143,6 +163,7 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
         }
     }
 
+    @Override
     public void updateAccessoryItem(AccessoryItemEntity newAccessoryItem) throws UpdateAccessoryItemEntityException, InputDataValidationException, AccessoryItemEntityNotFoundException {
 
         if (newAccessoryItem != null && newAccessoryItem.getAccessoryItemEntityId() != null) {

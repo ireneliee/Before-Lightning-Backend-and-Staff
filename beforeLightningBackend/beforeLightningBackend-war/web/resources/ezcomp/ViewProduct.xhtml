@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:form id="formViewProduct">
+
+            <p:dialog id="dialogViewProduct" widgetVar="dialogViewProduct" header="View Product" closable="true">
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:graphicImage value="/uploadedFiles/sampleLaptop.png" height="300px" width="300px" rendered="#{empty viewProductManagedBean.productEntityToView.imageLink}"/>
+                            <p:graphicImage value="/uploadedFiles/#{viewProductManagedBean.productEntityToView.imageLink}" height="300px" width="300px" rendered="#{not empty viewProductManagedBean.productEntityToView.imageLink}"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Product ID: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewProductManagedBean.productEntityToView.productEntityId}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="SKU Code: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewProductManagedBean.productEntityToView.skuCode}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Product Overview: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewProductManagedBean.productEntityToView.productOverview}" />
+                        </p:column>
+                    </p:row>                   
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewProductManagedBean.productEntityToView.description}" />
+                        </p:column>
+                    </p:row>       
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Ratings: " />
+                        </p:column>
+                        <p:column>
+                            <p:rating value="#{viewProductManagedBean.rating}" readonly="true"/>
+                        </p:column>
+                    </p:row>  
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Disabled: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewProductManagedBean.productEntityToView.isDisabled}" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+    </cc:implementation>
+</html>

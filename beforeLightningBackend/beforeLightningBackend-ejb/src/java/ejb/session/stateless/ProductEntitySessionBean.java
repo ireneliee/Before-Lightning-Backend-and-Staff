@@ -9,6 +9,7 @@ import entity.PartChoiceEntity;
 import entity.PartEntity;
 import entity.ProductEntity;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
@@ -151,6 +152,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         Query query = entityManager.createQuery("SELECT p FROM ProductEntity p");
         List<ProductEntity> list = query.getResultList();
         for (ProductEntity prod : list) {
+            prod.getReviewEntities().size();
             List<PartEntity> partList = prod.getPartEntities();
             for (PartEntity part : partList) {
                 part.getPartChoiceEntities().size();
@@ -160,10 +162,68 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
     }
 
     @Override
+    public List<ProductEntity> retrieveAllProductEntitiesThatCanSell() {
+        //Retrieves Products that are not disabled, with no disabled parts but at least 1 part, with all parts that have at least 1 not disabled part choice
+        List<ProductEntity> list = retrieveAllProductEntities();
+        List<ProductEntity> newList = new ArrayList<>();
+
+        //check product not disabled
+        for (ProductEntity pe : list) {
+
+            pe.getReviewEntities().size();
+            boolean check = true;
+            if (pe.getIsDisabled() == true) {
+                check = false;
+            } else {
+
+                if (pe.getPartEntities().size() > 0) {
+                    //check parts in product not disabled
+                    for (PartEntity part : pe.getPartEntities()) {
+                        if (part.getPartChoiceEntities().size() > 0) {
+                            if (part.getIsDisabled() == true) {
+                                check = false;
+                                break;
+                            } else {
+
+                                //check that there is at least 1 not disabled part choice
+                                boolean checkPartChoice = false;
+                                for (PartChoiceEntity pce : part.getPartChoiceEntities()) {
+                                    if (pce.getIsDisabled() == false && pce.getQuantityOnHand() > 0) {
+                                        checkPartChoice = true;
+                                        break;
+                                    }
+                                }
+                                if (checkPartChoice == false) {
+                                    check = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            check = false;
+                        }
+                    }
+                } else {
+                    check = false;
+                }
+
+                if (check == false) {
+                    break;
+                }
+            }
+            //if all conditions pass, then can add into the new list to display
+            if (check == true) {
+                newList.add(pe);
+            }
+        }
+        return newList;
+    }
+
+    @Override
     public ProductEntity retrieveProductEntityByProductEntityId(Long productId) throws ProductEntityNotFoundException {
         ProductEntity productEntity = entityManager.find(ProductEntity.class, productId);
 
         if (productEntity != null) {
+            productEntity.getReviewEntities().size();
             List<PartEntity> partList = productEntity.getPartEntities();
             for (PartEntity part : partList) {
                 part.getPartChoiceEntities().size();
@@ -183,6 +243,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         if (result == null) {
             throw new ProductSkuNotFoundException("Product with SKU Code of " + skuCode + " does not exist.");
         } else {
+            result.getReviewEntities().size();
             List<PartEntity> partList = result.getPartEntities();
             for (PartEntity part : partList) {
                 part.getPartChoiceEntities().size();
@@ -200,6 +261,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         if (result == null) {
             throw new ProductNameNotFoundException("Product with Product Name of " + productName + " does not exist.");
         } else {
+            result.getReviewEntities().size();
             List<PartEntity> partList = result.getPartEntities();
             for (PartEntity part : partList) {
                 part.getPartChoiceEntities().size();
