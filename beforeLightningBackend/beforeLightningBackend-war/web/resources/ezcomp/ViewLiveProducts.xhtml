@@ -21,22 +21,25 @@
 
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
-                        <h:outputText value="Search all fields:" />
+                        <p:outputLabel value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableAllLiveProducts').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet>
 
                 <p:column headerText="Product ID" sortBy="#{productEntity.productEntityId}" filterBy="#{productEntity.productEntityId}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.productEntityId}" />
+                    <p:outputLabel value="#{productEntity.productEntityId}" />
                 </p:column>
                 <p:column headerText="SKU Code" sortBy="#{productEntity.skuCode}" filterBy="#{productEntity.skuCode}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.skuCode}" />
+                    <p:outputLabel value="#{productEntity.skuCode}" />
+                </p:column>
+                <p:column headerText="Product Name" sortBy="#{productEntity.productName}" filterBy="#{productEntity.productName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productName}" />
                 </p:column>
                 <p:column headerText="Product Overview " sortBy="#{productEntity.productOverview}" filterBy="#{productEntity.productOverview}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.productOverview}" />
+                    <p:outputLabel value="#{productEntity.productOverview}" />
                 </p:column>
                 <p:column headerText="Description" sortBy="#{productEntity.description}" filterBy="#{productEntity.description}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.description}" />
+                    <p:outputLabel value="#{productEntity.description}" />
                 </p:column>
 
             </p:dataTable>

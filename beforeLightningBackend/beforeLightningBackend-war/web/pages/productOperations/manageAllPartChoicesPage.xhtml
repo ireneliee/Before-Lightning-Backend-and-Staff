@@ -1,19 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                template="./../../templates/defaultTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-
-    <!-- INTERFACE -->
-    <cc:interface>
-    </cc:interface>
-  
-    <!-- IMPLEMENTATION -->
-    <cc:implementation>
+    <ui:define name="content">
+        <ez:Breadcrumb pageName="Manage Part Choices" />
+        <ui:include src="/pages/productOperations/productNavBar.xhtml" />
+        
         <h:form id="formAllPartChoices">
             <p:dataTable id="dataTableAllPartChoices" widgetVar="dataTableAllPartChoices" value="#{partChoiceManagementManagedBean.listOfPartChoiceEntities}" var="partChoiceEntity" rowKey="#{partChoiceEntity.partChoiceEntityId}" rowIndexVar="row"
                          filteredValue="#{partChoiceManagementManagedBean.filteredListOfPartChoiceEntities}"
@@ -21,33 +19,34 @@
 
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
-                        <h:outputText value="Search all fields:" />
+                        <p:outputLabel value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPartChoices').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet>
 
                 <p:column headerText="Part Choice ID" sortBy="#{partChoiceEntity.partChoiceEntityId}" filterBy="#{partChoiceEntity.partChoiceEntityId}" filterMatchMode="contains">
-                    <h:outputText value="#{partChoiceEntity.partChoiceEntityId}" />
+                    <p:outputLabel value="#{partChoiceEntity.partChoiceEntityId}" />
                 </p:column>
                 <p:column headerText="Part Choice Name " sortBy="#{partChoiceEntity.partChoiceName}" filterBy="#{partChoiceEntity.partChoiceName}" filterMatchMode="contains">
-                    <h:outputText value="#{partChoiceEntity.partChoiceName}" />
+                    <p:outputLabel value="#{partChoiceEntity.partChoiceName}" />
                 </p:column>
                 <p:column headerText="Brand" sortBy="#{partChoiceEntity.brand}" filterBy="#{partChoiceEntity.brand}" filterMatchMode="contains">
-                    <h:outputText value="#{partChoiceEntity.brand}" />
+                    <p:outputLabel value="#{partChoiceEntity.brand}" />
                 </p:column>                
                 <p:column headerText="Price" sortBy="#{partChoiceEntity.price}" filterBy="#{partChoiceEntity.price}" filterMatchMode="contains">
-                    <h:outputText value="#{partChoiceEntity.price}" />
+                    <p:outputLabel value="#{partChoiceEntity.price}" />
                 </p:column>
                 <p:column headerText="Disabled" sortBy="#{partChoiceEntity.isDisabled}" filterBy="#{partChoiceEntity.isDisabled}" filterMatchMode="contains">
-                    <h:outputText value="#{partChoiceEntity.isDisabled}" />
+                    <p:outputLabel value="#{partChoiceEntity.isDisabled}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton update="tabViewAllProducts:ccManageAllPartChoices:ccViewPartChoice:formViewPartChoice" oncomplete="PF('dialogViewPartChoice').show()" icon="ui-icon-document" title="View">
+                    <p:commandButton update="ccViewPartChoice:formViewPartChoice" oncomplete="PF('dialogViewPartChoice').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.viewPartChoiceManagedBean.partChoiceEntityToView}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
         <ez:ViewPartChoice id="ccViewPartChoice" />
-    </cc:implementation>
-</html>
+    </ui:define>
+
+</ui:composition>

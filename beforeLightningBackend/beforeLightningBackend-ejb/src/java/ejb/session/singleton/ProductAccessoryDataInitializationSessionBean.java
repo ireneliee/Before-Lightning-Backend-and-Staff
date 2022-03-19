@@ -144,8 +144,8 @@ public class ProductAccessoryDataInitializationSessionBean {
         AccessoryItemEntity speaker3 = new AccessoryItemEntity("Elac Debut B5.2", "ACSY006", 100, 10, "Elac", new BigDecimal(150), "This is a speaker");
 
         try {
-            productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500), "Overview", "Description");
-            productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "Aftershock", new BigDecimal(600), "Overview", "Description");
+            productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500));
+            productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "Aftershock", new BigDecimal(600));
 
             partEntitySessionBeanLocal.createNewPartEntity(a);
             partEntitySessionBeanLocal.createNewPartEntity(b);

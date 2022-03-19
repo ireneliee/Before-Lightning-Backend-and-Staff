@@ -14,8 +14,6 @@ import java.io.InputStream;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -43,7 +41,7 @@ public class SettingsManagementManagedBean implements Serializable {
 
     private EmployeeEntity currentEmployeeEntity;
     private String imageLink;
-
+    
     /**
      * Creates a new instance of SettingsManagementManagedBean
      */

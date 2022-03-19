@@ -11,20 +11,39 @@
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Product" />
-        <p:tabView id="tabViewAllProducts" orientation="top">
-            <p:tab title="All Live Products">
-                <ez:ViewLiveProducts id="ccViewLiveProducts" />
-            </p:tab>
-            <p:tab title="Manage All Products">
-                <ez:ManageAllProducts id="ccManageAllProducts" />
-            </p:tab>
-            <p:tab title="Manage All Parts">
-                <ez:ManageAllParts id="ccManageAllParts" />
-            </p:tab>
-            <p:tab title="Manage All Part Choices">
-                <ez:ManageAllPartChoices id="ccManageAllPartChoices" />
-            </p:tab>
-        </p:tabView>
+
+        <ui:include src="/pages/productOperations/productNavBar.xhtml" />
+        <h:form id="formAllLiveProducts">
+
+            <p:dataTable id="dataTableAllLiveProducts" widgetVar="dataTableAllLiveProducts" value="#{liveProductManagementManagedBean.listOfLiveProductEntities}" var="productEntity" rowKey="#{productEntity.productEntityId}" rowIndexVar="row"
+                         filteredValue="#{liveProductManagementManagedBean.filteredListOfLiveProductEntities}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllLiveProducts').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Product ID" sortBy="#{productEntity.productEntityId}" filterBy="#{productEntity.productEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productEntityId}" />
+                </p:column>
+                <p:column headerText="SKU Code" sortBy="#{productEntity.skuCode}" filterBy="#{productEntity.skuCode}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.skuCode}" />
+                </p:column>
+                <p:column headerText="Product Name" sortBy="#{productEntity.productName}" filterBy="#{productEntity.productName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productName}" />
+                </p:column>
+                <p:column headerText="Product Overview " sortBy="#{productEntity.productOverview}" filterBy="#{productEntity.productOverview}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productOverview}" />
+                </p:column>
+                <p:column headerText="Description" sortBy="#{productEntity.description}" filterBy="#{productEntity.description}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.description}" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
     </ui:define>
 
 </ui:composition>

@@ -98,7 +98,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 
     @Override
     public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand,
-            BigDecimal price, String partOverview, String partDescription) throws CreateNewProductEntityException, InputDataValidationException,
+            BigDecimal price) throws CreateNewProductEntityException, InputDataValidationException,
             UnknownPersistenceException, ProductSkuCodeExistException {
 
         createNewProductEntity(newProductEntity);
@@ -126,7 +126,64 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
                 throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT PART CANT BE FOUND");
             }
         }
-        PartChoiceEntity chassisPartChoice = new PartChoiceEntity((product.getProductName() + " Chassis"), quantityOnHand, reorderQuantity, brand, price, partOverview, partDescription);
+        PartChoiceEntity chassisPartChoice = new PartChoiceEntity((product.getProductName() + " Chassis"), quantityOnHand, reorderQuantity, brand, price, product.getProductOverview(), product.getDescription());
+        try {
+            partChoiceEntitySessionBeanLocal.createNewPartChoiceEntity(chassisPartChoice);
+        } catch (PartChoiceEntityExistException ex) {
+            throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT");
+        }
+
+        try {
+            partEntitySessionBeanLocal.addPartChoiceToPart(chassisPartChoice.getPartChoiceEntityId(), chassis.getPartEntityId());
+        } catch (PartEntityNotFoundException | PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartException ex) {
+            throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT");
+        }
+        try {
+            addPartToProduct(chassis.getPartEntityId(), product.getProductEntityId());
+        } catch (PartEntityNotFoundException | ProductEntityNotFoundException | UnableToAddPartToProductException ex) {
+            throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT");
+        }
+
+        return product.getProductEntityId();
+    }
+
+    //With Image
+    @Override
+    public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand,
+            BigDecimal price, String imageLink) throws CreateNewProductEntityException, InputDataValidationException,
+            UnknownPersistenceException, ProductSkuCodeExistException {
+
+        createNewProductEntity(newProductEntity);
+        ProductEntity product;
+        try {
+            product = retrieveProductEntityBySkuCode(newProductEntity.getSkuCode());
+        } catch (ProductSkuNotFoundException ex) {
+            throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT AS PRODUCT CANT BE FOUND");
+        }
+        
+        //Add image
+        product.setImageLink(imageLink);
+
+        Query query = entityManager.createQuery("SELECT p FROM PartEntity p WHERE p.partName = :inName");
+        query.setParameter("inName", "Chassis");
+        PartEntity chassis;
+        try {
+            chassis = (PartEntity) query.getSingleResult();
+
+        } catch (NoResultException ex) {
+            PartEntity chassisPart = new PartEntity("Chassis", "This is the Chassis of the Build");
+            try {
+                partEntitySessionBeanLocal.createNewPartEntity(chassisPart);
+                chassis = partEntitySessionBeanLocal.retrievePartEntityByPartName("Chassis");
+            } catch (PartEntityExistException ex1) {
+                throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT AS PART ALREADY EXIST");
+            } catch (PartNameNotFoundException ex1) {
+                throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT PART CANT BE FOUND");
+            }
+        }
+        //Add image
+        PartChoiceEntity chassisPartChoice = new PartChoiceEntity((product.getProductName() + " Chassis"), quantityOnHand, reorderQuantity, brand, price, product.getProductOverview(), product.getDescription());
+        chassisPartChoice.setImageLink(imageLink);
         try {
             partChoiceEntitySessionBeanLocal.createNewPartChoiceEntity(chassisPartChoice);
         } catch (PartChoiceEntityExistException ex) {

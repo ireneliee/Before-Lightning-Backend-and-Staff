@@ -12,9 +12,6 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-
-
-
         <p:messages for ="createEmployeeMessage" showDetail="true" closable="true">
         </p:messages>
         <p:dialog id="dialogCreateEmployee" widgetVar="dialogCreateEmployee" header="Create New Employee" closable="true">
@@ -56,16 +53,8 @@
                     </p:selectOneMenu>
                     <p:message for="accessRight" />
                     <p:commandButton  value="Create New Employee" update = "formCreateEmployee :formAllEmployees" actionListener="#{createEmployeeManagedBean.createNewEmployee}" modal="true" showEffect="fade" hideEffect="fade"  resetValues = "true"  ></p:commandButton>
-
-
                 </h:panelGrid>
-
-
-
             </h:form>
         </p:dialog>
-
-
-
     </cc:implementation>
 </html>

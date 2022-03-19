@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:messages for ="createProductMessage" showDetail="true" closable="true">
+        </p:messages>
+        <p:dialog id="dialogCreateProduct" widgetVar="dialogCreateProduct" header="Create New Product" closable="true">
+            <h:form id="formCreateProduct">
+
+
+                <p:panelGrid id="grid" columns="3" styleClass="ui-noborder">
+                    <p:outputLabel for="productName" value="Product Name: " style="font-weight: bold;" />
+                    <p:inputText id="productName" value="#{createProductManagedBean.newProductEntity.productName}"  required="true" requiredMessage="Product Name is required" />
+                    <p:message for="productName" />
+
+                    <p:outputLabel for="skuCode" value="SKU Code: " style="font-weight: bold;" />
+                    <p:inputText id="skuCode" value="#{createProductManagedBean.newProductEntity.skuCode}" required="true" requiredMessage="Sku Code is required" />
+                    <p:message for="skuCode" /> 
+
+                    <p:outputLabel for="Overview" value="Overview: " style="font-weight: bold;" />
+                    <p:inputText id="Overview" value="#{createProductManagedBean.newProductEntity.productOverview}" required="true" requiredMessage="Overview is required" />
+                    <p:message for="Overview" />     
+
+                    <p:outputLabel for="description" value="Description: " style="font-weight: bold;" />
+                    <p:inputText id="description" value="#{createProductManagedBean.newProductEntity.description}" required="true" requiredMessage="Description is required" />
+                    <p:message for="description" />
+
+                    <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
+                    <p:inputText id="brand" value="#{createProductManagedBean.brand}"  required="true" requiredMessage="Brand is required" />
+                    <p:message for="brand" />
+
+                    <p:outputLabel for="quantityOnHand" value="Quantity On Hand " style="font-weight: bold;" />
+                    <p:spinner id="quantityOnHand" value="#{createProductManagedBean.quantityOnHand}" min="0" max="1000" required="true" requiredMessage="Quantity is required" />
+                    <p:message for="quantityOnHand" />
+
+                    <p:outputLabel for="reorderQuantity" value="Reorder Quantity: " style="font-weight: bold;" />
+                    <p:spinner id="reorderQuantity" value="#{createProductManagedBean.reorderQuantity}" min="0" max="1000" required="true" requiredMessage="Reorder Quantity is required" />
+                    <p:message for="reorderQuantity" />
+
+                    <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
+                    <p:spinner id="price" value="#{createProductManagedBean.price}" prefix="$" min="0"  required="true" requiredMessage="Price is required"/>
+                    <p:message for="price" />
+
+
+                    <p:outputLabel for="image" value="Image: " style="font-weight: bold;" />
+                    <p:fileUpload id="image" listener="#{createProductManagedBean.handleFileUpload}" update="growl" previewWidth="200" mode="advanced" rendered="#{empty createProductManagedBean.imageLink}"/>
+
+                    <p:message for="image" />
+
+                    <p:commandButton  value="Create New Product" update = "formCreateProduct :formAllProducts growl" actionListener="#{createProductManagedBean.createNewProduct}" oncomplete="PF('dialogCreateProduct').hide()">
+                    </p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</html>

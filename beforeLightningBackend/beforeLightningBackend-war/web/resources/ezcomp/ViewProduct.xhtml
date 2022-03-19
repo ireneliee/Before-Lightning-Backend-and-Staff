@@ -73,6 +73,17 @@
                             <p:outputLabel value="#{viewProductManagedBean.productEntityToView.isDisabled}" />
                         </p:column>
                     </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Parts: " />
+                        </p:column>
+                        <p:column>
+                            <p:repeat value="#{viewProductManagedBean.productEntityToView.partEntities}" var="partEntity">
+                                <p:outputLabel value="- #{partEntity.partName}"/>
+                                <br/>
+                            </p:repeat>
+                        </p:column>
+                    </p:row>
 
                 </p:panelGrid>
 

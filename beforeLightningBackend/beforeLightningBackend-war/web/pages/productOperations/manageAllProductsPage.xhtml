@@ -1,55 +1,55 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-      >
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                template="./../../templates/defaultTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <!-- INTERFACE -->
-    <cc:interface>
-    </cc:interface>
-
-    <!-- IMPLEMENTATION -->
-    <cc:implementation>
-
+    <ui:define name="content">
+        <ez:Breadcrumb pageName="Manage Products" />
+        <ui:include src="/pages/productOperations/productNavBar.xhtml" />
+        
         <h:form id="formAllProducts">
+            <p:commandButton value="Create New Product"  icon="pi pi-plus" update="ccCreateProduct:formCreateProduct" oncomplete="PF('dialogCreateProduct').show()" title="Create New Product">
+            </p:commandButton>
             <p:dataTable id="dataTableAllProducts" widgetVar="dataTableAllProducts" value="#{productManagementManagedBean.listOfProductEntities}" var="productEntity" rowKey="#{productEntity.productEntityId}" rowIndexVar="row"
                          filteredValue="#{productManagementManagedBean.filteredListOfProductEntities}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
-                        <h:outputText value="Search all fields:" />
+                        <p:outputLabel value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProducts').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet>
 
                 <p:column headerText="Product ID" sortBy="#{productEntity.productEntityId}" filterBy="#{productEntity.productEntityId}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.productEntityId}" />
+                    <p:outputLabel value="#{productEntity.productEntityId}" />
                 </p:column>
                 <p:column headerText="SKU Code" sortBy="#{productEntity.skuCode}" filterBy="#{productEntity.skuCode}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.skuCode}" />
+                    <p:outputLabel value="#{productEntity.skuCode}" />
                 </p:column>
                 <p:column headerText="Product Overview " sortBy="#{productEntity.productOverview}" filterBy="#{productEntity.productOverview}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.productOverview}" />
+                    <p:outputLabel value="#{productEntity.productOverview}" />
                 </p:column>
                 <p:column headerText="Description" sortBy="#{productEntity.description}" filterBy="#{productEntity.description}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.description}" />
+                    <p:outputLabel value="#{productEntity.description}" />
                 </p:column>                
                 <p:column headerText="Disabled" sortBy="#{productEntity.isDisabled}" filterBy="#{productEntity.isDisabled}" filterMatchMode="contains">
-                    <h:outputText value="#{productEntity.isDisabled}" />
+                    <p:outputLabel value="#{productEntity.isDisabled}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton update="tabViewAllProducts:ccManageAllProducts:ccViewProduct:formViewProduct" oncomplete="PF('dialogViewProduct').show()" icon="ui-icon-document" title="View">
+                    <p:commandButton update="ccViewProduct:formViewProduct" oncomplete="PF('dialogViewProduct').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.viewProductManagedBean.productEntityToView}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
+        <ez:CreateProduct id="ccCreateProduct" />
         <ez:ViewProduct id="ccViewProduct" />
+    </ui:define>
 
-    </cc:implementation>
-</html>
+</ui:composition>

@@ -49,9 +49,11 @@ public interface ProductEntitySessionBeanLocal {
 
     public void removePartFromProduct(Long partEntityId, Long productEntityId) throws PartEntityNotFoundException, ProductEntityNotFoundException, UnableToRemovePartFromProductException;
 
-    public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String partOverview, String partDescription) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
-
     public List<ProductEntity> retrieveAllProductEntitiesThatCanSell();
+
+    public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String imageLink) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
+
+    public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
 
 
 }

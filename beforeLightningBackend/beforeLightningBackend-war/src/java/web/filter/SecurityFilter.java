@@ -79,7 +79,10 @@ public class SecurityFilter implements Filter {
                 return false;
             }
         } else if (accessRight.equals(accessRight.PRODUCT)) {
-            if (path.equals("/pages/productOperations/productHomePage.xhtml")) {
+            if (path.equals("/pages/productOperations/productHomePage.xhtml") ||
+                   path.equals("/pages/productOperations/manageAllProductsPage.xhtml") ||
+                    path.equals("/pages/productOperations/manageAllPartsPage.xhtml") ||
+                    path.equals("/pages/productOperations/manageAllPartChoicesPage.xhtml")) {
                 return true;
             } else {
                 return false;
