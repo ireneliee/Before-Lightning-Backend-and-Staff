@@ -45,11 +45,11 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     @Column(nullable = false)
     @Min(1)
     private Integer quantity;
-    @DecimalMin("1.00")
-    @DecimalMax("99999.00")
-    @NotNull
-    @Column(nullable = false)
-    private BigDecimal subTotalPrice;
+//    @DecimalMin("1.00")
+//    @DecimalMax("99999.00")
+//    @NotNull
+//    @Column(nullable = false)
+//    private BigDecimal subTotalPrice;
     @Column(nullable = true, length = 256)
     @Size(max = 256)
     private String cosmeticImageLink;
@@ -69,7 +69,7 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     private ProductEntity productEntity;
 
     @OneToOne(optional = true, fetch = FetchType.LAZY)
-    private AccessoryEntity accessoryItemEntity;
+    private AccessoryItemEntity accessoryItemEntity;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<PartChoiceEntity> partChoiceEntities;
@@ -79,31 +79,39 @@ public class PurchaseOrderLineItemEntity implements Serializable {
         this.partChoiceEntities = new ArrayList<>();
     }
 
-    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, BigDecimal subTotalPrice, String cosmeticImageLink, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, String cosmeticImageLink, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum) {
         this();
         this.serialNumber = serialNumber;
         this.quantity = quantity;
-        this.subTotalPrice = subTotalPrice;
         this.cosmeticImageLink = cosmeticImageLink;
         this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
         this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
     }
 
-    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, BigDecimal subTotalPrice, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, AccessoryItemEntity item) {
         this();
         this.serialNumber = serialNumber;
         this.quantity = quantity;
-        this.subTotalPrice = subTotalPrice;
         this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
         this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
+        this.accessoryItemEntity = item;
+        this.cosmeticImageLink = "";
+    }
+    
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, ProductEntity product) {
+        this();
+        this.serialNumber = serialNumber;
+        this.quantity = quantity;
+        this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
+        this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
+        this.productEntity = product;
         this.cosmeticImageLink = "";
     }
 
-    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, BigDecimal subTotalPrice, String cosmeticImageLink, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, ProductEntity productEntity, AccessoryEntity accessoryItemEntity) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, BigDecimal subTotalPrice, String cosmeticImageLink, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, ProductEntity productEntity, AccessoryItemEntity accessoryItemEntity) {
         this();
         this.serialNumber = serialNumber;
         this.quantity = quantity;
-        this.subTotalPrice = subTotalPrice;
         this.cosmeticImageLink = cosmeticImageLink;
         this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
         this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
@@ -139,15 +147,18 @@ public class PurchaseOrderLineItemEntity implements Serializable {
      * @return the subTotalPrice
      */
     public BigDecimal getSubTotalPrice() {
-        return subTotalPrice;
+        if(this.purchaseOrderLineItemTypeEnum == PurchaseOrderLineItemTypeEnum.ACCESSORY) {
+            return this.accessoryItemEntity.getPrice().multiply(new BigDecimal(quantity));
+        } else {
+            BigDecimal subprice = BigDecimal.ZERO;
+        for(PartChoiceEntity p : partChoiceEntities) {
+            subprice = subprice.add(p.getPrice());
+        }
+        return subprice.multiply(new BigDecimal(quantity));
+        }
     }
 
-    /**
-     * @param subTotalPrice the subTotalPrice to set
-     */
-    public void setSubTotalPrice(BigDecimal subTotalPrice) {
-        this.subTotalPrice = subTotalPrice;
-    }
+
 
     /**
      * @return the purchaseOrderLineItemStatus
@@ -255,14 +266,14 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     /**
      * @return the accessoryItemEntity
      */
-    public AccessoryEntity getAccessoryItemEntity() {
+    public AccessoryItemEntity getAccessoryItemEntity() {
         return accessoryItemEntity;
     }
 
     /**
      * @param accessoryItemEntity the accessoryItemEntity to set
      */
-    public void setAccessoryItemEntity(AccessoryEntity accessoryItemEntity) {
+    public void setAccessoryItemEntity(AccessoryItemEntity accessoryItemEntity) {
         this.accessoryItemEntity = accessoryItemEntity;
     }
 
