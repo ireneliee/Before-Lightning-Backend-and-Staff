@@ -5,6 +5,8 @@ import entity.PartEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -207,6 +209,17 @@ public class PartChoiceEntitySessionBean implements PartChoiceEntitySessionBeanL
             }
         } catch (NoResultException ex) {
             throw new UnableToAddPartChoiceToPartChoiceException("No Part called Chassis exist!");
+        }
+    }
+
+    @Override
+    public void addPartChoiceToListOfChassisChoice(Long partChoiceToAddId, List<PartChoiceEntity> listOfChassisPartChoiceEntities) throws UnableToAddPartChoiceToPartChoiceException{
+        for (PartChoiceEntity chassis : listOfChassisPartChoiceEntities) {
+            try {
+                addPartChoiceToChassisChoice(partChoiceToAddId, chassis.getPartChoiceEntityId());
+            } catch (PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartChoiceException ex) {
+                throw new UnableToAddPartChoiceToPartChoiceException(ex.getMessage());
+            }
         }
     }
 

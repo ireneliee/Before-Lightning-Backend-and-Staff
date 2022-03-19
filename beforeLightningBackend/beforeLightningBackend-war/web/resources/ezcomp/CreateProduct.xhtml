@@ -11,12 +11,8 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <p:messages for ="createProductMessage" showDetail="true" closable="true">
-        </p:messages>
         <p:dialog id="dialogCreateProduct" widgetVar="dialogCreateProduct" header="Create New Product" closable="true">
             <h:form id="formCreateProduct">
-
-
                 <p:panelGrid id="grid" columns="3" styleClass="ui-noborder">
                     <p:outputLabel for="productName" value="Product Name: " style="font-weight: bold;" />
                     <p:inputText id="productName" value="#{createProductManagedBean.newProductEntity.productName}"  required="true" requiredMessage="Product Name is required" />

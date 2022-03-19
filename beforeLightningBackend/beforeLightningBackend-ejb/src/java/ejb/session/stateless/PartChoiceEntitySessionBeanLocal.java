@@ -44,4 +44,6 @@ public interface PartChoiceEntitySessionBeanLocal {
 
     public void removePartChoiceFromChassisChoice(Long partChoiceToRemoveId, Long chassisToRemoveId) throws PartChoiceEntityNotFoundException, UnableToRemovePartChoiceFromPartChoiceException;
 
+    public void addPartChoiceToListOfChassisChoice(Long partChoiceToAddId, List<PartChoiceEntity> listOfChassisPartChoiceEntities) throws UnableToAddPartChoiceToPartChoiceException;
+
 }

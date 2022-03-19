@@ -13,8 +13,7 @@
         <ui:include src="/pages/productOperations/productNavBar.xhtml" />
         
         <h:form id="formAllProducts">
-            <p:commandButton value="Create New Product"  icon="pi pi-plus" update="ccCreateProduct:formCreateProduct" oncomplete="PF('dialogCreateProduct').show()" title="Create New Product">
-            </p:commandButton>
+            <p:commandButton value="Create New Product"  icon="pi pi-plus" update="ccCreateProduct:formCreateProduct" oncomplete="PF('dialogCreateProduct').show()" title="Create New Product"/>
             <p:dataTable id="dataTableAllProducts" widgetVar="dataTableAllProducts" value="#{productManagementManagedBean.listOfProductEntities}" var="productEntity" rowKey="#{productEntity.productEntityId}" rowIndexVar="row"
                          filteredValue="#{productManagementManagedBean.filteredListOfProductEntities}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">

@@ -53,4 +53,6 @@ public interface PartEntitySessionBeanLocal {
 
     public List<PartEntity> retrieveAllPartEntities();
 
+    public void addPartChoiceToListOfParts(Long partChoiceEntityId, List<PartEntity> listOfPartEntities) throws UnableToAddPartChoiceToPartException;
+
 }

@@ -11,6 +11,8 @@ import entity.ProductEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -221,6 +223,18 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
             throw new UnableToAddPartChoiceToPartException("Unable to Add Part Choice To Part");
         } else {
             partToAdd.getPartChoiceEntities().add(partChoiceToAdd);
+        }
+    }
+    
+    @Override
+    public void addPartChoiceToListOfParts(Long partChoiceEntityId, List<PartEntity> listOfPartEntities) throws UnableToAddPartChoiceToPartException{
+        
+        for (PartEntity part : listOfPartEntities) {
+            try {
+                addPartChoiceToPart(partChoiceEntityId, part.getPartEntityId());
+            } catch (PartEntityNotFoundException | PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartException ex) {
+                throw new UnableToAddPartChoiceToPartException(ex.getMessage());
+            }
         }
     }
 

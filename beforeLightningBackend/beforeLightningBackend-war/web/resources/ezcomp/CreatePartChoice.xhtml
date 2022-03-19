@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:dialog id="dialogCreatePartChoice" widgetVar="dialogCreatePartChoice" header="Create New Part Choice" closable="true">
+            <h:form id="formCreatePartChoice">
+                <p:panelGrid id="grid" columns="3" styleClass="ui-noborder">
+                    <p:outputLabel for="partChoiceName" value="PartChoice Name: " style="font-weight: bold;" />
+                    <p:inputText id="partChoiceName" value="#{createPartChoiceManagedBean.newPartChoiceEntity.partChoiceName}"  required="true" requiredMessage="Part Choice Name is required" />
+                    <p:message for="partChoiceName" />
+
+                    <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
+                    <p:inputText id="brand" value="#{createPartChoiceManagedBean.newPartChoiceEntity.brand}"  required="true" requiredMessage="Brand is required" />
+                    <p:message for="brand" />
+
+                    <p:outputLabel for="partChoiceOverview" value="Part Choice Overview: " style="font-weight: bold;" />
+                    <p:inputText id="partChoiceOverview" value="#{createPartChoiceManagedBean.newPartChoiceEntity.partOverview}" required="true" requiredMessage="Overview is required" />
+                    <p:message for="partChoiceOverview" />     
+
+                    <p:outputLabel for="partChoiceDescription" value="Part Choice Description: " style="font-weight: bold;" />
+                    <p:inputText id="partChoiceDescription" value="#{createPartChoiceManagedBean.newPartChoiceEntity.partDescription}" required="true" requiredMessage="Description is required" />
+                    <p:message for="partChoiceDescription" />
+
+                    <p:outputLabel for="quantityOnHand" value="Quantity On Hand " style="font-weight: bold;" />
+                    <p:spinner id="quantityOnHand" value="#{createPartChoiceManagedBean.newPartChoiceEntity.quantityOnHand}" min="0" max="1000" required="true" requiredMessage="Quantity is required" />
+                    <p:message for="quantityOnHand" />
+
+                    <p:outputLabel for="reorderQuantity" value="Reorder Quantity: " style="font-weight: bold;" />
+                    <p:spinner id="reorderQuantity" value="#{createPartChoiceManagedBean.newPartChoiceEntity.reorderQuantity}" min="0" max="1000" required="true" requiredMessage="Reorder Quantity is required" />
+                    <p:message for="reorderQuantity" />
+
+                    <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
+                    <p:spinner id="price" value="#{createPartChoiceManagedBean.newPartChoiceEntity.price}" prefix="$" min="0"  required="true" requiredMessage="Price is required"/>
+                    <p:message for="price" />
+
+                    <p:outputLabel for="image" value="Image: " style="font-weight: bold;" />
+                    <p:fileUpload id="image" listener="#{createPartChoiceManagedBean.handleFileUpload}" update="growl" previewWidth="200" mode="advanced" rendered="#{empty createPartChoiceManagedBean.imageLink}"/>
+                    <p:message for="image" />
+
+                    <p:selectManyMenu id="selectManyPartMenu" value="#{createPartChoiceManagedBean.listOfSelectedPartEntities}"
+                                      var="partEntity" filter="true" filterMatchMode="contains" showCheckbox="true">
+                        <f:selectItems value="#{createPartChoiceManagedBean.listOfAvailablePartEntities}" var="partEntity" itemLabel="#{partEntity.partName}" itemValue="#{partEntity}" />
+                        <p:column>
+                            <p:outputLabel value="#{partEntity.partName}" />
+                        </p:column>
+                    </p:selectManyMenu>
+
+                    <p:selectManyMenu id="selectManyChassisPartChoiceMenu" value="#{createPartChoiceManagedBean.listOfSelectedChassisPartChoiceEntities}"
+                                      var="partChoiceEntity" filter="true" filterMatchMode="contains" showCheckbox="true">
+                        <f:selectItems value="#{createPartChoiceManagedBean.listOfAvailableChassisPartChoiceEntities}" var="partChoiceEntity" itemLabel="#{partChoiceEntity.partChoiceName}" itemValue="#{partChoiceEntity}" />
+                        <p:column>
+                            <p:outputLabel value="#{partChoiceEntity.partChoiceName}" />
+                        </p:column>
+                    </p:selectManyMenu> 
+
+                    <p:commandButton  value = "Create New Part Choice" update = "formCreatePartChoice :formAllPartChoices growl" actionListener="#{createPartChoiceManagedBean.createNewPartChoice}" oncomplete="PF('dialogCreatePartChoice').hide()">
+                    </p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</html>
