@@ -13,7 +13,6 @@
 //import ejb.session.stateless.PartChoiceEntitySessionBeanLocal;
 //import ejb.session.stateless.PartEntitySessionBeanLocal;
 //import ejb.session.stateless.ProductEntitySessionBeanLocal;
-//import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
 //import entity.AccessoryEntity;
 //import entity.AccessoryItemEntity;
 //import entity.AddressEntity;
@@ -23,12 +22,7 @@
 //import entity.PartChoiceEntity;
 //import entity.PartEntity;
 //import entity.ProductEntity;
-//import entity.PurchaseOrderEntity;
-//import entity.PurchaseOrderLineItemEntity;
 //import java.math.BigDecimal;
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.List;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 //import javax.annotation.PostConstruct;
@@ -39,15 +33,11 @@
 //import javax.persistence.EntityManager;
 //import javax.persistence.PersistenceContext;
 //import util.enumeration.EmployeeAccessRightEnum;
-//import util.enumeration.PurchaseOrderLineItemStatusEnum;
-//import util.enumeration.PurchaseOrderLineItemTypeEnum;
 //import util.exception.AccessoryEntityNotFoundException;
-//import util.exception.AccessoryItemEntityNotFoundException;
 //import util.exception.AccessoryItemNameExists;
 //import util.exception.AccessoryNameExistsException;
 //import util.exception.AddressEntityNotFoundException;
 //import util.exception.CreateNewProductEntityException;
-//import util.exception.CreateNewPurchaseOrderException;
 //import util.exception.EmployeeEntityNotFoundException;
 //import util.exception.EmployeeEntityUsernameExistException;
 //import util.exception.InputDataValidationException;
@@ -71,10 +61,7 @@
 //@Singleton
 //@LocalBean
 //@Startup
-//public class DataInitialisationSessionBean {
-////
-////    @EJB
-////    private PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBean;
+//public class DataInitialisationSessionBean5 {
 ////
 ////    @EJB
 ////    private MemberEntitySessionBeanLocal memberEntitySessionBeanLocal;
@@ -103,7 +90,7 @@
 ////    @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
 ////    private EntityManager em;
 ////
-////    public DataInitialisationSessionBean() {
+////    public DataInitialisationSessionBean5() {
 ////    }
 ////
 ////    @PostConstruct
@@ -116,9 +103,8 @@
 ////        }
 ////    }
 ////
-////    private void initializeData(){
+////    private void initializeData() {
 ////        try {
-////
 //////
 //////        Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand,
 //////            BigDecimal price, String partOverview, String partDescription) throws CreateNewProductEntityException, InputDataValidationException,
@@ -150,19 +136,19 @@
 ////                    forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f3);
 ////                    forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f4);
 ////                } catch (MemberEntityNotFoundException ex) {
-////                    Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                    Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////                }
 ////
 ////            } catch (MemberEntityUsernameExistException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (AddressEntityNotFoundException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (InputDataValidationException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (UnknownPersistenceException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            }
-////
+////            
 ////            //Product
 ////            ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.");
 ////            ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series");
@@ -173,7 +159,7 @@
 ////            PartEntity c = new PartEntity("Memory (Notebook RAM)", "Random Access Memory (RAM) is the fast access data storage in which the computer stores files.");
 ////            PartEntity d = new PartEntity("Thermal Compound", "Thermal Compound is a fluid substance which increases the thermal conductivity.");
 ////            PartEntity e = new PartEntity("Operating System", "The Operating System (OS) is the core software that manages the computer hardware resources.");
-////
+////            
 ////            //Part Choice
 ////            PartChoiceEntity a1 = new PartChoiceEntity("Intel® Core™ i5-12500H Processor (12 Cores)", 100, 10, "Intel", new BigDecimal(0), "Base CPU", "Description");
 ////            PartChoiceEntity a2 = new PartChoiceEntity("Intel® Core™ i7-12700H Processor (14 Cores)", 100, 10, "Intel", new BigDecimal(165), "Recommended CPU", "Description");
@@ -312,56 +298,23 @@
 ////                AccessoryEntity ass1 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityById(ac1.getAccessoryEntityId());
 ////                AccessoryEntity ass2 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityById(ac2.getAccessoryEntityId());
 ////
-////                Long assitem1 = accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse1, ass1);
-////                Long assitem2 = accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse2, ass1);
-////                Long assitem3 = accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse3, ass1);
+////                accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse1, ass1);
+////                accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse2, ass1);
+////                accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse3, ass1);
 ////                accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker1, ass2);
 ////                accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker2, ass2);
 ////                accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker3, ass2);
 ////
-////                try {
-////                    PurchaseOrderLineItemEntity l1 = new PurchaseOrderLineItemEntity(23532515, 2, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.ACCESSORY, accessoryItemEntitySessionBeanLocal.retrieveAccessoryItemById(assitem1));
-////                    PurchaseOrderLineItemEntity l2 = new PurchaseOrderLineItemEntity(23532434, 1, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.ACCESSORY, accessoryItemEntitySessionBeanLocal.retrieveAccessoryItemById(assitem2));
-////                    PurchaseOrderLineItemEntity l3 = new PurchaseOrderLineItemEntity(23523423, 1, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.ACCESSORY, accessoryItemEntitySessionBeanLocal.retrieveAccessoryItemById(assitem3));
-////                    PurchaseOrderLineItemEntity l4 = new PurchaseOrderLineItemEntity(32432535, 1, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.BUILD, product2);
-////                    List<PartChoiceEntity> list1 = new ArrayList<PartChoiceEntity>();
-////                    list1.add(partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(product2.getProductName() + " Chassis"));
-////                    list1.add(a2);
-////                    list1.add(b2);
-////                    list1.add(c2);
-////                    list1.add(d2);
-////                    list1.add(e2);
-////
-////                    l4.setPartChoiceEntities(list1);
-////
-////                    PurchaseOrderEntity po = new PurchaseOrderEntity(new BigDecimal(3.50), LocalDateTime.now(), LocalDateTime.now());
-////                    po.getPurchaseOrderLineItems().add(l1);
-////                    po.getPurchaseOrderLineItems().add(l2);
-////                    po.getPurchaseOrderLineItems().add(l3);
-////                    po.getPurchaseOrderLineItems().add(l4);
-////                    
-////                    purchaseOrderEntitySessionBean.createNewPurchaseOrder(m1.getUserEntityId(), po);
-////
-////                } catch (AccessoryItemEntityNotFoundException ex) {
-////                    Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-////                } catch (MemberEntityNotFoundException ex) {
-////                    Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-////                } catch (CreateNewPurchaseOrderException ex) {
-////                    Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
-////                }
-////
-////                PurchaseOrderEntity po1 = new PurchaseOrderEntity();
-////
 ////            } catch (CreateNewProductEntityException | InputDataValidationException | UnknownPersistenceException | ProductSkuCodeExistException | PartEntityExistException | PartChoiceEntityExistException | PartEntityNotFoundException | PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartException | ProductEntityNotFoundException | UnableToAddPartToProductException | UnableToAddPartChoiceToPartChoiceException ex) {
 ////                System.out.println("THIS IS THE ERROR");
 ////                System.out.println(ex.getMessage());
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (AccessoryNameExistsException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (AccessoryItemNameExists ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (AccessoryEntityNotFoundException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            }
 ////
 ////            EmployeeEntity newEmployee1 = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "manager", "password", "manager", "one", "manager@gmail.com", "99999999");
@@ -376,17 +329,17 @@
 ////                employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee4);
 ////
 ////            } catch (EmployeeEntityUsernameExistException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (InputDataValidationException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            } catch (UnknownPersistenceException ex) {
-////                Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////                Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////            }
 ////
 ////        } catch (InputDataValidationException ex) {
-////            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////            Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////        } catch (UnknownPersistenceException ex) {
-////            Logger.getLogger(DataInitialisationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+////            Logger.getLogger(DataInitialisationSessionBean5.class.getName()).log(Level.SEVERE, null, ex);
 ////        }
 ////
 ////    }

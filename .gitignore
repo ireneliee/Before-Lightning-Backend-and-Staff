@@ -59,3 +59,4 @@ dist/
 /beforeLightningBackend/beforeLightningBackendLibrary/dist/
 /beforeLightningRWS/nbproject/private/
 beforeLightningBackend/beforeLightningBackend-war/web/WEB-INF/glassfish-web.xml
+beforeLightningBackend/beforeLightningBackend-war/web/WEB-INF/glassfish-web.xml
