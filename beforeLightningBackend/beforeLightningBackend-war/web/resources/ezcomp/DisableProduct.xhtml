@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formDisableProduct" >
+            <p:dialog id="dialogDisableProduct" widgetVar="dialogDisableProduct" header="Disable Product" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Sku Code: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{disableProductManagedBean.productEntityToDisable.skuCode}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Product Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{disableProductManagedBean.productEntityToDisable.productName}" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton value="Confirm Disable" icon="pi pi-ban" actionListener="#{disableProductManagedBean.disableProduct}" update="formAllProducts:dataTableAllProducts :growl" oncomplete="PF('dialogDisableProduct').hide()" rendered="#{disableProductManagedBean.productEntityToDisable.isDisabled eq false}">
+                    <p:confirm header="Confirmation" message="Are you sure you want to Disable #{disableProductManagedBean.productEntityToDisable.productName} ?"  icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:commandButton value="Confirm Enable" icon="pi pi-circle-off" actionListener="#{disableProductManagedBean.disableProduct}" update="formAllProducts:dataTableAllProducts :growl" oncomplete="PF('dialogDisableProduct').hide()" rendered="#{disableProductManagedBean.productEntityToDisable.isDisabled eq true}">
+                    <p:confirm header="Confirmation" message="Are you sure you want to Enable #{disableProductManagedBean.productEntityToDisable.productName} ?"  icon="ui-icon-alert" />
+                </p:commandButton>
+
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </cc:implementation>
+</html>

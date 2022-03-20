@@ -47,9 +47,15 @@ public class ProductManagementManagedBean implements Serializable {
 
     @Inject
     private UpdateProductManagedBean updateProductManagedBean;
-    
+
     @Inject
     private UpdateProductPartsManagedBean updateProductPartsManagedBean;
+
+    @Inject
+    private DisableProductManagedBean disableProductManagedBean;
+
+    @Inject
+    private DeleteProductManagedBean deleteProductManagedBean;
 
     private List<ProductEntity> listOfProductEntities;
     private List<ProductEntity> filteredListOfProductEntities;
@@ -107,5 +113,21 @@ public class ProductManagementManagedBean implements Serializable {
 
     public void setUpdateProductPartsManagedBean(UpdateProductPartsManagedBean updateProductPartsManagedBean) {
         this.updateProductPartsManagedBean = updateProductPartsManagedBean;
+    }
+
+    public DisableProductManagedBean getDisableProductManagedBean() {
+        return disableProductManagedBean;
+    }
+
+    public void setDisableProductManagedBean(DisableProductManagedBean disableProductManagedBean) {
+        this.disableProductManagedBean = disableProductManagedBean;
+    }
+
+    public DeleteProductManagedBean getDeleteProductManagedBean() {
+        return deleteProductManagedBean;
+    }
+
+    public void setDeleteProductManagedBean(DeleteProductManagedBean deleteProductManagedBean) {
+        this.deleteProductManagedBean = deleteProductManagedBean;
     }
 }

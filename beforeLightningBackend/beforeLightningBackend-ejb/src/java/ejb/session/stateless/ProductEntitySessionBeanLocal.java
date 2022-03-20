@@ -44,8 +44,6 @@ public interface ProductEntitySessionBeanLocal {
 
     public void deleteProductEntity(Long productEntityId) throws ProductEntityNotFoundException, DeleteProductEntityException;
 
-    public void toggleDisableProductEntity(ProductEntity productEntity) throws ProductEntityNotFoundException, UpdateProductEntityException, InputDataValidationException;
-
     public void addPartToProduct(Long partEntityId, Long productEntityId) throws PartEntityNotFoundException, ProductEntityNotFoundException, UnableToAddPartToProductException;
 
     public void removePartFromProduct(Long partEntityId, Long productEntityId) throws PartEntityNotFoundException, ProductEntityNotFoundException, UnableToRemovePartFromProductException;
@@ -57,6 +55,8 @@ public interface ProductEntitySessionBeanLocal {
     public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
 
     public void updateProductEntitiyWithNewParts(List<PartEntity> listOfNewParts, ProductEntity productEntityToUpdate) throws UpdateProductEntityException;
+
+    public void toggleDisableProductEntity(Long productEntityId) throws UpdateProductEntityException;
 
 
 

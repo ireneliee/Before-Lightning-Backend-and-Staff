@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,8 +23,10 @@ import util.exception.DeletePartChoiceEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.PartChoiceEntityExistException;
 import util.exception.PartChoiceEntityNotFoundException;
+import util.exception.PartEntityNotFoundException;
 import util.exception.UnableToAddPartChoiceToPartChoiceException;
 import util.exception.UnableToRemovePartChoiceFromPartChoiceException;
+import util.exception.UnableToRemovePartChoiceFromPartException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdatePartChoiceEntityException;
 
@@ -33,6 +36,9 @@ import util.exception.UpdatePartChoiceEntityException;
  */
 @Stateless
 public class PartChoiceEntitySessionBean implements PartChoiceEntitySessionBeanLocal {
+
+    @EJB(name = "PartEntitySessionBeanLocal")
+    private PartEntitySessionBeanLocal partEntitySessionBeanLocal;
 
     @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
     private EntityManager em;
@@ -127,9 +133,20 @@ public class PartChoiceEntitySessionBean implements PartChoiceEntitySessionBeanL
         if (partChoiceEntityToRemove.getCompatibleChassisPartChoiceEntities().size() > 0
                 || partChoiceEntityToRemove.getCompatiblePartsPartChoiceEntities().size() > 0
                 || partChoiceEntityToRemove.getPromotionEntities().size() > 0
-                || list.size() > 0) {
+                || check) {
             throw new DeletePartChoiceEntityException("Unable to delete Part Choice!");
         } else {
+            List<PartEntity> listOfPartEntities = partEntitySessionBeanLocal.retrieveAllPartEntities();
+            listOfPartEntities.removeIf(part -> !part.getPartChoiceEntities().contains(partChoiceEntityToRemove));
+            for (PartEntity part : listOfPartEntities) {
+                try {
+                    partEntitySessionBeanLocal.removePartChoiceFromPart(partChoiceEntityToRemove.getPartChoiceEntityId(), part.getPartEntityId());
+                } catch (PartEntityNotFoundException ex) {
+                    Logger.getLogger(PartChoiceEntitySessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnableToRemovePartChoiceFromPartException ex) {
+                    Logger.getLogger(PartChoiceEntitySessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             em.remove(partChoiceEntityToRemove);
         }
     }

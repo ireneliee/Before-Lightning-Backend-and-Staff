@@ -68,7 +68,7 @@
                     </p:row>
 
                 </p:panelGrid>
-                <p:commandButton icon="ui-icon-trash" actionListener="#{deleteEmployeeManagedBean.deleteEmployee}" update="formAllEmployees:dataTableAllEmployees :growl" oncomplete="PF('dialogDeleteEmployee').hide();">
+                <p:commandButton icon="ui-icon-trash" actionListener="#{deleteEmployeeManagedBean.deleteEmployee}" update="formAllEmployees:dataTableAllEmployees :growl" oncomplete="PF('dialogDeleteEmployee').hide()">
                     <p:confirm header="Confirmation" message="Are you sure you want to delete #{deleteEmployeeManagedBean.employeeEntityToDelete.firstname} #{deleteEmployeeManagedBean.employeeEntityToDelete.lastname}?"  icon="ui-icon-alert" />
                 </p:commandButton>
             </p:dialog>

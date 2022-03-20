@@ -50,8 +50,17 @@
                     <p:commandButton value="Update Product" update="ccUpdateProduct:formUpdateProduct" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-refresh" title="Update">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.updateProductManagedBean.productEntityToUpdate}" />
                     </p:commandButton>
-                    <p:commandButton value="Update Parts" update="ccUpdateProductParts:formUpdateProductParts" oncomplete="PF('dialogUpdateProductParts').show()" icon="ui-icon-refresh" title="Update">
+                    <p:commandButton value="Update Parts" update="ccUpdateProductParts:formUpdateProductParts" oncomplete="PF('dialogUpdateProductParts').show()" icon="ui-icon-pencil" title="Update">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.updateProductPartsManagedBean.productEntityPartsToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton value="Disable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-refresh" title="Disable" rendered="#{productEntity.isDisabled eq false}">
+                        <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.disableProductManagedBean.productEntityToDisable}" />
+                    </p:commandButton>
+                    <p:commandButton value="Enable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-refresh" title="Disable" rendered="#{productEntity.isDisabled eq true}">
+                        <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.disableProductManagedBean.productEntityToDisable}" />
+                    </p:commandButton>
+                    <p:commandButton value="Delete Product" update="ccDeleteProduct:formDeleteProduct" oncomplete="PF('dialogDeleteProduct').show()" icon="ui-icon-ban" title="Delete">
+                        <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.deleteProductManagedBean.productEntityToDelete}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -60,6 +69,8 @@
         <ez:ViewProduct id="ccViewProduct" />
         <ez:UpdateProduct id="ccUpdateProduct" />
         <ez:UpdateProductParts id="ccUpdateProductParts" />
+        <ez:DisableProduct id="ccDisableProduct" />
+        <ez:DeleteProduct id="ccDeleteProduct" />
 
 
     </ui:define>

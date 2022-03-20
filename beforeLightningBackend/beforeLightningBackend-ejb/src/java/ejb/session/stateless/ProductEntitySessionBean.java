@@ -26,6 +26,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import util.exception.CreateNewProductEntityException;
+import util.exception.DeletePartChoiceEntityException;
 import util.exception.DeleteProductEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.PartChoiceEntityExistException;
@@ -392,34 +393,35 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 
     @Override
     public void deleteProductEntity(Long productEntityId) throws ProductEntityNotFoundException, DeleteProductEntityException {
-        ProductEntity productEntityToRemove = retrieveProductEntityByProductEntityId(productEntityId);
-        //need to check for any conditions before removing product?
-        if (productEntityToRemove.getPartEntities().size() > 0) {
-            throw new DeleteProductEntityException("Unable to Delete Product That has Parts");
-        } else {
-            entityManager.remove(productEntityToRemove);
+        try {
+            ProductEntity productEntityToRemove = retrieveProductEntityByProductEntityId(productEntityId);
+            if (productEntityToRemove.getPartEntities().size() == 1) {
+                //Remove Part From Product
+                PartEntity chassisPart = partEntitySessionBeanLocal.retrievePartEntityByPartName("Chassis");
+                removePartFromProduct(chassisPart.getPartEntityId(), productEntityToRemove.getProductEntityId());
+                entityManager.remove(productEntityToRemove);
+                //Remove PartChoice From Part
+                PartChoiceEntity chassisPartChoice = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(productEntityToRemove.getProductName() + " Chassis");
+                partChoiceEntitySessionBeanLocal.deletePartChoiceEntity(chassisPartChoice.getPartChoiceEntityId());
+            } else {
+                throw new DeleteProductEntityException("Unable to Delete Product That is Linked To Parts Other Than Chassis");
+            }
+
+        } catch (PartChoiceEntityNotFoundException | DeletePartChoiceEntityException | PartNameNotFoundException | PartEntityNotFoundException | UnableToRemovePartFromProductException ex) {
+            System.out.println(ex.getMessage());
+            throw new DeleteProductEntityException("Unable to Delete Product" + ex.getMessage());
         }
     }
 
     @Override
-    public void toggleDisableProductEntity(ProductEntity productEntity) throws ProductEntityNotFoundException, UpdateProductEntityException, InputDataValidationException {
-        if (productEntity != null && productEntity.getProductEntityId() != null) {
-            Set<ConstraintViolation<ProductEntity>> constraintViolations = validator.validate(productEntity);
-
-            if (constraintViolations.isEmpty()) {
-                ProductEntity productEntityToUpdate = retrieveProductEntityByProductEntityId(productEntity.getProductEntityId());
-
-                if (productEntityToUpdate.getProductEntityId().equals(productEntity.getProductEntityId())) {
-                    productEntityToUpdate.setIsDisabled(productEntity.getIsDisabled());
-
-                } else {
-                    throw new UpdateProductEntityException("Product ID of productEntity record to be updated does not match the existing record");
-                }
-            } else {
-                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
-            }
-        } else {
-            throw new ProductEntityNotFoundException("ProductEntity ID not provided for productEntity to be updated");
+    public void toggleDisableProductEntity(Long productEntityId) throws UpdateProductEntityException {
+        try {
+            ProductEntity productToDisable = retrieveProductEntityByProductEntityId(productEntityId);
+            PartChoiceEntity chassisPartChoice = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(productToDisable.getProductName() + " Chassis");
+            productToDisable.setIsDisabled(!productToDisable.getIsDisabled());
+            chassisPartChoice.setIsDisabled(!chassisPartChoice.getIsDisabled());
+        } catch (ProductEntityNotFoundException | PartChoiceEntityNotFoundException ex) {
+            throw new UpdateProductEntityException("Unable To Disable/Enable Product!");
         }
     }
 
@@ -441,7 +443,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         PartEntity partToRemove = partEntitySessionBeanLocal.retrievePartEntityByPartEntityId(partEntityId);
         ProductEntity productToRemove = retrieveProductEntityByProductEntityId(productEntityId);
 
-        if (partToRemove.getProductEntities().contains(productToRemove) || productToRemove.getPartEntities().contains(partToRemove)) {
+        if (!(partToRemove.getProductEntities().contains(productToRemove) || productToRemove.getPartEntities().contains(partToRemove))) {
             throw new UnableToRemovePartFromProductException("Unable to remove Part from Product");
         } else {
             partToRemove.getProductEntities().remove(productToRemove);
