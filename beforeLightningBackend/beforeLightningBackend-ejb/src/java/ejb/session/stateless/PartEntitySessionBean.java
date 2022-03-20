@@ -136,24 +136,12 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
     }
 
     @Override
-    public void toggleDisablePartEntity(PartEntity partEntity) throws PartEntityNotFoundException, UpdatePartEntityException, InputDataValidationException {
-        if (partEntity != null && partEntity.getPartEntityId() != null) {
-            Set<ConstraintViolation<PartEntity>> constraintViolations = validator.validate(partEntity);
-
-            if (constraintViolations.isEmpty()) {
-                PartEntity partEntityToUpdate = retrievePartEntityByPartEntityId(partEntity.getPartEntityId());
-
-                if (partEntityToUpdate.getPartEntityId().equals(partEntity.getPartEntityId())) {
-                    partEntityToUpdate.setIsDisabled(partEntity.getIsDisabled());
-
-                } else {
-                    throw new UpdatePartEntityException("Product ID of productEntity record to be updated does not match the existing record");
-                }
-            } else {
-                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
-            }
-        } else {
-            throw new PartEntityNotFoundException("ProductEntity ID not provided for productEntity to be updated");
+    public void toggleDisablePartEntity(Long partEntityId) throws UpdatePartEntityException {
+        try {
+            PartEntity partToDisable = retrievePartEntityByPartEntityId(partEntityId);
+            partToDisable.setIsDisabled(!partToDisable.getIsDisabled());
+        } catch (PartEntityNotFoundException ex) {
+            throw new UpdatePartEntityException("Unable To Disable/Enable Part!");
         }
     }
 
@@ -220,10 +208,10 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
             partToAdd.getPartChoiceEntities().add(partChoiceToAdd);
         }
     }
-    
+
     @Override
-    public void addPartChoiceToListOfParts(Long partChoiceEntityId, List<PartEntity> listOfPartEntities) throws UnableToAddPartChoiceToPartException{
-        
+    public void addPartChoiceToListOfParts(Long partChoiceEntityId, List<PartEntity> listOfPartEntities) throws UnableToAddPartChoiceToPartException {
+
         for (PartEntity part : listOfPartEntities) {
             try {
                 addPartChoiceToPart(partChoiceEntityId, part.getPartEntityId());

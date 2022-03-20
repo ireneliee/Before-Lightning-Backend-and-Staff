@@ -41,12 +41,22 @@ public class PartManagementManagedBean implements Serializable {
 
     @EJB(name = "AccessoryEntitySessionBeanLocal")
     private AccessoryEntitySessionBeanLocal accessoryEntitySessionBeanLocal;
-    
+
     @Inject
     private ViewPartManagedBean viewPartManagedBean;
 
+    @Inject
+    private UpdatePartManagedBean updatePartManagedBean;
+
+    @Inject
+    private DisablePartManagedBean disablePartManagedBean;
+
+    @Inject
+    private DeletePartManagedBean deletePartManagedBean;
+
     private List<PartEntity> listOfPartEntities;
     private List<PartEntity> filteredListOfPartEntities;
+    private String chassis;
 
     public PartManagementManagedBean() {
     }
@@ -58,6 +68,7 @@ public class PartManagementManagedBean implements Serializable {
 
     public void initializeState() {
         setListOfPartEntities(partEntitySessionBeanLocal.retrieveAllPartEntities());
+        chassis = "Chassis";
     }
 
     /**
@@ -94,5 +105,37 @@ public class PartManagementManagedBean implements Serializable {
 
     public void setViewPartManagedBean(ViewPartManagedBean viewPartManagedBean) {
         this.viewPartManagedBean = viewPartManagedBean;
+    }
+
+    public DisablePartManagedBean getDisablePartManagedBean() {
+        return disablePartManagedBean;
+    }
+
+    public void setDisablePartManagedBean(DisablePartManagedBean disablePartManagedBean) {
+        this.disablePartManagedBean = disablePartManagedBean;
+    }
+
+    public UpdatePartManagedBean getUpdatePartManagedBean() {
+        return updatePartManagedBean;
+    }
+
+    public void setUpdatePartManagedBean(UpdatePartManagedBean updatePartManagedBean) {
+        this.updatePartManagedBean = updatePartManagedBean;
+    }
+
+    public String getChassis() {
+        return chassis;
+    }
+
+    public void setChassis(String chassis) {
+        this.chassis = chassis;
+    }
+
+    public DeletePartManagedBean getDeletePartManagedBean() {
+        return deletePartManagedBean;
+    }
+
+    public void setDeletePartManagedBean(DeletePartManagedBean deletePartManagedBean) {
+        this.deletePartManagedBean = deletePartManagedBean;
     }
 }

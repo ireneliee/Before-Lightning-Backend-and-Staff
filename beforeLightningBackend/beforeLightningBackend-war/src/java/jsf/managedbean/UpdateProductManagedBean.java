@@ -6,19 +6,14 @@
 package jsf.managedbean;
 
 import ejb.session.stateless.PartChoiceEntitySessionBeanLocal;
-import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
 import entity.PartChoiceEntity;
-import entity.PartEntity;
 import entity.ProductEntity;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -26,6 +21,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
 import util.exception.InputDataValidationException;
 import util.exception.PartChoiceEntityNotFoundException;
@@ -46,6 +42,9 @@ public class UpdateProductManagedBean implements Serializable {
 
     @EJB(name = "ProductEntitySessionBeanLocal")
     private ProductEntitySessionBeanLocal productEntitySessionBeanLocal;
+
+    @Inject
+    private ProductManagementManagedBean productManagementManagedBean;
 
     private ProductEntity productEntityToUpdate;
     private PartChoiceEntity chassisPartChoiceToUpdate;
@@ -79,6 +78,10 @@ public class UpdateProductManagedBean implements Serializable {
 
             productEntitySessionBeanLocal.updateProductEntity(productEntityToUpdate);
             partChoiceEntitySessionBeanLocal.updatePartChoiceEntity(chassisPartChoiceToUpdate);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Updated Product", null));
+            initializeState();
+            productManagementManagedBean.initializeState();
+                    
         } catch (ProductEntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Product Not Found Error: " + ex.getMessage(), null));
         } catch (UpdateProductEntityException ex) {
@@ -90,8 +93,7 @@ public class UpdateProductManagedBean implements Serializable {
         } catch (UpdatePartChoiceEntityException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable To Update Part Choice (Chassis): " + ex.getMessage(), null));
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Updated Product", null));
-        initializeState();
+
     }
 
     public void handleFileUpload(FileUploadEvent event) {
@@ -163,6 +165,14 @@ public class UpdateProductManagedBean implements Serializable {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public ProductManagementManagedBean getProductManagementManagedBean() {
+        return productManagementManagedBean;
+    }
+
+    public void setProductManagementManagedBean(ProductManagementManagedBean productManagementManagedBean) {
+        this.productManagementManagedBean = productManagementManagedBean;
     }
 
 }

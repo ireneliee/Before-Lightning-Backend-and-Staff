@@ -53,10 +53,10 @@
                     <p:commandButton value="Update Parts" update="ccUpdateProductParts:formUpdateProductParts" oncomplete="PF('dialogUpdateProductParts').show()" icon="ui-icon-pencil" title="Update">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.updateProductPartsManagedBean.productEntityPartsToUpdate}" />
                     </p:commandButton>
-                    <p:commandButton value="Disable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-refresh" title="Disable" rendered="#{productEntity.isDisabled eq false}">
+                    <p:commandButton value="Disable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-times" title="Disable" rendered="#{productEntity.isDisabled eq false}">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.disableProductManagedBean.productEntityToDisable}" />
                     </p:commandButton>
-                    <p:commandButton value="Enable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-refresh" title="Disable" rendered="#{productEntity.isDisabled eq true}">
+                    <p:commandButton value="Enable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-check" title="Disable" rendered="#{productEntity.isDisabled eq true}">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.disableProductManagedBean.productEntityToDisable}" />
                     </p:commandButton>
                     <p:commandButton value="Delete Product" update="ccDeleteProduct:formDeleteProduct" oncomplete="PF('dialogDeleteProduct').show()" icon="ui-icon-ban" title="Delete">

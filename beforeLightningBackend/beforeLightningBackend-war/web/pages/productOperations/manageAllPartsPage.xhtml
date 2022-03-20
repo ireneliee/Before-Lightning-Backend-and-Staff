@@ -25,10 +25,10 @@
                     </p:outputPanel>
                 </f:facet>
 
-                <p:column headerText="Product ID" sortBy="#{partEntity.partEntityId}" filterBy="#{partEntity.partEntityId}" filterMatchMode="contains">
+                <p:column headerText="Part ID" sortBy="#{partEntity.partEntityId}" filterBy="#{partEntity.partEntityId}" filterMatchMode="contains">
                     <p:outputLabel value="#{partEntity.partEntityId}" />
                 </p:column>
-                <p:column headerText="Product Overview " sortBy="#{partEntity.partName}" filterBy="#{partEntity.partName}" filterMatchMode="contains">
+                <p:column headerText="Part Name " sortBy="#{partEntity.partName}" filterBy="#{partEntity.partName}" filterMatchMode="contains">
                     <p:outputLabel value="#{partEntity.partName}" />
                 </p:column>
                 <p:column headerText="Description" sortBy="#{partEntity.description}" filterBy="#{partEntity.description}" filterMatchMode="contains">
@@ -36,16 +36,47 @@
                 </p:column>                
                 <p:column headerText="Disabled" sortBy="#{partEntity.isDisabled}" filterBy="#{partEntity.isDisabled}" filterMatchMode="contains">
                     <p:outputLabel value="#{partEntity.isDisabled}" />
+                </p:column>                
+                <p:column headerText="Part Choices" sortBy="#{partEntity.isDisabled}" filterBy="#{partEntity.isDisabled}" filterMatchMode="contains">
+                    <p:outputLabel value="#{partEntity.isDisabled}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton update="ccViewPart:formViewPart" oncomplete="PF('dialogViewPart').show()" icon="ui-icon-document" title="View">
+                    <p:commandButton value="View Part" update="ccViewPart:formViewPart" oncomplete="PF('dialogViewPart').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.viewPartManagedBean.partEntityToView}" />
                     </p:commandButton>
+                    <br/>
+                    <p:commandButton value="Update Part" update="ccUpdatePart:formUpdatePart" oncomplete="PF('dialogUpdatePart').show()" icon="ui-icon-refresh" title="Update Part" rendered="#{partEntity.partName != partManagementManagedBean.chassis}">
+                        <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.updatePartManagedBean.partEntityToUpdate}" />
+                    </p:commandButton>
+                    <br/>
+
+                    <br/>
+                    <p:commandButton value="Delete Part" update="ccDeletePart:formDeletePart" oncomplete="PF('dialogDeletePart').show()" icon="ui-icon-trash" title="Delete" rendered="#{partEntity.partName != partManagementManagedBean.chassis}">
+                        <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.deletePartManagedBean.partEntityToDelete}" />
+                    </p:commandButton>
+                    <br/>
+                    <p:commandButton value="Disable Part" update="ccDisablePart:formDisablePart" oncomplete="PF('dialogDisablePart').show()" icon="ui-icon-close" title="Disable" rendered="#{partEntity.isDisabled eq false and partEntity.partName != partManagementManagedBean.chassis}">
+                        <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.disablePartManagedBean.partEntityToDisable}" />
+                    </p:commandButton>
+                    <p:commandButton value="Enable Part" update="ccDisablePart:formDisablePart" oncomplete="PF('dialogDisablePart').show()" icon="ui-icon-check" title="Enable" rendered="#{partEntity.isDisabled eq true and partEntity.partName != partManagementManagedBean.chassis}">
+                        <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.disablePartManagedBean.partEntityToDisable}" />
+                    </p:commandButton>
+
                 </p:column>
             </p:dataTable>
         </h:form>
         <ez:CreatePart id="ccCreatePart" />
         <ez:ViewPart id="ccViewPart" />
-    </ui:define>
+        <ez:DisablePart id="ccDisablePart" />
+        <ez:UpdatePart id="ccUpdatePart" />
 
+        <ez:DeletePart id="ccDeletePart" />
+
+
+
+    </ui:define>
+    <!--        <ez:UpdatePartPartChoices id="ccUpdatePartPartChoices" />-->
+<!--                    <p:commandButton value="Update Part Choices" update="ccUpdatePartPartChoices:formUpdatePartPartChoices" oncomplete="PF('dialogUpdatePartPartChoices').show()" icon="ui-icon-refresh" title="Update Part Choices" rendered="#{partEntity.partName != partManagementManagedBean.chassis}">
+                <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.updatePartPartChoicesManagedBean.partEntityPartChoicesToUpdate}" />
+            </p:commandButton>-->
 </ui:composition>

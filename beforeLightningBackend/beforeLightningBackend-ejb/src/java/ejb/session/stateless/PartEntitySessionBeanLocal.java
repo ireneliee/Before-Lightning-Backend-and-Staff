@@ -39,8 +39,6 @@ public interface PartEntitySessionBeanLocal {
 
     public void deletePartEntity(Long partEntityId) throws PartEntityNotFoundException, DeletePartEntityException;
 
-    public void toggleDisablePartEntity(PartEntity partEntity) throws PartEntityNotFoundException, UpdatePartEntityException, InputDataValidationException;
-
     public void updatePartEntity(PartEntity partEntity) throws PartEntityNotFoundException, UpdatePartEntityException, InputDataValidationException;
 
     public void addPartToProduct(Long partEntityId, Long productEntityId) throws PartEntityNotFoundException, ProductEntityNotFoundException, UnableToAddPartToProductException;
@@ -54,5 +52,7 @@ public interface PartEntitySessionBeanLocal {
     public List<PartEntity> retrieveAllPartEntities();
 
     public void addPartChoiceToListOfParts(Long partChoiceEntityId, List<PartEntity> listOfPartEntities) throws UnableToAddPartChoiceToPartException;
+
+    public void toggleDisablePartEntity(Long partEntityId) throws UpdatePartEntityException;
 
 }
