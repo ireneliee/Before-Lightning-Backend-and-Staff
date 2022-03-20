@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -160,7 +162,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         } catch (ProductSkuNotFoundException ex) {
             throw new CreateNewProductEntityException("UNABLE TO CREATE BRAND NEW PRODUCT AS PRODUCT CANT BE FOUND");
         }
-        
+
         //Add image
         product.setImageLink(imageLink);
 
@@ -350,6 +352,41 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
             }
         } else {
             throw new ProductEntityNotFoundException("ProductEntity ID not provided for productEntity to be updated");
+        }
+    }
+
+    @Override
+    public void updateProductEntitiyWithNewParts(List<PartEntity> listOfNewParts, ProductEntity productEntityToUpdate) throws UpdateProductEntityException {
+        ProductEntity managedProductToUpdate;
+        try {
+            managedProductToUpdate = retrieveProductEntityByProductEntityId(productEntityToUpdate.getProductEntityId());
+            //Remove old links first (EXCEPT CHASSIS)
+            List<PartEntity> oldListOfParts = productEntityToUpdate.getPartEntities();
+            oldListOfParts.removeIf(part -> part.getPartName().equals("Chassis"));
+            System.out.println("TO REMOVE =================");
+
+            for (PartEntity oldPart : oldListOfParts) {
+                try {
+                    System.out.println(oldPart.getPartName());
+                    partEntitySessionBeanLocal.removePartFromProduct(oldPart.getPartEntityId(), productEntityToUpdate.getProductEntityId());
+                } catch (PartEntityNotFoundException | ProductEntityNotFoundException | UnableToRemovePartFromProductException ex) {
+                    throw new UpdateProductEntityException(ex.getMessage());
+                }
+            }
+            System.out.println("TO ADD =================");
+
+            //Now add back new List Of Parts selected (EXCEPT CHASSIS)
+            for (PartEntity newPart : listOfNewParts) {
+
+                try {
+                    System.out.println(newPart.getPartName());
+                    partEntitySessionBeanLocal.addPartToProduct(newPart.getPartEntityId(), productEntityToUpdate.getProductEntityId());
+                } catch (PartEntityNotFoundException | UnableToAddPartToProductException ex) {
+                    throw new UpdateProductEntityException(ex.getMessage());
+                }
+            }
+        } catch (ProductEntityNotFoundException ex) {
+            throw new UpdateProductEntityException(ex.getMessage());
         }
     }
 

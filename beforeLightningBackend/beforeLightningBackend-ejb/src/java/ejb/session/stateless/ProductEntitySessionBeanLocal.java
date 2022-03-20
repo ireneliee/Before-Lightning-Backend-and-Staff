@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.PartEntity;
 import entity.ProductEntity;
 import java.math.BigDecimal;
 import java.util.List;
@@ -54,6 +55,9 @@ public interface ProductEntitySessionBeanLocal {
     public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price, String imageLink) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
 
     public Long createBrandNewProductEntity(ProductEntity newProductEntity, Integer quantityOnHand, Integer reorderQuantity, String brand, BigDecimal price) throws CreateNewProductEntityException, InputDataValidationException, UnknownPersistenceException, ProductSkuCodeExistException;
+
+    public void updateProductEntitiyWithNewParts(List<PartEntity> listOfNewParts, ProductEntity productEntityToUpdate) throws UpdateProductEntityException;
+
 
 
 }

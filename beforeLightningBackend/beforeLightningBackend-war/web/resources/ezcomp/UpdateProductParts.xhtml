@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formUpdateProductParts">
+            <p:dialog id="dialogUpdateProductParts" widgetVar="dialogUpdateProductParts" header="Update Product Parts" closable="true">
+                <p:panel header="Please Select Parts To Include In Product">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:selectManyMenu id="selectManyProductPartsMenu" value="#{updateProductPartsManagedBean.newListOfSelectedPartEntities}"
+                                                  var="partEntity" filter="true" filterMatchMode="contains" showCheckbox="true">
+                                    <f:selectItems itemDisabled="" value="#{updateProductPartsManagedBean.listOfAvailablePartEntities}" var="partEntity" itemLabel="#{partEntity.partName}" itemValue="#{partEntity}" />
+                                    <p:column>
+                                        <p:outputLabel value="#{partEntity.partName}" />
+                                    </p:column>
+                                </p:selectManyMenu>                            
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Current Parts In Product: " />
+                                <br/>
+                                <p:repeat value="#{updateProductPartsManagedBean.productEntityPartsToUpdate.partEntities}" var="partEntity">
+                                    <p:outputLabel value="- #{partEntity.partName}"/>
+                                    <br/>
+                                </p:repeat>
+                            </p:column>
+                        </p:row>    
+
+                    </p:panelGrid>
+                    <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Product Parts" actionListener="#{updateProductPartsManagedBean.updateProductParts}" update="formAllProducts:dataTableAllProducts growl" oncomplete="PF('dialogUpdateProductParts').hide()">
+                        <p:confirm header="Confirmation" message="Are you sure you want to update #{updateProductPartsManagedBean.productEntityPartsToUpdate.productName} ?"  icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:panel>
+
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+    </cc:implementation>
+</html>

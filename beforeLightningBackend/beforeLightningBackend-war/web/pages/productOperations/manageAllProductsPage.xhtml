@@ -11,7 +11,7 @@
     <ui:define name="content">
         <ez:Breadcrumb pageName="Manage Products" />
         <ui:include src="/pages/productOperations/productNavBar.xhtml" />
-        
+
         <h:form id="formAllProducts">
             <p:commandButton value="Create New Product"  icon="pi pi-plus" update="ccCreateProduct:formCreateProduct" oncomplete="PF('dialogCreateProduct').show()" title="Create New Product"/>
             <p:dataTable id="dataTableAllProducts" widgetVar="dataTableAllProducts" value="#{productManagementManagedBean.listOfProductEntities}" var="productEntity" rowKey="#{productEntity.productEntityId}" rowIndexVar="row"
@@ -23,10 +23,13 @@
                         <p:outputLabel value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProducts').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
-                </f:facet>
+                </f:facet> 
 
                 <p:column headerText="Product ID" sortBy="#{productEntity.productEntityId}" filterBy="#{productEntity.productEntityId}" filterMatchMode="contains">
                     <p:outputLabel value="#{productEntity.productEntityId}" />
+                </p:column>
+                <p:column headerText="Product Name" sortBy="#{productEntity.productName}" filterBy="#{productEntity.productName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productName}" />
                 </p:column>
                 <p:column headerText="SKU Code" sortBy="#{productEntity.skuCode}" filterBy="#{productEntity.skuCode}" filterMatchMode="contains">
                     <p:outputLabel value="#{productEntity.skuCode}" />
@@ -41,14 +44,24 @@
                     <p:outputLabel value="#{productEntity.isDisabled}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton update="ccViewProduct:formViewProduct" oncomplete="PF('dialogViewProduct').show()" icon="ui-icon-document" title="View">
+                    <p:commandButton value="View Product" update="ccViewProduct:formViewProduct" oncomplete="PF('dialogViewProduct').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.viewProductManagedBean.productEntityToView}" />
+                    </p:commandButton>
+                    <p:commandButton value="Update Product" update="ccUpdateProduct:formUpdateProduct" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-refresh" title="Update">
+                        <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.updateProductManagedBean.productEntityToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton value="Update Parts" update="ccUpdateProductParts:formUpdateProductParts" oncomplete="PF('dialogUpdateProductParts').show()" icon="ui-icon-refresh" title="Update">
+                        <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.updateProductPartsManagedBean.productEntityPartsToUpdate}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
         <ez:CreateProduct id="ccCreateProduct" />
         <ez:ViewProduct id="ccViewProduct" />
+        <ez:UpdateProduct id="ccUpdateProduct" />
+        <ez:UpdateProductParts id="ccUpdateProductParts" />
+
+
     </ui:define>
 
 </ui:composition>
