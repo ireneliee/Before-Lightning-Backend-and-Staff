@@ -94,7 +94,7 @@ public class MOTDDataInitializationSessionBean {
             messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Live Laugh Love", "when life gets tough just live laugh love bro", today));
             messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("SAF 8 core values", "loyalty to country, leadership, etc", today));
             messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Google please hire me", "willing to work long hours, will occasionally tell jokes #worthEveryBuck", today));
-
+            System.out.print("hello irene");
         } catch (InputDataValidationException ex) {
             System.out.println("THIS IS THE ERROR");
             System.out.println(ex.getMessage());
