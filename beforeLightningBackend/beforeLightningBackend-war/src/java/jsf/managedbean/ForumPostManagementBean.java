@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import util.exception.ForumPostNotFoundException;
 
 /**
@@ -29,12 +30,15 @@ public class ForumPostManagementBean implements Serializable {
 
     @EJB
     private ForumPostsEntitySessionBeanLocal forumPostsEntitySessionBeanLocal;
+    @Inject
+    private ViewForumManagedBean viewForumManagedBean;
 
     private List<ForumPostEntity> forumPosts;
     private ForumPostEntity selectedForumPostEntityToUpdate;
     private List<ReplyEntity> listOfComments;
     private ForumPostEntity selectedForumPostToView;
     private List<ForumPostEntity> filteredForumPosts;
+    
 
     public ForumPostManagementBean() {
     }
@@ -122,6 +126,14 @@ public class ForumPostManagementBean implements Serializable {
 
     public void setFilteredForumPosts(List<ForumPostEntity> filteredForumPosts) {
         this.filteredForumPosts = filteredForumPosts;
+    }
+
+    public ViewForumManagedBean getViewForumManagedBean() {
+        return viewForumManagedBean;
+    }
+
+    public void setViewForumManagedBean(ViewForumManagedBean viewForumManagedBean) {
+        this.viewForumManagedBean = viewForumManagedBean;
     }
 
 }

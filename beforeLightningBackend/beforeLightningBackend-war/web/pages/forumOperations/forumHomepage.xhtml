@@ -49,11 +49,14 @@
                 <p:column headerText="Banned" sortBy="#{forumEntity.isBanned}" filterBy="#{forumEntity.isBanned}" filterMatchMode="contains">
                     <p:outputLabel value="#{forumEntity.isBanned}" />
                 </p:column>                
-                
-                <p:column headerText="Action" >
 
+                <p:column headerText="Action" >
+                    <p:commandButton value="View Forum" update="ccViewForum:formViewForum" oncomplete="PF('dialogViewForum').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{forumEntity}" target="#{forumPostManagementBean.viewForumManagedBean.forumEntityToView}" />
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
+        <ez:ViewForum id="ccViewForum" />
     </ui:define>
 </ui:composition>

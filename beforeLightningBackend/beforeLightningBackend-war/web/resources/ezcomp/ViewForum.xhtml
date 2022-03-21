@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <style type="text/css">
+            .value {
+                font-weight: bold;
+            }
+
+            .ui-carousel {
+                margin-bottom: 20px;
+            }
+        </style>
+
+
+
+        <p:dialog id="dialogViewForum" widgetVar="dialogViewForum" header="View Forum" closable="true">
+            <h:form id="formViewForum">
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Forum post id: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewForumManagedBean.forumEntityToView.forumPostEntityId}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Title: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewForumManagedBean.forumEntityToView.title}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Image: " />
+                        </p:column>
+                        <p:column>
+                            <p:graphicImage style ="text-align: centre" value="/uploadedFiles/forumpost.png" height="300px" width="400px" rendered="#{empty viewForumManagedBean.forumEntityToView.imageLink}"/>
+                            <p:graphicImage style ="text-align: centre" value="/uploadedFiles/#{viewForumManagedBean.forumEntityToView.imageLink}" height="300px" width="300px" rendered="#{not empty viewForumManagedBean.forumEntityToView.imageLink}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Timestamp: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewForumManagedBean.forumEntityToView.timestamp}" />
+                        </p:column>
+                    </p:row>                   
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Content: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewForumManagedBean.forumEntityToView.content}" />
+                        </p:column>
+                    </p:row>       
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Number of likes: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{fn: length(viewForumManagedBean.forumEntityToView.userWhoLikes)}" />
+                        </p:column>
+                    </p:row>  
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Number of dislikes: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{fn: length(viewForumManagedBean.forumEntityToView.userWhoDislikes)}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Replies: " />
+                        </p:column>
+                        <p:column>
+                            <h:form id = "reply-form">
+                                <p:carousel value="#{viewForumManagedBean.listOfComments}" headerText="Replies" var="replyEntity" itemStyle="text-align:center" responsive="true">
+                                    <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
+
+                                        <h:outputText value= "#{replyEntity.author.username}"/>
+                                        <p:commandButton value="Ban" id="reply-unviewable-button" update="reply-form :growl" action="#{ viewForumManagedBean.setBanned }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{!replyEntity.isBanned}">
+                                            <f:setPropertyActionListener value="#{replyEntity}" target="#{viewForumManagedBean.replyEntityToUpdate}" />
+                                        </p:commandButton>
+                                        <p:commandButton value="Unban" id="reply-viewable-button" update="reply-form :growl" action="#{ viewForumManagedBean.setUnbanned }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{replyEntity.isBanned}">
+                                            <f:setPropertyActionListener value="#{replyEntity}" target="#{viewForumManagedBean.replyEntityToUpdate}" />
+                                        </p:commandButton>
+
+                                    </p:panelGrid>
+
+                                    <f:facet name="footer">
+                                        In total there are #{fn:length(viewForumManagedBean.listOfComments)} replies.
+                                    </f:facet>
+                                </p:carousel>
+                            </h:form>
+                        </p:column>
+                    </p:row>
+
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+
+    </cc:implementation>
+</html>

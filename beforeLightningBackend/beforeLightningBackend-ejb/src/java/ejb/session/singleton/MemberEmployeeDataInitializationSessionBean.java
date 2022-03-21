@@ -13,16 +13,11 @@ import ejb.session.stateless.MemberEntitySessionBeanLocal;
 import ejb.session.stateless.PartChoiceEntitySessionBeanLocal;
 import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
-import entity.AccessoryEntity;
-import entity.AccessoryItemEntity;
 import entity.AddressEntity;
 import entity.EmployeeEntity;
 import entity.ForumPostEntity;
 import entity.MemberEntity;
-import entity.PartChoiceEntity;
-import entity.PartEntity;
-import entity.ProductEntity;
-import java.math.BigDecimal;
+import entity.ReplyEntity;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -34,25 +29,13 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.EmployeeAccessRightEnum;
-import util.exception.AccessoryEntityNotFoundException;
-import util.exception.AccessoryItemNameExists;
-import util.exception.AccessoryNameExistsException;
 import util.exception.AddressEntityNotFoundException;
-import util.exception.CreateNewProductEntityException;
 import util.exception.EmployeeEntityNotFoundException;
 import util.exception.EmployeeEntityUsernameExistException;
+import util.exception.ForumPostNotFoundException;
 import util.exception.InputDataValidationException;
 import util.exception.MemberEntityNotFoundException;
 import util.exception.MemberEntityUsernameExistException;
-import util.exception.PartChoiceEntityExistException;
-import util.exception.PartChoiceEntityNotFoundException;
-import util.exception.PartEntityExistException;
-import util.exception.PartEntityNotFoundException;
-import util.exception.ProductEntityNotFoundException;
-import util.exception.ProductSkuCodeExistException;
-import util.exception.UnableToAddPartChoiceToPartChoiceException;
-import util.exception.UnableToAddPartChoiceToPartException;
-import util.exception.UnableToAddPartToProductException;
 import util.exception.UnknownPersistenceException;
 
 /**
@@ -134,12 +117,29 @@ public class MemberEmployeeDataInitializationSessionBean {
                     forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f2);
                     forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f3);
                     forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f4);
+
+                    ReplyEntity r1 = new ReplyEntity("I like this post!", m1, f1);
+                    ReplyEntity r2 = new ReplyEntity("Thank you for sharing this :)", m2, f1);
+                    ReplyEntity r3 = new ReplyEntity("Do you mind sharing more", m3, f1);
+                    ReplyEntity r4 = new ReplyEntity("I don't like this", m3, f1);
+                    ReplyEntity r5 = new ReplyEntity("Do you mind sharing more hehe", m1, f1);
+
+                    try {
+                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r1, m1.getUserEntityId());
+                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r2, m2.getUserEntityId());
+                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r3, m3.getUserEntityId());
+                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r4, m3.getUserEntityId());
+                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r5, m1.getUserEntityId());
+                    } catch (ForumPostNotFoundException ex) {
+                        Logger.getLogger(MemberEmployeeDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 } catch (MemberEntityNotFoundException ex) {
                     System.out.println("problem here");
                 }
 
             } catch (MemberEntityUsernameExistException | AddressEntityNotFoundException | InputDataValidationException | UnknownPersistenceException ex) {
-                    System.out.println("problem here");
+                System.out.println("problem here");
             }
 
             EmployeeEntity newEmployee1 = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "manager", "password", "manager", "one", "manager@gmail.com", "99999999");
@@ -154,11 +154,11 @@ public class MemberEmployeeDataInitializationSessionBean {
                 employeeEntitySessionBeanLocal.createNewEmployeeEntity(newEmployee4);
 
             } catch (EmployeeEntityUsernameExistException | InputDataValidationException | UnknownPersistenceException ex) {
-                    System.out.println("problem here");
+                System.out.println("problem here");
             }
 
         } catch (InputDataValidationException | UnknownPersistenceException ex) {
-                    System.out.println("problem here");
+            System.out.println("problem here");
         }
 
     }
