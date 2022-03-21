@@ -11,17 +11,20 @@
     <ui:define name="content">
         <ez:Breadcrumb pageName="Manage Part Choices" />
         <ui:include src="/pages/productOperations/productNavBar.xhtml" />
-
-        <h:form id="formAllPartChoices">
-            <p:commandButton value="Create New Part Choice"  icon="pi pi-plus" update="ccCreatePartChoice:formCreatePartChoice" oncomplete="PF('dialogCreatePartChoice').show()" title="Create New Part Choice" />
-            <p:dataTable id="dataTableAllPartChoices" widgetVar="dataTableAllPartChoices" value="#{partChoiceManagementManagedBean.listOfPartChoiceEntities}" var="partChoiceEntity" rowKey="#{partChoiceEntity.partChoiceEntityId}" rowIndexVar="row"
-                         filteredValue="#{partChoiceManagementManagedBean.filteredListOfPartChoiceEntities}"
+        <h:form id="formAllChassisPartChoices">
+            <p:dataTable id="dataTableAllChassisPartChoices" widgetVar="dataTableAllChassisPartChoices" value="#{partChoiceManagementManagedBean.listOfChassisPartChoiceEntities}" var="partChoiceEntity" rowKey="#{partChoiceEntity.partChoiceEntityId}" rowIndexVar="row"
+                         filteredValue="#{partChoiceManagementManagedBean.filteredListOfChassisPartChoiceEntities}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
-
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: left;">
+                        <p:outputLabel value="Manage All Chassis Part Choice" style="font-size: 18px !important;"/>
+                    </p:outputPanel>
+                </f:facet>
+                <br/>
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
                         <p:outputLabel value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPartChoices').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllChassisPartChoices').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet>
 
@@ -41,14 +44,81 @@
                     <p:outputLabel value="#{partChoiceEntity.isDisabled}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton update="ccViewPartChoice:formViewPartChoice" oncomplete="PF('dialogViewPartChoice').show()" icon="ui-icon-document" title="View">
+                    <p:commandButton value="View Part Choice" update="ccViewPartChoice:formViewPartChoice" oncomplete="PF('dialogViewPartChoice').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.viewPartChoiceManagedBean.partChoiceEntityToView}" />
+                    </p:commandButton>
+                    <p:commandButton value="Update Linked Part Choice " update="ccUpdateChassisLinkedPartChoices:formUpdateChassisLinkedPartChoices" oncomplete="PF('dialogUpdateChassisLinkedPartChoices').show()" icon="ui-icon-refresh" title="Update Linked Part Choices">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.updateChassisLinkedPartChoicesManagedBean.chassisPartChoiceEntityPartChoicesToUpdate}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <br/>
+
+
+        <h:form id="formAllPartChoices">
+            <p:dataTable  id="dataTableAllPartChoices" widgetVar="dataTableAllPartChoices" value="#{partChoiceManagementManagedBean.listOfPartChoiceEntities}" var="partChoiceEntity" rowKey="#{partChoiceEntity.partChoiceEntityId}" rowIndexVar="row"
+                          filteredValue="#{partChoiceManagementManagedBean.filteredListOfPartChoiceEntities}"
+                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: left;">
+                        <p:outputLabel value="Manage All Part Choices" style="font-size: 18px !important;"/>
+                    </p:outputPanel>
+                </f:facet>
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPartChoices').filter()" style="width:300px" placeholder="Enter keyword"/>&nbsp;&nbsp;&nbsp;
+                        <p:commandButton value="Create New Part Choice"  icon="pi pi-plus" update="ccCreatePartChoice:formCreatePartChoice" oncomplete="PF('dialogCreatePartChoice').show()" title="Create New Part Choice" />
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Part Choice ID" sortBy="#{partChoiceEntity.partChoiceEntityId}" filterBy="#{partChoiceEntity.partChoiceEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{partChoiceEntity.partChoiceEntityId}" />
+                </p:column>
+                <p:column headerText="Part Choice Name " sortBy="#{partChoiceEntity.partChoiceName}" filterBy="#{partChoiceEntity.partChoiceName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{partChoiceEntity.partChoiceName}" />
+                </p:column>
+                <p:column headerText="Brand" sortBy="#{partChoiceEntity.brand}" filterBy="#{partChoiceEntity.brand}" filterMatchMode="contains">
+                    <p:outputLabel value="#{partChoiceEntity.brand}" />
+                </p:column>                
+                <p:column headerText="Price" sortBy="#{partChoiceEntity.price}" filterBy="#{partChoiceEntity.price}" filterMatchMode="contains">
+                    <p:outputLabel value="#{partChoiceEntity.price}" />
+                </p:column>
+                <p:column headerText="Disabled" sortBy="#{partChoiceEntity.isDisabled}" filterBy="#{partChoiceEntity.isDisabled}" filterMatchMode="contains">
+                    <p:outputLabel value="#{partChoiceEntity.isDisabled}" />
+                </p:column>
+                <p:column headerText="Action" >
+                    <p:commandButton value="View Part Choice" update="ccViewPartChoice:formViewPartChoice" oncomplete="PF('dialogViewPartChoice').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.viewPartChoiceManagedBean.partChoiceEntityToView}" />
+                    </p:commandButton>
+                    <p:commandButton value="Update Part Choice" update="ccUpdatePartChoice:formUpdatePartChoice" oncomplete="PF('dialogUpdatePartChoice').show()" icon="ui-icon-refresh" title="Update Part Choice Details">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.updatePartChoiceManagedBean.partChoiceEntityToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton value="Update Linked Part Choice " update="ccUpdateLinkedPartChoices:formUpdateLinkedPartChoices" oncomplete="PF('dialogUpdateLinkedPartChoices').show()" icon="ui-icon-refresh" title="Update Linked Part Choices">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.updateLinkedPartChoicesManagedBean.partChoiceEntityChassisPartChoicesToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton value="Delete Part Choice" update="ccDeletePartChoice:formDeletePartChoice" oncomplete="PF('dialogDeletePartChoice').show()" icon="ui-icon-trash" title="Delete">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.deletePartChoiceManagedBean.partChoiceEntityToDelete}" />
+                    </p:commandButton>
+                    <p:commandButton value="Disable Part Choice" update="ccDisablePartChoice:formDisablePartChoice" oncomplete="PF('dialogDisablePartChoice').show()" icon="ui-icon-close" title="Disable" rendered="#{partChoiceEntity.isDisabled eq false}">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.disablePartChoiceManagedBean.partChoiceEntityToDisable}" />
+                    </p:commandButton>
+                    <p:commandButton value="Enable Part Choice" update="ccDisablePartChoice:formDisablePartChoice" oncomplete="PF('dialogDisablePartChoice').show()" icon="ui-icon-check" title="Enable" rendered="#{partChoiceEntity.isDisabled eq true}">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.disablePartChoiceManagedBean.partChoiceEntityToDisable}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
         <ez:CreatePartChoice id="ccCreatePartChoice" />
         <ez:ViewPartChoice id="ccViewPartChoice" />
+        <ez:UpdatePartChoice id="ccUpdatePartChoice" />
+        <ez:UpdateLinkedPartChoices id="ccUpdateLinkedPartChoices" />  
+        <ez:UpdateChassisLinkedPartChoices id="ccUpdateChassisLinkedPartChoices" />
+        <ez:DisablePartChoice id="ccDisablePartChoice" /> 
+        <ez:DeletePartChoice id="ccDeletePartChoice" />
+
     </ui:define>
 
 </ui:composition>

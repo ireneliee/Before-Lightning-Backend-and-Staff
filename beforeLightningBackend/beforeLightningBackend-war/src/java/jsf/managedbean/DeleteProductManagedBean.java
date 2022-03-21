@@ -55,7 +55,7 @@ public class DeleteProductManagedBean implements Serializable {
         } catch (ProductEntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Product Cannot Be Found", null));
         } catch (DeleteProductEntityException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable To Delete Product!" + ex.getMessage(), null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable To Delete Product!", null));
         }
         productManagementManagedBean.initializeState();
     }

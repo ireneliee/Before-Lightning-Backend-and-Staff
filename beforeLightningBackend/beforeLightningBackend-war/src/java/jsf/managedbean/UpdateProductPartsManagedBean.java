@@ -66,7 +66,7 @@ public class UpdateProductPartsManagedBean implements Serializable {
         try {
             productEntitySessionBeanLocal.updateProductEntitiyWithNewParts(newListOfSelectedPartEntities, productEntityPartsToUpdate);
         } catch (UpdateProductEntityException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable To Update Product's Parts: " + ex.getMessage(), null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable To Update Product's Parts ", null));
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Updated Product's Parts", null));
         initializeState();

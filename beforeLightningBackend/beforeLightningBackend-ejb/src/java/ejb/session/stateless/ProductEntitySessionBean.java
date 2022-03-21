@@ -394,13 +394,14 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         try {
             ProductEntity productEntityToRemove = retrieveProductEntityByProductEntityId(productEntityId);
             if (productEntityToRemove.getPartEntities().size() == 1) {
+                //Remove PartChoice From Part
+                PartChoiceEntity chassisPartChoice = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(productEntityToRemove.getProductName() + " Chassis");
+                partChoiceEntitySessionBeanLocal.deletePartChoiceEntity(chassisPartChoice.getPartChoiceEntityId());
                 //Remove Part From Product
                 PartEntity chassisPart = partEntitySessionBeanLocal.retrievePartEntityByPartName("Chassis");
                 removePartFromProduct(chassisPart.getPartEntityId(), productEntityToRemove.getProductEntityId());
                 entityManager.remove(productEntityToRemove);
-                //Remove PartChoice From Part
-                PartChoiceEntity chassisPartChoice = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(productEntityToRemove.getProductName() + " Chassis");
-                partChoiceEntitySessionBeanLocal.deletePartChoiceEntity(chassisPartChoice.getPartChoiceEntityId());
+
             } else {
                 throw new DeleteProductEntityException("Unable to Delete Product That is Linked To Parts Other Than Chassis");
             }
