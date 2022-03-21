@@ -49,7 +49,9 @@
                         <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.updatePartManagedBean.partEntityToUpdate}" />
                     </p:commandButton>
                     <br/>
-
+                    <p:commandButton value="Update Part Choices" update="ccUpdatePartPartChoices:formUpdatePartPartChoices" oncomplete="PF('dialogUpdatePartPartChoices').show()" icon="ui-icon-refresh" title="Update Part Choices" rendered="#{partEntity.partName != partManagementManagedBean.chassis}">
+                        <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.updatePartPartChoicesManagedBean.partEntityPartChoicesToUpdate}" />
+                    </p:commandButton>
                     <br/>
                     <p:commandButton value="Delete Part" update="ccDeletePart:formDeletePart" oncomplete="PF('dialogDeletePart').show()" icon="ui-icon-trash" title="Delete" rendered="#{partEntity.partName != partManagementManagedBean.chassis}">
                         <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.deletePartManagedBean.partEntityToDelete}" />
@@ -69,14 +71,11 @@
         <ez:ViewPart id="ccViewPart" />
         <ez:DisablePart id="ccDisablePart" />
         <ez:UpdatePart id="ccUpdatePart" />
-
+        <ez:UpdatePartPartChoices id="ccUpdatePartPartChoices" />
         <ez:DeletePart id="ccDeletePart" />
 
 
 
     </ui:define>
-    <!--        <ez:UpdatePartPartChoices id="ccUpdatePartPartChoices" />-->
-<!--                    <p:commandButton value="Update Part Choices" update="ccUpdatePartPartChoices:formUpdatePartPartChoices" oncomplete="PF('dialogUpdatePartPartChoices').show()" icon="ui-icon-refresh" title="Update Part Choices" rendered="#{partEntity.partName != partManagementManagedBean.chassis}">
-                <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.updatePartPartChoicesManagedBean.partEntityPartChoicesToUpdate}" />
-            </p:commandButton>-->
+
 </ui:composition>

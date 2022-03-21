@@ -8,8 +8,11 @@ package ejb.session.stateless;
 import entity.PartChoiceEntity;
 import entity.PartEntity;
 import entity.ProductEntity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -231,6 +234,21 @@ public class PartEntitySessionBean implements PartEntitySessionBeanLocal {
         } else {
             partToRemove.getPartChoiceEntities().remove(partChoiceToRemove);
         }
+    }
+
+    @Override
+    public void updatePartPartChoices(List<PartChoiceEntity> listOfNewPartChoices, PartEntity partEntityToUpdate) throws UnableToAddPartChoiceToPartException {
+        try {
+            PartEntity managedPartEntity = retrievePartEntityByPartEntityId(partEntityToUpdate.getPartEntityId());
+            //Remove Old Links first
+            managedPartEntity.setPartChoiceEntities(new ArrayList<>());
+            for (PartChoiceEntity pc : listOfNewPartChoices) {
+                addPartChoiceToPart(pc.getPartChoiceEntityId(), partEntityToUpdate.getPartEntityId());
+            }
+        } catch (PartEntityNotFoundException | PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartException ex) {
+            throw new UnableToAddPartChoiceToPartException();
+        }
+
     }
 
     // to add new parts with all new part choices, linked with existing product

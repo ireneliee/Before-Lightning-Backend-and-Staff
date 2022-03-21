@@ -12,8 +12,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -560,14 +558,6 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         }
 
         return msg;
-    }
-
-    public void persist(Object object) {
-        entityManager.persist(object);
-    }
-
-    public void persist1(Object object) {
-        entityManager.persist(object);
     }
 
 }

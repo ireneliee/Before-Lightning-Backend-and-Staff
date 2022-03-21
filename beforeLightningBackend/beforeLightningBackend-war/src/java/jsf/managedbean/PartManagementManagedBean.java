@@ -54,6 +54,9 @@ public class PartManagementManagedBean implements Serializable {
     @Inject
     private DeletePartManagedBean deletePartManagedBean;
 
+    @Inject
+    private UpdatePartPartChoicesManagedBean updatePartPartChoicesManagedBean;
+
     private List<PartEntity> listOfPartEntities;
     private List<PartEntity> filteredListOfPartEntities;
     private String chassis;
@@ -137,5 +140,13 @@ public class PartManagementManagedBean implements Serializable {
 
     public void setDeletePartManagedBean(DeletePartManagedBean deletePartManagedBean) {
         this.deletePartManagedBean = deletePartManagedBean;
+    }
+
+    public UpdatePartPartChoicesManagedBean getUpdatePartPartChoicesManagedBean() {
+        return updatePartPartChoicesManagedBean;
+    }
+
+    public void setUpdatePartPartChoicesManagedBean(UpdatePartPartChoicesManagedBean updatePartPartChoicesManagedBean) {
+        this.updatePartPartChoicesManagedBean = updatePartPartChoicesManagedBean;
     }
 }

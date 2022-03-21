@@ -5,11 +5,10 @@
  */
 package ejb.session.stateless;
 
+import entity.PartChoiceEntity;
 import entity.PartEntity;
-import entity.ProductEntity;
 import java.util.List;
 import javax.ejb.Local;
-import util.exception.CreateNewPartEntityException;
 import util.exception.DeletePartEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.PartChoiceEntityNotFoundException;
@@ -54,5 +53,7 @@ public interface PartEntitySessionBeanLocal {
     public void addPartChoiceToListOfParts(Long partChoiceEntityId, List<PartEntity> listOfPartEntities) throws UnableToAddPartChoiceToPartException;
 
     public void toggleDisablePartEntity(Long partEntityId) throws UpdatePartEntityException;
+
+    public void updatePartPartChoices(List<PartChoiceEntity> listOfNewPartChoices, PartEntity partEntityToUpdate) throws UnableToAddPartChoiceToPartException;
 
 }
