@@ -22,7 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -45,9 +44,6 @@ public class PurchaseOrderEntity implements Serializable {
     @NotNull
     @Column(nullable = false)
     private LocalDateTime dateCreated;
-    @NotNull
-    @Column(nullable = false)
-    private LocalDateTime datePaid;
     @Column(nullable = false)
     @NotNull
     @Size(min = 8, max = 8)
@@ -68,12 +64,11 @@ public class PurchaseOrderEntity implements Serializable {
         this.purchaseOrderLineItems = new ArrayList<PurchaseOrderLineItemEntity>();
     }
 
-    public PurchaseOrderEntity(String referenceNumber, BigDecimal totalPrice, LocalDateTime dateCreated, LocalDateTime datePaid) {
+    public PurchaseOrderEntity(String referenceNumber, BigDecimal totalPrice, LocalDateTime dateCreated) {
         this();
         this.referenceNumber = referenceNumber;
         this.totalPrice = totalPrice;
         this.dateCreated = dateCreated;
-        this.datePaid = datePaid;
     }
 
     public Long getPurchaseOrderEntityId() {
@@ -109,22 +104,11 @@ public class PurchaseOrderEntity implements Serializable {
      * @param dateCreated the dateCreated to set
      */
     public void setDateCreated(LocalDateTime dateCreated) {
-        this.setDateCreated(dateCreated);
+        this.dateCreated = dateCreated;
     }
 
-    /**
-     * @return the datePaid
-     */
-    public LocalDateTime getDatePaid() {
-        return datePaid;
-    }
 
-    /**
-     * @param datePaid the datePaid to set
-     */
-    public void setDatePaid(LocalDateTime datePaid) {
-        this.setDatePaid(datePaid);
-    }
+
 
     /**
      * @return the member

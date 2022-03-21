@@ -180,7 +180,7 @@ public class PurchaseOrderDataInitializationSessionBean {
 
                     l4.setPartChoiceEntities(list1);
 
-                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal(3.50), LocalDateTime.now(), LocalDateTime.now());
+                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal(3.50), LocalDateTime.now());
                     po.getPurchaseOrderLineItems().add(l1);
                     po.getPurchaseOrderLineItems().add(l2);
                     po.getPurchaseOrderLineItems().add(l3);
