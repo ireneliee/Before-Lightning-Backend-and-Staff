@@ -11,8 +11,9 @@
     <section id="sidebar-navigation" class="sidebar-navigation">
         <h:form id = "navigation-menu">
             <p:growl id = "messages" showDetail="false"/>
-            <p:menu id="menuUI">
+            <p:menu id="menuUI" styleClass="ui-noborder">
                 <p:menuitem value="Home" outcome="/homePage.xhtml" update="messages" icon="pi pi-home" />
+                <p:menuitem value="Accessory" outcome="/pages/accessoryOperations/accessoryHomePage.xhtml" rendered="#{sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 2 }" update="messages" icon="pi pi-mobile"/>
                 <p:menuitem value="Product" outcome="/pages/productOperations/productHomePage.xhtml" rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 2 }" update="messages" icon="pi pi-desktop"/>
                 <p:menuitem value="Promotion" outcome="/pages/promotionOperations/promotionHomePage.xhtml" rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 3 }" update="messages" icon="pi pi-money-bill"/>
                 <p:menuitem value="Website" outcome="/pages/websiteOperations/websiteHomePage.xhtml" rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 3 }"  icon="pi pi-microsoft" />
@@ -23,7 +24,6 @@
                 <p:menuitem value="Settings" outcome="/settingsPage.xhtml"  update="messages" icon="pi pi-cog"/>
                 <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}"  update="messages" icon="pi pi-sign-out"/>
             </p:menu>
-
         </h:form>
     </section>
 

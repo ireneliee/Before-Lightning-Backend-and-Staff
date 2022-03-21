@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                >
+    <h:outputStylesheet library = "css" name="header.css"/>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+    <section id="products-navigation" class="products-navigation">
+        <h:form>
+            <p:menubar style="width: 99%; height: 5%">
+                <p:menuitem value="View Live Accessory" outcome="/pages/accessoryOperations/accessoryHomePage.xhtml" style="height: 60%"/>       
+                <p:menuitem value="Manage All Products" outcome="/pages/accessoryOperations/manageAllAccessoryPage.xhtml" style="height: 60%"/>        
+                <p:menuitem value="Manage All Parts" outcome="/pages/accessoryOperations/manageAllAccessoryItemPage.xhtml" style="height: 60%"/>        
+            </p:menubar>
+        </h:form>
+    </section>
+</ui:composition>

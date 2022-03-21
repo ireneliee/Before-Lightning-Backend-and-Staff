@@ -82,7 +82,10 @@ public class SecurityFilter implements Filter {
             if (path.equals("/pages/productOperations/productHomePage.xhtml") ||
                    path.equals("/pages/productOperations/manageAllProductsPage.xhtml") ||
                     path.equals("/pages/productOperations/manageAllPartsPage.xhtml") ||
-                    path.equals("/pages/productOperations/manageAllPartChoicesPage.xhtml")) {
+                    path.equals("/pages/productOperations/manageAllPartChoicesPage.xhtml") ||
+                    path.equals("/pages/accessoryOperations/accessoryHomePage.xhtml") ||
+                    path.equals("/pages/accessoryOperations/manageAllAccessoryPage.xhtml") ||
+                    path.equals("/pages/accessoryOperations/manageAllAccessoryItemPage.xhtml")) {
                 return true;
             } else {
                 return false;

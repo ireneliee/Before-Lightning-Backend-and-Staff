@@ -18,12 +18,17 @@
             <p:breadCrumb homeDisplay="false">
 
                 <p:menuitem icon="pi pi-home" url="#{application.contextPath}/homePage.xhtml" style="text-decoration-line: none;" />
-                
+
+                <p:menuitem value="Accessory" url="#{application.contextPath}/pages/accessoryOperations/accessoryHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Accessory'}" />    
+                <p:menuitem value="Manage Accessory" url="#{application.contextPath}/pages/accessoryOperations/manageAllAccessoryPage.xhtml" rendered="#{cc.attrs.pageName == 'Manage Accessory'}" />    
+                <p:menuitem value="Manage Accessory Item" url="#{application.contextPath}/pages/accessoryOperations/manageAllAccessoryItemPage.xhtml" rendered="#{cc.attrs.pageName == 'Manage Accessory Item'}" />    
+
+
                 <p:menuitem value="Product" url="#{application.contextPath}/pages/productOperations/productHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Product'}" />    
                 <p:menuitem value="Manage All Products" url="#{application.contextPath}/pages/productOperations//manageAllProductsPage.xhtml" rendered="#{cc.attrs.pageName == 'Manage Products'}" />
                 <p:menuitem value="Manage All Parts" url="#{application.contextPath}/pages/productOperations//manageAllPartsPage.xhtml" rendered="#{cc.attrs.pageName == 'Manage Parts'}" />
                 <p:menuitem value="Manage All Part Choices" url="#{application.contextPath}/pages/productOperations//manageAllPartChoicesPage.xhtml" rendered="#{cc.attrs.pageName == 'Manage Part Choices'}" />
-                
+
                 <p:menuitem value="Promotion" url="#{application.contextPath}/pages/promotionOperations/promotionHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Promotion'}" />                        
                 <p:menuitem value="Website" url="#{application.contextPath}/pages/websiteOperations/websiteHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Website'}" />                        
                 <p:menuitem value="Staff" url="#{application.contextPath}/pages/staffOperations/staffHomePage.xhtml" rendered="#{cc.attrs.pageName == 'Staff'}" />                        

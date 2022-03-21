@@ -14,9 +14,9 @@
 
     <h:body>
 
-        <p:layout fullPage="true" >
+        <p:layout fullPage="true" styleClass="ui-noborder" >
             <p:growl id="growl" showDetail="true" redisplay="false" />  
-            <p:layoutUnit position="north" size="85" >
+            <p:layoutUnit position="north" size="85" styleClass="ui-noborder">
 
                 <ui:insert class = "header-section" name="header">
                     <ui:include src="/header.xhtml" />
@@ -24,7 +24,7 @@
 
             </p:layoutUnit>
 
-            <p:layoutUnit size="240" position="west" >
+            <p:layoutUnit size="240" position="west" styleClass="ui-noborder">
 
                 <ui:insert name="sidebar-navigation">
                     <ui:include src="/sidebarNavigation.xhtml" />
@@ -32,13 +32,13 @@
 
             </p:layoutUnit>
 
-            <p:layoutUnit position="center" >
+            <p:layoutUnit position="center" styleClass="ui-noborder">
 
                 <ui:insert name="content">Content</ui:insert>
 
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="50" >
+            <p:layoutUnit position="south" size="50" styleClass="ui-noborder">
 
                 <ui:insert name="footer">
                     <ui:include src="/footer.xhtml" />
