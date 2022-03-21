@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formUpdateLinkedPartChoices">
+            <p:dialog id="dialogUpdateLinkedPartChoices" widgetVar="dialogUpdateLinkedPartChoices" header="Update Linked Part Choices" closable="true">
+                <p:panel header="Please Select Part Choices To Link">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:selectManyMenu id="selectManyLinkedPartChoicesMenu" value="#{updateLinkedPartChoicesManagedBean.newListOfSelectedChassisPartChoiceEntities}"
+                                                  var="partChoiceEntity" filter="true" filterMatchMode="contains" showCheckbox="true">
+                                    <f:selectItems value="#{updateLinkedPartChoicesManagedBean.listOfAvailableChassisPartChoiceEntities}" var="partChoiceEntity" itemLabel="#{partChoiceEntity.partChoiceName}" itemValue="#{partChoiceEntity}" />
+                                    <p:column>
+                                        <p:outputLabel value="#{partChoiceEntity.partChoiceName}" />
+                                    </p:column>
+                                </p:selectManyMenu>                            
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Current Part Choices Linked To Part Choice: " />
+                                <br/>
+                                <p:repeat value="#{updateLinkedPartChoicesManagedBean.partChoiceEntityChassisPartChoicesToUpdate.compatibleChassisPartChoiceEntities}" var="partChoiceEntity">
+                                    <p:outputLabel value="- #{partChoiceEntity.partChoiceName}"/>
+                                    <br/>
+                                </p:repeat>
+                            </p:column>
+                        </p:row>    
+
+                    </p:panelGrid>
+                    <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Linked Part Choices" actionListener="#{updateLinkedPartChoicesManagedBean.updateLinkedPartChoices}" update="formAllPartChoices:dataTableAllPartChoices formAllChassisPartChoices:dataTableAllChassisPartChoices growl" oncomplete="PF('dialogUpdateLinkedPartChoices').hide()">
+                        <p:confirm header="Confirmation" message="Are you sure you want to update #{updateLinkedPartChoicesManagedBean.partChoiceEntityChassisPartChoicesToUpdate.partChoiceName} ?"  icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:panel>
+
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </cc:implementation>
+</html>

@@ -25,6 +25,7 @@ import util.exception.PartChoiceEntityExistException;
 import util.exception.PartChoiceEntityNotFoundException;
 import util.exception.PartEntityNotFoundException;
 import util.exception.UnableToAddPartChoiceToPartChoiceException;
+import util.exception.UnableToLinkPartChoicesException;
 import util.exception.UnableToRemovePartChoiceFromPartChoiceException;
 import util.exception.UnableToRemovePartChoiceFromPartException;
 import util.exception.UnknownPersistenceException;
@@ -152,24 +153,12 @@ public class PartChoiceEntitySessionBean implements PartChoiceEntitySessionBeanL
     }
 
     @Override
-    public void toggleDisablePartChoiceEntity(PartChoiceEntity partChoiceEntity) throws PartChoiceEntityNotFoundException, UpdatePartChoiceEntityException, InputDataValidationException {
-        if (partChoiceEntity != null && partChoiceEntity.getPartChoiceEntityId() != null) {
-            Set<ConstraintViolation<PartChoiceEntity>> constraintViolations = validator.validate(partChoiceEntity);
-
-            if (constraintViolations.isEmpty()) {
-                PartChoiceEntity partChoiceEntityToUpdate = retrievePartChoiceEntityByPartChoiceEntityId(partChoiceEntity.getPartChoiceEntityId());
-
-                if (partChoiceEntityToUpdate.getPartChoiceEntityId().equals(partChoiceEntity.getPartChoiceEntityId())) {
-                    partChoiceEntityToUpdate.setIsDisabled(partChoiceEntity.getIsDisabled());
-
-                } else {
-                    throw new UpdatePartChoiceEntityException("Part Choice ID record to be updated does not match the existing record");
-                }
-            } else {
-                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
-            }
-        } else {
-            throw new PartChoiceEntityNotFoundException("Part Choice ID not provided for Part Choice to be updated");
+    public void toggleDisablePartChoiceEntity(Long partChoiceEntityId) throws UpdatePartChoiceEntityException {
+        try {
+            PartChoiceEntity partChoiceToDisable = retrievePartChoiceEntityByPartChoiceEntityId(partChoiceEntityId);
+            partChoiceToDisable.setIsDisabled(!partChoiceToDisable.getIsDisabled());
+        } catch (PartChoiceEntityNotFoundException ex) {
+            throw new UpdatePartChoiceEntityException("Unable To Disable/Enable Part Choice!");
         }
     }
 
@@ -203,6 +192,51 @@ public class PartChoiceEntitySessionBean implements PartChoiceEntitySessionBeanL
     }
 
     @Override
+    public void updateLinkedPartChoiceEntities(List<PartChoiceEntity> listOfPartChoiceEntitiesToLink, PartChoiceEntity partChoiceEntityToUpdate) throws UnableToLinkPartChoicesException {
+        //if linking list of part choice to chassis part choice
+        if (partChoiceEntityToUpdate.getPartChoiceName().contains("Chassis")) {
+            //Remove old links
+            List<PartChoiceEntity> listToUnlink = partChoiceEntityToUpdate.getCompatiblePartsPartChoiceEntities();
+            for (PartChoiceEntity partChoiceToUnlink : listToUnlink) {
+                try {
+                    removePartChoiceFromChassisChoice(partChoiceToUnlink.getPartChoiceEntityId(), partChoiceEntityToUpdate.getPartChoiceEntityId());
+                } catch (PartChoiceEntityNotFoundException | UnableToRemovePartChoiceFromPartChoiceException ex) {
+                    throw new UnableToLinkPartChoicesException();
+                }
+            }
+
+            //link chassis PC to new PCs
+            for (PartChoiceEntity partChoiceToLink : listOfPartChoiceEntitiesToLink) {
+                try {
+                    addPartChoiceToChassisChoice(partChoiceToLink.getPartChoiceEntityId(), partChoiceEntityToUpdate.getPartChoiceEntityId());
+                } catch (PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartChoiceException ex) {
+                    throw new UnableToLinkPartChoicesException();
+                }
+            }
+        } else {
+            //if linking list of chassis part choice to part choice
+            //Remove old links
+            List<PartChoiceEntity> listToUnlink = partChoiceEntityToUpdate.getCompatibleChassisPartChoiceEntities();
+            for (PartChoiceEntity partChoiceToUnlink : listToUnlink) {
+                try {
+                    removePartChoiceFromChassisChoice(partChoiceEntityToUpdate.getPartChoiceEntityId(),partChoiceToUnlink.getPartChoiceEntityId());
+                } catch (PartChoiceEntityNotFoundException | UnableToRemovePartChoiceFromPartChoiceException ex) {
+                    throw new UnableToLinkPartChoicesException();
+                }
+            }
+            //link PC to new Chassis PCs
+
+            for (PartChoiceEntity partChoiceToLink : listOfPartChoiceEntitiesToLink) {
+                try {
+                    addPartChoiceToChassisChoice(partChoiceEntityToUpdate.getPartChoiceEntityId(),partChoiceToLink.getPartChoiceEntityId());
+                } catch (PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartChoiceException ex) {
+                    throw new UnableToLinkPartChoicesException();
+                }
+            }
+        }
+    }
+
+    @Override
     public void addPartChoiceToChassisChoice(Long partChoiceToAddId, Long chassisToAddId) throws PartChoiceEntityNotFoundException, UnableToAddPartChoiceToPartChoiceException {
         PartChoiceEntity partChoiceEntityToAdd = retrievePartChoiceEntityByPartChoiceEntityId(partChoiceToAddId);
         PartChoiceEntity chassisEntityToAdd = retrievePartChoiceEntityByPartChoiceEntityId(chassisToAddId);
@@ -230,7 +264,7 @@ public class PartChoiceEntitySessionBean implements PartChoiceEntitySessionBeanL
     }
 
     @Override
-    public void addPartChoiceToListOfChassisChoice(Long partChoiceToAddId, List<PartChoiceEntity> listOfChassisPartChoiceEntities) throws UnableToAddPartChoiceToPartChoiceException{
+    public void addPartChoiceToListOfChassisChoice(Long partChoiceToAddId, List<PartChoiceEntity> listOfChassisPartChoiceEntities) throws UnableToAddPartChoiceToPartChoiceException {
         for (PartChoiceEntity chassis : listOfChassisPartChoiceEntities) {
             try {
                 addPartChoiceToChassisChoice(partChoiceToAddId, chassis.getPartChoiceEntityId());

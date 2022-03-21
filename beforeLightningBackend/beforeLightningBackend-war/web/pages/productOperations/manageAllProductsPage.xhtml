@@ -13,7 +13,6 @@
         <ui:include src="/pages/productOperations/productNavBar.xhtml" />
 
         <h:form id="formAllProducts">
-            <p:commandButton value="Create New Product"  icon="pi pi-plus" update="ccCreateProduct:formCreateProduct" oncomplete="PF('dialogCreateProduct').show()" title="Create New Product"/>
             <p:dataTable id="dataTableAllProducts" widgetVar="dataTableAllProducts" value="#{productManagementManagedBean.listOfProductEntities}" var="productEntity" rowKey="#{productEntity.productEntityId}" rowIndexVar="row"
                          filteredValue="#{productManagementManagedBean.filteredListOfProductEntities}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
@@ -21,7 +20,8 @@
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
                         <p:outputLabel value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProducts').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProducts').filter()" style="width:300px" placeholder="Enter keyword"/>&nbsp;&nbsp;&nbsp;
+                        <p:commandButton value="Create New Product" icon="pi pi-plus" update="ccCreateProduct:formCreateProduct" oncomplete="PF('dialogCreateProduct').show()" title="Create New Product"/>
                     </p:outputPanel>
                 </f:facet> 
 
@@ -53,13 +53,13 @@
                     <p:commandButton value="Update Parts" update="ccUpdateProductParts:formUpdateProductParts" oncomplete="PF('dialogUpdateProductParts').show()" icon="ui-icon-pencil" title="Update">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.updateProductPartsManagedBean.productEntityPartsToUpdate}" />
                     </p:commandButton>
-                    <p:commandButton value="Disable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-times" title="Disable" rendered="#{productEntity.isDisabled eq false}">
+                    <p:commandButton value="Disable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-close" title="Disable" rendered="#{productEntity.isDisabled eq false}">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.disableProductManagedBean.productEntityToDisable}" />
                     </p:commandButton>
                     <p:commandButton value="Enable Product" update="ccDisableProduct:formDisableProduct" oncomplete="PF('dialogDisableProduct').show()" icon="ui-icon-check" title="Disable" rendered="#{productEntity.isDisabled eq true}">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.disableProductManagedBean.productEntityToDisable}" />
                     </p:commandButton>
-                    <p:commandButton value="Delete Product" update="ccDeleteProduct:formDeleteProduct" oncomplete="PF('dialogDeleteProduct').show()" icon="ui-icon-ban" title="Delete">
+                    <p:commandButton value="Delete Product" update="ccDeleteProduct:formDeleteProduct" oncomplete="PF('dialogDeleteProduct').show()" icon="ui-icon-trash" title="Delete">
                         <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.deleteProductManagedBean.productEntityToDelete}" />
                     </p:commandButton>
                 </p:column>
