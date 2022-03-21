@@ -34,6 +34,7 @@ public class ForumPostManagementBean implements Serializable {
     private ForumPostEntity selectedForumPostEntityToUpdate;
     private List<ReplyEntity> listOfComments;
     private ForumPostEntity selectedForumPostToView;
+    private List<ForumPostEntity> filteredForumPosts;
 
     public ForumPostManagementBean() {
     }
@@ -113,6 +114,14 @@ public class ForumPostManagementBean implements Serializable {
 
     public void setSelectedForumPostEntityToUpdate(ForumPostEntity selectedForumPostEntityToUpdate) {
         this.selectedForumPostEntityToUpdate = selectedForumPostEntityToUpdate;
+    }
+
+    public List<ForumPostEntity> getFilteredForumPosts() {
+        return filteredForumPosts;
+    }
+
+    public void setFilteredForumPosts(List<ForumPostEntity> filteredForumPosts) {
+        this.filteredForumPosts = filteredForumPosts;
     }
 
 }
