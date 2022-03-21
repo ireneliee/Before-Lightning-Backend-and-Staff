@@ -87,30 +87,20 @@
                     </p:row>
                     <p:row>
                         <p:column>
-                            <p:outputLabel value="Replies: " />
+                            <p:outputLabel value="Action: " />
                         </p:column>
                         <p:column>
-                            <h:form id = "reply-form">
-                                <p:carousel value="#{viewForumManagedBean.listOfComments}" headerText="Replies" var="replyEntity" itemStyle="text-align:center" responsive="true">
-                                    <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:commandButton value="Ban" id="forum-unviewable-button" update="formViewForum :growl" actionListener ="#{ viewForumManagedBean.banForum }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{! (viewForumManagedBean.forumEntityToView.isBanned)}">
 
-                                        <h:outputText value= "#{replyEntity.author.username}"/>
-                                        <p:commandButton value="Ban" id="reply-unviewable-button" update="reply-form :growl" action="#{ viewForumManagedBean.setBanned }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{!replyEntity.isBanned}">
-                                            <f:setPropertyActionListener value="#{replyEntity}" target="#{viewForumManagedBean.replyEntityToUpdate}" />
-                                        </p:commandButton>
-                                        <p:commandButton value="Unban" id="reply-viewable-button" update="reply-form :growl" action="#{ viewForumManagedBean.setUnbanned }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{replyEntity.isBanned}">
-                                            <f:setPropertyActionListener value="#{replyEntity}" target="#{viewForumManagedBean.replyEntityToUpdate}" />
-                                        </p:commandButton>
+                            </p:commandButton>
+                            <p:commandButton value="Unban" id="reply-viewable-button" update="formViewForum :growl" actionListener ="#{  viewForumManagedBean.unbanForum }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{ (viewForumManagedBean.forumEntityToView.isBanned) }">
 
-                                    </p:panelGrid>
-
-                                    <f:facet name="footer">
-                                        In total there are #{fn:length(viewForumManagedBean.listOfComments)} replies.
-                                    </f:facet>
-                                </p:carousel>
-                            </h:form>
+                            </p:commandButton>
                         </p:column>
                     </p:row>
+
+
+
 
 
                 </p:panelGrid>

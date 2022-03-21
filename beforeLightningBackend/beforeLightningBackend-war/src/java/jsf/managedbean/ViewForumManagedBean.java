@@ -8,15 +8,19 @@ package jsf.managedbean;
 import ejb.session.stateless.ForumPostsEntitySessionBeanLocal;
 import entity.ForumPostEntity;
 import entity.ReplyEntity;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
+import util.exception.ForumPostNotFoundException;
 
 /**
  *
@@ -32,28 +36,44 @@ public class ViewForumManagedBean implements Serializable {
     private ForumPostEntity forumEntityToView;
     private List<ReplyEntity> listOfComments;
     private ReplyEntity replyEntityToUpdate;
+    
     public ViewForumManagedBean() {
         forumEntityToView = new ForumPostEntity();
+        listOfComments = new ArrayList<>();
     }
     
     @PostConstruct
     public void postConstruct() {
+    
+    }
+    
+    public void retrieveReplies(ActionEvent event) {
+        ForumPostEntity forumEntityToView = (ForumPostEntity) event.getComponent().getAttributes().get("forumPostToView");
         listOfComments = forumEntityToView.getReplies();
     }
     
-    public void setBanned(ActionEvent event) {
-        replyEntityToUpdate.setIsBanned(true);
-        forumPostsEntitySessionBeanLocal.updateReplyEntity(replyEntityToUpdate);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reply has been banned. It will be unviewable by the public.", null));
     
-    }
     
-    public void setUnbanned(ActionEvent event) {
-        replyEntityToUpdate.setIsBanned(false);
-        forumPostsEntitySessionBeanLocal.updateReplyEntity(replyEntityToUpdate);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reply has been unbanned. It will be viewable by the public.", null));
+public void banForum(ActionEvent event) {
+    forumEntityToView.setIsBanned(true);
+        try {
+            forumPostsEntitySessionBeanLocal.changeBannedStatus(forumEntityToView);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Forum is banned successfully", null));
+        } catch (ForumPostNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+}
+
+public void unbanForum(ActionEvent event) {
+    forumEntityToView.setIsBanned(false);
+        try {
+            forumPostsEntitySessionBeanLocal.changeBannedStatus(forumEntityToView);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Forum is unbanned successfully", null));
+        } catch (ForumPostNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+}
     
-    }
 
     public ForumPostEntity getForumEntityToView() {
         return forumEntityToView;

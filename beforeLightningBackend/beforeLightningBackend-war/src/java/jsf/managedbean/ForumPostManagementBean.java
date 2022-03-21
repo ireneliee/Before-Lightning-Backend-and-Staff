@@ -30,15 +30,15 @@ public class ForumPostManagementBean implements Serializable {
 
     @EJB
     private ForumPostsEntitySessionBeanLocal forumPostsEntitySessionBeanLocal;
-    @Inject
-    private ViewForumManagedBean viewForumManagedBean;
 
     private List<ForumPostEntity> forumPosts;
     private ForumPostEntity selectedForumPostEntityToUpdate;
     private List<ReplyEntity> listOfComments;
-    private ForumPostEntity selectedForumPostToView;
     private List<ForumPostEntity> filteredForumPosts;
+    private ReplyEntity replyEntityToUpdate;
     
+    @Inject
+    private ViewForumManagedBean viewForumManagedBean;
 
     public ForumPostManagementBean() {
     }
@@ -71,14 +71,7 @@ public class ForumPostManagementBean implements Serializable {
         }
     }
 
-    public void retrieveReplies(ActionEvent event) {
-        selectedForumPostToView = (ForumPostEntity) event.getComponent().getAttributes().get("forumPostToView");
-        try {
-            listOfComments =  forumPostsEntitySessionBeanLocal.retrieveReplyByForumId(selectedForumPostToView.getForumPostEntityId());
-        } catch (ForumPostNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
-        }
-    }
+    
 
     public List<ReplyEntity> getListOfComments() {
         return listOfComments;
@@ -88,13 +81,6 @@ public class ForumPostManagementBean implements Serializable {
         this.listOfComments = listOfComments;
     }
 
-    public ForumPostEntity getSelectedForumPostToView() {
-        return selectedForumPostToView;
-    }
-
-    public void setSelectedForumPostToView(ForumPostEntity selectedForumPostToView) {
-        this.selectedForumPostToView = selectedForumPostToView;
-    }
 
     public ForumPostsEntitySessionBeanLocal getForumPostsEntitySessionBeanLocal() {
         return forumPostsEntitySessionBeanLocal;
@@ -126,6 +112,15 @@ public class ForumPostManagementBean implements Serializable {
 
     public void setFilteredForumPosts(List<ForumPostEntity> filteredForumPosts) {
         this.filteredForumPosts = filteredForumPosts;
+    }
+
+
+    public ReplyEntity getReplyEntityToUpdate() {
+        return replyEntityToUpdate;
+    }
+
+    public void setReplyEntityToUpdate(ReplyEntity replyEntityToUpdate) {
+        this.replyEntityToUpdate = replyEntityToUpdate;
     }
 
     public ViewForumManagedBean getViewForumManagedBean() {
