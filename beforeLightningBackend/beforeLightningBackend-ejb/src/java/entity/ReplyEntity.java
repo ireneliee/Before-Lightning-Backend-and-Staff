@@ -28,43 +28,56 @@ public class ReplyEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyEntityId;
-    
+
     @Column(nullable = false, length = 10000)
     @Size(max = 10000)
     private String content;
-    
+
     @Column(nullable = true, length = 256)
     @Size(max = 256)
     private String imageLink;
-    
-    @Column(nullable= false)
+
+    @Column(nullable = false)
     private LocalDateTime timestamp;
-    
+
     @Column(nullable = false)
     private Boolean isVisible;
-    
+
     @Column(nullable = false)
     private Boolean isBanned;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private MemberEntity author;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private ForumPostEntity forumPost;
 
+    public ReplyEntity() {
+        timestamp = LocalDateTime.now();
+        isVisible = true;
+        isBanned = false;
+    }
+
+    public ReplyEntity(String content, MemberEntity author, ForumPostEntity forumPost) {
+        this();
+        this.content = content;
+        this.author = author;
+        this.forumPost = forumPost;
+    }
+
+    public ReplyEntity(String content, String imageLink, MemberEntity author, ForumPostEntity forumPost) {
+        this();
+        this.content = content;
+        this.imageLink = imageLink;
+        this.author = author;
+        this.forumPost = forumPost;
+    }
+
     public Long getReplyEntityId() {
         return replyEntityId;
     }
-    
-    
-    
-
-    public ReplyEntity() {
-    }
-    
-    
 
     public void setReplyEntityId(Long replyEntityId) {
         this.replyEntityId = replyEntityId;
@@ -150,5 +163,5 @@ public class ReplyEntity implements Serializable {
     public void setForumPost(ForumPostEntity forumPost) {
         this.forumPost = forumPost;
     }
-    
+
 }

@@ -43,5 +43,7 @@ public interface ForumPostsEntitySessionBeanLocal {
 
     public List<ReplyEntity> retrieveReplyByForumId(Long forumPostId) throws ForumPostNotFoundException;
 
+    public void updateReplyEntity(ReplyEntity updatedReply);
+
     
 }
