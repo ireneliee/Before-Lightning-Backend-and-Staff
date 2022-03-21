@@ -22,7 +22,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -46,6 +48,10 @@ public class PurchaseOrderEntity implements Serializable {
     @NotNull
     @Column(nullable = false)
     private LocalDateTime datePaid;
+    @Column(nullable = false)
+    @NotNull
+    @Size(min = 8, max = 8)
+    private String referenceNumber;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
@@ -62,8 +68,9 @@ public class PurchaseOrderEntity implements Serializable {
         this.purchaseOrderLineItems = new ArrayList<PurchaseOrderLineItemEntity>();
     }
 
-    public PurchaseOrderEntity(BigDecimal totalPrice, LocalDateTime dateCreated, LocalDateTime datePaid) {
+    public PurchaseOrderEntity(String referenceNumber, BigDecimal totalPrice, LocalDateTime dateCreated, LocalDateTime datePaid) {
         this();
+        this.referenceNumber = referenceNumber;
         this.totalPrice = totalPrice;
         this.dateCreated = dateCreated;
         this.datePaid = datePaid;
@@ -88,7 +95,7 @@ public class PurchaseOrderEntity implements Serializable {
      * @param totalPrice the totalPrice to set
      */
     public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+        this.setTotalPrice(totalPrice);
     }
 
     /**
@@ -102,7 +109,7 @@ public class PurchaseOrderEntity implements Serializable {
      * @param dateCreated the dateCreated to set
      */
     public void setDateCreated(LocalDateTime dateCreated) {
-        this.dateCreated = dateCreated;
+        this.setDateCreated(dateCreated);
     }
 
     /**
@@ -116,7 +123,7 @@ public class PurchaseOrderEntity implements Serializable {
      * @param datePaid the datePaid to set
      */
     public void setDatePaid(LocalDateTime datePaid) {
-        this.datePaid = datePaid;
+        this.setDatePaid(datePaid);
     }
 
     /**
@@ -193,6 +200,25 @@ public class PurchaseOrderEntity implements Serializable {
 
     public void setDeliverySlot(DeliverySlotEntity deliverySlot) {
         this.deliverySlot = deliverySlot;
+    }
+
+    /**
+
+
+    /**
+  
+    /**
+     * @return the referenceNumber
+     */
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    /**
+     * @param referenceNumber the referenceNumber to set
+     */
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
     }
 
 }
