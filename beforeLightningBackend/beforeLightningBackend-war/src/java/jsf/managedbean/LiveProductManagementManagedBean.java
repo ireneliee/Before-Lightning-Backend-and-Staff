@@ -10,6 +10,7 @@ import entity.ProductEntity;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -36,6 +37,7 @@ public class LiveProductManagementManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         listOfLiveProductEntities = productEntitySessionBeanLocal.retrieveAllProductEntitiesThatCanSell();
+        filteredListOfLiveProductEntities = new ArrayList<>();
     }
 
     /**

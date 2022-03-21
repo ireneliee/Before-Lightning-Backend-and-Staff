@@ -4,12 +4,45 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-                >
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Orders" />
 
-        Order Home Page
+        <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
+        <h:form id="formAllPurchaseOrders">
+
+            <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
+                         filteredValue="#{purchaseOrderManagementManagedBean.filteredListOfAllPurchasOrders}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPurchaseOrders').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Order Ref Number" sortBy="#{purchaseOrderEntity.referenceNumber}" filterBy="#{purchaseOrderEntity.referenceNumber}" filterMatchMode="contains">
+                    <p:outputLabel value="#{purchaseOrderEntity.referenceNumber}" />
+                </p:column>
+                <p:column headerText="Total Price" sortBy="#{purchaseOrderEntity.totalPrice}" filterBy="#{purchaseOrderEntity.totalPrice}" filterMatchMode="contains">
+                    <p:outputLabel value="#{purchaseOrderEntity.totalPrice}" />
+                </p:column>
+                <p:column headerText="Creation Date" sortBy="#{purchaseOrderEntity.dateCreated}" filterBy="#{purchaseOrderEntity.dateCreated}" filterMatchMode="contains">
+                    <p:outputLabel value="#{purchaseOrderEntity.dateCreated}" />
+                </p:column>
+                <p:column headerText="Action" >
+<!--                    <p:commandButton update="ccViewPartChoice:formViewPartChoice" oncomplete="PF('dialogViewPartChoice').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.viewPartChoiceManagedBean.partChoiceEntityToView}" />
+                    </p:commandButton>-->
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
     </ui:define>
 
 </ui:composition>

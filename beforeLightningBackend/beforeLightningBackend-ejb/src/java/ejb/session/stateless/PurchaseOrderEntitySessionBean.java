@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.MemberEntity;
+import entity.PartChoiceEntity;
 import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;    
 import javax.persistence.Query;
+import util.enumeration.PurchaseOrderLineItemTypeEnum;
 import util.exception.CreateNewPurchaseOrderException;
 import util.exception.MemberEntityNotFoundException;
 import util.exception.PurchaseOrderEntityNotFoundException;
@@ -24,6 +26,9 @@ import util.exception.PurchaseOrderEntityNotFoundException;
  */
 @Stateless
 public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessionBeanLocal {
+
+    @EJB
+    private PartChoiceEntitySessionBeanLocal partChoiceEntitySessionBean;
 
     @EJB
     private MemberEntitySessionBeanLocal memberEntitySessionBeanLocal;
@@ -49,6 +54,18 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
                    
                 for(PurchaseOrderLineItemEntity p: newPurchaseOrderEntity.getPurchaseOrderLineItems()) {
                     em.persist(p);
+                    if(p.getPurchaseOrderLineItemTypeEnum() == PurchaseOrderLineItemTypeEnum.ACCESSORY) {
+                        Integer quantity = p.getAccessoryItemEntity().getQuantityOnHand();
+                        Integer boughtQuantity = p.getQuantity();
+                        p.getAccessoryItemEntity().setQuantityOnHand(quantity - boughtQuantity);
+                    } else {
+                        for(PartChoiceEntity managedpc : p.getPartChoiceEntities()) {
+                            Integer quantity = managedpc.getQuantityOnHand();
+                            Integer boughtQuantity = p.getQuantity();
+                            managedpc.setQuantityOnHand(quantity - boughtQuantity);
+                        }
+                        
+                    }
                 }
 
                 em.flush();

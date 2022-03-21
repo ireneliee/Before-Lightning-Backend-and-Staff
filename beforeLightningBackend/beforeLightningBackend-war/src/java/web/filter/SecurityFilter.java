@@ -51,7 +51,7 @@ public class SecurityFilter implements Filter {
         if (!excludeLoginCheck(requestServletPath)) {
             if (isLogin == true) {
                 EmployeeEntity currentEmployeeEntity = (EmployeeEntity) httpSession.getAttribute("currentEmployeeEntity");
-               
+
                 if (checkAccessRight(requestServletPath, currentEmployeeEntity.getEmployeeAccessRight())) {
                     chain.doFilter(request, response);
                 } else {
@@ -72,28 +72,28 @@ public class SecurityFilter implements Filter {
         if (accessRight.equals(accessRight.ADMIN)) {
             return true;
         } else if (accessRight.equals(accessRight.OPERATION)) {
-            if (path.equals("/pages/promotionOperations/promotionHomePage.xhtml")
-                    || path.equals("/pages/websiteOperations/websiteHomePage.xhtml")) {
+            if (path.equals("/pages/orderOperations/orderHomePage.xhtml")
+                    || path.equals("/pages/supportOperations/supportHomePage.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         } else if (accessRight.equals(accessRight.PRODUCT)) {
-            if (path.equals("/pages/productOperations/productHomePage.xhtml") ||
-                   path.equals("/pages/productOperations/manageAllProductsPage.xhtml") ||
-                    path.equals("/pages/productOperations/manageAllPartsPage.xhtml") ||
-                    path.equals("/pages/productOperations/manageAllPartChoicesPage.xhtml") ||
-                    path.equals("/pages/accessoryOperations/accessoryHomePage.xhtml") ||
-                    path.equals("/pages/accessoryOperations/manageAllAccessoryPage.xhtml") ||
-                    path.equals("/pages/accessoryOperations/manageAllAccessoryItemPage.xhtml")) {
+            if (path.equals("/pages/productOperations/productHomePage.xhtml")
+                    || path.equals("/pages/productOperations/manageAllProductsPage.xhtml")
+                    || path.equals("/pages/productOperations/manageAllPartsPage.xhtml")
+                    || path.equals("/pages/productOperations/manageAllPartChoicesPage.xhtml")
+                    || path.equals("/pages/accessoryOperations/accessoryHomePage.xhtml")
+                    || path.equals("/pages/accessoryOperations/manageAllAccessoryPage.xhtml")
+                    || path.equals("/pages/accessoryOperations/manageAllAccessoryItemPage.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         } else if (accessRight.equals(accessRight.SALES)) {
-            if (path.equals("/pages/orderOperations/orderHomePage.xhtml")
-                    || path.equals("/pages/supportOperations/supportHomePage.xhtml")
-                    || path.equals("/pages/forumOperations/forumHomepage.xhtml")) {
+            if (path.equals("/pages/promotionOperations/promotionHomePage.xhtml")
+                    || path.equals("/pages/forumOperations/forumHomepage.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteHomePage.xhtml")) {
                 return true;
             } else {
                 return false;
