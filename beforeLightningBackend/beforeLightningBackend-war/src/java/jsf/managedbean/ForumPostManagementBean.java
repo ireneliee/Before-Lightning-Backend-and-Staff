@@ -51,6 +51,7 @@ public class ForumPostManagementBean implements Serializable {
     public void banForum(ActionEvent event) {
         selectedForumPostEntityToUpdate = (ForumPostEntity) event.getComponent().getAttributes().get("forumPostToBan");
         selectedForumPostEntityToUpdate.setIsBanned(true);
+        System.out.println("erorrr");
         try {
             forumPostsEntitySessionBeanLocal.changeBannedStatus(selectedForumPostEntityToUpdate);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Forum post has been successfully banned", null));

@@ -21,6 +21,7 @@
                 <p:menuitem value="Orders" outcome="/pages/orderOperations/orderHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 1 }"  update="messages" icon="pi pi-shopping-cart"/>
                 <p:menuitem value="Support" outcome="/pages/supportOperations/supportHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 1 }" update="messages" icon="pi pi-ticket"/>
                 <p:menuitem value="Forum" outcome="/pages/forumOperations/forumHomepage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 1 }" update="messages" icon="pi pi-list"/>
+                 <p:menuitem value="Customer" outcome="/pages/customerOperations/customerHomepage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 1 }" update="messages" icon="pi pi-list"/>
                 <p:menuitem value="Settings" outcome="/settingsPage.xhtml"  update="messages" icon="pi pi-cog"/>
                 <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}"  update="messages" icon="pi pi-sign-out"/>
             </p:menu>
