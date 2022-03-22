@@ -105,10 +105,11 @@ public class AccessoryItemEntitySessionBean implements AccessoryItemEntitySessio
 
         List<AccessoryItemEntity> list = retrieveAllAccessoryItemEntities();
         List<AccessoryItemEntity> newList = new ArrayList<>();
-        
+
         for (AccessoryItemEntity ai : list) {
             ai.getReviewEntities().size();
-            if (ai.getIsDisabled() == false && ai.getAccessoryEntity().getIsDisabled() == false && ai.getQuantityOnHand() > 0) {
+//            if (ai.getIsDisabled() == false && ai.getAccessoryEntity().getIsDisabled() == false && ai.getQuantityOnHand() > 0) {
+            if (ai.getIsDisabled() == false && ai.getAccessoryEntity().getIsDisabled() == false) {
                 newList.add(ai);
             }
         }

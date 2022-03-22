@@ -4,12 +4,46 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-                >
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Accessory" />
         <ui:include src="/pages/accessoryOperations/accessoryNavBar.xhtml" />
+        <h:form id="formAllLiveAccessory">
+            <p:dataTable id="dataTableAllLiveAccessory" widgetVar="dataTableAllLiveAccessory" value="#{liveAccessoryManagementManagedBean.listOfLiveAccessoryItemEntities}" var="accessoryItemEntity" rowKey="#{accessoryItemEntity.accessoryItemEntityId}" rowIndexVar="row"
+                         filteredValue="#{liveAccessoryManagementManagedBean.filteredListOfLiveAccessoryItemEntities}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllLiveAccessory').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Accessory Item ID" sortBy="#{accessoryItemEntity.accessoryItemEntityId}" filterBy="#{accessoryItemEntity.accessoryItemEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryItemEntity.accessoryItemEntityId}" />
+                </p:column>
+                <p:column headerText="SKU Code" sortBy="#{accessoryItemEntity.skuCode}" filterBy="#{accessoryItemEntity.skuCode}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryItemEntity.skuCode}" />
+                </p:column>
+                <p:column headerText="Accessory Item Name" sortBy="#{accessoryItemEntity.accessoryItemName}" filterBy="#{accessoryItemEntity.accessoryItemName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryItemEntity.accessoryItemName}" />
+                </p:column>
+                <p:column headerText="Brand" sortBy="#{accessoryItemEntity.brand}" filterBy="#{accessoryItemEntity.brand}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryItemEntity.brand}" />
+                </p:column>
+                <p:column headerText="Description" sortBy="#{accessoryItemEntity.description}" filterBy="#{accessoryItemEntity.description}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryItemEntity.description}" />
+                </p:column>
+                <p:column headerText="Accessory Name" sortBy="#{accessoryItemEntity.accessoryEntity.accessoryName}" filterBy="#{accessoryItemEntity.accessoryEntity.accessoryName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryItemEntity.accessoryEntity.accessoryName}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
     </ui:define>
 
 </ui:composition>
