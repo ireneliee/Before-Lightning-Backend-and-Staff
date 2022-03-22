@@ -51,12 +51,16 @@ public class MemberEntity extends UserEntity implements Serializable {
     
     @ManyToMany(fetch = FetchType.LAZY)
     private List<ForumPostEntity> postsDisliked;
+    
+    @Column(nullable = false)
+    private Boolean isActive;
 
     public MemberEntity() {
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
         this.creditCards = new ArrayList<CreditCardEntity>();
         this.addresses = new ArrayList<AddressEntity>();
         this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
+        this.isActive = true;
     }
 
     public MemberEntity(String username, String password, String firstname, String lastname, String email, String contact) {
@@ -66,6 +70,7 @@ public class MemberEntity extends UserEntity implements Serializable {
         this.addresses = new ArrayList<AddressEntity>();
         this.purchaseOrders = new ArrayList<PurchaseOrderEntity>();
         this.setPassword(password);
+        this.isActive = true;
     }
 
     /**
@@ -203,6 +208,14 @@ public class MemberEntity extends UserEntity implements Serializable {
 
     public void setForumReplies(List<ReplyEntity> forumReplies) {
         this.forumReplies = forumReplies;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
 }

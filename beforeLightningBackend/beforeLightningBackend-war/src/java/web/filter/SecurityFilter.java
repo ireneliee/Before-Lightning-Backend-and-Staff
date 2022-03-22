@@ -73,7 +73,9 @@ public class SecurityFilter implements Filter {
             return true;
         } else if (accessRight.equals(accessRight.OPERATION)) {
             if (path.equals("/pages/orderOperations/orderHomePage.xhtml")
-                    || path.equals("/pages/supportOperations/supportHomePage.xhtml")) {
+                    || path.equals("/pages/supportOperations/supportHomePage.xhtml")
+                    || path.equals("/pages/forumOperations/forumHomepage.xhtml")
+                    || path.equals("/pages/customerOperations/customerHomepage.xhtml")) {
                 return true;
             } else {
                 return false;

@@ -11,52 +11,46 @@
                 >
 
     <ui:define name="content">
-        <ez:Breadcrumb pageName="Manage Forum" />
+        <ez:Breadcrumb pageName="Costumer" />
 
-        <h:form id="formAllForumPosts">
+        <h:form id="formAllCustomers">
 
-            <p:dataTable id="dataTableForumPosts" widgetVar="dataTableForumPosts" value="#{forumPostManagementBean.forumPosts}" var="forumEntity" rowKey="#{forumEntity.forumPostEntityId}" rowIndexVar="row"
-                         filteredValue="#{forumPostManagementBean.filteredForumPosts}"
+            <p:dataTable id="dataTableCustomers" widgetVar="dataTableForumCustomers" value="#{customerManagedBean.listOfMembers}" var="memberEntity" rowKey="#{memberEntity.userEntityId}" rowIndexVar="row"
+                         filteredValue="#{customerManagedBean.filteredMemberEntity}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
                         <p:outputLabel value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('dataTableForumPosts').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableCustomers').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet> 
-                <p:column headerText="Forum ID" sortBy="#{forumEntity.forumPostEntityId}" filterBy="#{forumEntity.forumPostEntityId}" filterMatchMode="contains">
-                    <p:outputLabel value="#{forumEntity.forumPostEntityId}" />
+                <p:column headerText="Customer ID" sortBy="#{memberEntity.userEntityId}" filterBy="#{memberEntity.userEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{memberEntity.userEntityId}" />
                 </p:column>
-                <p:column headerText="Title" sortBy="#{forumEntity.title}" filterBy="#{forumEntity.title}" filterMatchMode="contains">
-                    <p:outputLabel value="#{forumEntity.title}" />
+                <p:column headerText="Username" sortBy="#{memberEntity.username}" filterBy="#{memberEntity.username}" filterMatchMode="contains">
+                    <p:outputLabel value="#{memberEntity.username}" />
                 </p:column>
-                <p:column headerText="Author" sortBy="#{forumEntity.author.username}" filterBy="#{forumEntity.author.username}" filterMatchMode="contains">
-                    <p:outputLabel value="#{forumEntity.author.username}" />
+                <p:column headerText="First name" sortBy="#{memberEntity.firstname}" filterBy="#{memberEntity.firstname}" filterMatchMode="contains">
+                    <p:outputLabel value="#{memberEntity.firstname}" />
                 </p:column>
-                <p:column headerText="Time stamp" sortBy="#{forumEntity.timestamp}" filterBy="#{forumEntity.timestamp}" filterMatchMode="contains">
-                    <p:outputLabel value="#{forumEntity.timestamp}" />
+                <p:column headerText="Last name" sortBy="#{memberEntity.lastname}" filterBy="#{memberEntity.lastname}" filterMatchMode="contains">
+                    <p:outputLabel value="#{memberEntity.lastname}" />
                 </p:column>
-                <p:column headerText="Visible" sortBy="#{forumEntity.isVisible}" filterBy="#{forumEntity.isVisible}" filterMatchMode="contains">
-                    <p:outputLabel value="#{forumEntity.isVisible}" />
+                <p:column headerText="Contact" sortBy="#{memberEntity.contact}" filterBy="#{memberEntity.contact}" filterMatchMode="contains">
+                    <p:outputLabel value="#{memberEntity.email}" />
                 </p:column>
-                <p:column headerText="Number of likes" sortBy="#{fn: length(forumEntity.userWhoLikes)}" filterBy="#{fn: length(forumEntity.userWhoLikes)}" filterMatchMode="contains">
-                    <p:outputLabel value="#{fn: length(forumEntity.userWhoLikes)}" />
-                </p:column>  
-                <p:column headerText="Number of dislikes" sortBy="#{fn: length(forumEntity.userWhoDislikes)}" filterBy="#{fn: length(forumEntity.userWhoDislikes)}" filterMatchMode="contains">
-                    <p:outputLabel value="#{fn: length(forumEntity.userWhoDislikes)}" />
-                </p:column>  
-                <p:column headerText="Banned" sortBy="#{forumEntity.isBanned}" filterBy="#{forumEntity.isBanned}" filterMatchMode="contains">
-                    <p:outputLabel value="#{forumEntity.isBanned}" />
+                <p:column headerText="Banned" sortBy="#{memberEntity.isActive}" filterBy="#{memberEntity.isActive}" filterMatchMode="contains">
+                    <p:outputLabel value="#{memberEntity.isActive}" />
                 </p:column>                
 
                 <p:column headerText="Action" >
-                    <p:commandButton value="View Forum" update="ccViewForum:formViewForum" oncomplete="PF('dialogViewForum').show()" icon="ui-icon-document" title="View">
-                         <f:setPropertyActionListener value="#{forumEntity}" target="#{forumPostManagementBean.viewForumManagedBean.forumEntityToView}" />
+                    <p:commandButton value="View customer" update="ccViewCustomer:formViewCustomer" oncomplete="PF('dialogViewCustomer').show()" icon="ui-icon-document" title="View">
+                         <f:setPropertyActionListener value="#{memberEntity}" target="#{customerManagedBean.viewCustomerManagedBean.memberEntityToView}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
-        <ez:ViewForum id="ccViewForum" />
+        <ez:ViewCustomer id="ccViewCustomer" />
     </ui:define>
 </ui:composition>
