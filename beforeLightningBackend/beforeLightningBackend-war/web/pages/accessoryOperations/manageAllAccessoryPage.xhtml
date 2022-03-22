@@ -4,11 +4,49 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-                >
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Manage Accessory" />
         <ui:include src="/pages/accessoryOperations/accessoryNavBar.xhtml" />
+        <h:form id="formAllAccessory">
+            <p:dataTable id="dataTableAllAccessory" widgetVar="dataTableAllAccessory" value="#{accessoryManagementManagedBean.listOfAccessoryEntities}" var="accessoryEntity" rowKey="#{accessoryEntity.accessoryEntityId}" rowIndexVar="row"
+                         filteredValue="#{accessoryManagementManagedBean.filteredListOfAccessoryEntities}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllAccessory').filter()" style="width:300px" placeholder="Enter keyword"/>&nbsp;&nbsp;&nbsp;
+                        <p:commandButton value="Create New Accessory" icon="pi pi-plus" update="ccCreateAccessory:formCreateAccessory" oncomplete="PF('dialogCreateAccessory').show()" title="Create New Accessory"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Accessory ID" sortBy="#{accessoryEntity.accessoryEntityId}" filterBy="#{accessoryEntity.accessoryEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryEntity.accessoryEntityId}" />
+                </p:column>
+                <p:column headerText="Accessory Name" sortBy="#{accessoryEntity.accessoryName}" filterBy="#{accessoryEntity.accessoryName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryEntity.accessoryName}" />
+                </p:column>
+                <p:column headerText="Description" sortBy="#{accessoryEntity.description}" filterBy="#{accessoryEntity.description}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryEntity.description}" />
+                </p:column>
+                <p:column headerText="Disabled" sortBy="#{accessoryEntity.isDisabled}" filterBy="#{accessoryEntity.isDisabled}" filterMatchMode="contains">
+                    <p:outputLabel value="#{accessoryEntity.isDisabled}" />
+                </p:column>
+                <p:column headerText="Action" >
+                    <p:commandButton value="View Accessory" update="ccViewAccessory:formViewAccessory" oncomplete="PF('dialogViewAccessory').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{accessoryEntity}" target="#{accessoryManagementManagedBean.viewAccessoryManagedBean.accessoryEntityToView}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <ez:ViewAccessory id="ccViewAccessory" />
+        <ez:CreateAccessory id="ccCreateAccessory" />
+
 
     </ui:define>
 

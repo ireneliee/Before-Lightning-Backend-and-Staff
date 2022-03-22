@@ -246,7 +246,10 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
                                 //check that there is at least 1 not disabled part choice
                                 boolean checkPartChoice = false;
                                 for (PartChoiceEntity pce : part.getPartChoiceEntities()) {
-                                    if (pce.getIsDisabled() == false && pce.getQuantityOnHand() > 0) {
+                                    //If no quantity on hand, then product should not be labelled as cannot sell,
+                                    //should still be live but front end need handle
+//                                    if (pce.getIsDisabled() == false && pce.getQuantityOnHand() > 0) {
+                                    if (pce.getIsDisabled() == false) {
                                         checkPartChoice = true;
                                         break;
                                     }
@@ -278,7 +281,8 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 
     @Override
     public ProductEntity retrieveProductEntityByProductEntityId(Long productId) throws ProductEntityNotFoundException {
-        ProductEntity productEntity = entityManager.find(ProductEntity.class, productId);
+        ProductEntity productEntity = entityManager.find(ProductEntity.class,
+                 productId);
 
         if (productEntity != null) {
             productEntity.getReviewEntities().size();
