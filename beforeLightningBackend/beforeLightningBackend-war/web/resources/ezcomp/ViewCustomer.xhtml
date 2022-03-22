@@ -118,10 +118,10 @@
                         </p:column>
                         <p:column>
                             <p:commandButton value="Deactivate" id="member-deactivate-button" update="formViewCustomer :growl" actionListener ="#{ viewCustomerManagedBean.deactivateCustomer }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{viewCustomerManagedBean.memberEntityToView.isActive}">
-
+                                    <p:confirm header="Confirmation" message="Are you sure you want to deactivate #{viewCustomerManagedBean.memberEntityToView.username} ?"  icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:commandButton value="Activate" id="member-activate-button" update="formViewCustomer :growl" actionListener ="#{  viewCustomerManagedBean.activateCustomer }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{ !(viewCustomerManagedBean.memberEntityToView.isActive) }">
-
+                                <p:confirm header="Confirmation" message="Are you sure you want to activate #{viewCustomerManagedBean.memberEntityToView.username} ?"  icon="ui-icon-alert" />
                             </p:commandButton>
                         </p:column>
                     </p:row>
@@ -131,6 +131,10 @@
 
 
                 </p:panelGrid>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
             </h:form>
         </p:dialog>
 
