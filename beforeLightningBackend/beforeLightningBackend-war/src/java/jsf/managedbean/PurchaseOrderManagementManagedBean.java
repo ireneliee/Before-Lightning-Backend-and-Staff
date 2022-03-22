@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -25,6 +26,9 @@ public class PurchaseOrderManagementManagedBean implements Serializable {
 
     @EJB
     private PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBean;
+    
+    @Inject
+    private ViewPurchaseOrderManagedBean viewPurchaseOrderManagedBean;
     
     private List<PurchaseOrderEntity> listOfAllPurchaseOrders;
     private List<PurchaseOrderEntity> filteredListOfAllPurchasOrders;
@@ -67,6 +71,20 @@ public class PurchaseOrderManagementManagedBean implements Serializable {
      */
     public void setFilteredListOfAllPurchasOrders(List<PurchaseOrderEntity> filteredListOfAllPurchasOrders) {
         this.filteredListOfAllPurchasOrders = filteredListOfAllPurchasOrders;
+    }
+
+    /**
+     * @return the viewPurchaseOrderManagedBean
+     */
+    public ViewPurchaseOrderManagedBean getViewPurchaseOrderManagedBean() {
+        return viewPurchaseOrderManagedBean;
+    }
+
+    /**
+     * @param viewPurchaseOrderManagedBean the viewPurchaseOrderManagedBean to set
+     */
+    public void setViewPurchaseOrderManagedBean(ViewPurchaseOrderManagedBean viewPurchaseOrderManagedBean) {
+        this.viewPurchaseOrderManagedBean = viewPurchaseOrderManagedBean;
     }
     
 }

@@ -86,8 +86,13 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
     public List<PurchaseOrderEntity> retrieveAllPurchaseOrders()
     {
         Query query = em.createQuery("SELECT po FROM PurchaseOrderEntity po");
-        
-        return query.getResultList();
+        List<PurchaseOrderEntity> allItems = query.getResultList();
+        for(PurchaseOrderEntity item : allItems) {
+            
+            item.getPurchaseOrderLineItems().size();
+            System.out.println(item.getPurchaseOrderLineItems().size());
+        }
+        return allItems;
     }
     
     

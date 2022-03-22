@@ -92,6 +92,7 @@ public class PurchaseOrderEntity implements Serializable {
     public void setTotalPrice(BigDecimal totalPrice) {
         this.setTotalPrice(totalPrice);
     }
+    
 
     /**
      * @return the dateCreated

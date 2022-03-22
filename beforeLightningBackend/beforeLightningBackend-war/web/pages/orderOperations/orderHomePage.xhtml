@@ -7,7 +7,9 @@
 
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+    
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Orders" />
@@ -36,13 +38,15 @@
                     <p:outputLabel value="#{purchaseOrderEntity.dateCreated}" />
                 </p:column>
                 <p:column headerText="Action" >
-<!--                    <p:commandButton update="ccViewPartChoice:formViewPartChoice" oncomplete="PF('dialogViewPartChoice').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{partChoiceEntity}" target="#{partChoiceManagementManagedBean.viewPartChoiceManagedBean.partChoiceEntityToView}" />
-                    </p:commandButton>-->
+                    <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                    </p:commandButton>
                 </p:column>
 
             </p:dataTable>
         </h:form>
+        
+        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
     </ui:define>
 
 </ui:composition>
