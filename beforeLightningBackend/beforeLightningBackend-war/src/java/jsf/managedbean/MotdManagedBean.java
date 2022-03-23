@@ -75,8 +75,8 @@ public class MotdManagedBean implements Serializable {
 			EmployeeEntity currentEmployee = (EmployeeEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentEmployeeEntity");
 			MessageOfTheDayEntity temp = new MessageOfTheDayEntity(messageTitle, messageBody, Calendar.getInstance().getTime());
 			newMessageOfTheDay = messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(temp, currentEmployee);
+			messageOfTheDayEntities.add(newMessageOfTheDay);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created Message of the Day " + newMessageOfTheDay.getMotdId(), null));
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee deleted successfully", null));
 
 		} catch (InputDataValidationException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Input Validation Error!", null));
