@@ -4,29 +4,26 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:cc="http://xmlns.jcp.org/jsf/composite">
-
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="content">
-        <ez:Breadcrumb pageName="In-Progress Orders" />
+                <ez:Breadcrumb pageName="Ready Purchase Orders" />
 
         <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
         <h:form id="formAllPurchaseOrders">
 
-            <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
-                         filteredValue="#{purchaseOrderManagementManagedBean.filteredListOfAllPurchasOrders}"
+    <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderReadyManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
+                         filteredValue="#{purchaseOrderReadyManagementManagedBean.filteredListOfAllPurchasOrders}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
-                <f:facet name="header">
+        <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
                         <p:outputLabel value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPurchaseOrders').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
-                </f:facet>
+        </f:facet>
 
                 <p:column headerText="Order Ref Number" sortBy="#{purchaseOrderEntity.referenceNumber}" filterBy="#{purchaseOrderEntity.referenceNumber}" filterMatchMode="contains">
                     <p:outputLabel value="#{purchaseOrderEntity.referenceNumber}" />
@@ -39,22 +36,18 @@
                 </p:column>
                 <p:column headerText="Action" >
                     <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderReadyManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
                     </p:commandButton>
 
-                    <p:commandButton value="Ready To Ship" update="ccReadyToShip:formReadyToShip" oncomplete="PF('dialogReadyToShip').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderManagementManagedBean.readyToShipManagedBean.purchaseOrderToUpdate}" />
-                    </p:commandButton>
-                    <p:commandButton value="Refund Order" >
+                    <p:commandButton value="Complete Order" >
 
-                    </p:commandButton>    
+                    </p:commandButton>
+  
                 </p:column>
 
             </p:dataTable>
         </h:form>
-
-        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
-        <ez:ReadyToShip id ="ccReadyToShip" />
+                        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
 
     </ui:define>
 

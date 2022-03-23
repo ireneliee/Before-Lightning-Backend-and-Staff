@@ -121,7 +121,7 @@ public class PurchaseOrderDataInitializationSessionBean {
             //Product
             ProductEntity product1 = productEntitySessionBeanLocal.retrieveProductEntityByProductEntityId(1l);
             ProductEntity product2 = productEntitySessionBeanLocal.retrieveProductEntityByProductEntityId(2l);
-            
+
             //Part Choice
             PartChoiceEntity a1 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Intel® Core™ i5-12500H Processor (12 Cores)");
             PartChoiceEntity a2 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Intel® Core™ i7-12700H Processor (14 Cores)");
@@ -169,7 +169,7 @@ public class PurchaseOrderDataInitializationSessionBean {
                     PurchaseOrderLineItemEntity l1 = new PurchaseOrderLineItemEntity(23532515, 2, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse1);
                     PurchaseOrderLineItemEntity l2 = new PurchaseOrderLineItemEntity(23532434, 1, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse2);
                     PurchaseOrderLineItemEntity l3 = new PurchaseOrderLineItemEntity(23523423, 1, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse3);
-                    PurchaseOrderLineItemEntity l4 = new PurchaseOrderLineItemEntity(32432535, 1,  PurchaseOrderLineItemTypeEnum.BUILD, product2);
+                    PurchaseOrderLineItemEntity l4 = new PurchaseOrderLineItemEntity(32432535, 1, PurchaseOrderLineItemTypeEnum.BUILD, product2);
                     List<PartChoiceEntity> list1 = new ArrayList<>();
                     list1.add(partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(product2.getProductName() + " Chassis"));
                     list1.add(a2);
@@ -186,13 +186,18 @@ public class PurchaseOrderDataInitializationSessionBean {
                     po.getPurchaseOrderLineItems().add(l3);
                     po.getPurchaseOrderLineItems().add(l4);
 
+                    PurchaseOrderEntity po1 = new PurchaseOrderEntity("12341235", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.READY_FOR_SHIPMENT);
+                    PurchaseOrderEntity po2 = new PurchaseOrderEntity("12341236", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.COMPLETE);
+                    PurchaseOrderEntity po3 = new PurchaseOrderEntity("12341237", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.REFUNDED);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po);
+                    purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po1);
+                    purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po2);
+                    purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po3);
 
                 } catch (CreateNewPurchaseOrderException ex) {
                     System.out.println("THIS IS THE ERROR");
                     System.out.println(ex.getMessage());
                 }
-
 
             } catch (PartChoiceEntityNotFoundException | AccessoryEntityNotFoundException | MemberEntityNotFoundException ex) {
                 System.out.println("THIS IS THE ERROR");
