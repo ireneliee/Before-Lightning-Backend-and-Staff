@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import util.enumeration.PurchaseOrderStatusEnum;
 
 /**
  *
@@ -48,15 +50,18 @@ public class PurchaseOrderEntity implements Serializable {
     @NotNull
     @Size(min = 8, max = 8)
     private String referenceNumber;
+    @Enumerated
+    @NotNull
+    @Column(nullable = false)
+    private PurchaseOrderStatusEnum purchaseOrderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private MemberEntity member;
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private AddressEntity address;
+
     @OneToMany(fetch = FetchType.LAZY)
     private List<PurchaseOrderLineItemEntity> purchaseOrderLineItems;
-    
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     private DeliverySlotEntity deliverySlot;
 
@@ -64,11 +69,12 @@ public class PurchaseOrderEntity implements Serializable {
         this.purchaseOrderLineItems = new ArrayList<PurchaseOrderLineItemEntity>();
     }
 
-    public PurchaseOrderEntity(String referenceNumber, BigDecimal totalPrice, LocalDateTime dateCreated) {
+    public PurchaseOrderEntity(String referenceNumber, BigDecimal totalPrice, LocalDateTime dateCreated, PurchaseOrderStatusEnum purchaseOrderStatus) {
         this();
         this.referenceNumber = referenceNumber;
         this.totalPrice = totalPrice;
         this.dateCreated = dateCreated;
+        this.purchaseOrderStatus = purchaseOrderStatus;
     }
 
     public Long getPurchaseOrderEntityId() {
@@ -90,9 +96,8 @@ public class PurchaseOrderEntity implements Serializable {
      * @param totalPrice the totalPrice to set
      */
     public void setTotalPrice(BigDecimal totalPrice) {
-        this.setTotalPrice(totalPrice);
+        this.totalPrice =totalPrice;
     }
-    
 
     /**
      * @return the dateCreated
@@ -107,9 +112,6 @@ public class PurchaseOrderEntity implements Serializable {
     public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
-
-
-
 
     /**
      * @return the member
@@ -128,16 +130,6 @@ public class PurchaseOrderEntity implements Serializable {
     /**
      * @return the address
      */
-    public AddressEntity getAddress() {
-        return address;
-    }
-
-    /**
-     * @param address the address to set
-     */
-    public void setAddress(AddressEntity address) {
-        this.address = address;
-    }
 
     /**
      * @return the purchaseOrderLineItems
@@ -147,8 +139,7 @@ public class PurchaseOrderEntity implements Serializable {
     }
 
     /**
-     * @param purchaseOrderLineItems the purchaseOrderLineItems to
- set
+     * @param purchaseOrderLineItems the purchaseOrderLineItems to set
      */
     public void setPurchaseOrderLineItems(List<PurchaseOrderLineItemEntity> purchaseOrderLineItems) {
         this.purchaseOrderLineItems = purchaseOrderLineItems;
@@ -188,11 +179,13 @@ public class PurchaseOrderEntity implements Serializable {
     }
 
     /**
-
-
-    /**
-  
-    /**
+     *
+     *
+     * /**
+     *
+     * /
+     *
+     **
      * @return the referenceNumber
      */
     public String getReferenceNumber() {
@@ -203,7 +196,23 @@ public class PurchaseOrderEntity implements Serializable {
      * @param referenceNumber the referenceNumber to set
      */
     public void setReferenceNumber(String referenceNumber) {
-        this.referenceNumber = referenceNumber;
+        this.referenceNumber=referenceNumber;
+    }
+
+    /**
+
+    /**
+     * @return the purchaseOrderStatus
+     */
+    public PurchaseOrderStatusEnum getPurchaseOrderStatus() {
+        return purchaseOrderStatus;
+    }
+
+    /**
+     * @param purchaseOrderStatus the purchaseOrderStatus to set
+     */
+    public void setPurchaseOrderStatus(PurchaseOrderStatusEnum purchaseOrderStatus) {
+        this.purchaseOrderStatus = purchaseOrderStatus;
     }
 
 }

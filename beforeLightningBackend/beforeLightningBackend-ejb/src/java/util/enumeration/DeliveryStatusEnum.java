@@ -10,8 +10,8 @@ package util.enumeration;
  * @author irene
  */
 public enum DeliveryStatusEnum {
-    NORMAL,
-    EXPRESS
+    OUTSTORE,
+    INSTORE
         
     
 }

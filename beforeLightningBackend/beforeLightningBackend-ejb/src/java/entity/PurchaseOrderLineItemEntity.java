@@ -23,7 +23,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import util.enumeration.PurchaseOrderLineItemStatusEnum;
+import util.enumeration.PurchaseOrderStatusEnum;
 import util.enumeration.PurchaseOrderLineItemTypeEnum;
 
 /**
@@ -56,10 +56,6 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     @Enumerated
     @NotNull
     @Column(nullable = false)
-    private PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus;
-    @Enumerated
-    @NotNull
-    @Column(nullable = false)
     private PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrderLineItem")
@@ -79,41 +75,37 @@ public class PurchaseOrderLineItemEntity implements Serializable {
         this.partChoiceEntities = new ArrayList<>();
     }
 
-    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, String cosmeticImageLink, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, String cosmeticImageLink, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum) {
         this();
         this.serialNumber = serialNumber;
         this.quantity = quantity;
         this.cosmeticImageLink = cosmeticImageLink;
-        this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
         this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
     }
 
-    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, AccessoryItemEntity item) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, AccessoryItemEntity item) {
         this();
         this.serialNumber = serialNumber;
         this.quantity = quantity;
-        this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
         this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
         this.accessoryItemEntity = item;
         this.cosmeticImageLink = "";
     }
 
-    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, ProductEntity product) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, ProductEntity product) {
         this();
         this.serialNumber = serialNumber;
         this.quantity = quantity;
-        this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
         this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
         this.productEntity = product;
         this.cosmeticImageLink = "";
     }
 
-    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, BigDecimal subTotalPrice, String cosmeticImageLink, PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, ProductEntity productEntity, AccessoryItemEntity accessoryItemEntity) {
+    public PurchaseOrderLineItemEntity(Integer serialNumber, Integer quantity, BigDecimal subTotalPrice, String cosmeticImageLink, PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum, ProductEntity productEntity, AccessoryItemEntity accessoryItemEntity) {
         this();
         this.serialNumber = serialNumber;
         this.quantity = quantity;
         this.cosmeticImageLink = cosmeticImageLink;
-        this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
         this.purchaseOrderLineItemTypeEnum = purchaseOrderLineItemTypeEnum;
         this.productEntity = productEntity;
         this.accessoryItemEntity = accessoryItemEntity;
@@ -158,18 +150,6 @@ public class PurchaseOrderLineItemEntity implements Serializable {
 
     /**
      * @return the purchaseOrderLineItemStatus
-     */
-    public PurchaseOrderLineItemStatusEnum getPurchaseOrderLineItemStatus() {
-        return purchaseOrderLineItemStatus;
-    }
-
-    /**
-     * @param purchaseOrderLineItemStatus the purchaseOrderLineItemStatus to set
-     */
-    public void setPurchaseOrderLineItemStatus(PurchaseOrderLineItemStatusEnum purchaseOrderLineItemStatus) {
-        this.purchaseOrderLineItemStatus = purchaseOrderLineItemStatus;
-    }
-
     /**
      * @return the supportTicketEntities
      */
