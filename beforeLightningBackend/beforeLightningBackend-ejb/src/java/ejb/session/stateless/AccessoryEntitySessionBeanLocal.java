@@ -9,7 +9,6 @@ import entity.AccessoryEntity;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.AccessoryEntityNotFoundException;
-import util.exception.AccessoryItemEntityNotFoundException;
 import util.exception.AccessoryNameExistsException;
 import util.exception.InputDataValidationException;
 import util.exception.UnableToDeleteAccessoryEntityException;
@@ -31,10 +30,10 @@ public interface AccessoryEntitySessionBeanLocal {
 
     public AccessoryEntity retrieveAccessoryEntityByAccessoryName(String accessoryName) throws AccessoryEntityNotFoundException;
 
-    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException;
-
     public void deleteAccessoryEntity(Long accessoryEntityId) throws AccessoryEntityNotFoundException, UnableToDeleteAccessoryEntityException;
 
-    public void toggleDisableAccessoryEntity(AccessoryEntity accessoryEntity) throws AccessoryEntityNotFoundException, UpdateAccessoryEntityException, InputDataValidationException;
+    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException, UnknownPersistenceException, AccessoryNameExistsException;
+
+    public void toggleDisableAccessoryEntity(Long accessoryEntityId) throws UpdateAccessoryEntityException;
 
 }
