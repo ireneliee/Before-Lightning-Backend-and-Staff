@@ -24,6 +24,7 @@
                 <p:menuitem value="Customer" outcome="/pages/customerOperations/customerHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 }" update="messages" icon="pi pi-user-minus"/>
                 <p:menuitem value="Report" outcome="/pages/reportOperations/reportHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 3 }" update="messages" icon="pi pi-chart-bar"/>
                 <p:menuitem value="Settings" outcome="/settingsPage.xhtml"  update="messages" icon="pi pi-cog"/>
+                <p:menuitem value="Schedule" outcome="/calendarPage.xhtml"  update="messages" icon="pi pi-calendar"/>
                 <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}"  update="messages" icon="pi pi-sign-out"/>
             </p:menu>
         </h:form>
