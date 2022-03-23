@@ -41,11 +41,26 @@
                     <p:commandButton value="View Accessory" update="ccViewAccessory:formViewAccessory" oncomplete="PF('dialogViewAccessory').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{accessoryEntity}" target="#{accessoryManagementManagedBean.viewAccessoryManagedBean.accessoryEntityToView}" />
                     </p:commandButton>
+                    <p:commandButton value="Update Accessory" update="ccUpdateAccessory:formUpdateAccessory" oncomplete="PF('dialogUpdateAccessory').show()" icon="ui-icon-pencil" title="Update Accessory">
+                        <f:setPropertyActionListener value="#{accessoryEntity}" target="#{accessoryManagementManagedBean.updateAccessoryManagedBean.accessoryEntityToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton value="Delete Accessory" update="ccDeleteAccessory:formDeleteAccessory" oncomplete="PF('dialogDeleteAccessory').show()" icon="ui-icon-trash" title="Delete">
+                        <f:setPropertyActionListener value="#{accessoryEntity}" target="#{accessoryManagementManagedBean.deleteAccessoryManagedBean.accessoryEntityToDelete}" />
+                    </p:commandButton>
+                    <p:commandButton value="Disable Accessory" update="ccDisableAccessory:formDisableAccessory" oncomplete="PF('dialogDisableAccessory').show()" icon="ui-icon-close" title="Disable" rendered="#{accessoryEntity.isDisabled eq false}">
+                        <f:setPropertyActionListener value="#{accessoryEntity}" target="#{accessoryManagementManagedBean.disableAccessoryManagedBean.accessoryEntityToDisable}" />
+                    </p:commandButton>
+                    <p:commandButton value="Enable Accessory" update="ccDisableAccessory:formDisableAccessory" oncomplete="PF('dialogDisableAccessory').show()" icon="ui-icon-check" title="Enable" rendered="#{accessoryEntity.isDisabled eq true}">
+                        <f:setPropertyActionListener value="#{accessoryEntity}" target="#{accessoryManagementManagedBean.disableAccessoryManagedBean.accessoryEntityToDisable}" />
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
         <ez:ViewAccessory id="ccViewAccessory" />
         <ez:CreateAccessory id="ccCreateAccessory" />
+        <ez:UpdateAccessory id="ccUpdateAccessory" />
+        <ez:DeleteAccessory id="ccDeleteAccessory" />
+        <ez:DisableAccessory id="ccDisableAccessory" />
 
 
     </ui:define>

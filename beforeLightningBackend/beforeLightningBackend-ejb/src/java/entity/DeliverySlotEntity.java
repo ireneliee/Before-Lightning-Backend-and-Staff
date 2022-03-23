@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import util.enumeration.DeliveryStatusEnum;
 
 /**
@@ -25,10 +27,13 @@ public class DeliverySlotEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deliverySlotId;
-    
+
     @Column(nullable = false)
     private DeliveryStatusEnum deliveryStatus;
-    
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    private AddressEntity address;
+
     private LocalDateTime requestedTimeOfDelivery;
     private LocalDateTime timeOfArrival;
 
@@ -88,5 +93,19 @@ public class DeliverySlotEntity implements Serializable {
     public void setTimeOfArrival(LocalDateTime timeOfArrival) {
         this.timeOfArrival = timeOfArrival;
     }
-    
+
+    /**
+     * @return the address
+     */
+    public AddressEntity getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(AddressEntity address) {
+        this.address = address;
+    }
+
 }

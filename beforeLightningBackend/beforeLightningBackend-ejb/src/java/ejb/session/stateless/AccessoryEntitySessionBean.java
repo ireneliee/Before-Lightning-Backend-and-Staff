@@ -109,15 +109,30 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
 
     }
 
-    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException {
+    @Override
+    public void updateAccessoryEntity(AccessoryEntity newAccessoryEntity) throws UpdateAccessoryEntityException, InputDataValidationException, AccessoryEntityNotFoundException, AccessoryNameExistsException {
         if (newAccessoryEntity != null && newAccessoryEntity.getAccessoryEntityId() != null) {
             Set<ConstraintViolation<AccessoryEntity>> constraintViolations = validator.validate(newAccessoryEntity);
 
             if (constraintViolations.isEmpty()) {
-                AccessoryEntity accessoryToUpdate = retrieveAccessoryEntityById(newAccessoryEntity.getAccessoryEntityId());
-                accessoryToUpdate.setAccessoryName(newAccessoryEntity.getAccessoryName());
-                accessoryToUpdate.setDescription(newAccessoryEntity.getDescription());
 
+                AccessoryEntity accessoryToUpdate = retrieveAccessoryEntityById(newAccessoryEntity.getAccessoryEntityId());
+                if (accessoryToUpdate.getAccessoryName().equals(newAccessoryEntity.getAccessoryName())) {
+                    //if name unchanged
+                    accessoryToUpdate.setDescription(newAccessoryEntity.getDescription());
+                } else {
+                    //check if name is in use
+                    Query query = em.createQuery("SELECT a FROM AccessoryEntity a WHERE a.accessoryName = :inputName");
+                    query.setParameter("inputName", newAccessoryEntity.getAccessoryName());
+                    List<AccessoryEntity> listName = query.getResultList();
+
+                    if (listName.size() > 0) {
+                        throw new AccessoryNameExistsException();
+                    } else {
+                        accessoryToUpdate.setAccessoryName(newAccessoryEntity.getAccessoryName());
+                        accessoryToUpdate.setDescription(newAccessoryEntity.getDescription());
+                    }
+                }
             } else {
                 throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
             }
@@ -128,24 +143,12 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
     }
 
     @Override
-    public void toggleDisableAccessoryEntity(AccessoryEntity accessoryEntity) throws AccessoryEntityNotFoundException, UpdateAccessoryEntityException, InputDataValidationException {
-        if (accessoryEntity != null && accessoryEntity.getAccessoryEntityId() != null) {
-            Set<ConstraintViolation<AccessoryEntity>> constraintViolations = validator.validate(accessoryEntity);
-
-            if (constraintViolations.isEmpty()) {
-                AccessoryEntity accessoryEntityToUpdate = retrieveAccessoryEntityById(accessoryEntity.getAccessoryEntityId());
-
-                if (accessoryEntityToUpdate.getAccessoryEntityId().equals(accessoryEntity.getAccessoryEntityId())) {
-                    accessoryEntityToUpdate.setIsDisabled(accessoryEntity.getIsDisabled());
-
-                } else {
-                    throw new UpdateAccessoryEntityException();
-                }
-            } else {
-                throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
-            }
-        } else {
-            throw new AccessoryEntityNotFoundException("AccessoryEntity ID not provided for accessoryEntity to be updated");
+    public void toggleDisableAccessoryEntity(Long accessoryEntityId) throws UpdateAccessoryEntityException {
+        try {
+            AccessoryEntity accessoryToDisable = retrieveAccessoryEntityById(accessoryEntityId);
+            accessoryToDisable.setIsDisabled(!accessoryToDisable.getIsDisabled());
+        } catch (AccessoryEntityNotFoundException ex) {
+            throw new UpdateAccessoryEntityException("Unable To Disable/Enable Part Choice!");
         }
     }
 

@@ -9,10 +9,9 @@ package util.enumeration;
  *
  * @author mingy
  */
-public enum PurchaseOrderLineItemStatusEnum {
-    NOT_PAID,
-    PAID,
-    PROCESSED,
+public enum PurchaseOrderStatusEnum {
     IN_PROGRESS,
-    READY_FOR_SHIPMENT
+    READY_FOR_SHIPMENT,
+    COMPLETE,
+    REFUNDED
 }

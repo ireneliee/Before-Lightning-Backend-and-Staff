@@ -68,9 +68,12 @@ import util.exception.UnknownPersistenceException;
 
 public class MOTDDataInitializationSessionBean {
 
+	@EJB
+	private EmployeeEntitySessionBeanLocal employeeEntitySessionBean;
+
     @EJB
     private MessageOfTheDayEntitySessionBeanLocal messageOfTheDayEntitySessionBeanLocal;
-
+	
     @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
     private EntityManager em;
 
@@ -89,16 +92,23 @@ public class MOTDDataInitializationSessionBean {
     private void initializeData() {
 
         try {
-
+			EmployeeEntity dummy = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "dummy", "1234qwer!@#$", "dummy","dummy", "dummy@gmail.com", "82828282");
+			employeeEntitySessionBean.createNewEmployeeEntity(dummy);
             Date today = Calendar.getInstance().getTime();
-            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Live Laugh Love", "when life gets tough just live laugh love bro", today));
-            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("SAF 8 core values", "loyalty to country, leadership, etc", today));
-            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Google please hire me", "willing to work long hours, will occasionally tell jokes #worthEveryBuck", today));
+            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Live Laugh Love", "when life gets tough just live laugh love bro", today), dummy);
+            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("SAF 8 core values", "loyalty to country, leadership, etc", today), dummy);
+            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Google please hire me", "willing to work long hours, will occasionally tell jokes #worthEveryBuck", today), dummy);
             System.out.print("hello irene");
         } catch (InputDataValidationException ex) {
             System.out.println("THIS IS THE ERROR");
             System.out.println(ex.getMessage());
-        }
+        } catch (EmployeeEntityUsernameExistException ex) {
+            System.out.println("employee name already exists bruh");
+		} catch (UnknownPersistenceException ex) {
+            System.out.println("unknwn persistence exception!");			
+		} catch (EmployeeEntityNotFoundException ex) {
+			System.out.println("employee name not found");
+		}
 
     }
 }

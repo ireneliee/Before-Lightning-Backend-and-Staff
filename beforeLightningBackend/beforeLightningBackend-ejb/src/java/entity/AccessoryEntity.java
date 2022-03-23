@@ -30,7 +30,7 @@ public class AccessoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accessoryEntityId;
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false, length = 64, unique = true)
     @Size(max = 64)
     @NotNull
     private String accessoryName;

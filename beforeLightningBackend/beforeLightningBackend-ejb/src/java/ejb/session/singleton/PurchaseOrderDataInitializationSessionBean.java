@@ -40,7 +40,7 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.EmployeeAccessRightEnum;
-import util.enumeration.PurchaseOrderLineItemStatusEnum;
+import util.enumeration.PurchaseOrderStatusEnum;
 import util.enumeration.PurchaseOrderLineItemTypeEnum;
 import util.exception.AccessoryEntityNotFoundException;
 import util.exception.AccessoryItemEntityNotFoundException;
@@ -166,10 +166,10 @@ public class PurchaseOrderDataInitializationSessionBean {
                 MemberEntity m1 = memberEntitySessionBeanLocal.retrieveMemberEntityByMemberEntityId(1l);
 
                 try {
-                    PurchaseOrderLineItemEntity l1 = new PurchaseOrderLineItemEntity(23532515, 2, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse1);
-                    PurchaseOrderLineItemEntity l2 = new PurchaseOrderLineItemEntity(23532434, 1, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse2);
-                    PurchaseOrderLineItemEntity l3 = new PurchaseOrderLineItemEntity(23523423, 1, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse3);
-                    PurchaseOrderLineItemEntity l4 = new PurchaseOrderLineItemEntity(32432535, 1, PurchaseOrderLineItemStatusEnum.READY_FOR_SHIPMENT, PurchaseOrderLineItemTypeEnum.BUILD, product2);
+                    PurchaseOrderLineItemEntity l1 = new PurchaseOrderLineItemEntity(23532515, 2, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse1);
+                    PurchaseOrderLineItemEntity l2 = new PurchaseOrderLineItemEntity(23532434, 1, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse2);
+                    PurchaseOrderLineItemEntity l3 = new PurchaseOrderLineItemEntity(23523423, 1, PurchaseOrderLineItemTypeEnum.ACCESSORY, mouse3);
+                    PurchaseOrderLineItemEntity l4 = new PurchaseOrderLineItemEntity(32432535, 1,  PurchaseOrderLineItemTypeEnum.BUILD, product2);
                     List<PartChoiceEntity> list1 = new ArrayList<>();
                     list1.add(partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(product2.getProductName() + " Chassis"));
                     list1.add(a2);
@@ -180,7 +180,7 @@ public class PurchaseOrderDataInitializationSessionBean {
 
                     l4.setPartChoiceEntities(list1);
 
-                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal(3.50), LocalDateTime.now());
+                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.IN_PROGRESS);
                     po.getPurchaseOrderLineItems().add(l1);
                     po.getPurchaseOrderLineItems().add(l2);
                     po.getPurchaseOrderLineItems().add(l3);

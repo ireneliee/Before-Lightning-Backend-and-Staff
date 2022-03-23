@@ -81,7 +81,7 @@ public class MemberEmployeeDataInitializationSessionBean {
     @PostConstruct
     public void postConstruct() {
         try {
-            employeeEntitySessionBeanLocal.retrieveEmployeeEntityByEmployeeEntityId(1l);
+            employeeEntitySessionBeanLocal.retrieveEmployeeEntityByEmployeeEntityId(2l);
         } catch (EmployeeEntityNotFoundException ex) {
             System.out.println("done");
             initializeData();

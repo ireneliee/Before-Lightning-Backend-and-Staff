@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:messages for ="createMessageOfTheDayMessage" showDetail="true" closable="true">
+        </p:messages>        
+        <p:dialog id="dialogCreateMessageOfTheDay" widgetVar="dialogCreateMessageOfTheDay" header="Create New Message of the Day" closable="true">
+            <h:form id="formCreateMessageOfTheDay">
+                <p:panelGrid id="grid" columns="3" styleClass="ui-noborder">
+
+                    <p:outputLabel for="messageTitle" value="Message Title: " style="font-weight: bold;" />
+                    <p:inputText id="messageTitle" value="#{motdManagedBean.messageTitle}"  required="true" requiredMessage="Message Title is required" />
+                    <p:message for="messageTitle" />
+
+                    <p:outputLabel for="messageBody" value="Message Body: " style="font-weight: bold;" />
+                    <p:inputText id="messageBody" value="#{motdManagedBean.messageBody}" required="true" requiredMessage="Message Body is required" />
+                    <p:message for="messageBody" />
+
+                    <p:commandButton  value="Create New Message of the Day" actionListener="#{motdManagedBean.createMessageOfTheDay}" resetValues = "true" oncomplete="PF('dialogCreateMessageOfTheDay').hide()" update=":allMessageOfTheDayEntities"></p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</html>

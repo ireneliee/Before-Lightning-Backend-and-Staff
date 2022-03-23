@@ -33,6 +33,12 @@ public class AccessoryManagementManagedBean implements Serializable {
     private ViewAccessoryManagedBean viewAccessoryManagedBean;
     @Inject
     private CreateAccessoryManagedBean createAccessoryManagedBean;
+    @Inject
+    private UpdateAccessoryManagedBean updateAccessoryManagedBean;
+    @Inject
+    private DeleteAccessoryManagedBean deleteAccessoryManagedBean;
+    @Inject
+    private DisableAccessoryManagedBean disableAccessoryManagedBean;
 
     public AccessoryManagementManagedBean() {
     }
@@ -76,6 +82,30 @@ public class AccessoryManagementManagedBean implements Serializable {
 
     public void setCreateAccessoryManagedBean(CreateAccessoryManagedBean createAccessoryManagedBean) {
         this.createAccessoryManagedBean = createAccessoryManagedBean;
+    }
+
+    public UpdateAccessoryManagedBean getUpdateAccessoryManagedBean() {
+        return updateAccessoryManagedBean;
+    }
+
+    public void setUpdateAccessoryManagedBean(UpdateAccessoryManagedBean updateAccessoryManagedBean) {
+        this.updateAccessoryManagedBean = updateAccessoryManagedBean;
+    }
+
+    public DeleteAccessoryManagedBean getDeleteAccessoryManagedBean() {
+        return deleteAccessoryManagedBean;
+    }
+
+    public void setDeleteAccessoryManagedBean(DeleteAccessoryManagedBean deleteAccessoryManagedBean) {
+        this.deleteAccessoryManagedBean = deleteAccessoryManagedBean;
+    }
+
+    public DisableAccessoryManagedBean getDisableAccessoryManagedBean() {
+        return disableAccessoryManagedBean;
+    }
+
+    public void setDisableAccessoryManagedBean(DisableAccessoryManagedBean disableAccessoryManagedBean) {
+        this.disableAccessoryManagedBean = disableAccessoryManagedBean;
     }
 
 }
