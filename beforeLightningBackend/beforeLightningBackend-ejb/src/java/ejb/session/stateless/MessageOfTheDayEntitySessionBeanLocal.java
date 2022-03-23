@@ -5,10 +5,13 @@
  */
 package ejb.session.stateless;
 
+import entity.EmployeeEntity;
 import entity.MessageOfTheDayEntity;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.EmployeeEntityNotFoundException;
 import util.exception.InputDataValidationException;
+import util.exception.UnknownPersistenceException;
 
 /**
  *
@@ -17,8 +20,9 @@ import util.exception.InputDataValidationException;
 @Local
 public interface MessageOfTheDayEntitySessionBeanLocal {
 
-	MessageOfTheDayEntity createNewMessageOfTheDay(MessageOfTheDayEntity newMessageOfTheDayEntity) throws InputDataValidationException;
+	MessageOfTheDayEntity createNewMessageOfTheDay(MessageOfTheDayEntity newMessageOfTheDayEntity, EmployeeEntity employee) throws InputDataValidationException, UnknownPersistenceException, EmployeeEntityNotFoundException;
 
 	List<MessageOfTheDayEntity> retrieveAllMessagesOfTheDay();
 
 }
+

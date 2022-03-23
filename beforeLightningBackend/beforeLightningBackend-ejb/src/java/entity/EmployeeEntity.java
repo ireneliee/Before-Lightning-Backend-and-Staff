@@ -6,9 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import util.enumeration.EmployeeAccessRightEnum;
 import util.security.CryptographicHelper;
@@ -29,6 +33,9 @@ public class EmployeeEntity extends UserEntity implements Serializable {
     @Column(columnDefinition = "CHAR(32) NOT NULL")
     private String salt;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "employeeAuthor")
+	private List<MessageOfTheDayEntity> listOfMessagesOfTheDay;
+	
     public EmployeeEntity() {
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
     }
@@ -38,6 +45,7 @@ public class EmployeeEntity extends UserEntity implements Serializable {
         this.salt = CryptographicHelper.getInstance().generateRandomString(32);
         this.employeeAccessRight = employeeAccessRight;
         this.setPassword(password);
+		this.listOfMessagesOfTheDay = new ArrayList<>();
     }
 
     /**
@@ -62,6 +70,15 @@ public class EmployeeEntity extends UserEntity implements Serializable {
             super.setPassword(CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(null)));
         } //To change body of generated methods, choose Tools | Templates.
     }
+	
+		public List<MessageOfTheDayEntity> getListOfMessagesOfTheDay() {
+		return listOfMessagesOfTheDay;
+	}
+
+	public void setListOfMessagesOfTheDay(List<MessageOfTheDayEntity> listOfMessagesOfTheDay) {
+		this.listOfMessagesOfTheDay = listOfMessagesOfTheDay;
+	}
+
 
     @Override
     public int hashCode() {
@@ -95,5 +112,5 @@ public class EmployeeEntity extends UserEntity implements Serializable {
     public void setEmployeeAccessRight(EmployeeAccessRightEnum employeeAccessRight) {
         this.employeeAccessRight = employeeAccessRight;
     }
-
+	
 }
