@@ -24,12 +24,11 @@
 
 
 
-        <div style="height:500px">
+        <div style="height:250px">
             <h:form>
-                <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
 
-                <p:dashboard id="board" model="#{dashboardView.model}">
-                    <p:ajax event="reorder" listener="#{dashboardView.handleReorder}" update="msgs" />
+                <p:dashboard id="reportBoard" model="#{dashboardView.model}">
+                    <p:ajax event="reorder" listener="#{dashboardView.handleReorder}"/>
 
                     <p:panel id="salesReport" header="Sales Report">
                         <h:form>
@@ -70,6 +69,13 @@
                     <p:panel id="supportTicketReport" header="Support Ticket Report">
                         <h:form>
                             <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generateSupportTicketReport}" icon="pi pi-arrow-down" ajax="false"/>
+                        </h:form>
+                    </p:panel>
+
+                    <p:panel id="productPieChart" header="Product Sold Pie Chart">
+                        <h:form>
+                            <p:poll interval="3" update="productPieChart" />
+                            <p:chart id="productPieChart" type="pie" model="#{productPurchasedStatisticManagedBean.livePieModel}" style="width:400px;height:300px"/>
                         </h:form>
                     </p:panel>
 

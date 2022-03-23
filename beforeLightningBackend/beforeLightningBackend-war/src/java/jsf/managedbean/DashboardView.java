@@ -1,3 +1,5 @@
+package jsf.managedbean;
+
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -26,6 +28,7 @@ public class DashboardView implements Serializable {
         DashboardColumn column2 = new DefaultDashboardColumn();
         DashboardColumn column3 = new DefaultDashboardColumn();
         DashboardColumn column4 = new DefaultDashboardColumn();
+        DashboardColumn column5 = new DefaultDashboardColumn();
 
         column1.addWidget("salesReport");
         column1.addWidget("accessoryReport");
@@ -38,11 +41,13 @@ public class DashboardView implements Serializable {
         
         column4.addWidget("supportTicketReport");
         column4.addWidget("salesReport");
-
+        
+        column5.addWidget("productPieChart");
         model.addColumn(column1);
         model.addColumn(column2);
         model.addColumn(column3);
         model.addColumn(column4);
+        model.addColumn(column5);
     }
 
     public void handleReorder(DashboardReorderEvent event) {
