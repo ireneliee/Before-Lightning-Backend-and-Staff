@@ -36,4 +36,6 @@ public interface AccessoryEntitySessionBeanLocal {
 
     public void toggleDisableAccessoryEntity(Long accessoryEntityId) throws UpdateAccessoryEntityException;
 
+    public List<AccessoryEntity> retrieveAllAccessoryEntitiesNotDisabled();
+
 }

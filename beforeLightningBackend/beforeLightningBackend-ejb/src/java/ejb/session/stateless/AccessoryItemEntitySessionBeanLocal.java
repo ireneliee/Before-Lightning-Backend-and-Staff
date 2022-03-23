@@ -14,6 +14,7 @@ import util.exception.AccessoryItemEntityNotFoundException;
 import util.exception.AccessoryItemNameExists;
 import util.exception.InputDataValidationException;
 import util.exception.QuantityOnHandNotZeroException;
+import util.exception.UnableToDeleteAccessoryItemException;
 import util.exception.UnknownPersistenceException;
 import util.exception.UpdateAccessoryItemEntityException;
 
@@ -30,16 +31,19 @@ public interface AccessoryItemEntitySessionBeanLocal {
 
     public void updateAccessoryItem(AccessoryItemEntity newAccessoryItem) throws UpdateAccessoryItemEntityException, InputDataValidationException, AccessoryItemEntityNotFoundException;
 
-    public void toggleDisableAccessoryItemEntity(AccessoryItemEntity accessoryItemEntity) throws AccessoryItemEntityNotFoundException, UpdateAccessoryItemEntityException, InputDataValidationException;
-
     public AccessoryItemEntity retrieveAccessoryItemBySkuCode(String accessoryItemSkuCode) throws AccessoryItemEntityNotFoundException;
-
-    public void deleteAccessoryItemEntity(Long accessoryItemId) throws AccessoryItemEntityNotFoundException, QuantityOnHandNotZeroException;
-
-    public Long createNewAccessoryItemEntity(AccessoryItemEntity newAccessoryItem, AccessoryEntity accessoryEntity) throws AccessoryEntityNotFoundException, AccessoryItemNameExists, InputDataValidationException, UnknownPersistenceException;
 
     public AccessoryItemEntity retrieveAccessoryItemByName(String accessoryItemName) throws AccessoryItemEntityNotFoundException;
 
     public List<AccessoryItemEntity> retrieveAllAccessoryItemEntitiesThatCanSell();
+
+//    public Long createNewAccessoryItemEntity(AccessoryItemEntity newAccessoryItem, String accessoryEntity) throws AccessoryEntityNotFoundException, AccessoryItemNameExists, InputDataValidationException, UnknownPersistenceException;
+    public Long createNewAccessoryItemEntity(AccessoryItemEntity newAccessoryItem, Long accessoryEntity) throws AccessoryEntityNotFoundException, AccessoryItemNameExists, InputDataValidationException, UnknownPersistenceException;
+
+    public void deleteAccessoryItemEntity(Long accessoryItemId) throws AccessoryItemEntityNotFoundException, UnableToDeleteAccessoryItemException;
+
+    public void toggleDisableAccessoryItemEntity(Long accessoryItemEntityId) throws AccessoryItemEntityNotFoundException, UpdateAccessoryItemEntityException, InputDataValidationException;
+
+    public void updateAccessoryItemAccessory(AccessoryItemEntity accessoryItemToUpdate, AccessoryEntity accessoryToLink) throws UpdateAccessoryItemEntityException;
 
 }

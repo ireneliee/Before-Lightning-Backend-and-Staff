@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formUpdateAccessoryItem">
+            <p:dialog id="dialogUpdateAccessoryItem" widgetVar="dialogUpdateAccessoryItem" header="Update Accessory Item" closable="true">
+                <p:panel header="Please Enter Details To Update">
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="accessoryItemName" value="Accessory Item Name: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="accessoryItemName" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.accessoryItemName}" required="true" requiredMessage="AccessoryItem Name is required"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="brand" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
+                            </p:column>
+                        </p:row> 
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="accessoryItemDescription" value="Description: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="accessoryItemDescription" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="quantityOnHand" value="Quantity On Hand: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:spinner id="quantityOnHand" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.quantityOnHand}" min="0" max="1000" required="true" requiredMessage="Quantity is required"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="reorderQuantity" value="Reorder Quantity: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:spinner id="reorderQuantity" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.reorderQuantity}" min="0" max="1000" required="true" requiredMessage="Reorder Quantity is required"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:spinner id="price" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.price}" prefix="$" min="0"  />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="imageLink" value="Image: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:fileUpload id="imageLink" listener="#{updateAccessoryItemManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
+                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/samplePartChoice.png" height="150px" width="150px" rendered="#{empty updateAccessoryItemManagedBean.imageLink}"/>
+                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateAccessoryItemManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updateAccessoryItemManagedBean.imageLink}"/>
+                            </p:column>
+                        </p:row>  
+
+                    </p:panelGrid>
+                </p:panel>
+                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update AccessoryItem" actionListener="#{updateAccessoryItemManagedBean.updateAccessoryItem}" update="formAllAccessoryItem:dataTableAllAccessoryItem :growl" oncomplete="PF('dialogUpdateAccessoryItem').hide()">
+                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.accessoryItemName} ?"  icon="ui-icon-alert" />
+                </p:commandButton>
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+    </cc:implementation>
+</html>
