@@ -75,6 +75,7 @@ public class SecurityFilter implements Filter {
             if (path.equals("/pages/orderOperations/orderHomePage.xhtml")
                     || path.equals("/pages/supportOperations/supportHomePage.xhtml")
                     || path.equals("/pages/customerOperations/customerHomepage.xhtml")) {
+
                 return true;
             } else {
                 return false;

@@ -10,6 +10,7 @@ package util.enumeration;
  * @author mingy
  */
 public enum SupportTicketStatusEnum {
+    OPEN,
     PROCESSING,
     CLOSED
 }
