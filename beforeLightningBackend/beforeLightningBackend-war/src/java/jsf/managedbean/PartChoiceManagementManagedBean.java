@@ -51,6 +51,9 @@ public class PartChoiceManagementManagedBean implements Serializable {
     @Inject
     private UpdateChassisLinkedPartChoicesManagedBean updateChassisLinkedPartChoicesManagedBean;
 
+    @Inject
+    private UpdateWebsitePartChoiceManagedBean updateWebsitePartChoiceManagedBean;
+
     private List<PartChoiceEntity> listOfChassisPartChoiceEntities;
     private List<PartChoiceEntity> filteredListOfChassisPartChoiceEntities;
 
@@ -166,6 +169,14 @@ public class PartChoiceManagementManagedBean implements Serializable {
 
     public void setUpdateChassisLinkedPartChoicesManagedBean(UpdateChassisLinkedPartChoicesManagedBean updateChassisLinkedPartChoicesManagedBean) {
         this.updateChassisLinkedPartChoicesManagedBean = updateChassisLinkedPartChoicesManagedBean;
+    }
+
+    public UpdateWebsitePartChoiceManagedBean getUpdateWebsitePartChoiceManagedBean() {
+        return updateWebsitePartChoiceManagedBean;
+    }
+
+    public void setUpdateWebsitePartChoiceManagedBean(UpdateWebsitePartChoiceManagedBean updateWebsitePartChoiceManagedBean) {
+        this.updateWebsitePartChoiceManagedBean = updateWebsitePartChoiceManagedBean;
     }
 
 }

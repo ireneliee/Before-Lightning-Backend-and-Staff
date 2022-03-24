@@ -15,15 +15,6 @@
             <p:dialog id="dialogUpdatePartChoice" widgetVar="dialogUpdatePartChoice" header="Update PartChoice" closable="true">
                 <p:panel header="Please Enter Details To Update">
                     <p:panelGrid>
-
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="partChoiceName" value="Part Choice Name: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="partChoiceName" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.partChoiceName}" required="true" requiredMessage="Part Choice Name is required"/>
-                            </p:column>
-                        </p:row>
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="partChoiceOverview" value="Part Choice Overview: " style="font-weight: bold;" />
@@ -48,30 +39,6 @@
                                 <p:inputText id="brand" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
                             </p:column>
                         </p:row>                        
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="quantityOnHand" value="Quantity On Hand: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:spinner id="quantityOnHand" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.quantityOnHand}" min="0" max="1000" required="true" requiredMessage="Quantity is required"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="reorderQuantity" value="Reorder Quantity: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:spinner id="reorderQuantity" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.reorderQuantity}" min="0" max="1000" required="true" requiredMessage="Reorder Quantity is required"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:spinner id="price" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.price}" prefix="$" min="0"  />
-                            </p:column>
-                        </p:row>
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="imageLink" value="Image: " style="font-weight: bold;" />

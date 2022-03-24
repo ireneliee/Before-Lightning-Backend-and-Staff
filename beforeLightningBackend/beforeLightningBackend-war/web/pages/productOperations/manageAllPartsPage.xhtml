@@ -37,9 +37,6 @@
                 <p:column headerText="Disabled" sortBy="#{partEntity.isDisabled}" filterBy="#{partEntity.isDisabled}" filterMatchMode="contains">
                     <p:outputLabel value="#{partEntity.isDisabled}" />
                 </p:column>                
-                <p:column headerText="Part Choices" sortBy="#{partEntity.isDisabled}" filterBy="#{partEntity.isDisabled}" filterMatchMode="contains">
-                    <p:outputLabel value="#{partEntity.isDisabled}" />
-                </p:column>
                 <p:column headerText="Action" >
                     <p:commandButton value="View Part" update="ccViewPart:formViewPart" oncomplete="PF('dialogViewPart').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{partEntity}" target="#{partManagementManagedBean.viewPartManagedBean.partEntityToView}" />

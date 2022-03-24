@@ -38,6 +38,9 @@ public class AccessoryItemManagementManagedBean implements Serializable {
     @Inject
     private DisableAccessoryItemManagedBean disableAccessoryItemManagedBean;
 
+    @Inject
+    private UpdateWebsiteAccessoryItemManagedBean updateWebsiteAccessoryItemManagedBean;
+
     private List<AccessoryItemEntity> listOfAccessoryItemEntities;
     private List<AccessoryItemEntity> filteredListOfAccessoryItemEntities;
 
@@ -110,6 +113,14 @@ public class AccessoryItemManagementManagedBean implements Serializable {
 
     public void setUpdateAccessoryItemAccessoryManagedBean(UpdateAccessoryItemAccessoryManagedBean updateAccessoryItemAccessoryManagedBean) {
         this.updateAccessoryItemAccessoryManagedBean = updateAccessoryItemAccessoryManagedBean;
+    }
+
+    public UpdateWebsiteAccessoryItemManagedBean getUpdateWebsiteAccessoryItemManagedBean() {
+        return updateWebsiteAccessoryItemManagedBean;
+    }
+
+    public void setUpdateWebsiteAccessoryItemManagedBean(UpdateWebsiteAccessoryItemManagedBean updateWebsiteAccessoryItemManagedBean) {
+        this.updateWebsiteAccessoryItemManagedBean = updateWebsiteAccessoryItemManagedBean;
     }
 
 }

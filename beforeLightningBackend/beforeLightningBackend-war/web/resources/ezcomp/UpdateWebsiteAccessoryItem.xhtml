@@ -18,14 +18,6 @@
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="accessoryItemName" value="Accessory Item Name: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="accessoryItemName" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.accessoryItemName}" required="true" requiredMessage="AccessoryItem Name is required"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
                                 <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
@@ -38,30 +30,6 @@
                             </p:column>
                             <p:column>
                                 <p:inputText id="accessoryItemDescription" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="quantityOnHand" value="Quantity On Hand: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:spinner id="quantityOnHand" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.quantityOnHand}" min="0" max="1000" required="true" requiredMessage="Quantity is required"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="reorderQuantity" value="Reorder Quantity: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:spinner id="reorderQuantity" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.reorderQuantity}" min="0" max="1000" required="true" requiredMessage="Reorder Quantity is required"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:spinner id="price" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.price}" prefix="$" min="0"  />
                             </p:column>
                         </p:row>
                         <p:row>

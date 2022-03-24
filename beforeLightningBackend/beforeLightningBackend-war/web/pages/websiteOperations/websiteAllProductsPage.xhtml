@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                template="./../../templates/defaultTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <ez:Breadcrumb pageName="All Products" />
+        <ui:include src="/pages/websiteOperations/websiteNavBar.xhtml" />    
+        <h:form id="formAllProducts">
+            <p:dataTable id="dataTableAllProducts" widgetVar="dataTableAllProducts" value="#{productManagementManagedBean.listOfProductEntities}" var="productEntity" rowKey="#{productEntity.productEntityId}" rowIndexVar="row"
+                         filteredValue="#{productManagementManagedBean.filteredListOfProductEntities}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllProducts').filter()" style="width:300px" placeholder="Enter keyword"/>&nbsp;&nbsp;&nbsp;
+                    </p:outputPanel>
+                </f:facet> 
+
+                <p:column headerText="Product ID" sortBy="#{productEntity.productEntityId}" filterBy="#{productEntity.productEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productEntityId}" />
+                </p:column>
+                <p:column headerText="Product Name" sortBy="#{productEntity.productName}" filterBy="#{productEntity.productName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productName}" />
+                </p:column>
+                <p:column headerText="SKU Code" sortBy="#{productEntity.skuCode}" filterBy="#{productEntity.skuCode}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.skuCode}" />
+                </p:column>
+                <p:column headerText="Product Overview " sortBy="#{productEntity.productOverview}" filterBy="#{productEntity.productOverview}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.productOverview}" />
+                </p:column>
+                <p:column headerText="Description" sortBy="#{productEntity.description}" filterBy="#{productEntity.description}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.description}" />
+                </p:column>                
+                <p:column headerText="Disabled" sortBy="#{productEntity.isDisabled}" filterBy="#{productEntity.isDisabled}" filterMatchMode="contains">
+                    <p:outputLabel value="#{productEntity.isDisabled}" />
+                </p:column>
+                <p:column headerText="Action" >
+                    <p:commandButton value="View Product" update="ccViewProduct:formViewProduct" oncomplete="PF('dialogViewProduct').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.viewProductManagedBean.productEntityToView}" />
+                    </p:commandButton>
+                    <p:commandButton value="Update Product" update="ccUpdateWebsiteProduct:formUpdateProduct" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-refresh" title="Update">
+                        <f:setPropertyActionListener value="#{productEntity}" target="#{productManagementManagedBean.updateWebsiteProductManagedBean.productEntityToUpdate}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <ez:ViewProduct id="ccViewProduct" />
+        <ez:UpdateWebsiteProduct id="ccUpdateWebsiteProduct" />
+    </ui:define>
+
+</ui:composition>

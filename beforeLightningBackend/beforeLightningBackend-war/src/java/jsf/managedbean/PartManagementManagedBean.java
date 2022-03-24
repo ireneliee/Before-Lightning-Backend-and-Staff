@@ -57,6 +57,9 @@ public class PartManagementManagedBean implements Serializable {
     @Inject
     private UpdatePartPartChoicesManagedBean updatePartPartChoicesManagedBean;
 
+    @Inject
+    private UpdateWebsitePartManagedBean updateWebsitePartManagedBean;
+
     private List<PartEntity> listOfPartEntities;
     private List<PartEntity> filteredListOfPartEntities;
     private String chassis;
@@ -148,5 +151,13 @@ public class PartManagementManagedBean implements Serializable {
 
     public void setUpdatePartPartChoicesManagedBean(UpdatePartPartChoicesManagedBean updatePartPartChoicesManagedBean) {
         this.updatePartPartChoicesManagedBean = updatePartPartChoicesManagedBean;
+    }
+
+    public UpdateWebsitePartManagedBean getUpdateWebsitePartManagedBean() {
+        return updateWebsitePartManagedBean;
+    }
+
+    public void setUpdateWebsitePartManagedBean(UpdateWebsitePartManagedBean updateWebsitePartManagedBean) {
+        this.updateWebsitePartManagedBean = updateWebsitePartManagedBean;
     }
 }
