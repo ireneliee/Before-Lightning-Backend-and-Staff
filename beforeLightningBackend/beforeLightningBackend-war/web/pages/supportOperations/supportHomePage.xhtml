@@ -3,13 +3,97 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
-                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Support" />
+        <h:form id="formAllSupportTicket">
+            <p:messages id="supportTicketMessages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
 
-        Support Home Page
+            <p:dataTable id="dataTableAllSupportTicket" widgetVar="dataTableAllSupportTicket" value="#{supportTicketManagedBean.listOfSupportTicket }" var="supportTicket" rowKey="#{supportTicket.supportTicketId}" rowIndexVar="row"
+                         filteredValue="#{supportTicketManagedBean.filteredListOfSupportTicket}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllSupportTicket').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Support Ticket ID" sortBy="#{supportTicket.supportTicketId}" filterBy="#{supportTicket.supportTicketId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{supportTicket.supportTicketId}" />
+                </p:column>
+
+                <p:column headerText="User Email" sortBy="#{supportTicket.email}" filterBy="#{supportTicket.email}" filterMatchMode="contains">
+                    <p:outputLabel value="#{supportTicket.email}" />
+                </p:column>
+
+                <p:column headerText="Action" >
+
+
+                    <p:commandButton  oncomplete = "PF('dialogViewCustomer').show()" update="formAllSupportTicket" value ="find customer" actionListener ="#{ supportTicketManagedBean.viewCustomer }" icon="ui-icon-document" title="View" >
+                        <f:attribute name="emailOfCreator" value="#{supportTicket.email}" />
+                    </p:commandButton>
+
+
+                </p:column>
+
+                <p:column headerText="Issue" sortBy="#{supportTicket.issue}" filterBy="#{supportTicket.issue}" filterMatchMode="contains">
+                    <p:outputLabel value="#{supportTicket.issue}" />
+                </p:column>
+
+                <p:column headerText="Status" sortBy="#{supportTicket.supportTicketStatus}" filterBy="#{ supportTicket.supportTicketStatus }" filterMatchMode="exact">
+                    <f:facet name="filter">
+                        <p:selectOneMenu id="selSupportTicketStatus" onchange="PF('dataTableAllSupportTicket').filter()">
+                            <f:selectItem itemValue="#{null}" itemLabel="All" noSelectionOption="true" />
+                            <f:selectItems value="#{supportTicketManagedBean.supportTicketStatusEnums }" var="supportTicketStatusEnums" itemValue="#{supportTicketStatusEnums}" itemLabel="#{supportTicketStatusEnums}" />
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <p:outputLabel value="#{supportTicket.supportTicketStatus}" />
+                </p:column>
+
+                <p:column headerText="Action" >
+
+                    <p:commandButton actionListener="#{ supportTicketManagedBean.processTicket }" update="formAllSupportTicket" rendered ="#{supportTicket.supportTicketStatus == supportTicketManagedBean.openStatus }"  value = "Process Ticket" >
+                        <f:attribute name="supportTicketEntityToUpdate" value="#{supportTicket}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to process support ticket #{supportTicket.supportTicketId } ?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:commandButton actionListener="#{ supportTicketManagedBean.closeTicket}" update="formAllSupportTicket" rendered ="#{supportTicket.supportTicketStatus == supportTicketManagedBean.processingStatus }"  value = "Close Ticket" >
+                        <f:attribute name="supportTicketEntityToUpdate" value="#{supportTicket}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to close support ticket #{supportTicket.supportTicketId } ?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:commandButton actionListener="#{ supportTicketManagedBean.reopenTicket }" update="formAllSupportTicket" rendered ="#{supportTicket.supportTicketStatus == supportTicketManagedBean.closeStatus }"  value = "Reopen Ticket" >
+                        <f:attribute name="supportTicketEntityToUpdate" value="#{supportTicket}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to reopen support ticket #{supportTicket.supportTicketId } ?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
+                </p:column>
+                
+
+
+
+
+            </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+        <p:panel id="supportTicketReport" header="Download the support tickets report">
+            <h:form>
+                <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generateSupportTicketReport}" icon="pi pi-arrow-down" ajax="false"/>
+            </h:form>
+        </p:panel>
+        <ez:ViewCustomer id="ccViewCustomer" />
+
     </ui:define>
 
 </ui:composition>

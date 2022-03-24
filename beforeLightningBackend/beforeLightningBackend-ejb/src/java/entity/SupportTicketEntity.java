@@ -9,12 +9,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import util.enumeration.SupportTicketStatusEnum;
@@ -30,6 +28,12 @@ public class SupportTicketEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long supportTicketId;
+
+    @Email
+    @NotNull
+    @Column(nullable = false)
+    private String email;
+
     @Column(nullable = false, length = 400)
     @NotNull
     @Size(min = 1, max = 400)
@@ -39,17 +43,14 @@ public class SupportTicketEntity implements Serializable {
     @Column(nullable = false)
     private SupportTicketStatusEnum supportTicketStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
-    private PurchaseOrderLineItemEntity purchaseOrderLineItem;
-
     public SupportTicketEntity() {
+       this.supportTicketStatus = SupportTicketStatusEnum.OPEN;
     }
 
-    public SupportTicketEntity(String issue, SupportTicketStatusEnum supportTicketStatus) {
+    public SupportTicketEntity(String email, String issue) {
         this();
+        this.email = email;
         this.issue = issue;
-        this.supportTicketStatus = supportTicketStatus;
     }
 
     public Long getSupportTicketId() {
@@ -88,20 +89,6 @@ public class SupportTicketEntity implements Serializable {
         this.supportTicketStatus = supportTicketStatus;
     }
 
-    /**
-     * @return the purchaseOrderLineItem
-     */
-    public PurchaseOrderLineItemEntity getPurchaseOrderLineItem() {
-        return purchaseOrderLineItem;
-    }
-
-    /**
-     * @param purchaseOrderLineItem the purchaseOrderLineItem to set
-     */
-    public void setPurchaseOrderLineItem(PurchaseOrderLineItemEntity purchaseOrderLineItem) {
-        this.purchaseOrderLineItem = purchaseOrderLineItem;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -125,6 +112,14 @@ public class SupportTicketEntity implements Serializable {
     @Override
     public String toString() {
         return "entity.SupportTicketEntity[ id=" + supportTicketId + " ]";
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

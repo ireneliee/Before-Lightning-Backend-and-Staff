@@ -12,6 +12,7 @@ import util.exception.CreateNewSupportTicketEntityException;
 import util.exception.DeleteSupportTicketEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.SupportTicketEntityNotFoundException;
+import util.exception.UpdateSupportTicketEntityException;
 
 /**
  *
@@ -27,5 +28,7 @@ public interface SupportTicketEntitySessionBeanLocal {
     public List<SupportTicketEntity> retrieveAllSupportTickets();
 
     public void deleteSupportTicket(Long supportTicketId) throws SupportTicketEntityNotFoundException, DeleteSupportTicketEntityException;
+
+    public void updateSupportTicketEntity(SupportTicketEntity updatedSupportTicket) throws UpdateSupportTicketEntityException;
     
 }

@@ -44,6 +44,12 @@
                 </p:column>
             </p:dataTable>
         </h:form>
+        <p:panel id="accessoryReport" header="Download the accessory report">
+            <h:form>
+                <p:commandButton  style = "text-align: center" actionListener = "#{reportManagedBean.generateAccessoryReport }" icon="pi pi-arrow-down" ajax="false"/>
+            </h:form>
+        </p:panel>
+
     </ui:define>
 
 </ui:composition>
