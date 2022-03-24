@@ -18,8 +18,13 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
@@ -39,11 +44,14 @@ public class ReportManagedBean implements Serializable {
     public void generateSalesReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
-            System.out.println("****************Context path is **************" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/salesReport.jasper");
-
-            OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -51,11 +59,17 @@ public class ReportManagedBean implements Serializable {
     }
 
     public void generateAccessoryReport(ActionEvent event) {
+        
         try {
             HashMap parameters = new HashMap();
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/AccessoryReport.jasper");
-            OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -64,63 +78,91 @@ public class ReportManagedBean implements Serializable {
 
     public void generateMemberReport(ActionEvent event) {
         try {
-            System.out.println("Fynction .");
             HashMap parameters = new HashMap();
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/MemberReport.jasper");
-            OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
-            System.out.println("Jr is generated.");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+        
     }
 
     public void generatePartChoiceReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/PartChoiceReport.jasper");
-            OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+
     }
 
     public void generatePartReport(ActionEvent event) {
-        try {
+         try {
             HashMap parameters = new HashMap();
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/PartReport.jasper");
-            OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+      
     }
 
     public void generateProductReport(ActionEvent event) {
-        try {
+         try {
             HashMap parameters = new HashMap();
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/ProductReport.jasper");
-            OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+      
     }
 
     public void generateSupportTicketReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/SupportTicketReport.jasper");
-            OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
-            JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+       
     }
 }

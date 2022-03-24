@@ -52,6 +52,11 @@
 
             </p:dataTable>
         </h:form>
+        <p:panel id="salesReport" header="Download the purchase order report">
+            <h:form>
+                <p:commandButton  style = "text-align: center" actionListener = "#{reportManagedBean.generateSalesReport }" icon="pi pi-arrow-down" ajax="false"/>
+            </h:form>
+        </p:panel>
 
         <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
         <ez:ReadyToShip id ="ccReadyToShip" />
