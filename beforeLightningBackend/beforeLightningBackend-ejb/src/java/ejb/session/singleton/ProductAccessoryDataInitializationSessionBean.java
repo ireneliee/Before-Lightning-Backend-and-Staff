@@ -248,12 +248,12 @@ public class ProductAccessoryDataInitializationSessionBean {
             AccessoryEntity ass1 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityById(ac1.getAccessoryEntityId());
             AccessoryEntity ass2 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityById(ac2.getAccessoryEntityId());
 
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse1, ass1);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse2, ass1);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse3, ass1);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker1, ass2);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker2, ass2);
-            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker3, ass2);
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse1, ass1.getAccessoryEntityId());
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse2, ass1.getAccessoryEntityId());
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(mouse3, ass1.getAccessoryEntityId());
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker1, ass2.getAccessoryEntityId());
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker2, ass2.getAccessoryEntityId());
+            accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker3, ass2.getAccessoryEntityId());
 
         } catch (CreateNewProductEntityException | InputDataValidationException | UnknownPersistenceException | ProductSkuCodeExistException | PartEntityExistException | PartChoiceEntityExistException | PartEntityNotFoundException | PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartException | ProductEntityNotFoundException | UnableToAddPartToProductException | UnableToAddPartChoiceToPartChoiceException | AccessoryNameExistsException | AccessoryItemNameExists | AccessoryEntityNotFoundException ex) {
             System.out.println("THIS IS THE ERROR");

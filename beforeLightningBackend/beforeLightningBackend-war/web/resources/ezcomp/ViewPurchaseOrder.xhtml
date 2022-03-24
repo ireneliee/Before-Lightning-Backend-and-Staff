@@ -17,7 +17,7 @@
 
             <p:dialog id="dialogViewPurchaseOrder" widgetVar="dialogViewPurchaseOrder" header="View Purchase Order" closable="true">
 
-                <p:dataTable id="dataTableViewPurchaseOrder" widgetVar="dataTableAllPurchaseOrders" value="#{viewPurchaseOrderManagedBean.listOfLineItems}" var="purchaseOrderLineItemEntity" rowKey="#{purchaseOrderLineItemEntity.purchaseOrderLineItemEntityId}" rowIndexVar="row"
+                <p:dataTable id="dataTableViewPurchaseOrder" widgetVar="dataTableAllPurchaseOrders" value="#{viewPurchaseOrderManagedBean.purchaseOrderToView.purchaseOrderLineItems}" var="purchaseOrderLineItemEntity" rowKey="#{purchaseOrderLineItemEntity.purchaseOrderLineItemEntityId}" rowIndexVar="row"
                              filteredValue="#{viewPurchaseOrderManagedBean.filteredList}"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 

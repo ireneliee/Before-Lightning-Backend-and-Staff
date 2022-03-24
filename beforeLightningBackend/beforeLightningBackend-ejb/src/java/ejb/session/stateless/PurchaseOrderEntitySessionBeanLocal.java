@@ -28,5 +28,19 @@ public interface PurchaseOrderEntitySessionBeanLocal {
     public PurchaseOrderEntity createNewPurchaseOrder(Long memberId, PurchaseOrderEntity newPurchaseOrderEntity) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException;
 
     public PurchaseOrderEntity retrievePurchaseOrderEntityByPurchaseOrderEntityId(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException;
+
+    public List<PurchaseOrderEntity> retrieveProgressAllPurchaseOrders();
+
+    public List<PurchaseOrderEntity> retrieveReadyAllPurchaseOrders();
+
+    public List<PurchaseOrderEntity> retrieveCompletedAllPurchaseOrders();
+
+    public List<PurchaseOrderEntity> retrieveRefundedAllPurchaseOrders();
+
+    public void changeToReady(Long purchaseOrderId);
+
+    public void changeToComplete(Long purchaseOrderId);
+
+    public void changeToRefund(Long purchaseOrderId);
     
 }

@@ -20,9 +20,9 @@ import javax.inject.Inject;
  *
  * @author srinivas
  */
-@Named(value = "purchaseOrderManagementManagedBean")
+@Named(value = "purchaseOrderReadyManagementManagedBean")
 @ViewScoped
-public class PurchaseOrderManagementManagedBean implements Serializable {
+public class PurchaseOrderReadyManagementManagedBean implements Serializable {
 
     @EJB
     private PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBean;
@@ -36,12 +36,12 @@ public class PurchaseOrderManagementManagedBean implements Serializable {
     /**
      * Creates a new instance of PurchaseOrderManagementManagedBean
      */
-    public PurchaseOrderManagementManagedBean() {
+    public PurchaseOrderReadyManagementManagedBean() {
     }
     
     @PostConstruct
     public void postConstruct() {
-        setListOfAllPurchaseOrders(purchaseOrderEntitySessionBean.retrieveAllPurchaseOrders());
+        setListOfAllPurchaseOrders(purchaseOrderEntitySessionBean.retrieveReadyAllPurchaseOrders());
         setFilteredListOfAllPurchasOrders(new ArrayList<>());
     }
 

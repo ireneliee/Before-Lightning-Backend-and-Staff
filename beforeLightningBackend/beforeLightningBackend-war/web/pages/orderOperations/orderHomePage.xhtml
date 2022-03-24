@@ -9,10 +9,10 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:cc="http://xmlns.jcp.org/jsf/composite">
-    
+
 
     <ui:define name="content">
-        <ez:Breadcrumb pageName="Orders" />
+        <ez:Breadcrumb pageName="In-Progress Orders" />
 
         <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
         <h:form id="formAllPurchaseOrders">
@@ -41,12 +41,21 @@
                     <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
                     </p:commandButton>
+
+                    <p:commandButton value="Ready To Ship" update="ccReadyToShip:formReadyToShip" oncomplete="PF('dialogReadyToShip').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderManagementManagedBean.readyToShipManagedBean.purchaseOrderToUpdate}" />
+                    </p:commandButton>
+                    <p:commandButton value="Refund Order" >
+
+                    </p:commandButton>    
                 </p:column>
 
             </p:dataTable>
         </h:form>
-        
+
         <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
+        <ez:ReadyToShip id ="ccReadyToShip" />
+
     </ui:define>
 
 </ui:composition>

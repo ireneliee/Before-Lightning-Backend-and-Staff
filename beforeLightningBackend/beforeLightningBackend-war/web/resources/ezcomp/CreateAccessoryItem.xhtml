@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <p:dialog id="dialogCreateAccessoryItem" widgetVar="dialogCreateAccessoryItem" header="Create New Accessory Item" closable="true">
+            <h:form id="formCreateAccessoryItem">
+                <p:panelGrid id="grid" columns="3" styleClass="ui-noborder">
+                    <p:outputLabel for="accessoryItemName" value="Accessory Item Name: " style="font-weight: bold;" />
+                    <p:inputText id="accessoryItemName" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.accessoryItemName}"  required="true" requiredMessage="Accessory Item Name is required" />
+                    <p:message for="accessoryItemName" />
+
+                    <p:outputLabel for="skuCode" value="SKU Code: " style="font-weight: bold;" />
+                    <p:inputText id="skuCode" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.skuCode}"  required="true" requiredMessage="SKU Code is required" />
+                    <p:message for="skuCode" />
+
+                    <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
+                    <p:inputText id="brand" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.brand}"  required="true" requiredMessage="Brand is required" />
+                    <p:message for="brand" />
+
+                    <p:outputLabel for="quantityOnHand" value="Quantity On Hand " style="font-weight: bold;" />
+                    <p:spinner id="quantityOnHand" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.quantityOnHand}" min="0" max="1000" required="true" requiredMessage="Quantity is required" />
+                    <p:message for="quantityOnHand" />
+
+                    <p:outputLabel for="reorderQuantity" value="Reorder Quantity: " style="font-weight: bold;" />
+                    <p:spinner id="reorderQuantity" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.reorderQuantity}" min="0" max="1000" required="true" requiredMessage="Reorder Quantity is required" />
+                    <p:message for="reorderQuantity" />
+
+                    <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
+                    <p:spinner id="price" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.price}" prefix="$" min="0"  required="true" requiredMessage="Price is required"/>
+                    <p:message for="price" />
+
+                    <p:outputLabel for="image" value="Image: " style="font-weight: bold;" />
+                    <p:fileUpload id="image" listener="#{createAccessoryItemManagedBean.handleFileUpload}" update="graphicImage growl" previewWidth="200" mode="advanced" rendered="#{empty createAccessoryItemManagedBean.imageLink}"/>
+                    <p:graphicImage id="graphicImage" value="/uploadedFiles/#{createAccessoryItemManagedBean.imageLink}" height="300px" width="300px" rendered="#{not empty createAccessoryItemManagedBean.imageLink}"/>
+                    <p:message for="image" />
+
+                    <p:outputLabel for="selectOneMenu" value="Accessory Type: " style="font-weight: bold;" />
+                    <p:selectOneMenu id="selectOneMenu" value="#{createAccessoryItemManagedBean.accessoryEntityToLink}" required="true" requiredMessage="Accessory Type is required" >
+                        <f:selectItems value="#{createAccessoryItemManagedBean.listOfAccessoryEntities}" var="accessoryEntity" itemLabel="#{accessoryEntity.accessoryName}" itemValue="#{accessoryEntity}" />
+                    </p:selectOneMenu>
+
+                    <p:commandButton  value = "Create New Part Choice" update = "formCreateAccessoryItem :formAllAccessoryItem growl" actionListener="#{createAccessoryItemManagedBean.createNewAccessoryItem}" oncomplete="PF('dialogCreateAccessoryItem').hide()">
+                    </p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </cc:implementation>
+</html>

@@ -74,8 +74,8 @@ public class SecurityFilter implements Filter {
         } else if (accessRight.equals(accessRight.OPERATION)) {
             if (path.equals("/pages/orderOperations/orderHomePage.xhtml")
                     || path.equals("/pages/supportOperations/supportHomePage.xhtml")
-                    || path.equals("/pages/forumOperations/forumHomePage.xhtml")
-                    || path.equals("/pages/customerOperations/customerHomePage.xhtml")) {
+                    || path.equals("/pages/customerOperations/customerHomepage.xhtml")) {
+
                 return true;
             } else {
                 return false;
@@ -94,8 +94,12 @@ public class SecurityFilter implements Filter {
             }
         } else if (accessRight.equals(accessRight.SALES)) {
             if (path.equals("/pages/promotionOperations/promotionHomePage.xhtml")
-                    || path.equals("/pages/forumOperations/forumHomepage.xhtml")
-                    || path.equals("/pages/websiteOperations/websiteHomePage.xhtml")) {
+                    || path.equals("/pages/websiteOperations/forumHomePage.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteAllAccessoryPage.xhtml") 
+                    || path.equals("/pages/websiteOperations/websiteAllAccessoryItemsPage.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteAllProductsPage.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteAllPartsPage.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteAllPartChoicesPage.xhtml")) {
                 return true;
             } else {
                 return false;

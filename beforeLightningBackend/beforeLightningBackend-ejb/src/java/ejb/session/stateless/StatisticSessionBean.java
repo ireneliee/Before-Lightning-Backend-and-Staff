@@ -48,10 +48,6 @@ public class StatisticSessionBean implements StatisticSessionBeanLocal {
                  
             }
         }
-        for(ProductEntity p: productsPurchased.keySet()) {
-            System.out.println(p.getProductName() + "\n");
-        }
-        
         return productsPurchased;
     }
     public void persist(Object object) {

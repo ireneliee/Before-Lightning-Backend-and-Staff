@@ -83,6 +83,18 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
     }
 
     @Override
+    public List<AccessoryEntity> retrieveAllAccessoryEntitiesNotDisabled() {
+
+        Query query = em.createQuery("SELECT a FROM AccessoryEntity a WHERE a.isDisabled = :isDisabled");
+        query.setParameter("isDisabled", false);
+        List<AccessoryEntity> list = query.getResultList();
+        for (AccessoryEntity acc : list) {
+            acc.getAccessoryItemEntities().size();
+        }
+        return list;
+    }
+
+    @Override
     public AccessoryEntity retrieveAccessoryEntityById(Long id) throws AccessoryEntityNotFoundException {
         AccessoryEntity item = em.find(AccessoryEntity.class, id);
         if (item != null) {
@@ -148,7 +160,7 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
             AccessoryEntity accessoryToDisable = retrieveAccessoryEntityById(accessoryEntityId);
             accessoryToDisable.setIsDisabled(!accessoryToDisable.getIsDisabled());
         } catch (AccessoryEntityNotFoundException ex) {
-            throw new UpdateAccessoryEntityException("Unable To Disable/Enable Part Choice!");
+            throw new UpdateAccessoryEntityException("Unable To Disable/Enable Accessory!");
         }
     }
 

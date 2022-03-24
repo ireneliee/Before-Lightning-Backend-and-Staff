@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../templates/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+                <ez:Breadcrumb pageName="Ready Purchase Orders" />
+
+        <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
+        <h:form id="formAllPurchaseOrders">
+
+    <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderReadyManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
+                         filteredValue="#{purchaseOrderReadyManagementManagedBean.filteredListOfAllPurchasOrders}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+        <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPurchaseOrders').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+        </f:facet>
+
+                <p:column headerText="Order Ref Number" sortBy="#{purchaseOrderEntity.referenceNumber}" filterBy="#{purchaseOrderEntity.referenceNumber}" filterMatchMode="contains">
+                    <p:outputLabel value="#{purchaseOrderEntity.referenceNumber}" />
+                </p:column>
+                <p:column headerText="Total Price" sortBy="#{purchaseOrderEntity.totalPrice}" filterBy="#{purchaseOrderEntity.totalPrice}" filterMatchMode="contains">
+                    <p:outputLabel value="#{purchaseOrderEntity.totalPrice}" />
+                </p:column>
+                <p:column headerText="Creation Date" sortBy="#{purchaseOrderEntity.dateCreated}" filterBy="#{purchaseOrderEntity.dateCreated}" filterMatchMode="contains">
+                    <p:outputLabel value="#{purchaseOrderEntity.dateCreated}" />
+                </p:column>
+                <p:column headerText="Action" >
+                    <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderReadyManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                    </p:commandButton>
+
+                    <p:commandButton value="Complete Order" >
+
+                    </p:commandButton>
+  
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+                        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
+
+    </ui:define>
+
+</ui:composition>

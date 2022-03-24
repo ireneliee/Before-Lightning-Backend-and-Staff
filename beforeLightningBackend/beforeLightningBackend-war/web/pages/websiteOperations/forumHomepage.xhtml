@@ -12,6 +12,7 @@
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Forum" />
+        <ui:include src="/pages/websiteOperations/websiteNavBar.xhtml" />
 
         <h:form id="formAllForumPosts">
 
@@ -52,7 +53,7 @@
 
                 <p:column headerText="Action" >
                     <p:commandButton value="View Forum" update="ccViewForum:formViewForum" oncomplete="PF('dialogViewForum').show()" icon="ui-icon-document" title="View">
-                         <f:setPropertyActionListener value="#{forumEntity}" target="#{forumPostManagementBean.viewForumManagedBean.forumEntityToView}" />
+                        <f:setPropertyActionListener value="#{forumEntity}" target="#{forumPostManagementBean.viewForumManagedBean.forumEntityToView}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

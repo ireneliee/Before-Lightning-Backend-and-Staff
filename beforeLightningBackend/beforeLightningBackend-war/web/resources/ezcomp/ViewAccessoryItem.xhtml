@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formViewAccessoryItem">
+            <p:dialog id="dialogViewAccessoryItem" widgetVar="dialogViewAccessoryItem" header="View AccessoryItem" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:graphicImage value="/uploadedFiles/sampleAccessoryItem.png" height="300px" width="300px" rendered="#{empty viewAccessoryItemManagedBean.accessoryItemEntityToView.imageLink}"/>
+                            <p:graphicImage value="/uploadedFiles/#{viewAccessoryItemManagedBean.accessoryItemEntityToView.imageLink}" height="300px" width="300px" rendered="#{not empty viewAccessoryItemManagedBean.accessoryItemEntityToView.imageLink}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Accessory Item ID: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.accessoryItemEntityId}" />
+                        </p:column>
+                    </p:row>                    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="AccessoryItem Name: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.accessoryItemName}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="SKU Code: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.skuCode}" />
+                        </p:column>
+                    </p:row>                      
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Brand: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.brand}" />
+                        </p:column>
+                    </p:row>  
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Description: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.description}" />
+                        </p:column>
+                    </p:row>    
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Quantity On Hand: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.quantityOnHand}" />
+                        </p:column>
+                    </p:row>  
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Reorder Quantity: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.reorderQuantity}" />
+                        </p:column>
+                    </p:row>  
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Price: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.price}" />
+                        </p:column>
+                    </p:row>  
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Disabled: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.isDisabled}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Accessory Type: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.accessoryEntity.accessoryName}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Promotions: " />
+                        </p:column>
+                        <p:column>
+                            <p:repeat value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.promotionEntities}" var="promotionEntity">
+                                <p:outputLabel value="- Promotion Name: #{promotionEntity.promotionName}"/>
+                                <p:outputLabel value="- Start Date: #{promotionEntity.startDate}"/>     
+                                <p:outputLabel value="- End Date: #{promotionEntity.promotionName}"/>
+                                <p:outputLabel value="- Discount: #{promotionEntity.discount}"/>
+                                <p:outputLabel value="- Discount Price: #{promotionEntity.discountedPrice}"/>
+                                <br/>
+                            </p:repeat>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:dialog>
+        </h:form>
+    </cc:implementation>
+</html>

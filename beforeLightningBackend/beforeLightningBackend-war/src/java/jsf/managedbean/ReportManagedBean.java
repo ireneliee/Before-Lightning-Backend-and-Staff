@@ -33,14 +33,15 @@ public class ReportManagedBean implements Serializable {
     @Resource(name = "beforeLightningBackendDatasource")
     private DataSource beforeLightningBackendDatasource;
 
-
     public ReportManagedBean() {
     }
 
     public void generateSalesReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
+            System.out.println("****************Context path is **************" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/salesReport.jasper");
+
             OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
             JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
         } catch (IOException | SQLException | JRException ex) {
@@ -48,7 +49,7 @@ public class ReportManagedBean implements Serializable {
 
         }
     }
-    
+
     public void generateAccessoryReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
@@ -60,19 +61,21 @@ public class ReportManagedBean implements Serializable {
 
         }
     }
-    
+
     public void generateMemberReport(ActionEvent event) {
         try {
+            System.out.println("Fynction .");
             HashMap parameters = new HashMap();
             InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/MemberReport.jasper");
             OutputStream outputStream = FacesContext.getCurrentInstance().getExternalContext().getResponseOutputStream();
             JasperRunManager.runReportToPdfStream(reportStream, outputStream, parameters, beforeLightningBackendDatasource.getConnection());
+            System.out.println("Jr is generated.");
         } catch (IOException | SQLException | JRException ex) {
             Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     }
-    
+
     public void generatePartChoiceReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
@@ -84,7 +87,7 @@ public class ReportManagedBean implements Serializable {
 
         }
     }
-    
+
     public void generatePartReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
@@ -96,7 +99,7 @@ public class ReportManagedBean implements Serializable {
 
         }
     }
-    
+
     public void generateProductReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();
@@ -108,7 +111,7 @@ public class ReportManagedBean implements Serializable {
 
         }
     }
-    
+
     public void generateSupportTicketReport(ActionEvent event) {
         try {
             HashMap parameters = new HashMap();

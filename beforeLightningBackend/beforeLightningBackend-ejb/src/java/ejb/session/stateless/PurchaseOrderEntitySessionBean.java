@@ -89,7 +89,6 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
                     Integer boughtQuantity = p.getQuantity();
                     managedpc.setQuantityOnHand(quantity + boughtQuantity);
                 }
-
             }
         }
 
@@ -98,6 +97,61 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
     @Override
     public List<PurchaseOrderEntity> retrieveAllPurchaseOrders() {
         Query query = em.createQuery("SELECT po FROM PurchaseOrderEntity po");
+        List<PurchaseOrderEntity> allItems = query.getResultList();
+        for (PurchaseOrderEntity item : allItems) {
+
+            item.getPurchaseOrderLineItems().size();
+            System.out.println(item.getPurchaseOrderLineItems().size());
+        }
+        return allItems;
+    }
+
+    @Override
+    public List<PurchaseOrderEntity> retrieveProgressAllPurchaseOrders() {
+        Query query = em.createQuery("SELECT po FROM PurchaseOrderEntity po WHERE po.purchaseOrderStatus = :statusName");
+        query.setParameter("statusName", PurchaseOrderStatusEnum.IN_PROGRESS);
+
+        List<PurchaseOrderEntity> allItems = query.getResultList();
+        for (PurchaseOrderEntity item : allItems) {
+
+            item.getPurchaseOrderLineItems().size();
+            System.out.println(item.getPurchaseOrderLineItems().size());
+        }
+        return allItems;
+    }
+
+    @Override
+    public List<PurchaseOrderEntity> retrieveReadyAllPurchaseOrders() {
+        Query query = em.createQuery("SELECT po FROM PurchaseOrderEntity po WHERE po.purchaseOrderStatus = :statusName");
+        query.setParameter("statusName", PurchaseOrderStatusEnum.READY_FOR_SHIPMENT);
+
+        List<PurchaseOrderEntity> allItems = query.getResultList();
+        for (PurchaseOrderEntity item : allItems) {
+
+            item.getPurchaseOrderLineItems().size();
+            System.out.println(item.getPurchaseOrderLineItems().size());
+        }
+        return allItems;
+    }
+
+    @Override
+    public List<PurchaseOrderEntity> retrieveCompletedAllPurchaseOrders() {
+        Query query = em.createQuery("SELECT po FROM PurchaseOrderEntity po WHERE po.purchaseOrderStatus = :statusName");
+        query.setParameter("statusName", PurchaseOrderStatusEnum.COMPLETE);
+
+        List<PurchaseOrderEntity> allItems = query.getResultList();
+        for (PurchaseOrderEntity item : allItems) {
+
+            item.getPurchaseOrderLineItems().size();
+            System.out.println(item.getPurchaseOrderLineItems().size());
+        }
+        return allItems;
+    }
+
+    public List<PurchaseOrderEntity> retrieveRefundedAllPurchaseOrders() {
+        Query query = em.createQuery("SELECT po FROM PurchaseOrderEntity po WHERE po.purchaseOrderStatus = :statusName");
+        query.setParameter("statusName", PurchaseOrderStatusEnum.REFUNDED);
+
         List<PurchaseOrderEntity> allItems = query.getResultList();
         for (PurchaseOrderEntity item : allItems) {
 
@@ -118,6 +172,24 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         } else {
             throw new PurchaseOrderEntityNotFoundException("Sale Transaction ID " + purchaseOrderId + " does not exist!");
         }
+    }
+
+    public void changeToReady(Long purchaseOrderId) {
+        PurchaseOrderEntity purchaseOrderEntity = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+        purchaseOrderEntity.setPurchaseOrderStatus(PurchaseOrderStatusEnum.READY_FOR_SHIPMENT);
+
+    }
+
+    public void changeToComplete(Long purchaseOrderId) {
+        PurchaseOrderEntity purchaseOrderEntity = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+        purchaseOrderEntity.setPurchaseOrderStatus(PurchaseOrderStatusEnum.COMPLETE);
+
+    }
+
+    public void changeToRefund(Long purchaseOrderId) {
+        PurchaseOrderEntity purchaseOrderEntity = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+        purchaseOrderEntity.setPurchaseOrderStatus(PurchaseOrderStatusEnum.REFUNDED);
+
     }
 
     @Override

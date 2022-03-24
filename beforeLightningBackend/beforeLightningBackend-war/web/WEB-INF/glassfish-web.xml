@@ -3,8 +3,12 @@
 <glassfish-web-app error-url="">
   <context-root>/beforeLightningBackend-war</context-root>
   <resource-ref>
-    <res-ref-name>beforeLightningBackendDataSource</res-ref-name>
-    <jndi-name>jdbc/beforeLightningBackend</jndi-name>
+    <res-ref-name>beforeLightningBackendDatasource</res-ref-name>
+    <jndi-name>jdbc/beforeLightningBackendDatasource</jndi-name>
+  </resource-ref>
+  <resource-ref>
+    <res-ref-name>beforeLightningBackendDatasource</res-ref-name>
+    <jndi-name>jdbc/beforeLightningBackendDatasource</jndi-name>
   </resource-ref>
   <class-loader delegate="true"/>
   <jsp-config>
@@ -12,5 +16,5 @@
       <description>Keep a copy of the generated servlet class' java code.</description>
     </property>
   </jsp-config>
-  <property name="alternatedocroot_1" value="from=/uploadedFiles/* dir=/Users/kaiyu/glassfish-5.1.0-uploadedfiles"/>
+  <property name="alternatedocroot_1" value="from=/uploadedFiles/* dir=C:/glassfish-5.1.0-uploadedfiles"/>
 </glassfish-web-app>

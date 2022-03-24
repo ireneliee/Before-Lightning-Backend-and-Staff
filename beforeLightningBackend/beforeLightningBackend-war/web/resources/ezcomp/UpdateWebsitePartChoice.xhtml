@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formUpdatePartChoice">
+            <p:dialog id="dialogUpdatePartChoice" widgetVar="dialogUpdatePartChoice" header="Update PartChoice" closable="true">
+                <p:panel header="Please Enter Details To Update">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="partChoiceOverview" value="Part Choice Overview: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="partChoiceOverview" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.partOverview}" required="true" requiredMessage="Overview is required"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="partChoiceDescription" value="Description: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="partChoiceDescription" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.partDescription}" required="true" requiredMessage="Description is required"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="brand" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
+                            </p:column>
+                        </p:row>                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="imageLink" value="Image: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:fileUpload id="imageLink" listener="#{updatePartChoiceManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
+                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/samplePartChoice.png" height="150px" width="150px" rendered="#{empty updatePartChoiceManagedBean.imageLink}"/>
+                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updatePartChoiceManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updatePartChoiceManagedBean.imageLink}"/>
+                            </p:column>
+                        </p:row>    
+                    </p:panelGrid>
+                </p:panel>
+                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Part Choice" actionListener="#{updatePartChoiceManagedBean.updatePartChoice}" update="formAllPartChoices:dataTableAllPartChoices growl" oncomplete="PF('dialogUpdatePartChoice').hide()">
+                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updatePartChoiceManagedBean.partChoiceEntityToUpdate.partChoiceName} ?"  icon="ui-icon-alert" />
+                </p:commandButton>
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+    </cc:implementation>
+</html>
