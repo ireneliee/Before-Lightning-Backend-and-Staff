@@ -6,6 +6,8 @@
 package ejb.session.stateless;
 
 import entity.ProductEntity;
+import entity.PurchaseOrderEntity;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.Local;
 
@@ -17,5 +19,7 @@ import javax.ejb.Local;
 public interface StatisticSessionBeanLocal {
 
     public Map<ProductEntity, Integer> retrieveProductPurchased();
+
+    public Map<String, List<PurchaseOrderEntity>> retrievePurchaseOrdersBasedOnMonth();
     
 }
