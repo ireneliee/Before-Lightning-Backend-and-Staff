@@ -13,11 +13,13 @@ import ejb.session.stateless.MemberEntitySessionBeanLocal;
 import ejb.session.stateless.PartChoiceEntitySessionBeanLocal;
 import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
+import ejb.session.stateless.SupportTicketEntitySessionBeanLocal;
 import entity.AddressEntity;
 import entity.EmployeeEntity;
 import entity.ForumPostEntity;
 import entity.MemberEntity;
 import entity.ReplyEntity;
+import entity.SupportTicketEntity;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -30,6 +32,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.EmployeeAccessRightEnum;
 import util.exception.AddressEntityNotFoundException;
+import util.exception.CreateNewSupportTicketEntityException;
 import util.exception.EmployeeEntityNotFoundException;
 import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.ForumPostNotFoundException;
@@ -49,25 +52,13 @@ import util.exception.UnknownPersistenceException;
 public class MemberEmployeeDataInitializationSessionBean {
 
     @EJB
+    private SupportTicketEntitySessionBeanLocal supportTicketEntitySessionBeanLocal;
+
+    @EJB
     private MemberEntitySessionBeanLocal memberEntitySessionBeanLocal;
 
     @EJB
     private ForumPostsEntitySessionBeanLocal forumPostsEntitySessionBeanLocal;
-
-    @EJB
-    private PartChoiceEntitySessionBeanLocal partChoiceEntitySessionBeanLocal;
-
-    @EJB
-    private PartEntitySessionBeanLocal partEntitySessionBeanLocal;
-
-    @EJB
-    private ProductEntitySessionBeanLocal productEntitySessionBeanLocal;
-
-    @EJB
-    private AccessoryItemEntitySessionBeanLocal accessoryItemEntitySessionBeanLocal;
-
-    @EJB
-    private AccessoryEntitySessionBeanLocal accessoryEntitySessionBeanLocal;
 
     @EJB
     private EmployeeEntitySessionBeanLocal employeeEntitySessionBeanLocal;
@@ -138,6 +129,24 @@ public class MemberEmployeeDataInitializationSessionBean {
                     System.out.println("problem here");
                 }
 
+                SupportTicketEntity s1 = new SupportTicketEntity(m1.getEmail(), "My laptop is broken");
+                SupportTicketEntity s2 = new SupportTicketEntity(m2.getEmail(), "Do you have a warranty?");
+                SupportTicketEntity s3 = new SupportTicketEntity("hihihihi@gmail.com", "Laptop not received even after 10 days.");
+                SupportTicketEntity s4 = new SupportTicketEntity(m3.getEmail(), "Can I sell my laptop back to you?");
+                SupportTicketEntity s5 = new SupportTicketEntity(m2.getEmail(), "Do you have a laptop recommendation?");
+                SupportTicketEntity s6 = new SupportTicketEntity("dummydumb@gmail.com", "Do you have a laptop recommendation?");
+
+                try {
+                    supportTicketEntitySessionBeanLocal.createNewSupportTicketEntity(s1);
+                    supportTicketEntitySessionBeanLocal.createNewSupportTicketEntity(s2);
+                    supportTicketEntitySessionBeanLocal.createNewSupportTicketEntity(s3);
+                    supportTicketEntitySessionBeanLocal.createNewSupportTicketEntity(s4);
+                    supportTicketEntitySessionBeanLocal.createNewSupportTicketEntity(s5);
+                    supportTicketEntitySessionBeanLocal.createNewSupportTicketEntity(s6);
+                } catch (CreateNewSupportTicketEntityException ex) {
+                    Logger.getLogger(MemberEmployeeDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             } catch (MemberEntityUsernameExistException | AddressEntityNotFoundException | InputDataValidationException | UnknownPersistenceException ex) {
                 System.out.println("problem here");
             }
@@ -161,5 +170,9 @@ public class MemberEmployeeDataInitializationSessionBean {
             System.out.println("problem here");
         }
 
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
     }
 }

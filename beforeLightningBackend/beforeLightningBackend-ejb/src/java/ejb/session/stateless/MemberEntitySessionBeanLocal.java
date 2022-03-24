@@ -60,4 +60,6 @@ public interface MemberEntitySessionBeanLocal {
 
     public void deleteCreditCardEntity(Long memberEntityId, Long creditCardEntityId) throws CreditCardEntityNotFoundException, DeleteCreditCardEntityException, MemberEntityNotFoundException;
 
+    public MemberEntity retrieveMemberEntityByEmail(String email) throws MemberEntityNotFoundException;
+
 }

@@ -42,7 +42,7 @@ public class SupportTicketEntitySessionBean implements SupportTicketEntitySessio
         validator = validatorFactory.getValidator();
     }
         
-            @Override
+    @Override
     public SupportTicketEntity createNewSupportTicketEntity(SupportTicketEntity newSupportTicketEntity) throws InputDataValidationException, CreateNewSupportTicketEntityException
     {
         Set<ConstraintViolation<SupportTicketEntity>>constraintViolations = validator.validate(newSupportTicketEntity);
@@ -80,19 +80,26 @@ public class SupportTicketEntitySessionBean implements SupportTicketEntitySessio
         }
     }
     
+    public void updateSupportTicketEntity(SupportTicketEntity updatedSupportTicket) throws UpdateSupportTicketEntityException {
+        SupportTicketEntity s = em.find(SupportTicketEntity.class, updatedSupportTicket.getSupportTicketId());
+        if(s == null) {
+            throw new UpdateSupportTicketEntityException("Support ticket does not exist. ");
+        }
+        s.setIssue(updatedSupportTicket.getIssue());
+        s.setSupportTicketStatus(updatedSupportTicket.getSupportTicketStatus());
+        em.merge(s);
+        
+    }
+    
     
     
     @Override
     public List<SupportTicketEntity> retrieveAllSupportTickets()
     {
-        Query query = em.createQuery("SELECT t FROM SupportTicketEntity t ORDER BY t.name ASC");
+        Query query = em.createQuery("SELECT t FROM SupportTicketEntity t");
         List<SupportTicketEntity> supportTicketEntities = query.getResultList();
         
-        for(SupportTicketEntity supportTicketEntity:supportTicketEntities)
-        {            
-            supportTicketEntity.getPurchaseOrderLineItem();
-        }
-        
+
         return supportTicketEntities;
     }
     
@@ -119,15 +126,7 @@ public class SupportTicketEntitySessionBean implements SupportTicketEntitySessio
     public void deleteSupportTicket(Long supportTicketId) throws SupportTicketEntityNotFoundException, DeleteSupportTicketEntityException
     {
         SupportTicketEntity supportTicketEntityToRemove = retrieveSupportTicketBySupportTicketId(supportTicketId);
-        
-        if(supportTicketEntityToRemove.getPurchaseOrderLineItem() != null)
-        {
-            throw new DeleteSupportTicketEntityException("SupportTicket ID " + supportTicketId + " is associated with existing products and cannot be deleted!");
-        }
-        else
-        {
-            em.remove(supportTicketEntityToRemove);
-        }                
+                  
     }
     
     

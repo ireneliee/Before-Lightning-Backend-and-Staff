@@ -128,6 +128,22 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
             throw new MemberEntityNotFoundException("Member Username " + username + " does not exist!");
         }
     }
+    
+    public MemberEntity retrieveMemberEntityByEmail(String email) throws MemberEntityNotFoundException {
+        Query query = em.createQuery("SELECT s FROM MemberEntity s WHERE s.email = :inEmail");
+        query.setParameter("inEmail", email);
+
+        try {
+            MemberEntity memberEntity = (MemberEntity) query.getSingleResult();
+            memberEntity.getAddresses().size();
+            memberEntity.getCreditCards().size();
+            memberEntity.getPurchaseOrders().size();
+            memberEntity.getShoppingCart();
+            return (MemberEntity) query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            throw new MemberEntityNotFoundException("Member Email " + email + " does not exist!");
+        }
+    }
 
     @Override
     public MemberEntity memberEntityLogin(String username, String password) throws InvalidLoginCredentialException {

@@ -58,8 +58,6 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     @Column(nullable = false)
     private PurchaseOrderLineItemTypeEnum purchaseOrderLineItemTypeEnum;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrderLineItem")
-    private List<SupportTicketEntity> supportTicketEntities;
 
     @OneToOne(optional = true, fetch = FetchType.LAZY)
     private ProductEntity productEntity;
@@ -71,7 +69,6 @@ public class PurchaseOrderLineItemEntity implements Serializable {
     private List<PartChoiceEntity> partChoiceEntities;
 
     public PurchaseOrderLineItemEntity() {
-        this.supportTicketEntities = new ArrayList<>();
         this.partChoiceEntities = new ArrayList<>();
     }
 
@@ -147,23 +144,6 @@ public class PurchaseOrderLineItemEntity implements Serializable {
             return subprice.multiply(new BigDecimal(quantity));
         }
     }
-
-    /**
-     * @return the purchaseOrderLineItemStatus
-    /**
-     * @return the supportTicketEntities
-     */
-    public List<SupportTicketEntity> getSupportTicketEntities() {
-        return supportTicketEntities;
-    }
-
-    /**
-     * @param supportTicketEntities the supportTicketEntities to set
-     */
-    public void setSupportTicketEntities(List<SupportTicketEntity> supportTicketEntities) {
-        this.supportTicketEntities = supportTicketEntities;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
