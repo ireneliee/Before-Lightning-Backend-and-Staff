@@ -7,6 +7,7 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.AccessoryEntitySessionBeanLocal;
 import ejb.session.stateless.AccessoryItemEntitySessionBeanLocal;
+import ejb.session.stateless.DeliverySlotSessionBeanLocal;
 import ejb.session.stateless.EmployeeEntitySessionBeanLocal;
 import ejb.session.stateless.ForumPostsEntitySessionBeanLocal;
 import ejb.session.stateless.MemberEntitySessionBeanLocal;
@@ -17,6 +18,7 @@ import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
 import entity.AccessoryEntity;
 import entity.AccessoryItemEntity;
 import entity.AddressEntity;
+import entity.DeliverySlotEntity;
 import entity.EmployeeEntity;
 import entity.ForumPostEntity;
 import entity.MemberEntity;
@@ -39,6 +41,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.enumeration.DeliveryStatusEnum;
 import util.enumeration.EmployeeAccessRightEnum;
 import util.enumeration.PurchaseOrderStatusEnum;
 import util.enumeration.PurchaseOrderLineItemTypeEnum;
@@ -60,6 +63,7 @@ import util.exception.PartEntityExistException;
 import util.exception.PartEntityNotFoundException;
 import util.exception.ProductEntityNotFoundException;
 import util.exception.ProductSkuCodeExistException;
+import util.exception.PurchaseOrderEntityNotFoundException;
 import util.exception.UnableToAddPartChoiceToPartChoiceException;
 import util.exception.UnableToAddPartChoiceToPartException;
 import util.exception.UnableToAddPartToProductException;
@@ -74,6 +78,9 @@ import util.exception.UnknownPersistenceException;
 @LocalBean
 @DependsOn("ProductAccessoryDataInitializationSessionBean")
 public class PurchaseOrderDataInitializationSessionBean {
+
+    @EJB
+    private DeliverySlotSessionBeanLocal deliverySlotSessionBean;
 
     @EJB
     private PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBeanLocal;
@@ -194,6 +201,20 @@ public class PurchaseOrderDataInitializationSessionBean {
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po2);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po3);
 
+                    try {
+                        DeliverySlotEntity ds1 = new DeliverySlotEntity(DeliveryStatusEnum.INSTORE, LocalDateTime.now());
+                        DeliverySlotEntity ds2 = new DeliverySlotEntity(DeliveryStatusEnum.OUTSTORE, LocalDateTime.now());
+                        
+                        deliverySlotSessionBean.createInStoreDelivery(po1.getPurchaseOrderEntityId(), ds1);
+                        deliverySlotSessionBean.createOutStoreDelivery(po2.getPurchaseOrderEntityId(),1l , ds2);
+                        
+
+                    } catch (PurchaseOrderEntityNotFoundException ex) {
+                        Logger.getLogger(PurchaseOrderDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (AddressEntityNotFoundException ex) {
+                        Logger.getLogger(PurchaseOrderDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 } catch (CreateNewPurchaseOrderException ex) {
                     System.out.println("THIS IS THE ERROR");
                     System.out.println(ex.getMessage());
@@ -211,5 +232,9 @@ public class PurchaseOrderDataInitializationSessionBean {
             Logger.getLogger(PurchaseOrderDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
     }
 }

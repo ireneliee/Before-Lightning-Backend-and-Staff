@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import util.enumeration.DeliveryStatusEnum;
 
 /**
@@ -31,11 +32,25 @@ public class DeliverySlotEntity implements Serializable {
     @Column(nullable = false)
     private DeliveryStatusEnum deliveryStatus;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
     private AddressEntity address;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    private PurchaseOrderEntity deliveryOrder;
+        
+    
     private LocalDateTime requestedTimeOfDelivery;
     private LocalDateTime timeOfArrival;
+
+    public DeliverySlotEntity() {
+    }
+
+    public DeliverySlotEntity(DeliveryStatusEnum deliveryStatus, LocalDateTime requestedTimeOfDelivery) {
+        this.deliveryStatus = deliveryStatus;
+        this.requestedTimeOfDelivery = requestedTimeOfDelivery;
+    }
+
+    
 
     public Long getDeliverySlotId() {
         return deliverySlotId;
@@ -106,6 +121,20 @@ public class DeliverySlotEntity implements Serializable {
      */
     public void setAddress(AddressEntity address) {
         this.address = address;
+    }
+
+    /**
+     * @return the deliveryOrder
+     */
+    public PurchaseOrderEntity getDeliveryOrder() {
+        return deliveryOrder;
+    }
+
+    /**
+     * @param deliveryOrder the deliveryOrder to set
+     */
+    public void setDeliveryOrder(PurchaseOrderEntity deliveryOrder) {
+        this.deliveryOrder = deliveryOrder;
     }
 
 }

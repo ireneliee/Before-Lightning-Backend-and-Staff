@@ -4,14 +4,88 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-                >
+
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="Active Deliveries" />
 
         <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
 
-        Delivery Page
+        <h:form id="formAllInStoreDeliveries">
+            <p:dataTable id="dataTableAllInStoreDeliveries" widgetVar="dataTableAllInStoreDeliveries" value="#{activeDeliveryMangementManagedBean.listOfInStoreDeliveries}" var="deliverySlotEntity" rowKey="#{deliverySlotEntity.deliverySlotId}" rowIndexVar="row"
+                         filteredValue="#{activeDeliveryMangementManagedBean.filteredListOfInStoreDeliveries}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: left;">
+                        <p:outputLabel value="Manage All Active In-Store Delivery" style="font-size: 18px !important;"/>
+                    </p:outputPanel>
+                </f:facet>
+                <br/>
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllInStoreDeliveries').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Delivery ID" sortBy="#{deliverySlotEntity.deliverySlotId}" filterBy="#{deliverySlotEntity.deliverySlotEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.deliverySlotId}" />
+                </p:column>
+                <p:column headerText="Requested Delivery Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
+                </p:column>
+                <p:column headerText="Action" >
+                    <p:commandButton value="Complete Delivery" >
+
+                    </p:commandButton>  
+                    <p:commandButton value="View Purchase Order" >
+
+                    </p:commandButton>  
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <br/>
+        <h:form id="formAllOutStoreDeliveries">
+            <p:dataTable id="dataTableAllOutStoreDeliveries" widgetVar="dataTableAllOutStoreDeliveries" value="#{activeDeliveryMangementManagedBean.listOfOutStoreDeliveries}" var="deliverySlotEntity" rowKey="#{deliverySlotEntity.deliverySlotId}" rowIndexVar="row"
+                         filteredValue="#{activeDeliveryMangementManagedBean.filteredListOfOutStoreDeliveries}"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: left;">
+                        <p:outputLabel value="Manage All Active Out-Store Delivery" style="font-size: 18px !important;"/>
+                    </p:outputPanel>
+                </f:facet>
+                <br/>
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <p:outputLabel value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllOutStoreDeliveries').filter()" style="width:300px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Delivery ID" sortBy="#{deliverySlotEntity.deliverySlotId}" filterBy="#{deliverySlotEntity.deliverySlotEntityId}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.deliverySlotId}" />
+                </p:column>
+                <p:column headerText="Requested Delivery Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
+                </p:column>
+                <p:column headerText="Action" >
+                    <p:commandButton value="Complete Delivery" >
+
+                    </p:commandButton>  
+                    <p:commandButton value="View Purchase Order" >
+
+                    </p:commandButton>  
+                    <p:commandButton value="View Address" >
+
+                    </p:commandButton>  
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
     </ui:define>
 
 </ui:composition>
