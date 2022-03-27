@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formUpdatePromotionalAccessories">
+            <p:dialog id="dialogUpdatePromotionalAccessories" widgetVar="dialogUpdatePromotionalAccessories" header="Select Accessory Items to Edit" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Select Accessory Items to Include Into Promotion" />
+                            <p:selectManyMenu id="selectManyNonPromotionalAccessories" value="#{updatePromotionManagedBean.accessoryItemToAdd}"
+                                              var="accessoryItemEntityToAdd" filter="true" filterMatchMode="contains" showCheckbox="true">
+                                <f:selectItems value="#{updatePromotionManagedBean.listOfNonPromotionalAccessoryItems}" var="accessoryItemEntityToAdd" itemLabel="#{accessoryItemEntityToAdd.accessoryItemName}" itemValue="#{accessoryItemEntityToAdd}" />
+                                <p:column>
+                                    <p:outputLabel value="#{accessoryItemEntityToAdd.accessoryItemName}" />
+                                </p:column>
+                            </p:selectManyMenu>                            
+                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Add Accessory Items" actionListener="#{updatePromotionManagedBean.addAccessoryItemToPromotion}" update="formAllPromotions:dataTableAllPromotions" oncomplete="PF('dialogUpdatePromotionalAccessories').hide()">
+                                <p:confirm header="Confirmation" message="Are you sure you want to add selected accessories to: #{updatePromotionManagedBean.promotionEntityToUpdate.promotionName} Promotion?"  icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column>
+                            <p:outputLabel value="Select Accessory Items to Remove From Promotion" />
+                            <p:selectManyMenu id="selectManyPromotionalAccessories" value="#{updatePromotionManagedBean.accessoryItemToRemove}"
+                                              var="accessoryItemEntity" filter="true" filterMatchMode="contains" showCheckbox="true">
+                                <f:selectItems value="#{updatePromotionManagedBean.listOfPromotionalAccessoryItems}" var="accessoryItemEntityToRemove" itemLabel="#{accessoryItemEntity.accessoryItemName}" itemValue="#{accessoryItemEntity}" />
+                                <p:column>
+                                    <p:outputLabel value="#{accessoryItemEntity.accessoryItemName}" />
+                                </p:column>
+                            </p:selectManyMenu>    
+                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Remove Accessory Items" actionListener="#{updatePromotionManagedBean.removeAccessoryItemToPromotion}" update="formAllPromotions:dataTableAllPromotions" oncomplete="PF('dialogUpdatePromotionalAccessories').hide()">
+                                <p:confirm header="Confirmation" message="Are you sure you want to add selected accessories to: #{updatePromotionManagedBean.promotionEntityToUpdate.promotionName} Promotion?"  icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:row>    
+
+                </p:panelGrid>
+
+
+
+
+
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+    </cc:implementation>
+</html>
+
+

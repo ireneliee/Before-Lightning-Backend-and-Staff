@@ -6,14 +6,17 @@
 package ejb.session.stateless;
 
 import entity.AccessoryItemEntity;
-import entity.EmployeeEntity;
 import entity.PartChoiceEntity;
+import entity.ProductEntity;
 import entity.PromotionEntity;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -21,10 +24,14 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import util.exception.AccessoryAlreadyExistsInPromotionException;
 import util.exception.AccessoryItemEntityNotFoundException;
-import util.exception.EmployeeEntityUsernameExistException;
 import util.exception.InputDataValidationException;
+import util.exception.PartChoiceAlreadyExistsInPromotionException;
 import util.exception.PartChoiceEntityNotFoundException;
+import util.exception.PromotionAlreadyExistsInAccessoryException;
+import util.exception.PromotionAlreadyExistsInPartChoiceException;
+import util.exception.PromotionDiscountTypeExclusiveOrException;
 import util.exception.PromotionEntityNameExistsException;
 import util.exception.PromotionEntityNotFoundException;
 import util.exception.UnknownPersistenceException;
@@ -37,158 +44,326 @@ import util.exception.UpdatePromotionException;
 @Stateless
 public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLocal {
 
-    @EJB
-    private AccessoryItemEntitySessionBeanLocal accessoryItemEntitySessionBean;
+	@EJB
+	private AccessoryItemEntitySessionBeanLocal accessoryItemEntitySessionBean;
 
-    @EJB
-    private PartChoiceEntitySessionBeanLocal partChoiceEntitySessionBean;
+	@EJB
+	private PartChoiceEntitySessionBeanLocal partChoiceEntitySessionBean;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-    @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
-    private EntityManager em;
+	// Add business logic below. (Right-click in editor and choose
+	// "Insert Code > Add Business Method")
+	@PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
+	private EntityManager em;
 
-    private final ValidatorFactory validatorFactory;
-    private final Validator validator;
+	private final ValidatorFactory validatorFactory;
+	private final Validator validator;
 
-    public PromotionEntitySessionBean() {
-        validatorFactory = Validation.buildDefaultValidatorFactory();
-        validator = validatorFactory.getValidator();
-    }
+	public PromotionEntitySessionBean() {
+		validatorFactory = Validation.buildDefaultValidatorFactory();
+		validator = validatorFactory.getValidator();
+	}
 
-    public Long createNewPromotionEntity(PromotionEntity newPromotion) throws PromotionEntityNameExistsException, UnknownPersistenceException, InputDataValidationException {
+	@Override
+	public Long createNewPromotionEntity(PromotionEntity newPromotion) throws PromotionEntityNameExistsException, UnknownPersistenceException, InputDataValidationException, PromotionDiscountTypeExclusiveOrException {
 
-        Set<ConstraintViolation<PromotionEntity>> constraintViolations = validator.validate(newPromotion);
+		Set<ConstraintViolation<PromotionEntity>> constraintViolations = validator.validate(newPromotion);
 
-        if (constraintViolations.isEmpty()) {
-            try {
-                em.persist(newPromotion);
-                em.flush();
-                return newPromotion.getPromotionEntityId();
-            } catch (PersistenceException ex) {
-                if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
-                    if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
-                        throw new PromotionEntityNameExistsException();
-                    } else {
-                        throw new UnknownPersistenceException(ex.getMessage());
-                    }
-                } else {
-                    throw new UnknownPersistenceException(ex.getMessage());
-                }
-            }
-        } else {
-            throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
-        }
-    }
+		if (constraintViolations.isEmpty()) {
+			try {
+				//if both are 0 or if both have non-zero values, throw error
+				if (!checkDiscountValidity(newPromotion)) {
+					System.out.println("throw error cos discount fields not valid");
+					throw new PromotionDiscountTypeExclusiveOrException();
+				} else {
 
-    public List<PartChoiceEntity> addPartChoice(Long PromotionId, List<PartChoiceEntity> partChoice) throws PromotionEntityNotFoundException, PartChoiceEntityNotFoundException {
-        PromotionEntity managedPromotion = retrievePromotionEntityById(PromotionId);
-        for (PartChoiceEntity choice : partChoice) {
-            PartChoiceEntity managedChoice = partChoiceEntitySessionBean.retrievePartChoiceEntityByPartChoiceEntityId(choice.getPartChoiceEntityId());
-            managedChoice.getPromotionEntities().add(managedPromotion);
-            managedPromotion.getPartChoiceEntities().add(managedChoice);
-        }
-        return managedPromotion.getPartChoiceEntities();
-    }
+					em.persist(newPromotion);
+					em.flush();
+					return newPromotion.getPromotionEntityId();
+				}
+			} catch (PersistenceException ex) {
+				if (ex.getCause() != null && ex.getCause().getClass().getName().equals("org.eclipse.persistence.exceptions.DatabaseException")) {
+					if (ex.getCause().getCause() != null && ex.getCause().getCause().getClass().getName().equals("java.sql.SQLIntegrityConstraintViolationException")) {
+						throw new PromotionEntityNameExistsException();
+					} else {
+						throw new UnknownPersistenceException(ex.getMessage());
+					}
+				} else {
+					throw new UnknownPersistenceException(ex.getMessage());
+				}
+			}
+		} else {
+			throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+		}
+	}
 
-    public List<AccessoryItemEntity> addAccessoryItem(Long PromotionId, List<AccessoryItemEntity> accessoryItem) throws PromotionEntityNotFoundException, AccessoryItemEntityNotFoundException {
-        PromotionEntity managedPromotion = retrievePromotionEntityById(PromotionId);
-        for (AccessoryItemEntity choice : accessoryItem) {
-            AccessoryItemEntity managedChoice = accessoryItemEntitySessionBean.retrieveAccessoryItemById(choice.getAccessoryItemEntityId());
-            managedChoice.getPromotionEntities().add(managedPromotion);
-            managedPromotion.getAccessoryItemEntities().add(managedChoice);
-        }
-        return managedPromotion.getAccessoryItemEntities();
-    }
+	@Override
+	public List<PromotionEntity> retrieveAllPromotions() {
 
-    public List<PromotionEntity> retrieveAllPromotions() {
+		Query query = em.createQuery("SELECT p FROM PromotionEntity p");
+		List<PromotionEntity> list = query.getResultList();
+		System.out.println("size of promotion list: " + list.size());
+		return list;
 
-        Query query = em.createQuery("SELECT p FROM PromotionEntity p");
-        return query.getResultList();
+	}
 
-    }
+	@Override
+	public PromotionEntity retrievePromotionEntityById(Long Id) throws PromotionEntityNotFoundException {
 
-    public PromotionEntity retrievePromotionEntityById(Long Id) throws PromotionEntityNotFoundException {
+		PromotionEntity promotion = em.find(PromotionEntity.class, Id);
+		if (promotion != null) {
+			return promotion;
+		} else {
+			throw new PromotionEntityNotFoundException("Promotion with promotion ID: " + Id + " cannot be found!");
+		}
+	}
 
-        PromotionEntity promotion = em.find(PromotionEntity.class, Id);
-        if (promotion != null) {
-            return promotion;
-        } else {
-            throw new PromotionEntityNotFoundException("Promotion with promotion ID: " + Id + " cannot be found!");
-        }
-    }
+	//to use for viewing promotional part choices & removing part choice from promo
+	//should move this to partchoice sessionbean
+	@Override
+	public List<PartChoiceEntity> retrievePartChoicesWithSpecificPromotion(Long promotionId) {
 
-    public void updatePromotionEntity(PromotionEntity updatedPromotion) throws PromotionEntityNotFoundException, UpdatePromotionException {
+		List<PartChoiceEntity> listOfPartChoiceWithSpecificPromotion = new ArrayList<>();
 
-        PromotionEntity promotionToUpdate = retrievePromotionEntityById(updatedPromotion.getPromotionEntityId());
+		Query query = em.createQuery("SELECT p FROM PartChoiceEntity p, IN (p.promotionEntities) e");
+		List<PartChoiceEntity> listOfPromotionalPartChoices = query.getResultList();
 
-        //remove promo from all related partchoices
-        for (PartChoiceEntity p : promotionToUpdate.getPartChoiceEntities()) {
-            p.getPromotionEntities().remove(promotionToUpdate);
-        }
+		//find part choices with a particular promotion
+		for (PartChoiceEntity partChoice : listOfPromotionalPartChoices) {
+			List<PromotionEntity> listOfPromotions = partChoice.getPromotionEntities();
+			for (PromotionEntity promo : listOfPromotions) {
+				if (promo.getPromotionEntityId().equals(promotionId)) {
+					//add that part choice into list
+					listOfPartChoiceWithSpecificPromotion.add(partChoice);
+				}
+			}
+		}
+		return listOfPartChoiceWithSpecificPromotion;
+	}
 
-        for (AccessoryItemEntity a : promotionToUpdate.getAccessoryItemEntities()) {
-            a.getPromotionEntities().remove(promotionToUpdate);
-        }
+	//to use for viewing promotional accessories & removing accessory from promo
+	//should move this to accessoryitems sessionbean
+	@Override
+	public List<AccessoryItemEntity> retrieveAccessoryItemsWithSpecificPromotion(Long promotionId) {
 
-        //update partchoices
-        promotionToUpdate.getPartChoiceEntities().clear();
-        for (PartChoiceEntity p : updatedPromotion.getPartChoiceEntities()) {
-            PartChoiceEntity partChoiceToBeUpdated = em.find(PartChoiceEntity.class, p.getPartChoiceEntityId());
-            if (partChoiceToBeUpdated == null) {
-                throw new UpdatePromotionException("An error has occured while updating the part: part choice cannot be found. ");
-            } else {
-                promotionToUpdate.getPartChoiceEntities().add(partChoiceToBeUpdated);
-                partChoiceToBeUpdated.getPromotionEntities().add(promotionToUpdate);
-            }
-        }
+		List<AccessoryItemEntity> listOfAccessoryItemsWithSpecificPromotion = new ArrayList<>();
+		Query query = em.createQuery("SELECT a FROM AccessoryItemEntity a, IN (a.promotionEntities) e");
+		List<AccessoryItemEntity> listOfPromotionalAccessoryItems = query.getResultList();
 
-        //update accessoryItems
-        promotionToUpdate.getAccessoryItemEntities().clear();
-        for (AccessoryItemEntity a : updatedPromotion.getAccessoryItemEntities()) {
-            AccessoryItemEntity aToBeUpdated = em.find(AccessoryItemEntity.class, a.getAccessoryItemEntityId());
-            if (aToBeUpdated == null) {
-                throw new UpdatePromotionException("An error has occured while updating the part: part choice cannot be found. ");
-            } else {
-                promotionToUpdate.getAccessoryItemEntities().add(aToBeUpdated);
-                aToBeUpdated.getPromotionEntities().add(promotionToUpdate);
-            }
-        }
+		//find accessories with a particular promotion
+		for (AccessoryItemEntity accessory : listOfPromotionalAccessoryItems) {
+			List<PromotionEntity> listOfPromotions = accessory.getPromotionEntities();
+			for (PromotionEntity promo : listOfPromotions) {
+				if (promo.getPromotionEntityId().equals(promotionId)) {
+					//add that accessory into list
+					listOfAccessoryItemsWithSpecificPromotion.add(accessory);
+				}
+			}
+		}
+		return listOfAccessoryItemsWithSpecificPromotion;
+	}
 
-        promotionToUpdate.setPromotionName(updatedPromotion.getPromotionName());
-        promotionToUpdate.setStartDate(updatedPromotion.getStartDate());
-        promotionToUpdate.setEndDate(updatedPromotion.getEndDate());
-        promotionToUpdate.setDiscountedPrice(updatedPromotion.getDiscountedPrice());
+	@Override
+	public List<PartChoiceEntity> addPartChoicesToPromotion(Long PromotionId, List<PartChoiceEntity> partChoicesToAdd) throws PromotionEntityNotFoundException, PartChoiceEntityNotFoundException, PartChoiceAlreadyExistsInPromotionException {
 
-    }
+		List<PartChoiceEntity> currentListPartChoiceWithParticularPromotion = retrievePartChoicesWithSpecificPromotion(PromotionId);
 
-    public void removePromotionEntity(Long promotionId) throws PromotionEntityNotFoundException {
+//		for (PartChoiceEntity p : currentListPartChoiceWithParticularPromotion) {
+//
+//			if (p.getPartChoiceEntityId().equals(partChoiceToAdd.getPartChoiceEntityId())) {
+//				throw new PartChoiceAlreadyExistsInPromotionException();
+//			}
+//		}
+		//part choice not in promotion, add into promotion and vice versa
+		PromotionEntity promotion = em.find(PromotionEntity.class, PromotionId);
+		List<PartChoiceEntity> updatedPartChoiceList = promotion.getPartChoiceEntities();
 
-        PromotionEntity promotionEntity = retrievePromotionEntityById(promotionId);
+		for (PartChoiceEntity p : partChoicesToAdd) {
+			updatedPartChoiceList.add(p);
+			PartChoiceEntity managedPartChoice = em.find(PartChoiceEntity.class, p.getPartChoiceEntityId());
+			managedPartChoice.getPromotionEntities().add(promotion);
+		}
+		promotion.setPartChoiceEntities(updatedPartChoiceList);
 
-        //remove promotion from related part choices
-        List<PartChoiceEntity> listOfRelatedPartChoices = promotionEntity.getPartChoiceEntities();
-        for (PartChoiceEntity c : listOfRelatedPartChoices) {
-            c.getPromotionEntities().remove(promotionEntity);
-        }
+		return updatedPartChoiceList;
+	}
 
-        //remove promotion from related acessory items
-        List<AccessoryItemEntity> listOfRelatedAccessoryItems = promotionEntity.getAccessoryItemEntities();
-        for (AccessoryItemEntity a : listOfRelatedAccessoryItems) {
-            a.getPromotionEntities().remove(promotionEntity);
-        }
+	@Override
+	public List<AccessoryItemEntity> addAccessoryItemsToPromotion(Long PromotionId, List<AccessoryItemEntity> accessoryItemToAdd) throws PromotionEntityNotFoundException, AccessoryItemEntityNotFoundException, AccessoryAlreadyExistsInPromotionException {
 
-        em.remove(promotionEntity);
+		List<AccessoryItemEntity> currentListAccessoryItemsWithParticularPromotion = retrieveAccessoryItemsWithSpecificPromotion(PromotionId);
 
-    }
+//		//check if Accessoy is already in the promotion
+//		for (AccessoryItemEntity p : currentListAccessoryItemsWithParticularPromotion) {
+//
+//			if (p.getAccessoryItemEntityId().equals(accessoryItemToAdd.getAccessoryItemEntityId())) {
+//				throw new AccessoryAlreadyExistsInPromotionException();
+//			}
+//		}
+		//Accessory not in promotion, add into promotion and vice versa
+		PromotionEntity promotion = em.find(PromotionEntity.class, PromotionId);
+		List<AccessoryItemEntity> updatedAccessoryItemList = promotion.getAccessoryItemEntities();
 
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<PromotionEntity>> constraintViolations) {
-        String msg = "Input data validation error!:";
+		for (AccessoryItemEntity a : accessoryItemToAdd) {
+			updatedAccessoryItemList.add(a);
+			AccessoryItemEntity managedAccessory = em.find(AccessoryItemEntity.class, a.getAccessoryItemEntityId());
+			managedAccessory.getPromotionEntities().add(promotion);
+		}
+		promotion.setAccessoryItemEntities(updatedAccessoryItemList);
 
-        for (ConstraintViolation constraintViolation : constraintViolations) {
-            msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
-        }
+		return updatedAccessoryItemList;
+	}
 
-        return msg;
-    }
+	@Override
+	public Long removePartChoicesFromPromotion(Long promotionId, List<PartChoiceEntity> partChoicesToRemove) throws PromotionEntityNotFoundException, PartChoiceEntityNotFoundException {
+
+		PromotionEntity promotion = em.find(PromotionEntity.class, promotionId);
+
+		//get list of promo part choices 
+		List<PartChoiceEntity> listOfPartChoice = promotion.getPartChoiceEntities();
+
+		for (PartChoiceEntity p : partChoicesToRemove) {
+			listOfPartChoice.remove(p);
+			PartChoiceEntity managedPartChoice = partChoiceEntitySessionBean.retrievePartChoiceEntityByPartChoiceEntityId(p.getPartChoiceEntityId());
+			managedPartChoice.getPromotionEntities().remove(promotion);
+		}
+
+		promotion.setPartChoiceEntities(listOfPartChoice);
+		return promotionId;
+
+	}
+
+	@Override
+	public Long removeAccessoryItemsFromPromotion(Long promotionId, List<AccessoryItemEntity> accessoryItemsToRemove) throws AccessoryItemEntityNotFoundException, PromotionEntityNotFoundException {
+
+		PromotionEntity promotion = em.find(PromotionEntity.class, promotionId);
+
+		//get list of promo part choices 
+		List<AccessoryItemEntity> listOfAccessories = promotion.getAccessoryItemEntities();
+
+		for (AccessoryItemEntity p : listOfAccessories) {
+			listOfAccessories.remove(p);
+			AccessoryItemEntity managedAccessory = accessoryItemEntitySessionBean.retrieveAccessoryItemById(p.getAccessoryItemEntityId());
+			managedAccessory.getPromotionEntities().remove(promotion);
+		}
+
+		promotion.setAccessoryItemEntities(listOfAccessories);
+		return promotionId;
+
+	}
+
+	@Override
+	public void updatePromotionEntity(PromotionEntity updatedPromotion) throws PromotionEntityNotFoundException, UpdatePromotionException, InputDataValidationException, PromotionDiscountTypeExclusiveOrException {
+
+		if (updatedPromotion != null && updatedPromotion.getPromotionEntityId() != null) {
+			Set<ConstraintViolation<PromotionEntity>> constraintViolations = validator.validate(updatedPromotion);
+
+			if (constraintViolations.isEmpty()) {
+				PromotionEntity promotionToUpdate = retrievePromotionEntityById(updatedPromotion.getPromotionEntityId());
+
+				if (promotionToUpdate.getPromotionEntityId().equals(updatedPromotion.getPromotionEntityId())) {
+					System.out.println("promoSessionBean update method :: \n" + 
+							"discount: " + updatedPromotion.getDiscount() + "\n" +
+							"discountedPrice: " + updatedPromotion.getDiscountedPrice());
+
+					if (!checkDiscountValidity(updatedPromotion)) {
+						System.out.println("shits wacc not supposed to updated...");
+						throw new PromotionDiscountTypeExclusiveOrException();
+					} else {
+						promotionToUpdate.setPromotionName(updatedPromotion.getPromotionName());
+						promotionToUpdate.setStartDate(updatedPromotion.getStartDate());
+						promotionToUpdate.setEndDate(updatedPromotion.getEndDate());
+						promotionToUpdate.setDiscount(updatedPromotion.getDiscount());
+						promotionToUpdate.setDiscountedPrice(updatedPromotion.getDiscountedPrice());
+						em.flush();
+					}
+
+				} else {
+					throw new UpdatePromotionException("Promo ID of promotionEntity record to be updated does not match the existing record!");
+				}
+			} else {
+				throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+			}
+		} else {
+			throw new PromotionEntityNotFoundException("PromotionEntity ID not provided for promotionEntity to be updated!");
+		}
+	}
+
+//		//remove promo from all related partchoices
+//		for (PartChoiceEntity p : promotionToUpdate.getPartChoiceEntities()) {
+//			p.getPromotionEntities().remove(promotionToUpdate);
+//		}
+//
+//		for (AccessoryItemEntity a : promotionToUpdate.getAccessoryItemEntities()) {
+//			a.getPromotionEntities().remove(promotionToUpdate);
+//		}
+//
+//		//update partchoices
+//		promotionToUpdate.getPartChoiceEntities().clear();
+//		for (PartChoiceEntity p : updatedPromotion.getPartChoiceEntities()) {
+//			PartChoiceEntity partChoiceToBeUpdated = em.find(PartChoiceEntity.class, p.getPartChoiceEntityId());
+//			if (partChoiceToBeUpdated == null) {
+//				throw new UpdatePromotionException("An error has occured while updating the part: part choice cannot be found. ");
+//			} else {
+//				promotionToUpdate.getPartChoiceEntities().add(partChoiceToBeUpdated);
+//				partChoiceToBeUpdated.getPromotionEntities().add(promotionToUpdate);
+//			}
+//		}
+//
+//		//update accessoryItems
+//		promotionToUpdate.getAccessoryItemEntities().clear();
+//		for (AccessoryItemEntity a : updatedPromotion.getAccessoryItemEntities()) {
+//			AccessoryItemEntity aToBeUpdated = em.find(AccessoryItemEntity.class, a.getAccessoryItemEntityId());
+//			if (aToBeUpdated == null) {
+//				throw new UpdatePromotionException("An error has occured while updating the part: part choice cannot be found. ");
+//			} else {
+//				promotionToUpdate.getAccessoryItemEntities().add(aToBeUpdated);
+//				aToBeUpdated.getPromotionEntities().add(promotionToUpdate);
+//			}
+//		}
+	@Override
+	public void removePromotionEntity(Long promotionId) throws PromotionEntityNotFoundException {
+
+		PromotionEntity promotionEntity = retrievePromotionEntityById(promotionId);
+
+		//remove promotion from related part choices
+		List<PartChoiceEntity> listOfRelatedPartChoices = promotionEntity.getPartChoiceEntities();
+		for (PartChoiceEntity c : listOfRelatedPartChoices) {
+			c.getPromotionEntities().remove(promotionEntity);
+		}
+
+		//remove promotion from related acessory items
+		List<AccessoryItemEntity> listOfRelatedAccessoryItems = promotionEntity.getAccessoryItemEntities();
+		for (AccessoryItemEntity a : listOfRelatedAccessoryItems) {
+			a.getPromotionEntities().remove(promotionEntity);
+		}
+
+		em.remove(promotionEntity);
+
+	}
+
+	//returns if promo discounts are valid or not
+	public boolean checkDiscountValidity(PromotionEntity promotion) {
+
+		boolean zeroDiscount = (promotion.getDiscount().equals(0.0));
+		boolean zeroDiscountedPrice = promotion.getDiscountedPrice().compareTo(BigDecimal.ZERO) == 0;
+
+		System.out.println("zeroDiscount: " + zeroDiscount + " zeroDiscountedPrice: " + zeroDiscountedPrice);
+		//if both are 0 or if both have non-zero values, return false
+		if (!((zeroDiscount && !zeroDiscountedPrice) || (!zeroDiscount && zeroDiscountedPrice))) {
+			System.out.println("returned false cos not valid");
+			return false;
+		}
+		System.out.println("returned true cos valid");
+		return true;
+	}
+
+	private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<PromotionEntity>> constraintViolations) {
+		String msg = "Input data validation error!:";
+
+		for (ConstraintViolation constraintViolation : constraintViolations) {
+			msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
+		}
+
+		return msg;
+	}
 }
