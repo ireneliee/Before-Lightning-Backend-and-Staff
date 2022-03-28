@@ -24,10 +24,14 @@
             }
         </style>
 
-        <p:dialog id="dialogViewCustomer" widgetVar="dialogViewCustomer" header="View Customer" closable="true">
+        <p:dialog id="dialogViewCustomer" widgetVar="dialogViewCustomer" header="View Customer" closable="true" >
             <p:autoUpdate />
-            <h:form id="formViewCustomer">
+
+            <h:form id="formViewCustomer" rendered = "#{viewCustomerManagedBean.memberEntityToView != null}">
                 <p:panelGrid>
+                    <p:messages id="findCustomerMessage" showDetail="true" closable="true">
+                        <p:autoUpdate />
+                    </p:messages>
 
                     <p:row>
                         <p:column>
@@ -70,13 +74,29 @@
                         <p:column>
                             <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.lastname}" />
                         </p:column>
-                    </p:row>       
+                    </p:row> 
                     <p:row>
                         <p:column>
-                            <p:outputLabel value="Number of forum posts" />
+                            <p:outputLabel value="Last name" />
                         </p:column>
                         <p:column>
-                            <p:outputLabel value="#{fn: length(viewCustomerManagedBean.memberEntityToView.forumPosts)}" />
+                            <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.lastname}" />
+                        </p:column>
+                    </p:row>     
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Contact number" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.contact}" />
+                        </p:column>
+                    </p:row>     
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Email" />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.email}" />
                         </p:column>
                     </p:row>  
                     <p:row>
@@ -111,16 +131,16 @@
                                 </p:dataList>
                             </h:form>
                         </p:column>
-                        
+
                     </p:row>
-                    
+
                     <p:row>
                         <p:column>
                             <p:outputLabel value="Action" />
                         </p:column>
                         <p:column>
                             <p:commandButton value="Deactivate" id="member-deactivate-button" update="formViewCustomer :growl" actionListener ="#{ viewCustomerManagedBean.deactivateCustomer }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{viewCustomerManagedBean.memberEntityToView.isActive}">
-                                    <p:confirm header="Confirmation" message="Are you sure you want to deactivate #{viewCustomerManagedBean.memberEntityToView.username} ?"  icon="ui-icon-alert" />
+                                <p:confirm header="Confirmation" message="Are you sure you want to deactivate #{viewCustomerManagedBean.memberEntityToView.username} ?"  icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:commandButton value="Activate" id="member-activate-button" update="formViewCustomer :growl" actionListener ="#{  viewCustomerManagedBean.activateCustomer }" style="margin-right:20px;" styleClass="ui-priority-primary" rendered = "#{ !(viewCustomerManagedBean.memberEntityToView.isActive) }">
                                 <p:confirm header="Confirmation" message="Are you sure you want to activate #{viewCustomerManagedBean.memberEntityToView.username} ?"  icon="ui-icon-alert" />
@@ -134,9 +154,9 @@
 
                 </p:panelGrid>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
         </p:dialog>
 

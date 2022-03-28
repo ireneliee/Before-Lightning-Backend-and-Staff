@@ -19,10 +19,10 @@
         </style>
         <ez:Breadcrumb pageName="Support" />
         <h:form id="formAllSupportTicket">
+
             <p:messages id="supportTicketMessages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-
             <p:dataTable id="dataTableAllSupportTicket" widgetVar="dataTableAllSupportTicket" value="#{supportTicketManagedBean.listOfSupportTicket }" var="supportTicket" rowKey="#{supportTicket.supportTicketId}" rowIndexVar="row"
                          filteredValue="#{supportTicketManagedBean.filteredListOfSupportTicket}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
