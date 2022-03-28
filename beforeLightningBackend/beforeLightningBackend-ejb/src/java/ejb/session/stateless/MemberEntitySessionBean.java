@@ -122,13 +122,19 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
             memberEntity.getAddresses().size();
             memberEntity.getCreditCards().size();
             memberEntity.getPurchaseOrders().size();
-            memberEntity.getShoppingCart();
+            if (memberEntity.getShoppingCart() != null) {
+                memberEntity.getShoppingCart().getPurchaseOrderLineItemEntities().size();
+            }
+            memberEntity.getForumPosts().size();
+            memberEntity.getForumReplies().size();
+            memberEntity.getPostsDisliked().size();
+            memberEntity.getPostsLiked().size();
             return (MemberEntity) query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException ex) {
             throw new MemberEntityNotFoundException("Member Username " + username + " does not exist!");
         }
     }
-    
+
     public MemberEntity retrieveMemberEntityByEmail(String email) throws MemberEntityNotFoundException {
         Query query = em.createQuery("SELECT s FROM MemberEntity s WHERE s.email = :inEmail");
         query.setParameter("inEmail", email);

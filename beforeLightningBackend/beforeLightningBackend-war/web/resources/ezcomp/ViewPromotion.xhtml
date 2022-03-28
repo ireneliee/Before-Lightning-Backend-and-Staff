@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <h:form id="formViewPromotion">
+
+            <p:dialog id="dialogViewPromotion" widgetVar="dialogViewPromotion" header="View Promotion" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column colspan="2">
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Promotion ID: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewPromotionManagedBean.promotionEntityToView.promotionEntityId}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Promotion name: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewPromotionManagedBean.promotionEntityToView.promotionName}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Promotion Start Date: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewPromotionManagedBean.promotionEntityToView.startDate}" />
+                        </p:column>
+                    </p:row>                   
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Promotion End Date: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewPromotionManagedBean.promotionEntityToView.endDate}" />
+                        </p:column>
+                    </p:row>       
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Promotion Discount(%) " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewPromotionManagedBean.promotionEntityToView.discount}" />
+                        </p:column>
+                    </p:row>  
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Promotion Discounted Price: " />
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{viewPromotionManagedBean.promotionEntityToView.discountedPrice}" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+
+                <p:dataList value="#{promotionManagementManagedBean.viewPromotionManagedBean.listOfPromotionalAccessories}" var="promoAccessories">
+                    <f:facet name="header">
+                        Promotional Accessories
+                    </f:facet>
+                    #{promoAccessories.accessoryItemEntityId}, #{promoAccessories.accessoryItemName}
+                </p:dataList>
+
+
+                <p:dataList value="#{promotionManagementManagedBean.viewPromotionManagedBean.listOfPromotionalPartChoices}" var="promoPartChoices">
+                    <f:facet name="header">
+                        Promotional Accessories
+                    </f:facet>
+                    #{promoPartChoices.partChoiceEntityId}, #{promoPartChoices.partChoiceName}
+                </p:dataList>
+            </p:dialog>
+
+        </h:form>
+    </cc:implementation>
+</html>

@@ -11,7 +11,8 @@ package util.enumeration;
  */
 public enum DeliveryStatusEnum {
     OUTSTORE,
-    INSTORE
+    INSTORE,
+    COMPLETE
         
     
 }

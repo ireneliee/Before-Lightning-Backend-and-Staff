@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form id="formUpdatePromotionalPartChoices">
+            <p:dialog id="dialogUpdatePromotionalPartChoices" widgetVar="dialogUpdatePromotionalPartChoices" header="Select Part Choices to Edit" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Select Part Choices to Include Into Promotion" />
+                            <p:selectManyMenu id="selectManyNonPromotionalPartChoices" value="#{updatePromotionManagedBean.partChoiceToAdd}"
+                                              var="partChoiceEntityToAdd" filter="true" filterMatchMode="contains" showCheckbox="true">
+                                <f:selectItems value="#{updatePromotionManagedBean.listOfNonPromotionalPartChoices}" var="partChoiceEntityToAdd" itemLabel="#{partChoiceEntityToAdd.partChoiceName}" itemValue="#{partChoiceEntityToAdd}" />
+                                <p:column>
+                                    <p:outputLabel value="#{partChoiceEntityToAdd.partChoiceName}" />
+                                </p:column>
+                            </p:selectManyMenu>                            
+                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Add Part Choices" actionListener="#{updatePromotionManagedBean.addPartChoiceToPromotion}" update="formAllPromotions:dataTableAllPromotions" oncomplete="PF('dialogUpdatePromotionalPartChoices').hide()">
+                                <p:confirm header="Confirmation" message="Are you sure you want to add selected part choices to: #{updatePromotionManagedBean.promotionEntityToUpdate.promotionName} Promotion?"  icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column>
+                            <p:outputLabel value="Select Part Choices to Remove From Promotion" />
+                            <p:selectManyMenu id="selectManyPromotionalPartChoices" value="#{updatePromotionManagedBean.partChoiceToRemove}"
+                                              var="partChoiceEntity" filter="true" filterMatchMode="contains" showCheckbox="true">
+                                <f:selectItems value="#{updatePromotionManagedBean.listOfPromotionalPartChoices}" var="partChoiceEntityToRemove" itemLabel="#{partChoiceEntity.partChoiceName}" itemValue="#{partChoiceEntity}" />
+                                <p:column>
+                                    <p:outputLabel value="#{partChoiceEntity.partChoiceName}" />
+                                </p:column>
+                            </p:selectManyMenu>    
+                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Remove Part Choices" actionListener="#{updatePromotionManagedBean.removePartChoiceToPromotion}" update="formAllPromotions:dataTableAllPromotions" oncomplete="PF('dialogUpdatePromotionalPartChoices').hide()">
+                                <p:confirm header="Confirmation" message="Are you sure you want to add selected part choices to: #{updatePromotionManagedBean.promotionEntityToUpdate.promotionName} Promotion?"  icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:row>    
+
+                </p:panelGrid>
+
+
+
+
+
+            </p:dialog>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+    </cc:implementation>
+</html>
+
+

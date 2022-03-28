@@ -59,12 +59,17 @@ public class UpdateAccessoryItemAccessoryManagedBean implements Serializable {
     }
 
     public void initializeState() {
+
         listOfAccessoryEntities = accessoryEntitySessionBeanLocal.retrieveAllAccessoryEntitiesNotDisabled();
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("AccessoryEntityConverter_accessoryEntities", listOfAccessoryEntities);
+
     }
 
     public void updateAccessoryItem(ActionEvent event) {
         try {
-            accessoryItemEntitySessionBeanLocal.updateAccessoryItemAccessory(updateAccessoryItemAccessoryEntity, accessoryToLink);
+            
+            System.out.println(selectedAccessory);
+            accessoryItemEntitySessionBeanLocal.updateAccessoryItemAccessory(updateAccessoryItemAccessoryEntity, selectedAccessory);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Updates Accessory Item's Accessory Type", null));
             initializeState();
         } catch (UpdateAccessoryItemEntityException ex) {
@@ -114,10 +119,12 @@ public class UpdateAccessoryItemAccessoryManagedBean implements Serializable {
     }
 
     public AccessoryEntity getSelectedAccessory() {
+        System.out.println("getting selected accessory");
         return selectedAccessory;
     }
 
     public void setSelectedAccessory(AccessoryEntity selectedAccessory) {
+        System.out.println("getting setting accessory");
         this.selectedAccessory = selectedAccessory;
     }
 
