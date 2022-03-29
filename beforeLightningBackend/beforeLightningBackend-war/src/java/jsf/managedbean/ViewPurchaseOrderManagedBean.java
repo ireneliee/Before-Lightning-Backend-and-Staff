@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -24,25 +25,34 @@ import javax.ejb.EJB;
 @Named(value = "viewPurchaseOrderManagedBean")
 @ViewScoped
 public class ViewPurchaseOrderManagedBean implements Serializable {
-    
+
     private PurchaseOrderEntity purchaseOrderToView;
     private List<PurchaseOrderLineItemEntity> listOfLineItems;
     private List<PurchaseOrderLineItemEntity> filteredList;
+
     /**
      * Creates a new instance of ViewPurchaseOrderManagedBean
      */
     public ViewPurchaseOrderManagedBean() {
-    }
-    
-        @PostConstruct
-    public void postConstruct() {
         this.purchaseOrderToView = new PurchaseOrderEntity();
-        listOfLineItems = new ArrayList<>();
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        initializeState();
+    }
+
+    public void initializeState() {
+        listOfLineItems = purchaseOrderToView.getPurchaseOrderLineItems();
         filteredList = new ArrayList<>();
     }
 
- 
     public PurchaseOrderEntity getPurchaseOrderToView() {
+        System.out.println("============GETTER CALLED=========");
+//        setListOfLineItems(purchaseOrderToView.getPurchaseOrderLineItems());
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("PurchaseOrderLineItemEntityConverter_purchaseOrderLineItemEntities", listOfLineItems);
+        System.out.println("this is the PO to view: " + purchaseOrderToView.getPurchaseOrderEntityId());
+        System.out.println("this is the size of the PO: " + purchaseOrderToView.getPurchaseOrderLineItems().size());
         return purchaseOrderToView;
     }
 
@@ -50,16 +60,19 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
      * @param purchaseOrderToView the purchaseOrderToView to set
      */
     public void setPurchaseOrderToView(PurchaseOrderEntity purchaseOrderToView) {
+        System.out.println("============SETTER CALLED=========");
         this.purchaseOrderToView = purchaseOrderToView;
         setListOfLineItems(purchaseOrderToView.getPurchaseOrderLineItems());
-        System.out.println(purchaseOrderToView.getPurchaseOrderEntityId());
-        System.out.println(purchaseOrderToView.getPurchaseOrderLineItems().isEmpty());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("PurchaseOrderLineItemEntityConverter_purchaseOrderLineItemEntities", listOfLineItems);
+        System.out.println("this is the PO to view: " + purchaseOrderToView.getPurchaseOrderEntityId());
+        System.out.println("this is the size of the PO: " + purchaseOrderToView.getPurchaseOrderLineItems().size());
     }
 
     /**
      * @return the listOfLineItems
      */
     public List<PurchaseOrderLineItemEntity> getListOfLineItems() {
+        System.out.println("============GET LIST CALLED=========");
         return listOfLineItems;
     }
 
@@ -67,6 +80,7 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
      * @param listOfLineItems the listOfLineItems to set
      */
     public void setListOfLineItems(List<PurchaseOrderLineItemEntity> listOfLineItems) {
+        System.out.println("============SET LIST CALLED=========");
         this.listOfLineItems = listOfLineItems;
     }
 
@@ -74,6 +88,7 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
      * @return the filteredList
      */
     public List<PurchaseOrderLineItemEntity> getFilteredList() {
+        System.out.println("============GET FILTERED LIST CALLED=========");
         return filteredList;
     }
 
@@ -81,7 +96,8 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
      * @param filteredList the filteredList to set
      */
     public void setFilteredList(List<PurchaseOrderLineItemEntity> filteredList) {
+        System.out.println("============SET FILTERED LIST CALLED=========");
         this.filteredList = filteredList;
     }
-    
+
 }

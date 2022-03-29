@@ -6,6 +6,7 @@
 package ws.restful;
 
 import ejb.session.stateless.MemberEntitySessionBeanLocal;
+import entity.AddressEntity;
 import entity.CreditCardEntity;
 import entity.MemberEntity;
 import entity.PartChoiceEntity;
@@ -14,8 +15,11 @@ import entity.PromotionEntity;
 import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -25,7 +29,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+import util.exception.AddressEntityNotFoundException;
+import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.MemberEntityUsernameExistException;
+import util.exception.UnknownPersistenceException;
+import ws.datamodel.CreateNewMemberReq;
 
 /**
  *
@@ -96,45 +105,74 @@ public class MemberResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
-}
 
-//            if (!memberEntity.getCreditCards().isEmpty()) {
-//                for (CreditCardEntity cc : memberEntity.getCreditCards()) {
-//                    cc.setMemberEntity(null);
-//                }
-//            }
-//            if (!memberEntity.getPurchaseOrders().isEmpty()) {
-//                for (PurchaseOrderEntity po : memberEntity.getPurchaseOrders()) {
-//                    po.setMember(null);
-//                    for (PurchaseOrderLineItemEntity poli : po.getPurchaseOrderLineItems()) {
-//                        if (!poli.getAccessoryItemEntity().equals(null)) {
-//                            poli.getAccessoryItemEntity().getAccessoryEntity().getAccessoryItemEntities().clear();
-//                            if (!poli.getAccessoryItemEntity().getPromotionEntities().isEmpty()) {
-//                                for (PromotionEntity promo : poli.getAccessoryItemEntity().getPromotionEntities()) {
-//                                    promo.getAccessoryItemEntities().clear();
-//                                    promo.getPartChoiceEntities().clear();
-//                                }
-//                            }
-//                        }
-//                        
-//                        if (!poli.getProductEntity().equals(null)) {
-//                            for (PartEntity part : poli.getProductEntity().getPartEntities()) {
-//                                part.getProductEntities().clear();
-//                                for (PartChoiceEntity pc : part.getPartChoiceEntities()) {
-//                                    pc.getCompatibleChassisPartChoiceEntities().clear();
-//                                    pc.getCompatiblePartsPartChoiceEntities().clear();
-//                                    pc.getPromotionEntities().clear();
-//                                    
-//                                }
-//                            }
-//                        }
-//                        if (!poli.getPartChoiceEntities().isEmpty()) {
-//                            for (PartChoiceEntity pc :poli.getPartChoiceEntities()) {
-//                                pc.getCompatibleChassisPartChoiceEntities().clear();
-//                                pc.getCompatiblePartsPartChoiceEntities().clear();
-//                                pc.getPromotionEntities().clear();
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createNewMember(CreateNewMemberReq createNewMemberReq) {
+        System.out.println("======== CALLING RWS CREATE NEW MEMBER ========");
+
+        MemberEntity reqMember = createNewMemberReq.getMember();
+        AddressEntity reqAddress = createNewMemberReq.getAddress();
+        
+        System.out.println("REQ MEMBER===");
+        System.out.println(reqMember.getFirstname());
+        System.out.println(reqMember.getLastname());
+        System.out.println("=======");
+
+        MemberEntity member = new MemberEntity();
+        member.setUsername(reqMember.getUsername());
+        member.setPassword(reqMember.getPassword());
+        member.setFirstname(reqMember.getFirstname());
+        member.setLastname(reqMember.getLastname());
+        member.setContact(reqMember.getContact());
+        member.setEmail(reqMember.getEmail());
+        if (reqMember.getImageLink() != "") {
+            member.setImageLink(reqMember.getImageLink());
+        }
+
+        System.out.println("============MEMBER============");
+//        System.out.println(member.getUserEntityId());
+        System.out.println(member.getUsername());
+        System.out.println(member.getPassword());
+        System.out.println(member.getFirstname());
+        System.out.println(member.getLastname());
+        System.out.println(member.getContact());
+        System.out.println(member.getEmail());
+
+        AddressEntity address = new AddressEntity();
+        address.setCountry(reqAddress.getCountry());
+        address.setBlock(reqAddress.getBlock());
+        address.setPostalCode(reqAddress.getPostalCode());
+        address.setUnit(reqAddress.getUnit());
+
+        System.out.println("============ADDRESS============");
+//        System.out.println(address.getAddressEntityId());
+        System.out.println(address.getCountry());
+        System.out.println(address.getBlock());
+        System.out.println(address.getUnit());
+        System.out.println(address.getPostalCode());
+
+        if (createNewMemberReq != null) {
+            Long memberEntityId;
+            try {
+                memberEntityId = memberEntitySessionBeanLocal.createNewMemberEntity(member, address);
+                System.out.println("********** MemberResource.createNewMember(): Member " + memberEntityId);
+                
+                MemberEntity createdMember = memberEntitySessionBeanLocal.retrieveMemberEntityByMemberEntityId(memberEntityId);
+
+                return Response.status(Response.Status.OK).entity(createdMember).build();
+
+            } catch (MemberEntityUsernameExistException | InputDataValidationException | UnknownPersistenceException | AddressEntityNotFoundException ex) {
+                System.out.println(ex.getMessage());
+                return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+            }
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid create new Member request").build();
+        }
+    }
+
+}

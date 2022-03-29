@@ -7,11 +7,13 @@ package jsf.managedbean;
 
 import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
 import entity.PurchaseOrderEntity;
+import entity.PurchaseOrderLineItemEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -20,7 +22,7 @@ import javax.inject.Inject;
  *
  * @author srinivas
  */
-@Named(value = "purchaseOrderManagementManagedBean")
+@Named(value = "purchaseOrderProgressManagementManagedBean")
 @ViewScoped
 public class PurchaseOrderProgressManagementManagedBean implements Serializable {
 
@@ -34,7 +36,7 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
     private ReadyToShipManagedBean readyToShipManagedBean;
 
     private List<PurchaseOrderEntity> listOfAllPurchaseOrders;
-    private List<PurchaseOrderEntity> filteredListOfAllPurchasOrders;
+    private List<PurchaseOrderEntity> filteredListOfAllPurchaseOrders;
 
     /**
      * Creates a new instance of PurchaseOrderManagementManagedBean
@@ -44,13 +46,21 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
 
     @PostConstruct
     public void postConstruct() {
-        setListOfAllPurchaseOrders(purchaseOrderEntitySessionBean.retrieveProgressAllPurchaseOrders());
-        setFilteredListOfAllPurchasOrders(new ArrayList<>());
+        initialiseState();
     }
-    
-    public void initialiseState() {
-                setListOfAllPurchaseOrders(purchaseOrderEntitySessionBean.retrieveProgressAllPurchaseOrders());
 
+    public void initialiseState() {
+        setFilteredListOfAllPurchaseOrders(new ArrayList<>());
+        setListOfAllPurchaseOrders(purchaseOrderEntitySessionBean.retrieveProgressAllPurchaseOrders());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("PurchaseOrderEntityConverter_purchaseOrderEntities", listOfAllPurchaseOrders);
+        System.out.println("TESTING");
+        for (PurchaseOrderEntity po : listOfAllPurchaseOrders) {
+            System.out.println("REF : " + po.getReferenceNumber());
+            for (PurchaseOrderLineItemEntity poli : po.getPurchaseOrderLineItems()) {
+                System.out.println("---"  + poli.getSerialNumber());
+            }
+            System.out.println("TOTAL SIZE: " + po.getPurchaseOrderLineItems().size());
+        }
     }
 
     /**
@@ -68,24 +78,10 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
     }
 
     /**
-     * @return the filteredListOfAllPurchasOrders
-     */
-    public List<PurchaseOrderEntity> getFilteredListOfAllPurchasOrders() {
-        return filteredListOfAllPurchasOrders;
-    }
-
-    /**
-     * @param filteredListOfAllPurchasOrders the filteredListOfAllPurchasOrders
-     * to set
-     */
-    public void setFilteredListOfAllPurchasOrders(List<PurchaseOrderEntity> filteredListOfAllPurchasOrders) {
-        this.filteredListOfAllPurchasOrders = filteredListOfAllPurchasOrders;
-    }
-
-    /**
      * @return the viewPurchaseOrderManagedBean
      */
     public ViewPurchaseOrderManagedBean getViewPurchaseOrderManagedBean() {
+        System.out.println("============= GETTING THE VIEW PO MANAGED BEAN ===================");
         return viewPurchaseOrderManagedBean;
     }
 
@@ -110,5 +106,14 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
     public void setReadyToShipManagedBean(ReadyToShipManagedBean readyToShipManagedBean) {
         this.readyToShipManagedBean = readyToShipManagedBean;
     }
+
+    public List<PurchaseOrderEntity> getFilteredListOfAllPurchaseOrders() {
+        return filteredListOfAllPurchaseOrders;
+    }
+
+    public void setFilteredListOfAllPurchaseOrders(List<PurchaseOrderEntity> filteredListOfAllPurchaseOrders) {
+        this.filteredListOfAllPurchaseOrders = filteredListOfAllPurchaseOrders;
+    }
+
 
 }

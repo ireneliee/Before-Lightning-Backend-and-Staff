@@ -4,21 +4,18 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../../templates/defaultTemplate.xhtml"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
-
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 
     <ui:define name="content">
         <ez:Breadcrumb pageName="In-Progress Orders" />
-
         <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
+        
         <h:form id="formAllPurchaseOrders">
-
-            <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
-                         filteredValue="#{purchaseOrderManagementManagedBean.filteredListOfAllPurchasOrders}"
+            <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderProgressManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
+                         filteredValue="#{purchaseOrderProgressManagementManagedBean.filteredListOfAllPurchaseOrders}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
                 <f:facet name="header">
@@ -38,12 +35,12 @@
                     <p:outputLabel value="#{purchaseOrderEntity.dateCreated}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                    <p:commandButton actionListener="#{purchaseOrderProgressManagementManagedBean.viewPurchaseOrderManagedBean.setPurchaseOrderToView(purchaseOrderToView)}" value="View Purchase Order" update="ccViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderProgressManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
                     </p:commandButton>
 
                     <p:commandButton value="Ready To Ship" update="ccReadyToShip:formReadyToShip" oncomplete="PF('dialogReadyToShip').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderManagementManagedBean.readyToShipManagedBean.purchaseOrderToUpdate}" />
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderProgressManagementManagedBean.readyToShipManagedBean.purchaseOrderToUpdate}" />
                     </p:commandButton>
                     <p:commandButton value="Refund Order" >
 

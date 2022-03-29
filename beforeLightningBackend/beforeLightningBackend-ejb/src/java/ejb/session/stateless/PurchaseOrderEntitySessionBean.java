@@ -101,7 +101,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         for (PurchaseOrderEntity item : allItems) {
 
             item.getPurchaseOrderLineItems().size();
-            System.out.println(item.getPurchaseOrderLineItems().size());
+//            System.out.println(item.getPurchaseOrderLineItems().size());
         }
         return allItems;
     }
@@ -113,9 +113,9 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
 
         List<PurchaseOrderEntity> allItems = query.getResultList();
         for (PurchaseOrderEntity item : allItems) {
-
+            item.getMember();
             item.getPurchaseOrderLineItems().size();
-            System.out.println(item.getPurchaseOrderLineItems().size());
+//            System.out.println(item.getPurchaseOrderLineItems().size());
         }
         return allItems;
     }
@@ -129,7 +129,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         for (PurchaseOrderEntity item : allItems) {
 
             item.getPurchaseOrderLineItems().size();
-            System.out.println(item.getPurchaseOrderLineItems().size());
+//            System.out.println(item.getPurchaseOrderLineItems().size());
         }
         return allItems;
     }
@@ -143,7 +143,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         for (PurchaseOrderEntity item : allItems) {
 
             item.getPurchaseOrderLineItems().size();
-            System.out.println(item.getPurchaseOrderLineItems().size());
+//            System.out.println(item.getPurchaseOrderLineItems().size());
         }
         return allItems;
     }
@@ -156,7 +156,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         for (PurchaseOrderEntity item : allItems) {
 
             item.getPurchaseOrderLineItems().size();
-            System.out.println(item.getPurchaseOrderLineItems().size());
+//            System.out.println(item.getPurchaseOrderLineItems().size());
         }
         return allItems;
     }
