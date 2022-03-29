@@ -17,6 +17,7 @@ import ejb.session.stateless.PromotionEntitySessionBeanLocal;
 import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -46,6 +47,16 @@ public class SessionBeanLookup {
         try {
             javax.naming.Context c = new InitialContext();
             return (MemberEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath + "MemberEntitySessionBean!ejb.session.stateless.MemberEntitySessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+    
+    public ForumPostsEntitySessionBeanLocal lookupForumPostsEntitySessionBeanLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ForumPostsEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath +"ForumPostsEntitySessionBean!ejb.session.stateless.ForumPostsEntitySessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
@@ -141,4 +152,6 @@ public class SessionBeanLookup {
 //            throw new RuntimeException(ne);
 //        }
 //    }
+
+    
 }
