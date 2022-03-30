@@ -156,13 +156,19 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         try {
             MemberEntity memberEntity = retrieveMemberEntityByUsername(username);
             String passwordHash = CryptographicHelper.getInstance().byteArrayToHexString(CryptographicHelper.getInstance().doMD5Hashing(password + memberEntity.getSalt()));
+            System.out.println("===== MEMBER SESSION BEAN ======");
+            System.out.println("member to retrieve: " + memberEntity.getUsername());
+            System.out.println("Member password: " + memberEntity.getPassword());
+            System.out.println("Hashed password: " + passwordHash);
 
             if (memberEntity.getPassword().equals(passwordHash)) {
                 return memberEntity;
             } else {
+                System.out.println("here");
                 throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
             }
         } catch (MemberEntityNotFoundException ex) {
+            System.out.println("there");
             throw new InvalidLoginCredentialException("Username does not exist or invalid password!");
         }
     }

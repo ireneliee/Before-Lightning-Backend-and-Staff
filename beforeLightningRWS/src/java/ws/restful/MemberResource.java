@@ -76,6 +76,10 @@ public class MemberResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response memberLogin(@QueryParam("username") String username,
             @QueryParam("password") String password) {
+
+        System.out.println("============= LOGIN MEMBER =============");
+        System.out.println(username);
+        System.out.println(password);
         try {
             MemberEntity memberEntity = memberEntitySessionBeanLocal.memberEntityLogin(username, password);
             System.out.println("********** MemberResource.memberLogin(): Member " + memberEntity.getUsername() + " login remotely via web service");
@@ -99,6 +103,7 @@ public class MemberResource {
             System.out.println("======================================");
             return Response.status(Status.OK).entity(memberEntity).build();
         } catch (InvalidLoginCredentialException ex) {
+            System.out.println(ex.getMessage());
             return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -112,23 +117,34 @@ public class MemberResource {
     public Response createNewMember(CreateNewMemberReq createNewMemberReq) {
         System.out.println("======== CALLING RWS CREATE NEW MEMBER ========");
 
-        MemberEntity reqMember = createNewMemberReq.getMember();
         AddressEntity reqAddress = createNewMemberReq.getAddress();
-        
+
+        String username = createNewMemberReq.getUsername();
+        String password = createNewMemberReq.getPassword();
+        String firstname = createNewMemberReq.getFirstname();
+        String lastname = createNewMemberReq.getLastname();
+        String email = createNewMemberReq.getEmail();
+        String contact = createNewMemberReq.getContact();
+        String imageLink = createNewMemberReq.getImageLink();
         System.out.println("REQ MEMBER===");
-        System.out.println(reqMember.getFirstname());
-        System.out.println(reqMember.getLastname());
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println(firstname);
+        System.out.println(lastname);
+        System.out.println(email);
+        System.out.println(contact);
+        System.out.println(imageLink);
         System.out.println("=======");
 
-        MemberEntity member = new MemberEntity();
-        member.setUsername(reqMember.getUsername());
-        member.setPassword(reqMember.getPassword());
-        member.setFirstname(reqMember.getFirstname());
-        member.setLastname(reqMember.getLastname());
-        member.setContact(reqMember.getContact());
-        member.setEmail(reqMember.getEmail());
-        if (reqMember.getImageLink() != "") {
-            member.setImageLink(reqMember.getImageLink());
+        MemberEntity member = new MemberEntity(username, password, firstname, lastname, email, contact);
+//        member.setUsername(reqMember.getUsername());
+//        member.setPassword(reqMember.getPassword());
+//        member.setFirstname(reqMember.getFirstname());
+//        member.setLastname(reqMember.getLastname());
+//        member.setContact(reqMember.getContact());
+//        member.setEmail(reqMember.getEmail());
+        if (imageLink != "" && imageLink != null) {
+            member.setImageLink(imageLink);
         }
 
         System.out.println("============MEMBER============");
@@ -158,7 +174,7 @@ public class MemberResource {
             try {
                 memberEntityId = memberEntitySessionBeanLocal.createNewMemberEntity(member, address);
                 System.out.println("********** MemberResource.createNewMember(): Member " + memberEntityId);
-                
+
                 MemberEntity createdMember = memberEntitySessionBeanLocal.retrieveMemberEntityByMemberEntityId(memberEntityId);
 
                 return Response.status(Response.Status.OK).entity(createdMember).build();
