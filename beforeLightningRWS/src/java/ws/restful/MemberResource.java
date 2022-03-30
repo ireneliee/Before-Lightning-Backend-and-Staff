@@ -118,7 +118,7 @@ public class MemberResource {
         System.out.println("======== CALLING RWS CREATE NEW MEMBER ========");
 
         AddressEntity reqAddress = createNewMemberReq.getAddress();
-
+        
         String username = createNewMemberReq.getUsername();
         String password = createNewMemberReq.getPassword();
         String firstname = createNewMemberReq.getFirstname();

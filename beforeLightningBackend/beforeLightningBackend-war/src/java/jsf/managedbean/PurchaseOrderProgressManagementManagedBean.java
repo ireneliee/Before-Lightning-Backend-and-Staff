@@ -38,9 +38,6 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
     private List<PurchaseOrderEntity> listOfAllPurchaseOrders;
     private List<PurchaseOrderEntity> filteredListOfAllPurchaseOrders;
 
-    private PurchaseOrderEntity purchaseOrderToView;
-    private List<PurchaseOrderEntity> filteredList;
-
     /**
      * Creates a new instance of PurchaseOrderManagementManagedBean
      */
@@ -60,7 +57,7 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
         for (PurchaseOrderEntity po : listOfAllPurchaseOrders) {
             System.out.println("REF : " + po.getReferenceNumber());
             for (PurchaseOrderLineItemEntity poli : po.getPurchaseOrderLineItems()) {
-                System.out.println("---" + poli.getSerialNumber());
+                System.out.println("---"  + poli.getSerialNumber());
             }
             System.out.println("TOTAL SIZE: " + po.getPurchaseOrderLineItems().size());
         }
@@ -118,20 +115,5 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
         this.filteredListOfAllPurchaseOrders = filteredListOfAllPurchaseOrders;
     }
 
-    public PurchaseOrderEntity getPurchaseOrderToView() {
-        return purchaseOrderToView;
-    }
-
-    public void setPurchaseOrderToView(PurchaseOrderEntity purchaseOrderToView) {
-        this.purchaseOrderToView = purchaseOrderToView;
-    }
-
-    public List<PurchaseOrderEntity> getFilteredList() {
-        return filteredList;
-    }
-
-    public void setFilteredList(List<PurchaseOrderEntity> filteredList) {
-        this.filteredList = filteredList;
-    }
 
 }

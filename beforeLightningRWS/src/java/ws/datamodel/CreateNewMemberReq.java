@@ -1,7 +1,6 @@
 package ws.datamodel;
 
 import entity.AddressEntity;
-import entity.MemberEntity;
 
 public class CreateNewMemberReq {
 
@@ -90,7 +89,6 @@ public class CreateNewMemberReq {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
-    }
 
-   
+    }
 }

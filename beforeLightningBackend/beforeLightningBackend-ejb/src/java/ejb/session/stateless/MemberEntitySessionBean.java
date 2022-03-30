@@ -160,7 +160,6 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
             System.out.println("member to retrieve: " + memberEntity.getUsername());
             System.out.println("Member password: " + memberEntity.getPassword());
             System.out.println("Hashed password: " + passwordHash);
-
             if (memberEntity.getPassword().equals(passwordHash)) {
                 return memberEntity;
             } else {
