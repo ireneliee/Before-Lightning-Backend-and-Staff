@@ -8,8 +8,10 @@ package ejb.session.stateless;
 import entity.AddressEntity;
 import entity.CreditCardEntity;
 import entity.MemberEntity;
+import entity.UserEntity;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.metamodel.SingularAttribute;
 import util.exception.AddressEntityNotFoundException;
 import util.exception.CreditCardEntityNotFoundException;
 import util.exception.DeleteAddressEntityException;
@@ -61,5 +63,7 @@ public interface MemberEntitySessionBeanLocal {
     public void deleteCreditCardEntity(Long memberEntityId, Long creditCardEntityId) throws CreditCardEntityNotFoundException, DeleteCreditCardEntityException, MemberEntityNotFoundException;
 
     public MemberEntity retrieveMemberEntityByEmail(String email) throws MemberEntityNotFoundException;
+
+    public MemberEntity memberEntityLogin(SingularAttribute<UserEntity, String> username, SingularAttribute<UserEntity, String> password);
 
 }
