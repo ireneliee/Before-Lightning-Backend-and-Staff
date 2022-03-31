@@ -82,25 +82,23 @@ public class ForumResource {
         }
     }
     
-    @PUT
+    @Path("createNewForum")
+    @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createForumPost(@QueryParam("username") String username, @QueryParam("password") String password,
+    public Response createForumPost(@QueryParam("username") String username, 
             @QueryParam("title") String title, @QueryParam("content") String content) {
         System.out.println("Username is" + username);
-        System.out.println("Password is" + password);
         System.out.println("Title is" + title);
         System.out.println("Content is" + content);
-        if(username != null && password != null && title != null && content != null) {
+        if(username != null &&  title != null && content != null) {
             try {
-                MemberEntity memberEntity = memberEntitySessionBeanLocal.memberEntityLogin(username, password);
+                MemberEntity memberEntity = memberEntitySessionBeanLocal.retrieveMemberEntityByUsername(username);
                 ForumPostEntity newForumToMake = new ForumPostEntity(title, content, memberEntity);
                 Long forumPost = forumPostsEntitySessionBeanLocal.createNewForumPostEntity(newForumToMake);
                 
                 return Response.status(Response.Status.OK).entity(forumPost).build();
                 
-            } catch (InvalidLoginCredentialException ex) {
-                 return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
             }
             catch(Exception ex)
             {
