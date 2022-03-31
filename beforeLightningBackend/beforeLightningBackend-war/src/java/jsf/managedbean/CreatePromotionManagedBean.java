@@ -65,9 +65,13 @@ public class CreatePromotionManagedBean implements Serializable {
 
 		try {
 			Long promotionId;
-			promotionId = promotionEntitySessionBean.
-					createNewPromotionEntity(new PromotionEntity(promotionName, promotionStartDate, promotionEndDate, discount, discountedPrice));
-
+			System.out.println("createpromomanagedbean :: createNewPromo()");
+			PromotionEntity newPromotion = new PromotionEntity(promotionName, promotionStartDate, promotionEndDate, discount, discountedPrice);
+			promotionId = promotionEntitySessionBean.createNewPromotionEntity(newPromotion);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created Promotion: " + promotionName, null));
+			System.out.println("createpromomanagedbean :: just created promo with ID: " + promotionId);
+			this.initializeState();
+			promotionManagementManagedBean.initializeState();
 		} catch (InputDataValidationException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Input Validation Error", null));
 		} catch (UnknownPersistenceException ex) {
@@ -77,9 +81,6 @@ public class CreatePromotionManagedBean implements Serializable {
 		} catch (PromotionDiscountTypeExclusiveOrException ex) {
 			FacesContext.getCurrentInstance().addMessage("dialogCreatePromotion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Either discount field or discounted price field must be 0!", null));
 		}
-		this.initializeState();
-		promotionManagementManagedBean.initializeState();
-
 	}
 
 	public PromotionEntitySessionBeanLocal getPromotionEntitySessionBean() {
@@ -138,4 +139,11 @@ public class CreatePromotionManagedBean implements Serializable {
 		this.discountedPrice = discountedPrice;
 	}
 
+//	public PromotionEntity getNewPromotion() {
+//		return newPromotion;
+//	}
+//
+//	public void setNewPromotion(PromotionEntity newPromotion) {
+//		this.newPromotion = newPromotion;
+//	}
 }

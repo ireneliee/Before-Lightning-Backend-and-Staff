@@ -13,15 +13,13 @@
         <ez:Breadcrumb pageName="Promotions" />
         <h:form id="formAllPromotions">
             <p:dataTable id="dataTableAllPromotions" widgetVar="dataTableAllPromotions" value="#{promotionManagementManagedBean.listOfAllPromotions}" var="promotionEntity" rowKey="#{promotionEntity.promotionEntityId}" rowIndexVar="row"
-                         filteredValue="#{promotionManagementManagedBean.listOfAllPromotions}"
+                         filteredValue="#{promotionManagementManagedBean.filteredListOfPromotions}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
                         <p:outputLabel value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPromotions').filter()" style="width:300px" placeholder="Enter keyword"/>&nbsp;&nbsp;&nbsp;
-
-
                         <p:commandButton value="Create New Promotion" icon="pi pi-plus" update="ccCreatePromotion:formCreatePromotion" oncomplete="PF('dialogCreatePromotion').show()" title="Create New Promotion"/>
                     </p:outputPanel>
                 </f:facet> 

@@ -67,6 +67,11 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 	public Long createNewPromotionEntity(PromotionEntity newPromotion) throws PromotionEntityNameExistsException, UnknownPersistenceException, InputDataValidationException, PromotionDiscountTypeExclusiveOrException {
 
 		Set<ConstraintViolation<PromotionEntity>> constraintViolations = validator.validate(newPromotion);
+		
+		if(newPromotion == null) {
+			System.out.println("passed in empty promo bro");
+			return new Long(0);
+		}
 
 		if (constraintViolations.isEmpty()) {
 			try {
@@ -75,9 +80,9 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 					System.out.println("throw error cos discount fields not valid");
 					throw new PromotionDiscountTypeExclusiveOrException();
 				} else {
-
 					em.persist(newPromotion);
 					em.flush();
+					System.out.println("promoentitysessionbean :: createNewPromo :: just persisted, returning promoId");
 					return newPromotion.getPromotionEntityId();
 				}
 			} catch (PersistenceException ex) {
@@ -101,7 +106,11 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 
 		Query query = em.createQuery("SELECT p FROM PromotionEntity p");
 		List<PromotionEntity> list = query.getResultList();
-		System.out.println("size of promotion list: " + list.size());
+		System.out.println("promosessionbean :: retrieveAllPromotions()");
+		for(PromotionEntity p : list) {
+			p.getAccessoryItemEntities().size();
+			p.getPartChoiceEntities().size();
+		}
 		return list;
 
 	}

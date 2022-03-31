@@ -39,6 +39,7 @@ public class PromotionManagementManagedBean implements Serializable {
 	 * Creates a new instance of PromotionManagementManagedBean
 	 */
 	private List<PromotionEntity> listOfAllPromotions;
+	private List<PromotionEntity> filteredListOfPromotions;
 
 	public PromotionManagementManagedBean() {
 	}
@@ -49,10 +50,12 @@ public class PromotionManagementManagedBean implements Serializable {
 	}
 
 	public void initializeState() {
+		System.out.println("promomgmtmanagedbean :: initializing state :: calling promosessionbean retrieveAllPromos");
 		listOfAllPromotions = promotionEntitySessionBean.retrieveAllPromotions();
 	}
 
 	public List<PromotionEntity> getListOfAllPromotions() {
+		System.out.println("promomgmtmanagedbean :: getListOfAllPromotions()");
 		return listOfAllPromotions;
 	}
 
@@ -90,6 +93,14 @@ public class PromotionManagementManagedBean implements Serializable {
 
 	public void setDeletePromotionManagedBean(DeletePromotionManagedBean deletePromotionManagedBean) {
 		this.deletePromotionManagedBean = deletePromotionManagedBean;
+	}
+
+	public List<PromotionEntity> getFilteredListOfPromotions() {
+		return filteredListOfPromotions;
+	}
+
+	public void setFilteredListOfPromotions(List<PromotionEntity> filteredListOfPromotions) {
+		this.filteredListOfPromotions = filteredListOfPromotions;
 	}
 
 }
