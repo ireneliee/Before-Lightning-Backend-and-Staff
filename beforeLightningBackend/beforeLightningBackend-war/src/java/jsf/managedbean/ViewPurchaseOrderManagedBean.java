@@ -41,7 +41,7 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
 
         this.purchaseOrderToView = new PurchaseOrderEntity();
     }
-
+//helo
     @PostConstruct
     public void postConstruct() {
         initializeState();
