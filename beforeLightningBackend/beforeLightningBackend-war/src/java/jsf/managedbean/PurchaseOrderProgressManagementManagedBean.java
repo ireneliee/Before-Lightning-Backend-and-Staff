@@ -11,12 +11,17 @@ import entity.PurchaseOrderLineItemEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import util.exception.PurchaseOrderEntityNotFoundException;
 
 /**
  *
@@ -36,6 +41,7 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
     private ReadyToShipManagedBean readyToShipManagedBean;
 
     private List<PurchaseOrderEntity> listOfAllPurchaseOrders;
+
     private List<PurchaseOrderEntity> filteredListOfAllPurchaseOrders;
 
     /**
@@ -61,6 +67,16 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
             }
             System.out.println("TOTAL SIZE: " + po.getPurchaseOrderLineItems().size());
         }
+    }
+    
+    public void refundOrder(ActionEvent event) {
+        PurchaseOrderEntity po = (PurchaseOrderEntity)event.getComponent().getAttributes().get("orderToRefund");
+        try {
+            purchaseOrderEntitySessionBean.refundPurchaseOrder(po.getPurchaseOrderEntityId());
+        } catch (PurchaseOrderEntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+        initialiseState();
     }
 
     /**
@@ -106,6 +122,7 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
     public void setReadyToShipManagedBean(ReadyToShipManagedBean readyToShipManagedBean) {
         this.readyToShipManagedBean = readyToShipManagedBean;
     }
+
 
     public List<PurchaseOrderEntity> getFilteredListOfAllPurchaseOrders() {
         return filteredListOfAllPurchaseOrders;

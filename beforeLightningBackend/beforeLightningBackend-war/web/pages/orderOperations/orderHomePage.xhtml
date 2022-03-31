@@ -14,8 +14,10 @@
         <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
         
         <h:form id="formAllPurchaseOrders">
+
+
             <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderProgressManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
-                         filteredValue="#{purchaseOrderProgressManagementManagedBean.filteredListOfAllPurchaseOrders}"
+                         filteredValue="#{purchaseOrderManagementManagedBean.filteredListOfAllPurchasOrders}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
                 <f:facet name="header">
@@ -35,18 +37,26 @@
                     <p:outputLabel value="#{purchaseOrderEntity.dateCreated}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton actionListener="#{purchaseOrderProgressManagementManagedBean.viewPurchaseOrderManagedBean.setPurchaseOrderToView(purchaseOrderToView)}" value="View Purchase Order" update="ccViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+
+                    <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderProgressManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+
                     </p:commandButton>
 
                     <p:commandButton value="Ready To Ship" update="ccReadyToShip:formReadyToShip" oncomplete="PF('dialogReadyToShip').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderProgressManagementManagedBean.readyToShipManagedBean.purchaseOrderToUpdate}" />
+
+                        
                     </p:commandButton>
-                    <p:commandButton value="Refund Order" >
-
-                    </p:commandButton>    
+                    <p:commandButton value="Refund Order" actionListener="#{purchaseOrderProgressManagementManagedBean.refundOrder}" update="formAllPurchaseOrders:dataTableAllPurchaseOrders">
+                        <f:attribute name="orderToRefund" value="#{purchaseOrderEntity}" />
+                            <p:confirm header="Confirmation" message="Are you sure you want to refund #{purchaseOrderEntity.referenceNumber}?" icon="ui-icon-alert" />
+                        </p:commandButton>
                 </p:column>
-
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </p:dataTable>
         </h:form>
         <p:panel id="salesReport" header="Download the purchase order report">

@@ -14,9 +14,11 @@ import entity.PartEntity;
 import entity.PromotionEntity;
 import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
+import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -118,7 +120,7 @@ public class MemberResource {
         System.out.println("======== CALLING RWS CREATE NEW MEMBER ========");
 
         AddressEntity reqAddress = createNewMemberReq.getAddress();
-        
+
         String username = createNewMemberReq.getUsername();
         String password = createNewMemberReq.getPassword();
         String firstname = createNewMemberReq.getFirstname();
@@ -190,5 +192,4 @@ public class MemberResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Invalid create new Member request").build();
         }
     }
-
 }
