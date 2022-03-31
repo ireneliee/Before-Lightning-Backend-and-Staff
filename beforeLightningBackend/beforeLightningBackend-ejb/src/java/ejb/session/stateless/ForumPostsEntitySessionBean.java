@@ -39,6 +39,14 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
+    
+    public List<ForumPostEntity> retrieveAllViewableForumPost() {
+        String queryInString = "SELECT f FROM ForumPostEntity f WHERE f.isVisible = :iVisible AND f.isBanned = :iBanned";
+        Query query = em.createQuery(queryInString);
+        query.setParameter("iVisible", true);
+        query.setParameter("iBanned", false);
+        return query.getResultList();
+    }
 
     @Override
     public Long createNewReplyEntity(ReplyEntity newComment, Long forumPostId) throws ForumPostNotFoundException, MemberEntityNotFoundException, InputDataValidationException {
@@ -100,6 +108,7 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
     public List<ForumPostEntity> retrieveForumPostByUsername(String username) {
         String queryInString = "SELECT f FROM ForumPostEntity f WHERE f.author.username = :iUsername";
         Query query = em.createQuery(queryInString);
+        query.setParameter("iUsername", username);
         return query.getResultList();
     }
 
@@ -123,6 +132,7 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
         }
     }
     
+    @Override
     public void updateReplyEntity(ReplyEntity updatedReply) {
         ReplyEntity re = em.find(ReplyEntity.class, updatedReply.getReplyEntityId());
         re.setContent(updatedReply.getContent());

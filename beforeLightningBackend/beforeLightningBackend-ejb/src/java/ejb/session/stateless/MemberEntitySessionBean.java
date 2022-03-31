@@ -382,8 +382,4 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         return msg;
     }
 
-    @Override
-    public MemberEntity memberEntityLogin(SingularAttribute<UserEntity, String> username, SingularAttribute<UserEntity, String> password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
