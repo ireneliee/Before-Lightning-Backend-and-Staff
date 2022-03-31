@@ -44,6 +44,7 @@ public class ProductResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllProductsToSell() {
         try {
+            System.out.println(" ============== RETRIEVE PRODUCTS TO SELL ===============");
             List<ProductEntity> productEntities = productEntitySessionBeanLocal.retrieveAllProductEntitiesThatCanSell();
             // =============== UNMARSHALLING =============
             for (ProductEntity product : productEntities) {
@@ -65,8 +66,7 @@ public class ProductResource {
                     }
                 }
             }
-            System.out.println(" ============== RETRIEVE PRODUCTS TO SELL ===============");
-            System.out.println("SENDING OUT PRODUCTS.... TOTAL SIZE: "  + productEntities.size());
+            System.out.println("SENDING OUT PRODUCTS.... TOTAL SIZE: " + productEntities.size());
 
             GenericEntity<List<ProductEntity>> genericEntity = new GenericEntity<List<ProductEntity>>(productEntities) {
             };
