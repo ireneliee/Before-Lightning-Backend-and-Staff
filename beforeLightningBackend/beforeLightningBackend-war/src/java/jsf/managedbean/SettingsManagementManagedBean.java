@@ -56,7 +56,7 @@ public class SettingsManagementManagedBean implements Serializable {
     public void handleFileUpload(FileUploadEvent event) {
         try {
             String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + event.getFile().getFileName();
-
+            System.out.println(newFilePath);
             File file = new File(newFilePath);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
 

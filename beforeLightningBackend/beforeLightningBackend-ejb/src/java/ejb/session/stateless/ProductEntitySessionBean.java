@@ -249,6 +249,7 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
                                     //If no quantity on hand, then product should not be labelled as cannot sell,
                                     //should still be live but front end need handle
 //                                    if (pce.getIsDisabled() == false && pce.getQuantityOnHand() > 0) {
+                                    pce.getPromotionEntities().size();
                                     if (pce.getIsDisabled() == false) {
                                         checkPartChoice = true;
                                         break;
