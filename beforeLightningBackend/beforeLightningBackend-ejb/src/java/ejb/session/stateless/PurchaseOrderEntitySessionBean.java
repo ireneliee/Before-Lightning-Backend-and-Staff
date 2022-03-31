@@ -180,8 +180,8 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
 
     }
 
-    public void changeToComplete(Long purchaseOrderId) {
-        PurchaseOrderEntity purchaseOrderEntity = em.find(PurchaseOrderEntity.class, purchaseOrderId);
+    public void changeToComplete(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException{
+        PurchaseOrderEntity purchaseOrderEntity = retrievePurchaseOrderEntityByPurchaseOrderEntityId(purchaseOrderId);
         purchaseOrderEntity.setPurchaseOrderStatus(PurchaseOrderStatusEnum.COMPLETE);
 
     }

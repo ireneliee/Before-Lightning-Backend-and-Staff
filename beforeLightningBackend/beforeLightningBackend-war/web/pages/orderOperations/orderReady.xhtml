@@ -9,21 +9,21 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <ui:define name="content">
-                <ez:Breadcrumb pageName="Ready Purchase Orders" />
+        <ez:Breadcrumb pageName="Ready Purchase Orders" />
 
         <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
-        <h:form id="formAllPurchaseOrders">
+        <h:form id="formAllReadyPurchaseOrders">
 
-    <p:dataTable id="dataTableAllPurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderReadyManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
-                         filteredValue="#{purchaseOrderReadyManagementManagedBean.filteredListOfAllPurchasOrders}"
+            <p:dataTable id="dataTableAllReadyPurchaseOrders" widgetVar="dataTableAllReadyPurchaseOrders" value="#{purchaseOrderReadyManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
+                         filteredValue="#{purchaseOrderReadyManagementManagedBean.filteredListOfAllPurchaseOrders}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
-        <f:facet name="header">
+                <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
                         <p:outputLabel value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllPurchaseOrders').filter()" style="width:300px" placeholder="Enter keyword"/>
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableAllReadyPurchaseOrders').filter()" style="width:300px" placeholder="Enter keyword"/>
                     </p:outputPanel>
-        </f:facet>
+                </f:facet>
 
                 <p:column headerText="Order Ref Number" sortBy="#{purchaseOrderEntity.referenceNumber}" filterBy="#{purchaseOrderEntity.referenceNumber}" filterMatchMode="contains">
                     <p:outputLabel value="#{purchaseOrderEntity.referenceNumber}" />
@@ -35,19 +35,24 @@
                     <p:outputLabel value="#{purchaseOrderEntity.dateCreated}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder:dataTableViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+                    <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderReadyManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
                     </p:commandButton>
 
-                    <p:commandButton value="Complete Order" >
+<!--                    <p:commandButton value="Complete Order"  update="formAllReadyPurchaseOrders:dataTableAllReadyPurchaseOrders">
+                        <f:attribute name="orderToComplete" value="#{purchaseOrderEntity}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to change the status of order #{purchaseOrderEntity.referenceNumber} to complete?" icon="ui-icon-alert" />
+                    </p:commandButton>-->
 
-                    </p:commandButton>
-  
                 </p:column>
 
             </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
         </h:form>
-                        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
+        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
 
     </ui:define>
 

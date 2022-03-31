@@ -64,6 +64,4 @@ public interface MemberEntitySessionBeanLocal {
 
     public MemberEntity retrieveMemberEntityByEmail(String email) throws MemberEntityNotFoundException;
 
-    public MemberEntity memberEntityLogin(SingularAttribute<UserEntity, String> username, SingularAttribute<UserEntity, String> password);
-
 }
