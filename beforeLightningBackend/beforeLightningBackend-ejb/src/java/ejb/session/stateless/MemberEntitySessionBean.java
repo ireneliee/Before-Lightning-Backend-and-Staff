@@ -381,5 +381,4 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
 
         return msg;
     }
-
 }
