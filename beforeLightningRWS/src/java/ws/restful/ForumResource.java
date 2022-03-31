@@ -11,16 +11,13 @@ import entity.ForumPostEntity;
 import entity.MemberEntity;
 import entity.PurchaseOrderLineItemEntity;
 import entity.ReplyEntity;
-import static entity.UserEntity_.password;
-import static entity.UserEntity_.username;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -28,8 +25,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import util.exception.InvalidLoginCredentialException;
-import util.exception.ProductSkuCodeExistException;
-import ws.datamodel.CreateNewForumPostReq;
 
 /**
  *
@@ -88,14 +83,19 @@ public class ForumResource {
     }
     
     @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createForumPost(CreateNewForumPostReq createForumPostReq) {
-        if(createForumPostReq != null) {
+    public Response createForumPost(@QueryParam("username") String username, @QueryParam("password") String password,
+            @QueryParam("title") String title, @QueryParam("content") String content) {
+        System.out.println("Username is" + username);
+        System.out.println("Password is" + password);
+        System.out.println("Title is" + title);
+        System.out.println("Content is" + content);
+        if(username != null && password != null && title != null && content != null) {
             try {
-                MemberEntity memberEntity = memberEntitySessionBeanLocal.memberEntityLogin(createForumPostReq.getUsername(), createForumPostReq.getPassword());
-                createForumPostReq.getForumPost().setAuthor(memberEntity);
-                Long forumPost = forumPostsEntitySessionBeanLocal.createNewForumPostEntity(createForumPostReq.getForumPost());
+                MemberEntity memberEntity = memberEntitySessionBeanLocal.memberEntityLogin(username, password);
+                ForumPostEntity newForumToMake = new ForumPostEntity(title, content, memberEntity);
+                Long forumPost = forumPostsEntitySessionBeanLocal.createNewForumPostEntity(newForumToMake);
                 
                 return Response.status(Response.Status.OK).entity(forumPost).build();
                 
