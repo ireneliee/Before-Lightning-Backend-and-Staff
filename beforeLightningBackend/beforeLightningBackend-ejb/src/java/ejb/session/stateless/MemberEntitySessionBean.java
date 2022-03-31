@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.AddressEntity;
 import entity.CreditCardEntity;
 import entity.MemberEntity;
+import entity.UserEntity;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -17,6 +18,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.metamodel.SingularAttribute;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -378,5 +380,10 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         }
 
         return msg;
+    }
+
+    @Override
+    public MemberEntity memberEntityLogin(SingularAttribute<UserEntity, String> username, SingularAttribute<UserEntity, String> password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
