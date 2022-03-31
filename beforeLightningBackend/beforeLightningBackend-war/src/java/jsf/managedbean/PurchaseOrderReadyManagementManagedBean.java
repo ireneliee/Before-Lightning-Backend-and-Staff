@@ -12,9 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import util.exception.PurchaseOrderEntityNotFoundException;
 
 /**
  *
@@ -26,23 +30,40 @@ public class PurchaseOrderReadyManagementManagedBean implements Serializable {
 
     @EJB
     private PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBean;
-    
+
     @Inject
     private ViewPurchaseOrderManagedBean viewPurchaseOrderManagedBean;
-    
+
     private List<PurchaseOrderEntity> listOfAllPurchaseOrders;
-    private List<PurchaseOrderEntity> filteredListOfAllPurchasOrders;
+    private List<PurchaseOrderEntity> filteredListOfAllPurchaseOrders;
 
     /**
      * Creates a new instance of PurchaseOrderManagementManagedBean
      */
     public PurchaseOrderReadyManagementManagedBean() {
     }
-    
+
     @PostConstruct
     public void postConstruct() {
+        initialiseState();
+    }
+
+    public void initialiseState() {
         setListOfAllPurchaseOrders(purchaseOrderEntitySessionBean.retrieveReadyAllPurchaseOrders());
-        setFilteredListOfAllPurchasOrders(new ArrayList<>());
+        System.out.println("list size" + listOfAllPurchaseOrders.size());
+        setFilteredListOfAllPurchaseOrders(new ArrayList<>());
+
+    }
+
+    public void completeOrder(ActionEvent event) {
+        System.out.println("complete order was called");
+        PurchaseOrderEntity po = (PurchaseOrderEntity)event.getComponent().getAttributes().get("orderToComplete");
+        try {
+            purchaseOrderEntitySessionBean.changeToComplete(po.getPurchaseOrderEntityId());
+        } catch (PurchaseOrderEntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+        initialiseState();
     }
 
     /**
@@ -60,17 +81,18 @@ public class PurchaseOrderReadyManagementManagedBean implements Serializable {
     }
 
     /**
-     * @return the filteredListOfAllPurchasOrders
+     * @return the filteredListOfAllPurchaseOrders
      */
-    public List<PurchaseOrderEntity> getFilteredListOfAllPurchasOrders() {
-        return filteredListOfAllPurchasOrders;
+    public List<PurchaseOrderEntity> getFilteredListOfAllPurchaseOrders() {
+        return filteredListOfAllPurchaseOrders;
     }
 
     /**
-     * @param filteredListOfAllPurchasOrders the filteredListOfAllPurchasOrders to set
+     * @param filteredListOfAllPurchaseOrders the filteredListOfAllPurchaseOrders
+     * to set
      */
-    public void setFilteredListOfAllPurchasOrders(List<PurchaseOrderEntity> filteredListOfAllPurchasOrders) {
-        this.filteredListOfAllPurchasOrders = filteredListOfAllPurchasOrders;
+    public void setFilteredListOfAllPurchaseOrders(List<PurchaseOrderEntity> filteredListOfAllPurchaseOrders) {
+        this.filteredListOfAllPurchaseOrders = filteredListOfAllPurchaseOrders;
     }
 
     /**
@@ -81,10 +103,11 @@ public class PurchaseOrderReadyManagementManagedBean implements Serializable {
     }
 
     /**
-     * @param viewPurchaseOrderManagedBean the viewPurchaseOrderManagedBean to set
+     * @param viewPurchaseOrderManagedBean the viewPurchaseOrderManagedBean to
+     * set
      */
     public void setViewPurchaseOrderManagedBean(ViewPurchaseOrderManagedBean viewPurchaseOrderManagedBean) {
         this.viewPurchaseOrderManagedBean = viewPurchaseOrderManagedBean;
     }
-    
+
 }

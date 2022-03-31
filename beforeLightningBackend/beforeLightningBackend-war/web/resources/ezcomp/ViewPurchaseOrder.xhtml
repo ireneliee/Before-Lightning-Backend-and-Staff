@@ -12,32 +12,58 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <p:dialog id="dialogViewPurchaseOrder" widgetVar="dialogViewPurchaseOrder" header="View Purchase Order" closable="true">
 
-            <p:dataTable id="dataTableViewPurchaseOrder" widgetVar="dataTableAllPurchaseOrders" value="#{viewPurchaseOrderManagedBean.purchaseOrderToView.purchaseOrderLineItems}" var="purchaseOrderLineItemEntity" rowKey="#{purchaseOrderLineItemEntity.purchaseOrderLineItemEntityId}" rowIndexVar="row"
-                         filteredValue="#{viewPurchaseOrderManagedBean.filteredList}"
-                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
-                <f:facet name="header">
-                    <p:outputPanel style="text-align: right;">
-                        <p:outputLabel value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('dataTableViewPurchaseOrder').filter()" style="width:300px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-                </f:facet>
+        <h:form id="formViewPurchaseOrder">
 
-                <p:column headerText="Serial Number" sortBy="#{purchaseOrderLineItemEntity.serialNumber}" filterBy="#{purchaseOrderLineItemEntity.serialNumber}" filterMatchMode="contains">
-                    <p:outputLabel value="#{purchaseOrderLineItemEntity.serialNumber}" />
-                </p:column>
-                <p:column headerText="Line Item Type" sortBy="#{purchaseOrderLineItemEntity.purchaseOrderLineItemTypeEnum}" filterBy="#{purchaseOrderLineItemEntity.purchaseOrderLineItemTypeEnum}" filterMatchMode="contains">
-                    <p:outputLabel value="#{purchaseOrderLineItemEntity.purchaseOrderLineItemTypeEnum}" />
-                </p:column>
-                <p:column headerText="Item Name" sortBy="#{purchaseOrderLineItemEntity.name}" filterBy="#{purchaseOrderLineItemEntity.name}" filterMatchMode="contains">
-                    <p:outputLabel value="#{purchaseOrderLineItemEntity.name}" />
-                </p:column>                
-                <p:column headerText="Item Status" sortBy="#{purchaseOrderLineItemEntity.purchaseOrderLineItemTypeEnum}" filterBy="#{purchaseOrderLineItemEntity.purchaseOrderLineItemTypeEnum}" filterMatchMode="contains">
-                    <p:outputLabel value="#{purchaseOrderLineItemEntity.purchaseOrderLineItemTypeEnum}" />
-                </p:column>
-            </p:dataTable>
-        </p:dialog>
+            <p:dialog id="dialogViewPurchaseOrder" widgetVar="dialogViewPurchaseOrder" header="View Purchase Order">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Serial Number"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Line Item Type"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Line Item Name"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="Quantity"/>
+                        </p:column>
+
+                    </p:row>
+                    <p:repeat value="#{viewPurchaseOrderManagedBean.listOfLineItems}" var="productEntity">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="#{productEntity.serialNumber}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{productEntity.purchaseOrderLineItemTypeEnum}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{productEntity.name}"/>
+                                <br></br>
+                                                                <p:repeat value="#{productEntity.partChoiceEntities}" var="partChoice">
+                                    <p:outputLabel value=" -#{partChoice.partChoiceName}"/>
+                                    <br></br>
+
+
+                                </p:repeat>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="#{productEntity.quantity}"/>
+                            </p:column>
+
+                            <br/>
+                        </p:row>
+                    </p:repeat>
+
+                </p:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+>>>>>>> Stashed changes
     </cc:implementation>
 </html>

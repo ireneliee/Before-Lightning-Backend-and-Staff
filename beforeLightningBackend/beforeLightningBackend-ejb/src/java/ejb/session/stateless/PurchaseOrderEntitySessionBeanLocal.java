@@ -39,8 +39,10 @@ public interface PurchaseOrderEntitySessionBeanLocal {
 
     public void changeToReady(Long purchaseOrderId);
 
-    public void changeToComplete(Long purchaseOrderId);
+    public void changeToComplete(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException;
 
     public void changeToRefund(Long purchaseOrderId);
+
+    public void refundPurchaseOrder(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException;
     
 }
