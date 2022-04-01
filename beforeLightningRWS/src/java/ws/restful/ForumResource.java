@@ -12,9 +12,11 @@ import entity.MemberEntity;
 import entity.PurchaseOrderLineItemEntity;
 import entity.ReplyEntity;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -24,7 +26,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-import util.exception.InvalidLoginCredentialException;
+import util.exception.ForumPostNotFoundException;
+import util.exception.MemberEntityNotFoundException;
+import ws.datamodel.UpdateForumReq;
 
 /**
  *
@@ -58,6 +62,50 @@ public class ForumResource {
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateForumPost(UpdateForumReq updateForumPostReq) {
+        System.out.println("Username received: " + updateForumPostReq.getUsername());
+        System.out.println("Content received: " + updateForumPostReq.getContent());
+        System.out.println("Visibility received: " + updateForumPostReq.getVisibility());
+        
+        if (updateForumPostReq != null) {
+            try {
+                MemberEntity memberEntity = memberEntitySessionBeanLocal.retrieveMemberEntityByUsername(updateForumPostReq.getUsername());
+
+                try {
+                    ForumPostEntity f = forumPostsEntitySessionBeanLocal.retrieveForumPostById(updateForumPostReq.getForumPostId());
+                    
+                    if(!f.getAuthor().equals(memberEntity)) {
+                        
+                        return Response.status(Status.UNAUTHORIZED).entity("You are not supposed to change posts that belong to other people").build();
+                    }
+                    
+                    f.setContent(updateForumPostReq.getContent());
+                    
+                    f.setIsVisible(updateForumPostReq.getVisibility());
+                    
+                    forumPostsEntitySessionBeanLocal.updateContent(f);
+                    forumPostsEntitySessionBeanLocal.changeVisibility(f);
+                    
+                     return Response.status(Response.Status.OK).build();
+                    
+                } catch (ForumPostNotFoundException ex) {
+                    
+                    return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+                    
+                }
+            } catch (MemberEntityNotFoundException ex) {
+                
+                return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
+                
+            }
+        } else {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("An internal error has occured").build();
         }
     }
 

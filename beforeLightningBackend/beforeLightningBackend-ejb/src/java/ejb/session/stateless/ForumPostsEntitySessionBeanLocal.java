@@ -47,5 +47,7 @@ public interface ForumPostsEntitySessionBeanLocal {
 
     public List<ForumPostEntity> retrieveAllViewableForumPost();
 
+    public ForumPostEntity retrieveForumPostById(Long forumId) throws ForumPostNotFoundException;
+
     
 }

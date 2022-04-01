@@ -184,6 +184,15 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
         postToUpdate.setContent(post.getContent());
         postToUpdate.setImageLink(post.getImageLink());
     }
+    
+    @Override
+    public ForumPostEntity retrieveForumPostById(Long forumId) throws ForumPostNotFoundException {
+        ForumPostEntity postToFind = em.find(ForumPostEntity.class, forumId);
+        if(postToFind != null) {
+            return postToFind;
+        }
+        throw new ForumPostNotFoundException("Forum post cannot be found!");
+    }
 
     @Override
     public void changeVisibility(ForumPostEntity post) throws ForumPostNotFoundException {
