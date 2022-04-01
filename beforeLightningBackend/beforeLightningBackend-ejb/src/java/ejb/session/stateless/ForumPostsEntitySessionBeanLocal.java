@@ -45,5 +45,7 @@ public interface ForumPostsEntitySessionBeanLocal {
 
     public void updateReplyEntity(ReplyEntity updatedReply);
 
+    public List<ForumPostEntity> retrieveAllViewableForumPost();
+
     
 }

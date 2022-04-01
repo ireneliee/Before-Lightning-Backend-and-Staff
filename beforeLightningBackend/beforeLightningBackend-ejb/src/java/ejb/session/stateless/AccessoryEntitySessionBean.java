@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.AccessoryEntity;
+import entity.AccessoryItemEntity;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -89,7 +90,10 @@ public class AccessoryEntitySessionBean implements AccessoryEntitySessionBeanLoc
         query.setParameter("isDisabled", false);
         List<AccessoryEntity> list = query.getResultList();
         for (AccessoryEntity acc : list) {
-            acc.getAccessoryItemEntities().size();
+            for (AccessoryItemEntity aci : acc.getAccessoryItemEntities()) {
+                aci.getPromotionEntities().size();
+                aci.getReviewEntities().size();
+            }
         }
         return list;
     }
