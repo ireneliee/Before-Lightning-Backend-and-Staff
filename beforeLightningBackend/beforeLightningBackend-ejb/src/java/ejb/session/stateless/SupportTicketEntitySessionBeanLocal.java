@@ -30,5 +30,7 @@ public interface SupportTicketEntitySessionBeanLocal {
     public void deleteSupportTicket(Long supportTicketId) throws SupportTicketEntityNotFoundException, DeleteSupportTicketEntityException;
 
     public void updateSupportTicketEntity(SupportTicketEntity updatedSupportTicket) throws UpdateSupportTicketEntityException;
+
+    public List<SupportTicketEntity> retrieveAllSupportTicketsByEmail(String email);
     
 }

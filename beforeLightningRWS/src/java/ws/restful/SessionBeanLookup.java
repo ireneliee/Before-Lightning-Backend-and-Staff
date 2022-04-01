@@ -15,6 +15,7 @@ import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
 import ejb.session.stateless.PromotionEntitySessionBeanLocal;
 import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
+import ejb.session.stateless.SupportTicketEntitySessionBeanLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -97,6 +98,16 @@ public class SessionBeanLookup {
         try {
             javax.naming.Context c = new InitialContext();
             return (AccessoryEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath + "AccessoryEntitySessionBean!ejb.session.stateless.AccessoryEntitySessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }    
+    
+    public SupportTicketEntitySessionBeanLocal lookupSupportTicketEntitySessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (SupportTicketEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath + "SupportTicketEntitySessionBean!ejb.session.stateless.SupportTicketEntitySessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

@@ -7,18 +7,9 @@ package ws.restful;
 
 import ejb.session.stateless.MemberEntitySessionBeanLocal;
 import entity.AddressEntity;
-import entity.CreditCardEntity;
 import entity.MemberEntity;
-import entity.PartChoiceEntity;
-import entity.PartEntity;
-import entity.PromotionEntity;
-import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
-import java.io.File;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.faces.context.FacesContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;

@@ -35,111 +35,89 @@ public class SupportTicketEntitySessionBean implements SupportTicketEntitySessio
     private final ValidatorFactory validatorFactory;
     private final Validator validator;
 
-    
-        public SupportTicketEntitySessionBean()
-    {
+    public SupportTicketEntitySessionBean() {
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-        
+
     @Override
-    public SupportTicketEntity createNewSupportTicketEntity(SupportTicketEntity newSupportTicketEntity) throws InputDataValidationException, CreateNewSupportTicketEntityException
-    {
-        Set<ConstraintViolation<SupportTicketEntity>>constraintViolations = validator.validate(newSupportTicketEntity);
-        
-        if(constraintViolations.isEmpty())
-        {
-            try
-            {
+    public SupportTicketEntity createNewSupportTicketEntity(SupportTicketEntity newSupportTicketEntity) throws InputDataValidationException, CreateNewSupportTicketEntityException {
+        Set<ConstraintViolation<SupportTicketEntity>> constraintViolations = validator.validate(newSupportTicketEntity);
+
+        if (constraintViolations.isEmpty()) {
+            try {
                 em.persist(newSupportTicketEntity);
                 em.flush();
 
                 return newSupportTicketEntity;
-            }
-            catch(PersistenceException ex)
-            {                
-                if(ex.getCause() != null && 
-                        ex.getCause().getCause() != null &&
-                        ex.getCause().getCause().getClass().getSimpleName().equals("SQLIntegrityConstraintViolationException"))
-                {
+            } catch (PersistenceException ex) {
+                if (ex.getCause() != null
+                        && ex.getCause().getCause() != null
+                        && ex.getCause().getCause().getClass().getSimpleName().equals("SQLIntegrityConstraintViolationException")) {
                     throw new CreateNewSupportTicketEntityException("SupportTicket with same name already exist");
-                }
-                else
-                {
+                } else {
                     throw new CreateNewSupportTicketEntityException("An unexpected error has occurred: " + ex.getMessage());
                 }
-            }
-            catch(Exception ex)
-            {                
+            } catch (Exception ex) {
                 throw new CreateNewSupportTicketEntityException("An unexpected error has occurred: " + ex.getMessage());
             }
-        }
-        else
-        {
+        } else {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
         }
     }
-    
+
     public void updateSupportTicketEntity(SupportTicketEntity updatedSupportTicket) throws UpdateSupportTicketEntityException {
         SupportTicketEntity s = em.find(SupportTicketEntity.class, updatedSupportTicket.getSupportTicketId());
-        if(s == null) {
+        if (s == null) {
             throw new UpdateSupportTicketEntityException("Support ticket does not exist. ");
         }
         s.setIssue(updatedSupportTicket.getIssue());
         s.setSupportTicketStatus(updatedSupportTicket.getSupportTicketStatus());
         em.merge(s);
-        
+
     }
-    
-    
-    
+
     @Override
-    public List<SupportTicketEntity> retrieveAllSupportTickets()
-    {
+    public List<SupportTicketEntity> retrieveAllSupportTickets() {
         Query query = em.createQuery("SELECT t FROM SupportTicketEntity t");
         List<SupportTicketEntity> supportTicketEntities = query.getResultList();
-        
 
         return supportTicketEntities;
     }
-    
-    
-    
+
     @Override
-    public SupportTicketEntity retrieveSupportTicketBySupportTicketId(Long supportTicketId) throws SupportTicketEntityNotFoundException
-    {
+    public List<SupportTicketEntity> retrieveAllSupportTicketsByEmail(String email) {
+        Query query = em.createQuery("SELECT t FROM SupportTicketEntity t WHERE t.email =:inEmail");
+        query.setParameter("inEmail", email);
+        List<SupportTicketEntity> supportTicketEntities = query.getResultList();
+
+        return supportTicketEntities;
+    }
+
+    @Override
+    public SupportTicketEntity retrieveSupportTicketBySupportTicketId(Long supportTicketId) throws SupportTicketEntityNotFoundException {
         SupportTicketEntity supportTicketEntity = em.find(SupportTicketEntity.class, supportTicketId);
-        
-        if(supportTicketEntity != null)
-        {
+
+        if (supportTicketEntity != null) {
             return supportTicketEntity;
-        }
-        else
-        {
+        } else {
             throw new SupportTicketEntityNotFoundException("SupportTicket ID " + supportTicketId + " does not exist!");
-        }               
+        }
     }
-    
-    
-    
+
     @Override
-    public void deleteSupportTicket(Long supportTicketId) throws SupportTicketEntityNotFoundException, DeleteSupportTicketEntityException
-    {
+    public void deleteSupportTicket(Long supportTicketId) throws SupportTicketEntityNotFoundException, DeleteSupportTicketEntityException {
         SupportTicketEntity supportTicketEntityToRemove = retrieveSupportTicketBySupportTicketId(supportTicketId);
-                  
+
     }
-    
-    
-    
-    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<SupportTicketEntity>>constraintViolations)
-    {
+
+    private String prepareInputDataValidationErrorsMessage(Set<ConstraintViolation<SupportTicketEntity>> constraintViolations) {
         String msg = "Input data validation error!:";
-            
-        for(ConstraintViolation constraintViolation:constraintViolations)
-        {
+
+        for (ConstraintViolation constraintViolation : constraintViolations) {
             msg += "\n\t" + constraintViolation.getPropertyPath() + " - " + constraintViolation.getInvalidValue() + "; " + constraintViolation.getMessage();
         }
-        
+
         return msg;
     }
 }
