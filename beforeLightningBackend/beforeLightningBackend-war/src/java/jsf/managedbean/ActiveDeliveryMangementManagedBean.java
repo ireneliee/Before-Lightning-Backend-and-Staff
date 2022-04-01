@@ -11,8 +11,14 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import util.exception.DeliverySlotEntityNotFoundException;
 
 /**
  *
@@ -26,23 +32,39 @@ public class ActiveDeliveryMangementManagedBean implements Serializable {
     private DeliverySlotSessionBeanLocal deliverySlotSessionBean;
     private List<DeliverySlotEntity> listOfInStoreDeliveries;
     private List<DeliverySlotEntity> filteredListOfInStoreDeliveries;
-    
+
     private List<DeliverySlotEntity> listOfOutStoreDeliveries;
     private List<DeliverySlotEntity> filteredListOfOutStoreDeliveries;
+
     /**
      * Creates a new instance of ActiveDeliveryMangementManagedBean
      */
     public ActiveDeliveryMangementManagedBean() {
     }
-    
-        @PostConstruct
+
+    @PostConstruct
     public void postConstruct() {
         initializeState();
     }
-    
+
     public void initializeState() {
         setListOfInStoreDeliveries(deliverySlotSessionBean.retrieveAllInStoreDelivery());
         setListOfOutStoreDeliveries(deliverySlotSessionBean.retrieveAllOutStoreDelivery());
+    }
+
+    public void test(ActionEvent event) {
+        System.out.println("this works");
+    }
+
+    public void completeDelivery(ActionEvent event) {
+        try {
+            DeliverySlotEntity d = (DeliverySlotEntity) event.getComponent().getAttributes().get("deliveryToComplete");
+            System.out.println("this method is called");
+            deliverySlotSessionBean.completeDelivery(d.getDeliverySlotId());
+        } catch (DeliverySlotEntityNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+        initializeState();
     }
 
     /**
@@ -67,7 +89,8 @@ public class ActiveDeliveryMangementManagedBean implements Serializable {
     }
 
     /**
-     * @param filteredListOfInStoreDeliveries the filteredListOfInStoreDeliveries to set
+     * @param filteredListOfInStoreDeliveries the
+     * filteredListOfInStoreDeliveries to set
      */
     public void setFilteredListOfInStoreDeliveries(List<DeliverySlotEntity> filteredListOfInStoreDeliveries) {
         this.filteredListOfInStoreDeliveries = filteredListOfInStoreDeliveries;
@@ -95,10 +118,11 @@ public class ActiveDeliveryMangementManagedBean implements Serializable {
     }
 
     /**
-     * @param filteredListOfOutStoreDeliveries the filteredListOfOutStoreDeliveries to set
+     * @param filteredListOfOutStoreDeliveries the
+     * filteredListOfOutStoreDeliveries to set
      */
     public void setFilteredListOfOutStoreDeliveries(List<DeliverySlotEntity> filteredListOfOutStoreDeliveries) {
         this.filteredListOfOutStoreDeliveries = filteredListOfOutStoreDeliveries;
     }
-    
+
 }

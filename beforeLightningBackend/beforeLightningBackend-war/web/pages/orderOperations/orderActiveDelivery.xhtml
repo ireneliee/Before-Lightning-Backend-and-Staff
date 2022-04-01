@@ -16,7 +16,6 @@
 
         <h:form id="formAllInStoreDeliveries">
             <p:dataTable id="dataTableAllInStoreDeliveries" widgetVar="dataTableAllInStoreDeliveries" value="#{activeDeliveryMangementManagedBean.listOfInStoreDeliveries}" var="deliverySlotEntity" rowKey="#{deliverySlotEntity.deliverySlotId}" rowIndexVar="row"
-                         filteredValue="#{activeDeliveryMangementManagedBean.filteredListOfInStoreDeliveries}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                 <f:facet name="header">
                     <p:outputPanel style="text-align: left;">
@@ -38,19 +37,24 @@
                     <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton value="Complete Delivery" >
+                    <p:commandButton value="Complete Delivery"  update="formAllInStoreDeliveries:dataTableAllInStoreDeliveries" actionListener="#{activeDeliveryMangementManagedBean.completeDelivery}">
+                        <f:attribute name="deliveryToComplete" value="#{deliverySlotEntity}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to change the status of order #{deliverySlotEntity.deliverySlotId} to complete?" icon="ui-icon-alert" />
+                    </p:commandButton> 
+                    <p:commandButton  value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{deliverySlotEntity.deliveryOrder}" target="#{viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                    </p:commandButton>
 
-                    </p:commandButton>  
-                    <p:commandButton value="View Purchase Order" >
-
-                    </p:commandButton>  
                 </p:column>
             </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
         </h:form>
         <br/>
         <h:form id="formAllOutStoreDeliveries">
             <p:dataTable id="dataTableAllOutStoreDeliveries" widgetVar="dataTableAllOutStoreDeliveries" value="#{activeDeliveryMangementManagedBean.listOfOutStoreDeliveries}" var="deliverySlotEntity" rowKey="#{deliverySlotEntity.deliverySlotId}" rowIndexVar="row"
-                         filteredValue="#{activeDeliveryMangementManagedBean.filteredListOfOutStoreDeliveries}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                 <f:facet name="header">
                     <p:outputPanel style="text-align: left;">
@@ -72,20 +76,27 @@
                     <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton value="Complete Delivery" >
-
-                    </p:commandButton>  
-                    <p:commandButton value="View Purchase Order" >
-
-                    </p:commandButton>  
-                    <p:commandButton value="View Address" >
-
-                    </p:commandButton>  
+                    <p:commandButton value="Complete Delivery"  update="formAllOutStoreDeliveries:dataTableAllOutStoreDeliveries" actionListener="#{activeDeliveryMangementManagedBean.completeDelivery}">
+                        <f:attribute name="deliveryToComplete" value="#{deliverySlotEntity}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to change the status of order #{deliverySlotEntity.deliverySlotId} to complete?" icon="ui-icon-alert" />
+                    </p:commandButton> 
+                    <p:commandButton  value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{deliverySlotEntity.deliveryOrder}" target="#{viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                    </p:commandButton>
+                    <p:commandButton  value="View Address" update="ccViewAddress:formViewAddress" oncomplete="PF('dialogViewAddress').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{deliverySlotEntity.address}" target="#{viewAddressManagedBean.addressToView}" />
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
 
         </h:form>
+        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
 
+        <ez:ViewAddress id ="ccViewAddress" />
     </ui:define>
 
 </ui:composition>

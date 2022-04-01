@@ -54,7 +54,7 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
         purchaseOrderToView = new PurchaseOrderEntity();
     }
 
-    public void thisWorks(ActionEvent event) {
+    public void test(ActionEvent event) {
         System.out.println("this works");
     }
 

@@ -16,7 +16,6 @@
         <h:form id="formAllCompletePurchaseOrders">
 
             <p:dataTable id="dataTableAllCompletePurchaseOrders" widgetVar="dataTableAllPurchaseOrders" value="#{purchaseOrderCompleteManagementManagedBean.listOfAllPurchaseOrders}" var="purchaseOrderEntity" rowKey="#{purchaseOrderEntity.purchaseOrderEntityId}" rowIndexVar="row"
-                         filteredValue="#{purchaseOrderCompleteManagementManagedBean.filteredListOfAllPurchasOrders}"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
 
                 <f:facet name="header">
@@ -37,7 +36,7 @@
                 </p:column>
                 <p:column headerText="Action" >
                     <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderCompleteManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{viewPurchaseOrderManagedBean.purchaseOrderToView}" />
 
                     </p:commandButton>       
                 </p:column>

@@ -45,6 +45,12 @@ public class PurchaseOrderReadyManagementManagedBean implements Serializable {
 
     @PostConstruct
     public void postConstruct() {
+        
+        if(viewPurchaseOrderManagedBean == null)
+            System.out.println("******** viewPurchaseOrderManagedBean: null");
+        else
+            System.out.println("******** viewPurchaseOrderManagedBean: NOT null");
+        
         initialiseState();
     }
 

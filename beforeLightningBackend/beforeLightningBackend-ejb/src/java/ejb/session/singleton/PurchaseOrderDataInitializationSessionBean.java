@@ -187,15 +187,15 @@ public class PurchaseOrderDataInitializationSessionBean {
 
                     l4.setPartChoiceEntities(list1);
 
-                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.IN_PROGRESS);
+                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.IN_PROGRESS);
                     po.getPurchaseOrderLineItems().add(l1);
                     po.getPurchaseOrderLineItems().add(l2);
                     po.getPurchaseOrderLineItems().add(l3);
                     po.getPurchaseOrderLineItems().add(l4);
 
-                    PurchaseOrderEntity po1 = new PurchaseOrderEntity("12341235", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.READY_FOR_SHIPMENT);
-                    PurchaseOrderEntity po2 = new PurchaseOrderEntity("12341236", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.COMPLETE);
-                    PurchaseOrderEntity po3 = new PurchaseOrderEntity("12341237", new BigDecimal(3.50), LocalDateTime.now(), PurchaseOrderStatusEnum.REFUNDED);
+                    PurchaseOrderEntity po1 = new PurchaseOrderEntity("12341235", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.READY_FOR_SHIPMENT);
+                    PurchaseOrderEntity po2 = new PurchaseOrderEntity("12341236", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.COMPLETE);
+                    PurchaseOrderEntity po3 = new PurchaseOrderEntity("12341237", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.REFUNDED);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po1);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po2);

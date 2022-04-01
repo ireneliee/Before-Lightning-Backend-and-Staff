@@ -39,7 +39,7 @@
                 <p:column headerText="Action" >
 
                     <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderProgressManagementManagedBean.viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{viewPurchaseOrderManagedBean.purchaseOrderToView}" />
 
                     </p:commandButton>
 

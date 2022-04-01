@@ -14,8 +14,7 @@
         <ui:include src="/pages/orderOperations/purchaseOrderNavBar.xhtml" />
 
         <h:form id="formAllCompleteDeliveries">
-            <p:dataTable id="dataTableAllCompleteDeliveries" widgetVar="dataTableAllCompleteDeliveries" value="#{completeDeliveryMangementManagedBean.listOfCompleteDeliveries}" var="deliverySlotEntity" rowKey="#{deliverySlotEntity.deliverySlotId}" rowIndexVar="row"
-                         filteredValue="#{completeDeliveryMangementManagedBean.filteredListOfCompleteDeliveries}"
+            <p:dataTable id="dataTableAllCompleteDeliveries" widgetVar="dataTableAllCompleteDeliveries" value="#{completeDeliveryManagementManagedBean.listOfCompleteDeliveries}" var="deliverySlotEntity" rowKey="#{deliverySlotEntity.deliverySlotId}" rowIndexVar="row"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
                 <f:facet name="header">
                     <p:outputPanel style="text-align: left;">
@@ -37,13 +36,15 @@
                     <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton value="View Purchase Order" >
-
-                    </p:commandButton>  
+                    <p:commandButton  value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
+                        <f:setPropertyActionListener value="#{deliverySlotEntity.deliveryOrder}" target="#{viewPurchaseOrderManagedBean.purchaseOrderToView}" />
+                    </p:commandButton>
 
                 </p:column>
             </p:dataTable>
         </h:form>
+        <ez:ViewPurchaseOrder id ="ccViewPurchaseOrder" />
+
     </ui:define>
 
 </ui:composition>
