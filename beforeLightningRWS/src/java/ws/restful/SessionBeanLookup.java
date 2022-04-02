@@ -84,16 +84,16 @@ public class SessionBeanLookup {
 //        }
 //    }
 //
-//    public PartChoiceEntitySessionBeanLocal lookupPartChoiceEntitySessionBeanLocal() {
-//        try {
-//            javax.naming.Context c = new InitialContext();
-//            return (PartChoiceEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath + "PartChoiceEntitySessionBean!ejb.session.stateless.PartChoiceEntitySessionBeanLocal");
-//        } catch (NamingException ne) {
-//            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-//            throw new RuntimeException(ne);
-//        }
-//    }
-//
+    public PartChoiceEntitySessionBeanLocal lookupPartChoiceEntitySessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (PartChoiceEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath + "PartChoiceEntitySessionBean!ejb.session.stateless.PartChoiceEntitySessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
     public AccessoryEntitySessionBeanLocal lookupAccessoryEntitySessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();

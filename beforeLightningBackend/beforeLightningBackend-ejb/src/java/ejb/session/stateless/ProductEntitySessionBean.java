@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -235,35 +237,32 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
             } else {
 
                 if (pe.getPartEntities().size() > 0) {
-                    //check parts in product not disabled
-                    for (PartEntity part : pe.getPartEntities()) {
-                        if (part.getPartChoiceEntities().size() > 0) {
-                            if (part.getIsDisabled() == true) {
-                                check = false;
-                                break;
+                    try {
+                        //retrieve instance of Chassis Part Choice first
+                        PartChoiceEntity chassisPartChoice = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(pe.getProductName() + " Chassis");
+                        for (PartEntity part : pe.getPartEntities()) {
+                            if (part.getPartName().equals("Chassis")) {
+                                continue;
                             } else {
-
-                                //check that there is at least 1 not disabled part choice
-                                boolean checkPartChoice = false;
+                                boolean checkCompatiblePartChoice = false;
                                 for (PartChoiceEntity pce : part.getPartChoiceEntities()) {
-                                    //If no quantity on hand, then product should not be labelled as cannot sell,
-                                    //should still be live but front end need handle
-//                                    if (pce.getIsDisabled() == false && pce.getQuantityOnHand() > 0) {
-                                    pce.getPromotionEntities().size();
-                                    if (pce.getIsDisabled() == false) {
-                                        checkPartChoice = true;
+                                    if (chassisPartChoice.getCompatiblePartsPartChoiceEntities().contains(pce)) {
+                                        checkCompatiblePartChoice= true;
                                         break;
                                     }
                                 }
-                                if (checkPartChoice == false) {
+                                
+                                if (checkCompatiblePartChoice == false) {
                                     check = false;
                                     break;
                                 }
+                                
                             }
-                        } else {
-                            check = false;
                         }
+                    } catch (PartChoiceEntityNotFoundException ex) {
+                        System.out.println("============= ERROR CANT FIND CHASSIS PART CHOICE ENTITY ===========");
                     }
+
                 } else {
                     check = false;
                 }
@@ -280,10 +279,70 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
         return newList;
     }
 
+//    @Override
+//    public List<ProductEntity> retrieveAllProductEntitiesThatCanSell() {
+//        //Retrieves Products that are not disabled, with no disabled parts but at least 1 part, with all parts that have at least 1 not disabled part choice
+//        List<ProductEntity> list = retrieveAllProductEntities();
+//        List<ProductEntity> newList = new ArrayList<>();
+//
+//        //check product not disabled
+//        for (ProductEntity pe : list) {
+//
+//            pe.getReviewEntities().size();
+//            boolean check = true;
+//            if (pe.getIsDisabled() == true) {
+//                check = false;
+//            } else {
+//
+//                if (pe.getPartEntities().size() > 0) {
+//                    //check parts in product not disabled
+//                    for (PartEntity part : pe.getPartEntities()) {
+//                        if (part.getPartChoiceEntities().size() > 0) {
+//                            if (part.getIsDisabled() == true) {
+//                                check = false;
+//                                break;
+//                            } else {
+//
+//                                //check that there is at least 1 not disabled part choice
+//                                boolean checkPartChoice = false;
+//                                for (PartChoiceEntity pce : part.getPartChoiceEntities()) {
+//                                    //If no quantity on hand, then product should not be labelled as cannot sell,
+//                                    //should still be live but front end need handle
+////                                    if (pce.getIsDisabled() == false && pce.getQuantityOnHand() > 0) {
+//                                    pce.getPromotionEntities().size();
+//                                    if (pce.getIsDisabled() == false) {
+//                                        checkPartChoice = true;
+//                                        break;
+//                                    }
+//                                }
+//                                if (checkPartChoice == false) {
+//                                    check = false;
+//                                    break;
+//                                }
+//                            }
+//                        } else {
+//                            check = false;
+//                        }
+//                    }
+//                } else {
+//                    check = false;
+//                }
+//
+//                if (check == false) {
+//                    break;
+//                }
+//            }
+//            //if all conditions pass, then can add into the new list to display
+//            if (check == true) {
+//                newList.add(pe);
+//            }
+//        }
+//        return newList;
+//    }
     @Override
     public ProductEntity retrieveProductEntityByProductEntityId(Long productId) throws ProductEntityNotFoundException {
         ProductEntity productEntity = entityManager.find(ProductEntity.class,
-                 productId);
+                productId);
 
         if (productEntity != null) {
             productEntity.getReviewEntities().size();

@@ -100,8 +100,8 @@ public class ProductAccessoryDataInitializationSessionBean {
     private void initializeData() {
 
         //Product
-        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", "Ultra-slim performance", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.");
-        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", "Ultra powerful, ultra portable", "Ultra Long Battery Life | Ultraslim | RTX 30 Series");
+        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001",  "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.","Ultra-slim performance");
+        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002",  "Ultra Long Battery Life | Ultraslim | RTX 30 Series", "Ultra powerful, ultra portable");
 
         //Part
         PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
