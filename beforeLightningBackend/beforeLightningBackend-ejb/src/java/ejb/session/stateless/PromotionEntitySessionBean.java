@@ -67,8 +67,8 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 	public Long createNewPromotionEntity(PromotionEntity newPromotion) throws PromotionEntityNameExistsException, UnknownPersistenceException, InputDataValidationException, PromotionDiscountTypeExclusiveOrException {
 
 		Set<ConstraintViolation<PromotionEntity>> constraintViolations = validator.validate(newPromotion);
-		
-		if(newPromotion == null) {
+
+		if (newPromotion == null) {
 			System.out.println("passed in empty promo bro");
 			return new Long(0);
 		}
@@ -107,7 +107,7 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 		Query query = em.createQuery("SELECT p FROM PromotionEntity p");
 		List<PromotionEntity> list = query.getResultList();
 		System.out.println("promosessionbean :: retrieveAllPromotions()");
-		for(PromotionEntity p : list) {
+		for (PromotionEntity p : list) {
 			p.getAccessoryItemEntities().size();
 			p.getPartChoiceEntities().size();
 		}
@@ -175,14 +175,6 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 	public List<PartChoiceEntity> addPartChoicesToPromotion(Long PromotionId, List<PartChoiceEntity> partChoicesToAdd) throws PromotionEntityNotFoundException, PartChoiceEntityNotFoundException, PartChoiceAlreadyExistsInPromotionException {
 
 		List<PartChoiceEntity> currentListPartChoiceWithParticularPromotion = retrievePartChoicesWithSpecificPromotion(PromotionId);
-
-//		for (PartChoiceEntity p : currentListPartChoiceWithParticularPromotion) {
-//
-//			if (p.getPartChoiceEntityId().equals(partChoiceToAdd.getPartChoiceEntityId())) {
-//				throw new PartChoiceAlreadyExistsInPromotionException();
-//			}
-//		}
-		//part choice not in promotion, add into promotion and vice versa
 		PromotionEntity promotion = em.find(PromotionEntity.class, PromotionId);
 		List<PartChoiceEntity> updatedPartChoiceList = promotion.getPartChoiceEntities();
 
@@ -199,16 +191,7 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 	@Override
 	public List<AccessoryItemEntity> addAccessoryItemsToPromotion(Long PromotionId, List<AccessoryItemEntity> accessoryItemToAdd) throws PromotionEntityNotFoundException, AccessoryItemEntityNotFoundException, AccessoryAlreadyExistsInPromotionException {
 
-		List<AccessoryItemEntity> currentListAccessoryItemsWithParticularPromotion = retrieveAccessoryItemsWithSpecificPromotion(PromotionId);
-
-//		//check if Accessoy is already in the promotion
-//		for (AccessoryItemEntity p : currentListAccessoryItemsWithParticularPromotion) {
-//
-//			if (p.getAccessoryItemEntityId().equals(accessoryItemToAdd.getAccessoryItemEntityId())) {
-//				throw new AccessoryAlreadyExistsInPromotionException();
-//			}
-//		}
-		//Accessory not in promotion, add into promotion and vice versa
+		System.out.println("promosessionbean :: called add accessoryitem for promo: " + PromotionId);
 		PromotionEntity promotion = em.find(PromotionEntity.class, PromotionId);
 		List<AccessoryItemEntity> updatedAccessoryItemList = promotion.getAccessoryItemEntities();
 
@@ -249,10 +232,14 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 		//get list of promo part choices 
 		List<AccessoryItemEntity> listOfAccessories = promotion.getAccessoryItemEntities();
 
-		for (AccessoryItemEntity p : listOfAccessories) {
+		System.out.println("promoEntitySessionBean :: removeAccessoryItemsFromPromo :: \n");
+		for (AccessoryItemEntity p : accessoryItemsToRemove) {
+			System.out.println("currently removing accessory: " + p + " from promo: " + promotionId);
 			listOfAccessories.remove(p);
 			AccessoryItemEntity managedAccessory = accessoryItemEntitySessionBean.retrieveAccessoryItemById(p.getAccessoryItemEntityId());
 			managedAccessory.getPromotionEntities().remove(promotion);
+			System.out.println("currently removing promo: " + promotionId);
+
 		}
 
 		promotion.setAccessoryItemEntities(listOfAccessories);
@@ -270,9 +257,9 @@ public class PromotionEntitySessionBean implements PromotionEntitySessionBeanLoc
 				PromotionEntity promotionToUpdate = retrievePromotionEntityById(updatedPromotion.getPromotionEntityId());
 
 				if (promotionToUpdate.getPromotionEntityId().equals(updatedPromotion.getPromotionEntityId())) {
-					System.out.println("promoSessionBean update method :: \n" + 
-							"discount: " + updatedPromotion.getDiscount() + "\n" +
-							"discountedPrice: " + updatedPromotion.getDiscountedPrice());
+					System.out.println("promoSessionBean update method :: \n"
+							+ "discount: " + updatedPromotion.getDiscount() + "\n"
+							+ "discountedPrice: " + updatedPromotion.getDiscountedPrice());
 
 					if (!checkDiscountValidity(updatedPromotion)) {
 						System.out.println("shits wacc not supposed to updated...");
