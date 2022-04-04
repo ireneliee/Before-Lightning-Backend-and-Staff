@@ -11,6 +11,7 @@ import entity.ForumPostEntity;
 import entity.MemberEntity;
 import entity.PurchaseOrderLineItemEntity;
 import entity.ReplyEntity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,6 +65,8 @@ public class ForumResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
+    
+   
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -107,6 +110,31 @@ public class ForumResource {
         } else {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity("An internal error has occured").build();
         }
+    }
+    
+    @Path("retrieveForumPostById")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getForumByForumId(@QueryParam("forumId") String forumId)  {
+        if(forumId != null) {
+            try {
+                ForumPostEntity forumToRetrieve =  forumPostsEntitySessionBeanLocal.retrieveForumPostById(Long.parseLong(forumId));
+                List<ForumPostEntity> listOfForumPosts = new ArrayList<>();
+                listOfForumPosts.add(forumToRetrieve);
+                handleForumPostsUnmarshalling(listOfForumPosts);
+                GenericEntity<ForumPostEntity> genericEntity = new GenericEntity<ForumPostEntity>(forumToRetrieve ) {
+            };
+                return Response.status(Status.OK).entity(genericEntity).build();
+            } catch (ForumPostNotFoundException ex) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Forum ID is not valid").build();
+
+            }
+            
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Forum ID not provided.").build();
+        }
+    
     }
 
     @Path("retrieveMyForumPosts")
