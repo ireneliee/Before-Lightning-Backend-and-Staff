@@ -4,8 +4,8 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
@@ -14,7 +14,6 @@
     </h:head>
 
     <h:body>
-
         <p:layout fullPage="true" styleClass="ui-noborder" >
             <p:growl id="growl" showDetail="true" redisplay="false" />  
             <p:layoutUnit position="north" size="85" styleClass="ui-noborder">
@@ -34,6 +33,24 @@
             </p:layoutUnit>
 
             <p:layoutUnit position="center" styleClass="ui-noborder">
+                <div class = "profile-viewing">
+                    <h:form id="form">   
+                        <p:commandButton id="imageBtn" value ="View profile" icon ="pi pi-user-minus" type="button"  />
+                        <p:overlayPanel id="imagePanel" for="imageBtn" hideEffect="fade">
+                            <p:panel>
+                                <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/account.png" rendered="#{empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
+                                <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/#{sessionScope.currentEmployeeEntity.imageLink}" rendered="#{not empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
+                                <br></br>
+                                <p:outputLabel value="#{sessionScope.currentEmployeeEntity.firstname} #{sessionScope.currentEmployeeEntity.lastname}" style="font-family: Helvetica; font-size: large; font-weight: bold" />
+                                <br></br>
+                                <p:outputLabel value="Access right:  #{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: large; font-weight: bold;"/>
+                                <br></br>
+                                
+                            </p:panel>
+                        </p:overlayPanel>
+
+                    </h:form>  
+                </div>
                 <ui:insert name="content">Content</ui:insert>
 
             </p:layoutUnit>
@@ -47,6 +64,10 @@
             </p:layoutUnit>                
 
         </p:layout>
+
+
+
+
 
     </h:body>
 

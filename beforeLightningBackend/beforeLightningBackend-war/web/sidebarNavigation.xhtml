@@ -9,6 +9,7 @@
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 
     <section id="sidebar-navigation" class="sidebar-navigation">
+       
         <h:form id = "navigation-menu">
             <p:growl id = "messages" showDetail="false"/>
             <p:menu id="menuUI" styleClass="ui-noborder">
@@ -21,7 +22,7 @@
                 <p:menuitem value="Orders" outcome="/pages/orderOperations/orderHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 1 }"  update="messages" icon="pi pi-shopping-cart"/>
                 <p:menuitem value="Support" outcome="/pages/supportOperations/supportHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 1 }" update="messages" icon="pi pi-ticket"/>
                 <p:menuitem value="Customer" outcome="/pages/customerOperations/customerHomePage.xhtml"  rendered="#{ sessionScope.currentEmployeeAccessRight == 0 || sessionScope.currentEmployeeAccessRight == 3 }" update="messages" icon="pi pi-user-minus"/>
-                 <p:menuitem value="Analytics" outcome="/reportHomePage.xhtml"  update="messages" icon="pi pi-chart-line" rendered="#{ sessionScope.currentEmployeeAccessRight == 0}"/>
+                <p:menuitem value="Analytics" outcome="/reportHomePage.xhtml"  update="messages" icon="pi pi-chart-line" rendered="#{ sessionScope.currentEmployeeAccessRight == 0}"/>
                 <p:menuitem value="Schedule" outcome="/calendarPage.xhtml"  update="messages" icon="pi pi-calendar"/>
                 <p:menuitem value="Settings" outcome="/settingsPage.xhtml"  update="messages" icon="pi pi-cog"/>
                 <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}"  update="messages" icon="pi pi-sign-out"/>
