@@ -52,8 +52,6 @@ public class UpdatePromotionManagedBean implements Serializable {
 
 	private PromotionEntity promotionEntityToUpdate;
 
-	private PromotionEntity tempPromotionEntity;
-
 	private List<AccessoryItemEntity> accessoryItemToAdd;
 	private List<AccessoryItemEntity> accessoryItemToRemove;
 	private List<PartChoiceEntity> partChoiceToAdd;
@@ -80,8 +78,6 @@ public class UpdatePromotionManagedBean implements Serializable {
 
 	public void initializeState() {
 		promotionEntityToUpdate = new PromotionEntity();
-		tempPromotionEntity = new PromotionEntity();
-
 		accessoryItemToAdd = new ArrayList<>();
 		accessoryItemToRemove = new ArrayList<>();
 		partChoiceToAdd = new ArrayList<>();
@@ -91,14 +87,11 @@ public class UpdatePromotionManagedBean implements Serializable {
 		listOfNonPromotionalAccessoryItems.removeIf(pc -> pc.getPromotionEntities().size() > 0);
 		listOfNonPromotionalPartChoices = partChoiceEntitySessionBean.retrieveAllPartChoiceEntities();
 		listOfNonPromotionalPartChoices.removeIf(pc -> pc.getPromotionEntities().size() > 0);
-
-		listOfPromotionalAccessoryItems = promotionEntitySessionBean.retrieveAccessoryItemsWithSpecificPromotion(promotionEntityToUpdate.getPromotionEntityId());
-		listOfPromotionalPartChoices = promotionEntitySessionBean.retrievePartChoicesWithSpecificPromotion(promotionEntityToUpdate.getPromotionEntityId());
 	}
 
 	public void updatePromotion(ActionEvent event) {
 		try {
-			promotionEntitySessionBean.updatePromotionEntity(tempPromotionEntity);
+			promotionEntitySessionBean.updatePromotionEntity(promotionEntityToUpdate);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Updated Promotion", null));
 		} catch (PromotionEntityNotFoundException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Promotion Not Found Error ", null));
@@ -118,6 +111,7 @@ public class UpdatePromotionManagedBean implements Serializable {
 	public void addAccessoryItemToPromotion(ActionEvent event) {
 		try {
 			promotionEntitySessionBean.addAccessoryItemsToPromotion(promotionEntityToUpdate.getPromotionEntityId(), accessoryItemToAdd);
+			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
 		} catch (AccessoryAlreadyExistsInPromotionException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Existing accessory items under this promotion cannot be added!", null));
@@ -130,9 +124,15 @@ public class UpdatePromotionManagedBean implements Serializable {
 
 	public void removeAccessoryItemToPromotion(ActionEvent event) {
 		try {
+			System.out.println("updatePromoManagedBean :: removeAccessoryItemToPromotion() ::\n " +
+					"list of accessories to remove: " );
+			for(AccessoryItemEntity a : accessoryItemToRemove) {
+				System.out.print(a);
+			}
 			promotionEntitySessionBean.removeAccessoryItemsFromPromotion(promotionEntityToUpdate.getPromotionEntityId(), accessoryItemToRemove);
+			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
-
+			
 		} catch (AccessoryItemEntityNotFoundException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Part choice not under promotion!", null));
 		} catch (PromotionEntityNotFoundException ex) {
@@ -143,6 +143,7 @@ public class UpdatePromotionManagedBean implements Serializable {
 	public void addPartChoiceToPromotion(ActionEvent event) {
 		try {
 			promotionEntitySessionBean.addPartChoicesToPromotion(promotionEntityToUpdate.getPromotionEntityId(), partChoiceToAdd);
+			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
 
 		} catch (PartChoiceAlreadyExistsInPromotionException ex) {
@@ -157,6 +158,7 @@ public class UpdatePromotionManagedBean implements Serializable {
 	public void removePartChoiceToPromotion(ActionEvent event) {
 		try {
 			promotionEntitySessionBean.removePartChoicesFromPromotion(promotionEntityToUpdate.getPromotionEntityId(), partChoiceToRemove);
+			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
 
 		} catch (PartChoiceEntityNotFoundException ex) {
@@ -180,14 +182,9 @@ public class UpdatePromotionManagedBean implements Serializable {
 	}
 
 	public void setPromotionEntityToUpdate(PromotionEntity promotionEntityToUpdate) {
-		this.tempPromotionEntity.setPromotionEntityId(promotionEntityToUpdate.getPromotionEntityId());
-		this.tempPromotionEntity.setPromotionName(promotionEntityToUpdate.getPromotionName());
-		this.tempPromotionEntity.setStartDate(promotionEntityToUpdate.getStartDate());
-		this.tempPromotionEntity.setEndDate(promotionEntityToUpdate.getEndDate());
-		this.tempPromotionEntity.setDiscount(promotionEntityToUpdate.getDiscount());
-		this.tempPromotionEntity.setDiscountedPrice(promotionEntityToUpdate.getDiscountedPrice());
-
 		this.promotionEntityToUpdate = promotionEntityToUpdate;
+		listOfPromotionalAccessoryItems = promotionEntitySessionBean.retrieveAccessoryItemsWithSpecificPromotion(promotionEntityToUpdate.getPromotionEntityId());
+		listOfPromotionalPartChoices = promotionEntitySessionBean.retrievePartChoicesWithSpecificPromotion(promotionEntityToUpdate.getPromotionEntityId());
 	}
 
 	public List<AccessoryItemEntity> getAccessoryItemToAdd() {
@@ -292,14 +289,6 @@ public class UpdatePromotionManagedBean implements Serializable {
 
 	public void setViewPromotionManagedBean(ViewPromotionManagedBean viewPromotionManagedBean) {
 		this.viewPromotionManagedBean = viewPromotionManagedBean;
-	}
-
-	public PromotionEntity getTempPromotionEntity() {
-		return tempPromotionEntity;
-	}
-
-	public void setTempPromotionEntity(PromotionEntity tempPromotionEntity) {
-		this.tempPromotionEntity = tempPromotionEntity;
 	}
 
 }

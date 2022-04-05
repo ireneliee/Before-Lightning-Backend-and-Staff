@@ -41,8 +41,7 @@ public class ViewPromotionManagedBean implements Serializable {
 	}
 
 	public void initialiseState() {
-		listOfPromotionalAccessories = promotionEntitySessionBean.retrieveAccessoryItemsWithSpecificPromotion(promotionEntityToView.getPromotionEntityId());
-		listOfPromotionalPartChoices = promotionEntitySessionBean.retrievePartChoicesWithSpecificPromotion(promotionEntityToView.getPromotionEntityId());
+		promotionEntityToView = new PromotionEntity();
 	}
 
 	public List<AccessoryItemEntity> getListOfPromotionalAccessories() {
@@ -54,7 +53,7 @@ public class ViewPromotionManagedBean implements Serializable {
 	}
 
 	public List<PartChoiceEntity> getListOfPromotionalPartChoices() {
-		listOfPromotionalPartChoices = promotionEntitySessionBean.retrievePartChoicesWithSpecificPromotion(promotionEntityToView.getPromotionEntityId());
+//		
 		return listOfPromotionalPartChoices;
 	}
 
@@ -76,6 +75,9 @@ public class ViewPromotionManagedBean implements Serializable {
 
 	public void setPromotionEntityToView(PromotionEntity promotionEntityToView) {
 		this.promotionEntityToView = promotionEntityToView;
+		this.listOfPromotionalAccessories = promotionEntitySessionBean.retrieveAccessoryItemsWithSpecificPromotion(promotionEntityToView.getPromotionEntityId());
+
+		this.listOfPromotionalPartChoices = promotionEntitySessionBean.retrievePartChoicesWithSpecificPromotion(promotionEntityToView.getPromotionEntityId());
 	}
 
 }

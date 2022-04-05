@@ -15,23 +15,23 @@
             <h:form id="formUpdatePromotion">
                 <p:panelGrid id="grid" columns="3" styleClass="ui-noborder">
                     <p:outputLabel for="promotionName" value="Updated Promotion Name: " style="font-weight: bold;" />
-                    <p:inputText id="promotionName" value="#{updatePromotionManagedBean.tempPromotionEntity.promotionName}"  required="true" requiredMessage="Product Name is required" />
+                    <p:inputText id="promotionName" value="#{updatePromotionManagedBean.promotionEntityToUpdate.promotionName}"  required="true" requiredMessage="Product Name is required" />
                     <p:message for="promotionName" />
 
                     <p:outputLabel for="startDate" value="Updated Start Date " style="font-weight: bold;" />
-                    <p:datePicker id="startDate" value="#{updatePromotionManagedBean.tempPromotionEntity.startDate}" required="true" requiredMessage="Start Date is required"/>
+                    <p:datePicker id="startDate" value="#{updatePromotionManagedBean.promotionEntityToUpdate.startDate}" required="true" requiredMessage="Start Date is required"/>
                     <p:message for="startDate" /> 
 
                     <p:outputLabel for="endDate" value="Updated End Date " style="font-weight: bold;" />
-                     <p:datePicker id="endDate" value="#{updatePromotionManagedBean.tempPromotionEntity.endDate}" required="true" requiredMessage="End Date is required"/>
+                     <p:datePicker id="endDate" value="#{updatePromotionManagedBean.promotionEntityToUpdate.endDate}" required="true" requiredMessage="End Date is required"/>
                     <p:message for="endDate" />     
 
                     <p:outputLabel for="discount" value="Updated Discount Percentage " style="font-weight: bold;" />
-                    <p:inputText id="discount" value="#{updatePromotionManagedBean.tempPromotionEntity.discount}" required="false" />
+                    <p:inputText id="discount" value="#{updatePromotionManagedBean.promotionEntityToUpdate.discount}" required="false" />
                     <p:message for="discount" />
 
                     <p:outputLabel for="discountedPrice" value="Updated Discounted Price " style="font-weight: bold;" />
-                    <p:inputText id="discountedPrice" value="#{updatePromotionManagedBean.tempPromotionEntity.discountedPrice}"  required="false" />
+                    <p:inputText id="discountedPrice" value="#{updatePromotionManagedBean.promotionEntityToUpdate.discountedPrice}"  required="false" />
                     <p:message for="discountedPrice" />
 
                     <p:commandButton  value="Update New Promotion" update = "formAllPromotions:dataTableAllPromotions growl" actionListener="#{updatePromotionManagedBean.updatePromotion}" oncomplete="PF('dialogUpdatePromotion').hide()">

@@ -80,7 +80,7 @@ public class AccessoryItemEntity implements Serializable {
     private List<ReviewEntity> reviewEntities;
 
     public AccessoryItemEntity() {
-        this.promotionEntities = new ArrayList<>();
+		this.promotionEntities = new ArrayList<>();
         this.reviewEntities = new ArrayList<>();
         this.imageLink = "";
         this.isDisabled = false;
