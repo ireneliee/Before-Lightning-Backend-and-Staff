@@ -16,11 +16,12 @@
     <h:body>
         <p:layout fullPage="true" styleClass="ui-noborder" >
             <p:growl id="growl" showDetail="true" redisplay="false" />  
-            <p:layoutUnit position="north" size="85" styleClass="ui-noborder">
-
-                <ui:insert class = "header-section" name="header">
-                    <ui:include src="/header.xhtml" />
-                </ui:insert>
+            <p:layoutUnit position="north" size="80" styleClass="ui-noborder">
+                <div style = "overflow-y: hidden">
+                    <ui:insert class = "header-section" name="header">
+                        <ui:include src="/header.xhtml" />
+                    </ui:insert>
+                </div>
 
             </p:layoutUnit>
 
@@ -45,7 +46,7 @@
                                 <br></br>
                                 <p:outputLabel value="Access right:  #{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: large; font-weight: bold;"/>
                                 <br></br>
-                                
+
                             </p:panel>
                         </p:overlayPanel>
 
