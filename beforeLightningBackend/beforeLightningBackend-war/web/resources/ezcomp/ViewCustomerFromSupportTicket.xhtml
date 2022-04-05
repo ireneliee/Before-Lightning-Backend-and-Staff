@@ -1,12 +1,139 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
-</html>
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <style type="text/css">
+            .ui-datalist {
+                width:300px;
+                margin-bottom: 20px;
+            }
+
+            .ui-datalist-item {
+                padding:3px;
+            }
+        </style>
+
+        <p:dialog id="dialogViewCustomerForSupport" widgetVar="dialogViewCustomerForSupport" header="View Customer" closable="true" >
+            <p:autoUpdate />
+            <p:messages id="findCustomerMessage" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+            <p:panelGrid>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Customer id" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.userEntityId}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Profile picture" />
+                    </p:column>
+                    <p:column>
+                        <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/account.png" rendered="#{empty viewCustomerManagedBean.memberEntityToView.imageLink}" height="50px" width="50px"/>
+                        <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/#{sessionScope.currentEmployeeEntity.imageLink}" rendered="#{not empty viewCustomerManagedBean.memberEntityToView.imageLink}" height="50px" width="50px"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Username" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.username}" />
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="First name" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.firstname}" />
+                    </p:column>
+                </p:row>                   
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Last name" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.lastname}" />
+                    </p:column>
+                </p:row> 
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Last name" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.lastname}" />
+                    </p:column>
+                </p:row>     
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Contact number" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.contact}" />
+                    </p:column>
+                </p:row>     
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Email" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{viewCustomerManagedBean.memberEntityToView.email}" />
+                    </p:column>
+                </p:row>  
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Number of addresses" />
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{fn: length(viewCustomerManagedBean.memberEntityToView.addresses)}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="List of addresses" />
+                    </p:column>
+                    <p:column>
+                        <h:form id="addressesForm">
+                            <p:dataList value="#{viewCustomerManagedBean.memberEntityToView.addresses}" var="address" type="definition">
+                                <f:facet name="header">
+                                    Addresses
+                                </f:facet>
+                                Block: #{address.block}
+                                <br></br>
+                                Unit: #{address.unit} 
+                                <br></br>
+                                Postal code: #{address.postalCode} 
+                                <br></br>
+                                Country: #{address.country}
+                                <br></br>
+                                <br></br>
+
+
+                            </p:dataList>
+                        </h:form>
+                    </p:column>
+
+                </p:row>
+            </p:panelGrid>
+
+        </p:dialog>
+
+
+    </cc:implementation>
+</html>

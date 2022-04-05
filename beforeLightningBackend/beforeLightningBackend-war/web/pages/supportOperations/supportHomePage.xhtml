@@ -45,7 +45,7 @@
                 <p:column headerText="Action" >
 
 
-                    <p:commandButton  oncomplete = "PF('dialogViewCustomer').show()" update="formAllSupportTicket" value ="find customer" actionListener ="#{ supportTicketManagedBean.viewCustomer }" icon="ui-icon-document" title="View" >
+                    <p:commandButton  oncomplete = "PF('dialogViewCustomerForSupport').show()" update="formAllSupportTicket" value ="find customer" actionListener ="#{ supportTicketManagedBean.viewCustomer }" icon="ui-icon-document" title="View" >
                         <f:attribute name="emailOfCreator" value="#{supportTicket.email}" />
                     </p:commandButton>
 
@@ -98,7 +98,7 @@
                 <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generateSupportTicketReport}" icon="pi pi-arrow-down" ajax="false"/>
             </h:form>
         </p:panel>
-        <ez:ViewCustomer id="ccViewCustomer" />
+        <ez:ViewCustomerFromSupportTicket id="ccViewCustomerFromSupport" />
 
     </ui:define>
 
