@@ -43,21 +43,9 @@
 
             </p:dataTable>
         </h:form>
-        <p:panel id="productReport" header="Download the products report">
-            <h:form>
-                <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generateProductReport }" icon="pi pi-arrow-down" ajax="false"/>
-            </h:form>
-        </p:panel>
-        <p:panel id="partReport" header="Download the parts report">
-            <h:form>
-                <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generatePartReport }" icon="pi pi-arrow-down" ajax="false"/>
-            </h:form>
-        </p:panel>
-        <p:panel id="partChoiceReport" header="Download the part choices report">
-            <h:form>
-                <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generatePartChoiceReport }" icon="pi pi-arrow-down" ajax="false"/>
-            </h:form>
-        </p:panel>
+        
+       
+       
     </ui:define>
 
 </ui:composition>

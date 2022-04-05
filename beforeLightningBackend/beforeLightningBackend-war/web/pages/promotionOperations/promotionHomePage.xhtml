@@ -10,7 +10,7 @@
                 >
 
     <ui:define name="content">
-        <ez:Breadcrumb pageName="Promotions" />
+        <ez:Breadcrumb pageName="Promotion" />
         <h:form id="formAllPromotions">
             <p:dataTable id="dataTableAllPromotions" widgetVar="dataTableAllPromotions" value="#{promotionManagementManagedBean.listOfAllPromotions}" var="promotionEntity" rowKey="#{promotionEntity.promotionEntityId}" rowIndexVar="row"
                          filteredValue="#{promotionManagementManagedBean.filteredListOfPromotions}"

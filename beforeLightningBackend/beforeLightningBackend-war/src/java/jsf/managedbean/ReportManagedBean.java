@@ -57,6 +57,23 @@ public class ReportManagedBean implements Serializable {
 
         }
     }
+    
+    public void generateCustomerReport(ActionEvent event) {
+        try {
+            HashMap parameters = new HashMap();
+            InputStream reportStream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/jasperreport/customer.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, beforeLightningBackendDatasource.getConnection());
+            
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.reset();
+            ServletOutputStream stream = response.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (IOException | SQLException | JRException ex) {
+            Logger.getLogger(ReportManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    }
 
     public void generateAccessoryReport(ActionEvent event) {
         

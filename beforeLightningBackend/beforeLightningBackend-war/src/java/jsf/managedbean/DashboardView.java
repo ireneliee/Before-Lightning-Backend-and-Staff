@@ -34,7 +34,7 @@ public class DashboardView implements Serializable {
         
         
         column1.addWidget("productPieChart");
-        column3.addWidget("supportTicketPieChart");
+        column2.addWidget("supportTicketPieChart");
         column1.addWidget("purchaseOrderStatsInTwelveMonths");
         
         model.addColumn(column1);

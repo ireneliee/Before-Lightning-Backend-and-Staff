@@ -46,11 +46,17 @@
 
                 <p:column headerText="Action" >
                     <p:commandButton value="View customer" update="ccViewCustomer:formViewCustomer" oncomplete="PF('dialogViewCustomer').show()" icon="ui-icon-document" title="View">
-                         <f:setPropertyActionListener value="#{memberEntity}" target="#{customerManagedBean.viewCustomerManagedBean.memberEntityToView}" />
+                        <f:setPropertyActionListener value="#{memberEntity}" target="#{customerManagedBean.viewCustomerManagedBean.memberEntityToView}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>
+        <p:panel id="customertReport" header="Download the customer report">
+            <h:form>
+                <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generateCustomerReport }" icon="pi pi-arrow-down" ajax="false"/>
+            </h:form>
+        </p:panel>
+     
         <ez:ViewCustomer id="ccViewCustomer" />
     </ui:define>
 </ui:composition>

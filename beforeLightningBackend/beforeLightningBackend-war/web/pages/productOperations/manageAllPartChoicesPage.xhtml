@@ -111,6 +111,12 @@
                 </p:column>
             </p:dataTable>
         </h:form>
+        
+         <p:panel id="partChoiceReport" header="Download the part choices report">
+            <h:form>
+                <p:commandButton  style = "text-align: center" actionListener = "#{ reportManagedBean.generatePartChoiceReport }" icon="pi pi-arrow-down" ajax="false"/>
+            </h:form>
+        </p:panel>
         <ez:CreatePartChoice id="ccCreatePartChoice" /> 
         <ez:ViewPartChoice id="ccViewPartChoice" />
         <ez:UpdatePartChoice id="ccUpdatePartChoice" />
