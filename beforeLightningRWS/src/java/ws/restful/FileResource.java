@@ -28,11 +28,13 @@ public class FileResource
     private UriInfo context;
     @Context
     private ServletContext servletContext;
+    private String docrootUrl;
 
     
     
     public FileResource() 
     {
+        docrootUrl = "C:/glassfish-5.1.0-uploadedfiles/uploadedFiles";
     }
     
     
@@ -47,15 +49,17 @@ public class FileResource
         try
         {
             System.err.println("********** FileResource.upload()");
+            if(uploadedFileInputStream == null) System.out.println("Nothing has been sent.");
+            if(uploadedFileInputStream != null) System.out.println("At least something is received.");
 
-            String outputFilePath = servletContext.getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + uploadedFileDetails.getFileName();
+            String outputFilePath = docrootUrl + System.getProperty("file.separator") + uploadedFileDetails.getFileName();
+            System.out.println("Url file: " + outputFilePath);
             File file = new File(outputFilePath);        
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             
             int a;
             int BUFFER_SIZE = 8192;
             byte[] buffer = new byte[BUFFER_SIZE];
-
             while (true)
             {
                 a = uploadedFileInputStream.read(buffer);
@@ -66,11 +70,14 @@ public class FileResource
                 }
 
                 fileOutputStream.write(buffer, 0, a);
+
                 fileOutputStream.flush();
             }
 
             fileOutputStream.close();
+
             uploadedFileInputStream.close();
+
             
             return Response.status(Status.OK).entity("ok").build();
         }
@@ -86,5 +93,29 @@ public class FileResource
             
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity("file processing error").build();
         }               
+    }
+
+    public UriInfo getContext() {
+        return context;
+    }
+
+    public void setContext(UriInfo context) {
+        this.context = context;
+    }
+
+    public ServletContext getServletContext() {
+        return servletContext;
+    }
+
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
+    public String getDocrootUrl() {
+        return docrootUrl;
+    }
+
+    public void setDocrootUrl(String docrootUrl) {
+        this.docrootUrl = docrootUrl;
     }
 }
