@@ -49,5 +49,11 @@ public interface ForumPostsEntitySessionBeanLocal {
 
     public ForumPostEntity retrieveForumPostById(Long forumId) throws ForumPostNotFoundException;
 
+    public void removeLikes(ForumPostEntity post, MemberEntity member) throws MemberEntityNotFoundException, ForumPostNotFoundException;
+
+    public void removeDislikes(ForumPostEntity post, MemberEntity member) throws MemberEntityNotFoundException, ForumPostNotFoundException;
+
+    public void changeLikes(Long postId, String username) throws MemberEntityNotFoundException, ForumPostNotFoundException;
+
     
 }

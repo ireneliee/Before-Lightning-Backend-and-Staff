@@ -10,6 +10,7 @@ import entity.MemberEntity;
 import entity.ReplyEntity;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,6 +30,9 @@ import util.exception.MemberEntityNotFoundException;
 @Stateless
 public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanLocal {
 
+    @EJB
+    private MemberEntitySessionBeanLocal memberEntitySessionBean;
+
     @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
     private EntityManager em;
 
@@ -39,7 +43,7 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
-    
+
     public List<ForumPostEntity> retrieveAllViewableForumPost() {
         String queryInString = "SELECT f FROM ForumPostEntity f WHERE f.isVisible = :iVisible AND f.isBanned = :iBanned";
         Query query = em.createQuery(queryInString);
@@ -55,7 +59,6 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
             throw new ForumPostNotFoundException("Forum post cannot be found. ");
         }
 
-
         Set<ConstraintViolation<ReplyEntity>> constraintViolations = validator.validate(newComment);
 
         if (constraintViolations.isEmpty()) {
@@ -66,21 +69,18 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
             newComment.setAuthor(authorMember);
             em.persist(newComment);
             authorMember.getForumReplies().add(newComment);
-            
-                    
+
             forumPost.getReplies().add(newComment);
             newComment.setForumPost(forumPost);
-            
+
             em.flush();
             return newComment.getReplyEntityId();
-            
+
         } else {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessageForReply(constraintViolations));
         }
 
     }
-    
-    
 
     @Override
     public Long createNewForumPostEntity(ForumPostEntity newPost) throws InputDataValidationException, MemberEntityNotFoundException {
@@ -118,11 +118,11 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
         Query query = em.createQuery(queryInString);
         return query.getResultList();
     }
-    
+
     @Override
     public List<ReplyEntity> retrieveReplyByForumId(Long forumPostId) throws ForumPostNotFoundException {
         ForumPostEntity fp = em.find(ForumPostEntity.class, forumPostId);
-        if(fp == null) {
+        if (fp == null) {
             throw new ForumPostNotFoundException("Forum post cannot be found. ");
         } else {
             String queryInString = "SELECT r FROM ReplyEntity r WHERE r.forumPost = :iForumPost";
@@ -131,7 +131,7 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
             return query.getResultList();
         }
     }
-    
+
     @Override
     public void updateReplyEntity(ReplyEntity updatedReply) {
         ReplyEntity re = em.find(ReplyEntity.class, updatedReply.getReplyEntityId());
@@ -139,7 +139,7 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
         re.setImageLink(updatedReply.getImageLink());
         re.setIsVisible(updatedReply.getIsVisible());
         re.setIsBanned(updatedReply.getIsBanned());
-        
+
     }
 
     @Override
@@ -155,6 +155,50 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
 
         likeMember.getPostsLiked().add(postLiked);
         postLiked.getUserWhoLikes().add(likeMember);
+
+    }
+
+
+    @Override
+    public void changeLikes(Long postId, String username) throws MemberEntityNotFoundException, ForumPostNotFoundException {
+        System.out.println("Reach here at least");
+        MemberEntity likeMember = memberEntitySessionBean.retrieveMemberEntityByUsername(username);
+        if (likeMember == null) {
+            System.out.println("Member cannot be found.");
+            throw new MemberEntityNotFoundException("Member entity cannot be found!");
+        }
+        ForumPostEntity postLiked = em.find(ForumPostEntity.class, postId);
+        if (postLiked == null) {
+            System.out.println("Postcannot be found.");
+            throw new ForumPostNotFoundException("Forum post cannot be found!");
+        }
+        System.out.println("Reach x");
+        if (likeMember.getPostsLiked().contains(postLiked)) {
+            System.out.println("Reach y");
+            likeMember.getPostsLiked().remove(postLiked);
+            postLiked.getUserWhoLikes().remove(likeMember);
+            
+        } else {
+            System.out.println("Reach z");
+            likeMember.getPostsLiked().add(postLiked);
+            postLiked.getUserWhoLikes().add(likeMember);
+        }
+
+    }
+
+    @Override
+    public void removeLikes(ForumPostEntity post, MemberEntity member) throws MemberEntityNotFoundException, ForumPostNotFoundException {
+        MemberEntity likeMember = em.find(MemberEntity.class, post.getAuthor().getUserEntityId());
+        if (likeMember == null) {
+            throw new MemberEntityNotFoundException("Member entity cannot be found!");
+        }
+        ForumPostEntity postLiked = em.find(ForumPostEntity.class, post.getForumPostEntityId());
+        if (postLiked == null) {
+            throw new ForumPostNotFoundException("Forum post cannot be found!");
+        }
+
+        likeMember.getPostsLiked().remove(postLiked);
+        postLiked.getUserWhoLikes().remove(likeMember);
 
     }
 
@@ -175,6 +219,22 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
     }
 
     @Override
+    public void removeDislikes(ForumPostEntity post, MemberEntity member) throws MemberEntityNotFoundException, ForumPostNotFoundException {
+        MemberEntity dislikeMember = em.find(MemberEntity.class, post.getAuthor().getUserEntityId());
+        if (dislikeMember == null) {
+            throw new MemberEntityNotFoundException("Member entity cannot be found!");
+        }
+        ForumPostEntity postDisliked = em.find(ForumPostEntity.class, post.getForumPostEntityId());
+        if (postDisliked == null) {
+            throw new ForumPostNotFoundException("Forum post cannot be found!");
+        }
+
+        dislikeMember.getPostsLiked().remove(postDisliked);
+        postDisliked.getUserWhoLikes().remove(dislikeMember);
+
+    }
+
+    @Override
     public void updateContent(ForumPostEntity post) throws ForumPostNotFoundException {
         ForumPostEntity postToUpdate = em.find(ForumPostEntity.class, post.getForumPostEntityId());
         if (postToUpdate == null) {
@@ -184,11 +244,11 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
         postToUpdate.setContent(post.getContent());
         postToUpdate.setImageLink(post.getImageLink());
     }
-    
+
     @Override
     public ForumPostEntity retrieveForumPostById(Long forumId) throws ForumPostNotFoundException {
         ForumPostEntity postToFind = em.find(ForumPostEntity.class, forumId);
-        if(postToFind != null) {
+        if (postToFind != null) {
             return postToFind;
         }
         throw new ForumPostNotFoundException("Forum post cannot be found!");
@@ -231,8 +291,8 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
 
         return msg;
     }
-    
-     private String prepareInputDataValidationErrorsMessageForReply(Set<ConstraintViolation<ReplyEntity>> constraintViolations) {
+
+    private String prepareInputDataValidationErrorsMessageForReply(Set<ConstraintViolation<ReplyEntity>> constraintViolations) {
         String msg = "Input data validation error!:";
 
         for (ConstraintViolation constraintViolation : constraintViolations) {
