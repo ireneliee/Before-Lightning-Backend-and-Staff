@@ -51,8 +51,9 @@ public class FileResource
             System.err.println("********** FileResource.upload()");
             if(uploadedFileInputStream == null) System.out.println("Nothing has been sent.");
             if(uploadedFileInputStream != null) System.out.println("At least something is received.");
-
+            
             String outputFilePath = docrootUrl + System.getProperty("file.separator") + uploadedFileDetails.getFileName();
+            String fileName = uploadedFileDetails.getFileName();
             System.out.println("Url file: " + outputFilePath);
             File file = new File(outputFilePath);        
             FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -79,7 +80,7 @@ public class FileResource
             uploadedFileInputStream.close();
 
             
-            return Response.status(Status.OK).entity("ok").build();
+            return Response.status(Status.OK).entity(fileName).build();
         }
         catch(FileNotFoundException ex)
         {

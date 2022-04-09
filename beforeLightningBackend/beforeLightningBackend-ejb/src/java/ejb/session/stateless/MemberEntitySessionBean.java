@@ -187,6 +187,7 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
                     memberEntityEntityToUpdate.setLastname(memberEntity.getLastname());
                     memberEntityEntityToUpdate.setEmail(memberEntity.getEmail());
                     memberEntityEntityToUpdate.setContact(memberEntity.getContact());
+                    memberEntityEntityToUpdate.setIsActive(memberEntity.getIsActive());
                     // Username and password are deliberately NOT updated to demonstrate that client is not allowed to update account credential through this business method
                 } else {
                     throw new UpdateMemberEntityException("Username of memberEntity record to be updated does not match the existing record");

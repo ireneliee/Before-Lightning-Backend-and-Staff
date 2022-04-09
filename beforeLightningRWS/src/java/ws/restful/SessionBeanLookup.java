@@ -28,6 +28,8 @@ import javax.naming.NamingException;
  */
 public class SessionBeanLookup {
 
+    PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBean = lookupPurchaseOrderEntitySessionBeanLocal();
+
     private final String ejbModuleJndiPath;
 
     public SessionBeanLookup() {
@@ -53,11 +55,11 @@ public class SessionBeanLookup {
             throw new RuntimeException(ne);
         }
     }
-    
+
     public ForumPostsEntitySessionBeanLocal lookupForumPostsEntitySessionBeanLocal() {
         try {
             Context c = new InitialContext();
-            return (ForumPostsEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath +"ForumPostsEntitySessionBean!ejb.session.stateless.ForumPostsEntitySessionBeanLocal");
+            return (ForumPostsEntitySessionBeanLocal) c.lookup(ejbModuleJndiPath + "ForumPostsEntitySessionBean!ejb.session.stateless.ForumPostsEntitySessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
@@ -84,6 +86,7 @@ public class SessionBeanLookup {
 //        }
 //    }
 //
+
     public PartChoiceEntitySessionBeanLocal lookupPartChoiceEntitySessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
@@ -102,8 +105,8 @@ public class SessionBeanLookup {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
-    }    
-    
+    }
+
     public SupportTicketEntitySessionBeanLocal lookupSupportTicketEntitySessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
@@ -163,6 +166,14 @@ public class SessionBeanLookup {
 //            throw new RuntimeException(ne);
 //        }
 //    }
+    public PurchaseOrderEntitySessionBeanLocal lookupPurchaseOrderEntitySessionBeanLocal() {
+        try {
+            Context c = new InitialContext();
+            return (PurchaseOrderEntitySessionBeanLocal) c.lookup("java:global/beforeLightningBackend/beforeLightningBackend-ejb/PurchaseOrderEntitySessionBean!ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 
-    
 }

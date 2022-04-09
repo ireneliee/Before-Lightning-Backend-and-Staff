@@ -44,5 +44,7 @@ public interface PurchaseOrderEntitySessionBeanLocal {
     public void changeToRefund(Long purchaseOrderId);
 
     public void refundPurchaseOrder(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException;
+
+    public List<PurchaseOrderEntity> retrievePurchaseOrderByUsername(String username);
     
 }
