@@ -118,6 +118,7 @@ public class ProductResource {
             List<ProductEntity> productEntities = productEntitySessionBeanLocal.retrieveAllProductEntitiesThatCanSell();
             // =============== UNMARSHALLING =============
             for (ProductEntity product : productEntities) {
+                product.getReviewEntities().size();
                 for (PartEntity part : product.getPartEntities()) {
                     part.getProductEntities().clear();
                     for (PartChoiceEntity pce : part.getPartChoiceEntities()) {
