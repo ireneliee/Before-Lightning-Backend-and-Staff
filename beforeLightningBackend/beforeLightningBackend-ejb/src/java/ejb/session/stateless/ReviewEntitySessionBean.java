@@ -5,6 +5,8 @@
  */
 package ejb.session.stateless;
 
+import entity.AccessoryItemEntity;
+import entity.ProductEntity;
 import entity.ReviewEntity;
 import java.util.List;
 import java.util.Set;
@@ -57,6 +59,52 @@ public class ReviewEntitySessionBean implements ReviewEntitySessionBeanLocal {
         } else {
             throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
         }
+    }
+    
+    @Override
+    public Long createNewReviewEntityForAcc(ReviewEntity newReviewEntity, Long accId) throws UnknownPersistenceException, InputDataValidationException {
+        AccessoryItemEntity acc = entityManager.find(AccessoryItemEntity.class, accId);
+        
+        Set<ConstraintViolation<ReviewEntity>> constraintViolations = validator.validate(newReviewEntity);
+
+        if (constraintViolations.isEmpty()) {
+            try {
+                entityManager.persist(newReviewEntity);
+                entityManager.flush();
+                acc.getReviewEntities().add(newReviewEntity);
+        
+                return newReviewEntity.getReviewEntityId();
+            } catch (PersistenceException ex) {
+                throw new UnknownPersistenceException(ex.getMessage());
+            }
+        } else {
+            throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+        }
+        
+        
+    }
+    
+    @Override
+    public Long createNewReviewEntityForProduct(ReviewEntity newReviewEntity, Long prodId) throws UnknownPersistenceException, InputDataValidationException {
+        ProductEntity prod = entityManager.find(ProductEntity.class, prodId);
+        
+        Set<ConstraintViolation<ReviewEntity>> constraintViolations = validator.validate(newReviewEntity);
+
+        if (constraintViolations.isEmpty()) {
+            try {
+                entityManager.persist(newReviewEntity);
+                entityManager.flush();
+                prod.getReviewEntities().add(newReviewEntity);
+        
+                return newReviewEntity.getReviewEntityId();
+            } catch (PersistenceException ex) {
+                throw new UnknownPersistenceException(ex.getMessage());
+            }
+        } else {
+            throw new InputDataValidationException(prepareInputDataValidationErrorsMessage(constraintViolations));
+        }
+        
+        
     }
 
     @Override

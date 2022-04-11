@@ -80,7 +80,7 @@ public class FileResource
             uploadedFileInputStream.close();
 
             
-            return Response.status(Status.OK).entity(fileName).build();
+            return Response.status(Status.OK).entity("uploadedFileDetails.getFileName()").build();
         }
         catch(FileNotFoundException ex)
         {

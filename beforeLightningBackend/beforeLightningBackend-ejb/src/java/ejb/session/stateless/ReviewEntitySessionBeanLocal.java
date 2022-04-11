@@ -26,5 +26,9 @@ public interface ReviewEntitySessionBeanLocal {
     public ReviewEntity retrieveReviewEntityByReviewEntityId(Long partEntityId) throws ReviewEntityNotFoundException;
 
     public List<ReviewEntity> retrieveReviewEntitiesByUsername(String username) throws ReviewEntityNotFoundException;
+
+    public Long createNewReviewEntityForAcc(ReviewEntity newReviewEntity, Long accId) throws UnknownPersistenceException, InputDataValidationException;
+
+    public Long createNewReviewEntityForProduct(ReviewEntity newReviewEntity, Long prodId) throws UnknownPersistenceException, InputDataValidationException;
     
 }

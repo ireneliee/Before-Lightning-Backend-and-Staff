@@ -15,6 +15,7 @@ import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
 import ejb.session.stateless.PromotionEntitySessionBeanLocal;
 import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
+import ejb.session.stateless.ReviewEntitySessionBeanLocal;
 import ejb.session.stateless.SupportTicketEntitySessionBeanLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,8 @@ import javax.naming.NamingException;
  * @author Koh Wen Jie
  */
 public class SessionBeanLookup {
+
+    ReviewEntitySessionBeanLocal reviewEntitySessionBean = lookupReviewEntitySessionBeanLocal();
 
     PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBean = lookupPurchaseOrderEntitySessionBeanLocal();
 
@@ -170,6 +173,16 @@ public class SessionBeanLookup {
         try {
             Context c = new InitialContext();
             return (PurchaseOrderEntitySessionBeanLocal) c.lookup("java:global/beforeLightningBackend/beforeLightningBackend-ejb/PurchaseOrderEntitySessionBean!ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    public ReviewEntitySessionBeanLocal lookupReviewEntitySessionBeanLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ReviewEntitySessionBeanLocal) c.lookup("java:global/beforeLightningBackend/beforeLightningBackend-ejb/ReviewEntitySessionBean!ejb.session.stateless.ReviewEntitySessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
