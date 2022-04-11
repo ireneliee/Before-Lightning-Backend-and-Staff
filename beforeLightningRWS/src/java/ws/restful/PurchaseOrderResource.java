@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -20,6 +21,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import ws.datamodel.CreatePurchaseOrderReq;
 
 @Path("PurchaseOrder")
 
@@ -52,6 +54,19 @@ public class PurchaseOrderResource {
             return Response.status(Response.Status.OK).entity(genericEntity).build();
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An error has occured while retrieving purchase orders").build();
+        }
+    }
+    
+    @Path("createNewPurchaseOrder")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createNewPurchaseOrder(CreatePurchaseOrderReq purchaseOrderReq) {
+        if (purchaseOrderReq != null) {
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to create Purchase Order!").build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to create Purchase Order!").build();
         }
     }
 

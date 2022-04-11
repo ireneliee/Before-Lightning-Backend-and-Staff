@@ -59,6 +59,7 @@ public class AccessoryResource {
                     System.out.println("here 2");
                     accessoryItem.setAccessoryEntity(null);
                     System.out.println("here 3");
+                    accessoryItem.getReviewEntities().size();
 
                     for (PromotionEntity promo : accessoryItem.getPromotionEntities()) {
                         System.out.println("here 4");
