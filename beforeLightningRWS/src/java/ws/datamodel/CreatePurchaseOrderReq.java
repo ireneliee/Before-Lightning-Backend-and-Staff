@@ -14,17 +14,28 @@ public class CreatePurchaseOrderReq {
     private AddressEntity address;
     private String deliveryType;
     private BigDecimal totalPrice;
+    private Integer day;
+    private Integer month;
+    private Integer year;
+    private Integer hours;
+    private String deliveryOption;
 
     public CreatePurchaseOrderReq() {
     }
 //DeliverySlotEntity deliverySlot,
-    public CreatePurchaseOrderReq(List<PurchaseOrderLineItemEntity> listOfLineItems,  String memberUsername, AddressEntity address, String deliveryType, BigDecimal totalPrice) {
+
+    public CreatePurchaseOrderReq(List<PurchaseOrderLineItemEntity> listOfLineItems, String memberUsername, AddressEntity address, String deliveryType, BigDecimal totalPrice, Integer day, Integer month, Integer year, Integer hours, String deliveryOption) {
         this.listOfLineItems = listOfLineItems;
 //        this.deliverySlot = deliverySlot;
         this.memberUsername = memberUsername;
         this.address = address;
         this.deliveryType = deliveryType;
         this.totalPrice = totalPrice;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.hours = hours;
+        this.deliveryOption = deliveryOption;
     }
 
     public List<PurchaseOrderLineItemEntity> getListOfLineItems() {
@@ -42,7 +53,6 @@ public class CreatePurchaseOrderReq {
 //    public void setDeliverySlot(DeliverySlotEntity deliverySlot) {
 //        this.deliverySlot = deliverySlot;
 //    }
-
     public String getMemberUsername() {
         return memberUsername;
     }
@@ -73,5 +83,45 @@ public class CreatePurchaseOrderReq {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getDeliveryOption() {
+        return deliveryOption;
+    }
+
+    public void setDeliveryOption(String deliveryOption) {
+        this.deliveryOption = deliveryOption;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getHours() {
+        return hours;
+    }
+
+    public void setHours(Integer hours) {
+        this.hours = hours;
     }
 }

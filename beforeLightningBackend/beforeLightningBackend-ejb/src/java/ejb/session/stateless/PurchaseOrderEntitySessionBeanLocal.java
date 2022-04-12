@@ -10,6 +10,7 @@ import entity.DeliverySlotEntity;
 import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewPurchaseOrderException;
@@ -53,6 +54,8 @@ public interface PurchaseOrderEntitySessionBeanLocal {
 
 //    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, DeliverySlotEntity deliverySlot, AddressEntity address, String deliveryType, BigDecimal totalPrice) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException;
 
-    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException;
+//    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException;
+
+    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice, LocalDateTime deliveryDate, String deliveryOption) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException;
     
 }

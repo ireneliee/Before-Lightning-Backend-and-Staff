@@ -108,9 +108,9 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         return serialNumber.intValue();
     }
 //DeliverySlotEntity deliverySlot, 
-
+//LocalDateTime deliveryDate, String deliveryOption)
     @Override
-    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException {
+    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice, LocalDateTime deliveryDate, String deliveryOption)  throws MemberEntityNotFoundException, CreateNewPurchaseOrderException {
         System.out.println("CALLED SESSION BEAN METHOD createNewPurchaseOrderRWS");
 
         if (!listOfLineItems.isEmpty()) {
@@ -144,6 +144,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
                     } catch (AccessoryItemEntityNotFoundException ex) {
                         System.out.println("Cant find the accessory Item of ID: " + poli.getAccessoryItemEntity().getAccessoryItemEntityId());
                     }
+                    newPoli.setCosmeticImageLink("");
                     System.out.println("END OF MAKING LINE ITEM FOR ACCESSORY");
 
                 } else {
@@ -191,21 +192,29 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
             em.persist(newPurchaseOrderEntity);
             em.flush();
             System.out.println("List of Line Item size in managed PO: " + newPurchaseOrderEntity.getPurchaseOrderLineItems().size());
+            
+//            CREATING DELIVERY
+            DeliveryStatusEnum delEnum;
+            if (deliveryOption.equals("OUTSTORE")) {
+                delEnum = DeliveryStatusEnum.OUTSTORE;
+            } else {
+                delEnum = DeliveryStatusEnum.INSTORE;
+            }
 
-//            DeliverySlotEntity newDeliverySlot = new DeliverySlotEntity(deliverySlot.getDeliveryStatus(), LocalDateTime.now());
-//            if (newDeliverySlot.getDeliveryStatus() == DeliveryStatusEnum.OUTSTORE) {
-//                try {
-//                    deliverySlotSessionBeanLocal.createOutStoreDelivery(managedPurchaseOrder.getPurchaseOrderEntityId(), address.getAddressEntityId(), newDeliverySlot);
-//                } catch (AddressEntityNotFoundException | PurchaseOrderEntityNotFoundException ex) {
-//                    System.out.println("not working");
-//                }
-//            } else {
-//                try {
-//                    deliverySlotSessionBeanLocal.createInStoreDelivery(managedPurchaseOrder.getPurchaseOrderEntityId(), newDeliverySlot);
-//                } catch (PurchaseOrderEntityNotFoundException ex) {
-//                    System.out.println("not working 2");
-//                }
-//            }
+            DeliverySlotEntity newDeliverySlot = new DeliverySlotEntity(delEnum, deliveryDate);
+            if (newDeliverySlot.getDeliveryStatus() == DeliveryStatusEnum.OUTSTORE) {
+                try {
+                    deliverySlotSessionBeanLocal.createOutStoreDelivery(newPurchaseOrderEntity.getPurchaseOrderEntityId(), address.getAddressEntityId(), newDeliverySlot);
+                } catch (AddressEntityNotFoundException | PurchaseOrderEntityNotFoundException ex) {
+                    System.out.println("not working");
+                }
+            } else {
+                try {
+                    deliverySlotSessionBeanLocal.createInStoreDelivery(newPurchaseOrderEntity.getPurchaseOrderEntityId(), newDeliverySlot);
+                } catch (PurchaseOrderEntityNotFoundException ex) {
+                    System.out.println("not working 2");
+                }
+            }
             return newPurchaseOrderEntity;
         } else {
             throw new CreateNewPurchaseOrderException("UNABLE TO CREATE PURCHASE ORDER");

@@ -12,6 +12,9 @@ import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,6 +82,12 @@ public class PurchaseOrderResource {
         System.out.println(purchaseOrderReq.getListOfLineItems());
         System.out.println(purchaseOrderReq.getMemberUsername());
         System.out.println(purchaseOrderReq.getTotalPrice());
+        System.out.println(purchaseOrderReq.getDay());
+        System.out.println(purchaseOrderReq.getMonth());
+        System.out.println(purchaseOrderReq.getYear());
+        System.out.println(purchaseOrderReq.getHours());
+//        System.out.println("This is the working date: " + deliveryDate.toString());
+        System.out.println(purchaseOrderReq.getDeliveryOption());
         System.out.println("================= RETRIEVED PURCHASE ORDER ITEMS ================");
 
         if (purchaseOrderReq != null) {
@@ -88,10 +97,29 @@ public class PurchaseOrderResource {
             AddressEntity address = purchaseOrderReq.getAddress();
             String deliveryType = purchaseOrderReq.getDeliveryType();
             BigDecimal totalPrice = purchaseOrderReq.getTotalPrice();
+            Integer day = purchaseOrderReq.getDay();
+            Integer month = purchaseOrderReq.getMonth();
+            Integer year = purchaseOrderReq.getYear();
+            Integer hours = purchaseOrderReq.getHours();
+            LocalDateTime deliveryDate = LocalDateTime.of(year, Month.of(month + 1), day, hours, 0);
+            System.out.println("The date is " + deliveryDate.toString());
+            String deliveryOption = purchaseOrderReq.getDeliveryOption();
 
+////            LocalDateTime deliveryDate = LocalDateTime.parse(purchaseOrderReq.getDate().subSequence(0, 23) + "+08:00");
+//            String deliveryOption = purchaseOrderReq.getDeliveryOption();
+//            Calendar cal = javax.xml.bind.DatatypeConverter.parseDateTime(purchaseOrderReq.getDate().subSequence(0, 23) + "+08:00");
+//            System.out.println("========================================");
+//            System.out.println(cal.toString()); 
+//            Date obj = cal.getTime();
+//            System.out.println(obj.toString());
+////            String objString = obj.();
+////            LocalDateTime deliveryDate = LocalDateTime.
+////            System.out.println(deliveryDate.toString());
+//            System.out.println("========================================");
             try {
 //                deliverySlot
-                PurchaseOrderEntity po = purchaseOrderEntitySessionBean.createNewPurchaseOrderRWS(memberUsername, listOfLineItems, address, deliveryType, totalPrice);
+                PurchaseOrderEntity po = purchaseOrderEntitySessionBean.createNewPurchaseOrderRWS(memberUsername, listOfLineItems, address, deliveryType, totalPrice, deliveryDate, deliveryOption);
+//                
                 System.out.println("CREATED PO ID: " + po.getPurchaseOrderEntityId());
                 return Response.status(Response.Status.OK).entity(po.getPurchaseOrderEntityId()).build();
 
