@@ -52,4 +52,6 @@ public interface PromotionEntitySessionBeanLocal {
 
 	public void removePromotionEntity(Long promotionId) throws PromotionEntityNotFoundException;
 
+    public List<PromotionEntity> retrieveAllOngoingPromotion();
+
 }

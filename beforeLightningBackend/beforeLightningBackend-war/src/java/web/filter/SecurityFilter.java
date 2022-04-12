@@ -116,10 +116,12 @@ public class SecurityFilter implements Filter {
     }
 
     private Boolean excludeLoginCheck(String path) {
+        System.out.println(path);
         if (path.equals("/index.xhtml")
                 || path.equals("/accessRightError.xhtml")
-                || path.equals("/uploadedFiles")
+                || path.startsWith("/uploadedFiles")
                 || path.startsWith("/javax.faces.resource")) {
+            
             return true;
         } else {
             return false;

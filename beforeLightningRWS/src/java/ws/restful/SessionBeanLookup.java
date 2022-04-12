@@ -29,6 +29,8 @@ import javax.naming.NamingException;
  */
 public class SessionBeanLookup {
 
+    PromotionEntitySessionBeanLocal promotionEntitySessionBean = lookupPromotionEntitySessionBeanLocal();
+
     ReviewEntitySessionBeanLocal reviewEntitySessionBean = lookupReviewEntitySessionBeanLocal();
 
     PurchaseOrderEntitySessionBeanLocal purchaseOrderEntitySessionBean = lookupPurchaseOrderEntitySessionBeanLocal();
@@ -183,6 +185,16 @@ public class SessionBeanLookup {
         try {
             Context c = new InitialContext();
             return (ReviewEntitySessionBeanLocal) c.lookup("java:global/beforeLightningBackend/beforeLightningBackend-ejb/ReviewEntitySessionBean!ejb.session.stateless.ReviewEntitySessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private PromotionEntitySessionBeanLocal lookupPromotionEntitySessionBeanLocal() {
+        try {
+            Context c = new InitialContext();
+            return (PromotionEntitySessionBeanLocal) c.lookup("java:global/beforeLightningBackend/beforeLightningBackend-ejb/PromotionEntitySessionBean!ejb.session.stateless.PromotionEntitySessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
