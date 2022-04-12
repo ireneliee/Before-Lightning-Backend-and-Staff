@@ -49,9 +49,6 @@ public class MemberEntity extends UserEntity implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<ForumPostEntity> postsLiked;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<ForumPostEntity> postsDisliked;
-    
     @Column(nullable = false)
     private Boolean isActive;
 
@@ -192,14 +189,6 @@ public class MemberEntity extends UserEntity implements Serializable {
 
     public void setPostsLiked(List<ForumPostEntity> postsLiked) {
         this.postsLiked = postsLiked;
-    }
-
-    public List<ForumPostEntity> getPostsDisliked() {
-        return postsDisliked;
-    }
-
-    public void setPostsDisliked(List<ForumPostEntity> postsDisliked) {
-        this.postsDisliked = postsDisliked;
     }
 
     public List<ReplyEntity> getForumReplies() {

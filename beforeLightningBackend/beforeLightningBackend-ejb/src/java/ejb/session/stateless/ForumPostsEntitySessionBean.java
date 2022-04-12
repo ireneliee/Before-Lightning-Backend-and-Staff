@@ -161,29 +161,52 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
 
     @Override
     public void changeLikes(Long postId, String username) throws MemberEntityNotFoundException, ForumPostNotFoundException {
-        System.out.println("Reach here at least");
+        //System.out.println("Reach here at least");
         MemberEntity likeMember = memberEntitySessionBean.retrieveMemberEntityByUsername(username);
         if (likeMember == null) {
-            System.out.println("Member cannot be found.");
+            //System.out.println("Member cannot be found.");
             throw new MemberEntityNotFoundException("Member entity cannot be found!");
         }
         ForumPostEntity postLiked = em.find(ForumPostEntity.class, postId);
         if (postLiked == null) {
-            System.out.println("Postcannot be found.");
+            //System.out.println("Postcannot be found.");
             throw new ForumPostNotFoundException("Forum post cannot be found!");
         }
         System.out.println("Reach x");
         if (likeMember.getPostsLiked().contains(postLiked)) {
-            System.out.println("Reach y");
+            System.out.println("=============Session bean: Changing from like to unlike");
             likeMember.getPostsLiked().remove(postLiked);
             postLiked.getUserWhoLikes().remove(likeMember);
             
         } else {
-            System.out.println("Reach z");
+            //System.out.println("Reach z");
+            System.out.println("=============Session bean: Changing from unlike to like");
             likeMember.getPostsLiked().add(postLiked);
             postLiked.getUserWhoLikes().add(likeMember);
         }
 
+    }
+    
+    @Override
+    public boolean userLikes(Long postId, String username)  throws MemberEntityNotFoundException, ForumPostNotFoundException {
+        MemberEntity likeMember = memberEntitySessionBean.retrieveMemberEntityByUsername(username);
+        if (likeMember == null) {
+            //System.out.println("Member cannot be found.");
+            throw new MemberEntityNotFoundException("Member entity cannot be found!");
+        }
+        ForumPostEntity postLiked = em.find(ForumPostEntity.class, postId);
+        if (postLiked == null) {
+            //System.out.println("Postcannot be found.");
+            throw new ForumPostNotFoundException("Forum post cannot be found!");
+        }
+        
+        if(likeMember.getPostsLiked().contains(postLiked)) {
+            System.out.println("===========Session bean: User likes the photo.");
+            return true;
+        } else {
+            System.out.println("===========Session bean: User does not like the photo.");
+            return false;
+        }
     }
 
     @Override

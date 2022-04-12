@@ -57,9 +57,6 @@ public class ForumPostEntity implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<MemberEntity> userWhoLikes;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<MemberEntity> userWhoDislikes;
-    
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     private MemberEntity author;
@@ -87,7 +84,6 @@ public class ForumPostEntity implements Serializable {
         isVisible = true;
         isBanned = false;
         userWhoLikes = new ArrayList<>();
-        userWhoDislikes = new ArrayList<>();
     }
     
 
@@ -186,14 +182,6 @@ public class ForumPostEntity implements Serializable {
 
     public void setUserWhoLikes(List<MemberEntity> userWhoLikes) {
         this.userWhoLikes = userWhoLikes;
-    }
-
-    public List<MemberEntity> getUserWhoDislikes() {
-        return userWhoDislikes;
-    }
-
-    public void setUserWhoDislikes(List<MemberEntity> userWhoDislikes) {
-        this.userWhoDislikes = userWhoDislikes;
     }
 
     public List<ReplyEntity> getReplies() {
