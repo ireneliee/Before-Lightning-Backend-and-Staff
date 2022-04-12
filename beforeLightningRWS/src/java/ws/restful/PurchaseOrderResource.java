@@ -2,17 +2,24 @@ package ws.restful;
 
 import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
 import entity.AccessoryItemEntity;
+import entity.AddressEntity;
+import entity.DeliverySlotEntity;
 import entity.MemberEntity;
 import entity.PartChoiceEntity;
 import entity.PartEntity;
 import entity.ProductEntity;
 import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -21,6 +28,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.enumeration.PurchaseOrderStatusEnum;
+import util.exception.CreateNewPurchaseOrderException;
+import util.exception.MemberEntityNotFoundException;
 import ws.datamodel.CreatePurchaseOrderReq;
 
 @Path("PurchaseOrder")
@@ -56,15 +66,40 @@ public class PurchaseOrderResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An error has occured while retrieving purchase orders").build();
         }
     }
-    
+
     @Path("createNewPurchaseOrder")
-    @POST
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createNewPurchaseOrder(CreatePurchaseOrderReq purchaseOrderReq) {
+        System.out.println("THIS IS THE RECEIVED REQUEST");
+        System.out.println(purchaseOrderReq.getAddress());
+//        System.out.println(purchaseOrderReq.getDeliverySlot());
+        System.out.println(purchaseOrderReq.getDeliveryType());
+        System.out.println(purchaseOrderReq.getListOfLineItems());
+        System.out.println(purchaseOrderReq.getMemberUsername());
+        System.out.println(purchaseOrderReq.getTotalPrice());
+        System.out.println("================= RETRIEVED PURCHASE ORDER ITEMS ================");
+
         if (purchaseOrderReq != null) {
-            
+            List<PurchaseOrderLineItemEntity> listOfLineItems = purchaseOrderReq.getListOfLineItems();
+//            DeliverySlotEntity deliverySlot = purchaseOrderReq.getDeliverySlot();
+            String memberUsername = purchaseOrderReq.getMemberUsername();
+            AddressEntity address = purchaseOrderReq.getAddress();
+            String deliveryType = purchaseOrderReq.getDeliveryType();
+            BigDecimal totalPrice = purchaseOrderReq.getTotalPrice();
+
+            try {
+//                deliverySlot
+                PurchaseOrderEntity po = purchaseOrderEntitySessionBean.createNewPurchaseOrderRWS(memberUsername, listOfLineItems, address, deliveryType, totalPrice);
+                System.out.println("CREATED PO ID: " + po.getPurchaseOrderEntityId());
+                return Response.status(Response.Status.OK).entity(po.getPurchaseOrderEntityId()).build();
+
+            } catch (MemberEntityNotFoundException | CreateNewPurchaseOrderException ex) {
+                System.out.println("Error in RWS purchase order resource" + ex.getMessage());
+            }
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to create Purchase Order!").build();
+
         } else {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unable to create Purchase Order!").build();
         }
@@ -93,7 +128,7 @@ public class PurchaseOrderResource {
 
         //relationship with part choice entity
         //System.out.println("================Handling part choice===============");
-        if (pol.getPartChoiceEntities()!= null) {
+        if (pol.getPartChoiceEntities() != null) {
             List<PartChoiceEntity> pcList = pol.getPartChoiceEntities();
             pcList.stream().forEach(pc -> unmarshallSinglePartChoiceEntity(pc));
         }

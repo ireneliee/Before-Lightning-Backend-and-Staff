@@ -5,7 +5,11 @@
  */
 package ejb.session.stateless;
 
+import entity.AddressEntity;
+import entity.DeliverySlotEntity;
 import entity.PurchaseOrderEntity;
+import entity.PurchaseOrderLineItemEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CreateNewPurchaseOrderException;
@@ -46,5 +50,9 @@ public interface PurchaseOrderEntitySessionBeanLocal {
     public void refundPurchaseOrder(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException;
 
     public List<PurchaseOrderEntity> retrievePurchaseOrderByUsername(String username);
+
+//    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, DeliverySlotEntity deliverySlot, AddressEntity address, String deliveryType, BigDecimal totalPrice) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException;
+
+    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException;
     
 }

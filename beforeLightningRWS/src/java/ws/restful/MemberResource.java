@@ -7,11 +7,15 @@ package ws.restful;
 
 import ejb.session.stateless.MemberEntitySessionBeanLocal;
 import entity.AddressEntity;
+import entity.CreditCardEntity;
 import entity.MemberEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,11 +27,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import util.exception.AddressEntityNotFoundException;
+import util.exception.CreditCardEntityNotFoundException;
+import util.exception.DeleteAddressEntityException;
+import util.exception.DeleteCreditCardEntityException;
 import util.exception.InputDataValidationException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.MemberEntityNotFoundException;
 import util.exception.MemberEntityUsernameExistException;
 import util.exception.UnknownPersistenceException;
+import ws.datamodel.CreateNewAddressReq;
+import ws.datamodel.CreateNewCreditCardReq;
 import ws.datamodel.CreateNewMemberReq;
+import ws.datamodel.UpdateMemberReq;
 
 /**
  *
@@ -80,6 +91,10 @@ public class MemberResource {
             memberEntity.setSalt("00000000000000000000000000000000");
             memberEntity.getAddresses().size();
             memberEntity.getPurchaseOrders().clear();
+
+            for (CreditCardEntity card : memberEntity.getCreditCards()) {
+                card.setMemberEntity(null);
+            }
             if (memberEntity.getShoppingCart() != null) {
                 for (PurchaseOrderLineItemEntity poli : memberEntity.getShoppingCart().getPurchaseOrderLineItemEntities()) {
                     poli.getPartChoiceEntities().clear();
@@ -92,6 +107,17 @@ public class MemberResource {
             memberEntity.getPostsDisliked().clear();
             memberEntity.getPostsLiked().clear();
             System.out.println("======================================");
+            System.out.println("credit card size " + memberEntity.getCreditCards().size());
+            for (CreditCardEntity card : memberEntity.getCreditCards()) {
+                System.out.println("cardId:" + card.getCreditCardEntityId());
+                System.out.println("cardNum:" + card.getCreditCardNumber());
+                System.out.println("cardExpDate:" + card.getExpiryDate());
+            }
+            for (AddressEntity add : memberEntity.getAddresses()) {
+                System.out.println("AddressId:" + add.getAddressEntityId());
+                System.out.println("Address block:" + add.getBlock());
+                System.out.println("Address country:" + add.getCountry());
+            }
             System.out.println("sending out " + memberEntity);
             System.out.println("======================================");
             return Response.status(Status.OK).entity(memberEntity).build();
@@ -182,5 +208,177 @@ public class MemberResource {
         } else {
             return Response.status(Response.Status.BAD_REQUEST).entity("Invalid create new Member request").build();
         }
+    }
+
+    @Path("updateMember")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateMemberDetails(UpdateMemberReq updateMemberReq) {
+        System.out.println("Username received: " + updateMemberReq.getUsername());
+
+        if (updateMemberReq != null) {
+            try {
+                MemberEntity memberEntity = memberEntitySessionBeanLocal.retrieveMemberEntityByUsername(updateMemberReq.getUsername());
+
+                memberEntity.setFirstname(updateMemberReq.getFirstname());
+                memberEntity.setLastname(updateMemberReq.getLastname());
+                memberEntity.setContact(updateMemberReq.getContact());
+                memberEntity.setEmail(updateMemberReq.getEmail());
+                memberEntity.setImageLink(updateMemberReq.getImageLink());
+
+                return Response.status(Response.Status.OK).build();
+
+            } catch (MemberEntityNotFoundException ex) {
+
+                return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
+
+            }
+        } else {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("An internal error has occured").build();
+        }
+    }
+
+    @Path("addAddress")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addAddress(CreateNewAddressReq createNewAddressReq) {
+
+        if (createNewAddressReq != null) {
+
+            try {
+                AddressEntity addressEntity = new AddressEntity();
+                addressEntity.setBlock(createNewAddressReq.getBlock());
+                addressEntity.setCountry(createNewAddressReq.getCountry());
+                addressEntity.setPostalCode(createNewAddressReq.getPostalCode());
+                addressEntity.setUnit(createNewAddressReq.getUnit());
+
+                memberEntitySessionBeanLocal.addAddress(Long.parseLong(createNewAddressReq.getMemberId()), addressEntity);
+                return Response.status(Response.Status.OK).build();
+            } catch (InputDataValidationException | AddressEntityNotFoundException | UnknownPersistenceException | MemberEntityNotFoundException ex) {
+                return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
+            }
+
+        } else {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("An internal error has occured").build();
+
+        }
+    }
+
+    @Path("addCreditCard")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addCreditCard(CreateNewCreditCardReq createNewCreditCardReq) {
+
+        if (createNewCreditCardReq != null) {
+
+            try {
+                CreditCardEntity card = new CreditCardEntity();
+                card.setCreditCardNumber(Long.parseLong(createNewCreditCardReq.getCreditCardNumber()));
+                card.setExpiryDate(createNewCreditCardReq.getExpiryDate());
+                card.setNameOnCard(createNewCreditCardReq.getNameOnCard());
+                memberEntitySessionBeanLocal.createNewCreditCardEntity(Long.parseLong(createNewCreditCardReq.getMemberId()), card);
+
+                return Response.status(Response.Status.OK).build();
+            } catch (InputDataValidationException | UnknownPersistenceException | MemberEntityNotFoundException ex) {
+                return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
+            }
+
+        } else {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("An internal error has occured").build();
+
+        }
+    }
+
+    @Path("deleteCreditCard")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteCreditCard(@QueryParam("creditCardId") String creditCardId, @QueryParam("memberId") String memberId) {
+
+        if (creditCardId != null && memberId != null) {
+
+            try {
+                memberEntitySessionBeanLocal.deleteCreditCardEntity(Long.parseLong(memberId), Long.parseLong(creditCardId));
+
+                return Response.status(Response.Status.OK).build();
+            } catch (CreditCardEntityNotFoundException | DeleteCreditCardEntityException | MemberEntityNotFoundException ex) {
+                return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
+
+            }
+
+        } else {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("An internal error has occured").build();
+
+        }
+    }
+    
+        @Path("deleteAddress")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteAddress(@QueryParam("addressId") String addressId, @QueryParam("memberId") String memberId) {
+
+        if (addressId != null && memberId != null) {
+
+         
+            try {
+                memberEntitySessionBeanLocal.deleteAddressEntity(Long.parseLong(memberId), Long.parseLong(addressId));
+
+                return Response.status(Response.Status.OK).build();
+            } catch (AddressEntityNotFoundException | DeleteAddressEntityException | MemberEntityNotFoundException ex) {
+                return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
+            }
+           
+
+            
+
+        } else {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("An internal error has occured").build();
+
+        }
+    }
+
+    @Path("retrieveMemberById")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveMemberById(@QueryParam("memberEntityId") String memberEntityId) {
+        if (memberEntityId != null) {
+            try {
+                MemberEntity memberEntity = memberEntitySessionBeanLocal.retrieveMemberEntityByMemberEntityId(Long.parseLong(memberEntityId));
+                memberEntity.setPassword("00000000");
+                memberEntity.setSalt("00000000000000000000000000000000");
+                memberEntity.getAddresses().size();
+                memberEntity.getPurchaseOrders().clear();
+
+                for (CreditCardEntity card : memberEntity.getCreditCards()) {
+                    card.setMemberEntity(null);
+                }
+                if (memberEntity.getShoppingCart() != null) {
+                    for (PurchaseOrderLineItemEntity poli : memberEntity.getShoppingCart().getPurchaseOrderLineItemEntities()) {
+                        poli.getPartChoiceEntities().clear();
+                        poli.setAccessoryItemEntity(null);
+                        poli.setProductEntity(null);
+                    }
+                }
+                memberEntity.getForumPosts().clear();
+                memberEntity.getForumReplies().clear();
+                memberEntity.getPostsDisliked().clear();
+                memberEntity.getPostsLiked().clear();
+
+                return Response.status(Status.OK).entity(memberEntity).build();
+
+            } catch (MemberEntityNotFoundException ex) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Member ID is not valid").build();
+
+            }
+
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Member ID not provided.").build();
+        }
+
     }
 }

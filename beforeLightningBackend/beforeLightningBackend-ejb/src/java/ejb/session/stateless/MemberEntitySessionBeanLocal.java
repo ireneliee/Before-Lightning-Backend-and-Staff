@@ -64,4 +64,6 @@ public interface MemberEntitySessionBeanLocal {
 
     public MemberEntity retrieveMemberEntityByEmail(String email) throws MemberEntityNotFoundException;
 
+    public Long addAddress(Long memberId, AddressEntity newAddressEntity) throws InputDataValidationException, AddressEntityNotFoundException, UnknownPersistenceException, MemberEntityNotFoundException;
+
 }

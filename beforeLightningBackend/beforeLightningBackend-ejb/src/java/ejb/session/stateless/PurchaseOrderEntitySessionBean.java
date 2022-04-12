@@ -5,20 +5,33 @@
  */
 package ejb.session.stateless;
 
+import entity.AccessoryItemEntity;
+import entity.AddressEntity;
+import entity.DeliverySlotEntity;
 import entity.MemberEntity;
 import entity.PartChoiceEntity;
+import entity.ProductEntity;
 import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.DeliveryStatusEnum;
 import util.enumeration.PurchaseOrderLineItemTypeEnum;
 import util.enumeration.PurchaseOrderStatusEnum;
+import util.exception.AccessoryItemEntityNotFoundException;
+import util.exception.AddressEntityNotFoundException;
 import util.exception.CreateNewPurchaseOrderException;
 import util.exception.MemberEntityNotFoundException;
+import util.exception.PartChoiceEntityNotFoundException;
+import util.exception.ProductEntityNotFoundException;
 import util.exception.PurchaseOrderEntityNotFoundException;
 
 /**
@@ -27,6 +40,15 @@ import util.exception.PurchaseOrderEntityNotFoundException;
  */
 @Stateless
 public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessionBeanLocal {
+
+    @EJB(name = "ProductEntitySessionBeanLocal")
+    private ProductEntitySessionBeanLocal productEntitySessionBeanLocal;
+
+    @EJB(name = "AccessoryItemEntitySessionBeanLocal")
+    private AccessoryItemEntitySessionBeanLocal accessoryItemEntitySessionBeanLocal;
+
+    @EJB(name = "DeliverySlotSessionBeanLocal")
+    private DeliverySlotSessionBeanLocal deliverySlotSessionBeanLocal;
 
     @EJB
     private PartChoiceEntitySessionBeanLocal partChoiceEntitySessionBean;
@@ -62,7 +84,6 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
                         Integer boughtQuantity = p.getQuantity();
                         managedpc.setQuantityOnHand(quantity - boughtQuantity);
                     }
-
                 }
             }
 
@@ -72,6 +93,122 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
 
         } else {
             throw new CreateNewPurchaseOrderException("Sale transaction information not provided");
+        }
+    }
+
+    private String generateUniqueReferenceNumber() {
+        Double serialNumber = (Math.random() * 100000000);
+        //need to check not in used
+        return Integer.toString(serialNumber.intValue());
+    }
+
+    private Integer generateUniqueSerialNumber() {
+        Double serialNumber = (Math.random() * 100000000);
+        //need to check not in used
+        return serialNumber.intValue();
+    }
+//DeliverySlotEntity deliverySlot, 
+
+    @Override
+    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException {
+        System.out.println("CALLED SESSION BEAN METHOD createNewPurchaseOrderRWS");
+
+        if (!listOfLineItems.isEmpty()) {
+            System.out.println("not empty list");
+            MemberEntity member = memberEntitySessionBeanLocal.retrieveMemberEntityByUsername(username);
+            System.out.println("Member found : " + member.getUsername());
+            System.out.println("--------------------------------");
+            BigDecimal finalPrice = totalPrice;
+            if (deliveryType.equals("Express")) {
+                finalPrice = finalPrice.add(new BigDecimal(10));
+            }
+
+            PurchaseOrderEntity newPurchaseOrderEntity = new PurchaseOrderEntity(generateUniqueReferenceNumber(), finalPrice, LocalDateTime.now(), PurchaseOrderStatusEnum.IN_PROGRESS);
+            System.out.println("Created PO of ID: " + newPurchaseOrderEntity.getPurchaseOrderEntityId());
+            System.out.println("Created PO of ref: " + newPurchaseOrderEntity.getReferenceNumber());
+
+            for (PurchaseOrderLineItemEntity poli : listOfLineItems) {
+                System.out.println("IN LOOP FOR UNMANAGED POLI");
+
+                PurchaseOrderLineItemEntity newPoli = new PurchaseOrderLineItemEntity();
+
+                if (poli.getPurchaseOrderLineItemTypeEnum() == PurchaseOrderLineItemTypeEnum.ACCESSORY) {
+                    //Line item contains a accessory item
+                    System.out.println("LINE ITEM IS FOR ACCESSORY");
+                    newPoli.setPurchaseOrderLineItemTypeEnum(PurchaseOrderLineItemTypeEnum.ACCESSORY);
+                    try {
+                        AccessoryItemEntity managedAccItem = accessoryItemEntitySessionBeanLocal.retrieveAccessoryItemById(poli.getAccessoryItemEntity().getAccessoryItemEntityId());
+                        newPoli.setAccessoryItemEntity(managedAccItem);
+                        managedAccItem.setQuantityOnHand(managedAccItem.getQuantityOnHand() - poli.getQuantity());
+                        System.out.println("SET QUANTITY PROPERLY IN ACCESSORY");
+                    } catch (AccessoryItemEntityNotFoundException ex) {
+                        System.out.println("Cant find the accessory Item of ID: " + poli.getAccessoryItemEntity().getAccessoryItemEntityId());
+                    }
+                    System.out.println("END OF MAKING LINE ITEM FOR ACCESSORY");
+
+                } else {
+                    try {
+                        //Line item contains a build
+                        System.out.println("LINE ITEM IS FOR BUILD");
+                        ProductEntity managedProduct = productEntitySessionBeanLocal.retrieveProductEntityByProductEntityId(poli.getProductEntity().getProductEntityId());
+                        System.out.println("Product Found: " + managedProduct.getProductEntityId());
+
+                        newPoli.setPurchaseOrderLineItemTypeEnum(PurchaseOrderLineItemTypeEnum.BUILD);
+                        newPoli.setProductEntity(managedProduct);
+                        newPoli.setCosmeticImageLink(poli.getCosmeticImageLink());
+
+                        for (PartChoiceEntity pc : poli.getPartChoiceEntities()) {
+                            System.out.println("Part CHoice to Find (UNMANAGED)" + pc.getPartChoiceEntityId());
+                            try {
+                                PartChoiceEntity managedPc = partChoiceEntitySessionBean.retrievePartChoiceEntityByPartChoiceEntityId(pc.getPartChoiceEntityId());
+                                System.out.println("Found managed Part Choice: " + managedPc.getPartChoiceEntityId());
+                                newPoli.getPartChoiceEntities().add(managedPc);
+                                managedPc.setQuantityOnHand(managedPc.getQuantityOnHand() - poli.getQuantity());
+
+                            } catch (PartChoiceEntityNotFoundException ex) {
+                                System.out.println("CANT FIND PART CHOICE");
+                            }
+                            System.out.println("END OF SETTING QUANTITY FOR PC");
+                        }
+                        System.out.println("END OF MAKING LINE ITEM FOR BUILD");
+                    } catch (ProductEntityNotFoundException ex) {
+                        System.out.println("CANT FIND PRODUCT");
+                    }
+                }
+
+                newPoli.setSerialNumber(generateUniqueSerialNumber());
+                newPoli.setQuantity(poli.getQuantity());
+                em.persist(newPoli);
+                em.flush();
+                System.out.println("Persisted LINE ITEM: " + newPoli.getPurchaseOrderLineItemEntityId());
+                newPurchaseOrderEntity.getPurchaseOrderLineItems().add(newPoli);
+                System.out.println("List of Line Item size: " + newPurchaseOrderEntity.getPurchaseOrderLineItems().size());
+            }
+            System.out.println("==========================================================");
+            System.out.println("outside the whole loop trying to persist the PO");
+            newPurchaseOrderEntity.setMember(member);
+            member.getPurchaseOrders().add(newPurchaseOrderEntity);
+            em.persist(newPurchaseOrderEntity);
+            em.flush();
+            System.out.println("List of Line Item size in managed PO: " + newPurchaseOrderEntity.getPurchaseOrderLineItems().size());
+
+//            DeliverySlotEntity newDeliverySlot = new DeliverySlotEntity(deliverySlot.getDeliveryStatus(), LocalDateTime.now());
+//            if (newDeliverySlot.getDeliveryStatus() == DeliveryStatusEnum.OUTSTORE) {
+//                try {
+//                    deliverySlotSessionBeanLocal.createOutStoreDelivery(managedPurchaseOrder.getPurchaseOrderEntityId(), address.getAddressEntityId(), newDeliverySlot);
+//                } catch (AddressEntityNotFoundException | PurchaseOrderEntityNotFoundException ex) {
+//                    System.out.println("not working");
+//                }
+//            } else {
+//                try {
+//                    deliverySlotSessionBeanLocal.createInStoreDelivery(managedPurchaseOrder.getPurchaseOrderEntityId(), newDeliverySlot);
+//                } catch (PurchaseOrderEntityNotFoundException ex) {
+//                    System.out.println("not working 2");
+//                }
+//            }
+            return newPurchaseOrderEntity;
+        } else {
+            throw new CreateNewPurchaseOrderException("UNABLE TO CREATE PURCHASE ORDER");
         }
     }
 
@@ -93,7 +230,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         }
 
     }
-    
+
     @Override
     public List<PurchaseOrderEntity> retrievePurchaseOrderByUsername(String username) {
         String queryInString = "SELECT po FROM PurchaseOrderEntity po WHERE po.member = :iMemberUsername";
@@ -188,7 +325,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
 
     }
 
-    public void changeToComplete(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException{
+    public void changeToComplete(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException {
         PurchaseOrderEntity purchaseOrderEntity = retrievePurchaseOrderEntityByPurchaseOrderEntityId(purchaseOrderId);
         purchaseOrderEntity.setPurchaseOrderStatus(PurchaseOrderStatusEnum.COMPLETE);
 
