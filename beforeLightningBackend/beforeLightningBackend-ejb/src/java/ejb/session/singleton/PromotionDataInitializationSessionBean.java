@@ -86,7 +86,7 @@ public class PromotionDataInitializationSessionBean {
 			//make list of promo accessories
 			List<AccessoryItemEntity> listPromoAccessoryItems = new ArrayList<>();
 
-			AccessoryItemEntity promoAccessory1 = accessoryItemEntitySessionBean.retrieveAccessoryItemByName("LOGITECH PRO 910-005940 HIGHLIGHTS");
+			AccessoryItemEntity promoAccessory1 = accessoryItemEntitySessionBean.retrieveAccessoryItemByName("LOGITECH PRO 910-005940");
 			AccessoryItemEntity promoAccessory2 = accessoryItemEntitySessionBean.retrieveAccessoryItemByName("KEF LS50 Meta");
 			AccessoryItemEntity promoAccessory3 = accessoryItemEntitySessionBean.retrieveAccessoryItemByName("Elac Debut B5.2");
 
