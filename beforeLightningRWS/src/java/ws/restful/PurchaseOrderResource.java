@@ -59,7 +59,7 @@ public class PurchaseOrderResource {
     public Response retrieveAllPurchaseOrderByUsername(@QueryParam("username") String username) {
         System.out.println("============Calling retrieve purchase order in server side =============");
         if (username != null) {
-            List<PurchaseOrderEntity> listOfPurchaseOrder = purchaseOrderEntitySessionBean.retrieveAllPurchaseOrders();
+            List<PurchaseOrderEntity> listOfPurchaseOrder = purchaseOrderEntitySessionBean.retrievePurchaseOrderByUsername(username);
             listOfPurchaseOrder.stream().forEach(x -> unmarshallSinglePurchaseOrder(x));
 
             GenericEntity<List<PurchaseOrderEntity>> genericEntity = new GenericEntity<List<PurchaseOrderEntity>>(listOfPurchaseOrder) {
