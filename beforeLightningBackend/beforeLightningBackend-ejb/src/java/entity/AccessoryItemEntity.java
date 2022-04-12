@@ -54,7 +54,7 @@ public class AccessoryItemEntity implements Serializable {
     private Integer reorderQuantity;
     @Column(nullable = false, length = 128)
     @NotNull
-    @Size(max = 128)
+    @Size(max = 500)
     private String brand;
     @Column(nullable = false)
     @DecimalMin("1.00")
@@ -63,7 +63,7 @@ public class AccessoryItemEntity implements Serializable {
     private BigDecimal price;
     @Column(nullable = false, length = 128)
     @NotNull
-    @Size(max = 128)
+//    @Size(max = 1000)
     private String description;
     @Column(nullable = true, length = 256)
     @Size(max = 256)

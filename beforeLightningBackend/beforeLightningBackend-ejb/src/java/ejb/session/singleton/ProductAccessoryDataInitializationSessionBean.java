@@ -98,11 +98,11 @@ public class ProductAccessoryDataInitializationSessionBean {
     }
 
     private void initializeData() {
-
+        System.out.println("============CALLED INIT DATA IN PRODUCT ACCESSORY DATA INIT ===========");
         //Product
         ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001",  "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.","Ultra-slim performance");
         ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002",  "Ultra Long Battery Life | Ultraslim | RTX 30 Series", "Ultra powerful, ultra portable");
-
+        
         //Part
         PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
         PartEntity b = new PartEntity("Graphic Cards", "Single most important piece of hardware for a gaming machine.");
@@ -111,37 +111,37 @@ public class ProductAccessoryDataInitializationSessionBean {
         PartEntity e = new PartEntity("Operating System", "The Operating System (OS) is the core software that manages the computer hardware resources.");
 
         //Part Choice
-        PartChoiceEntity a1 = new PartChoiceEntity("Intel® Core™ i5-12500H Processor (12 Cores)", 100, 10, "Intel", new BigDecimal(0), "Base CPU", "Description");
-        PartChoiceEntity a2 = new PartChoiceEntity("Intel® Core™ i7-12700H Processor (14 Cores)", 100, 10, "Intel", new BigDecimal(165), "Recommended CPU", "Description");
+        PartChoiceEntity a1 = new PartChoiceEntity("Intel® Core™ i5-12500H Processor (12 Cores)", 100, 10, "Intel", new BigDecimal(250), "Base CPU", "18M Cache, up to 4.50 GHz. With 4 Performance Cores and 8 Efficient Cores, The new Intel I5 chip is what you need to boost your productivity.");
+        PartChoiceEntity a2 = new PartChoiceEntity("Intel® Core™ i7-12700H Processor (14 Cores)", 100, 10, "Intel", new BigDecimal(350), "Recommended CPU", "24M Cache, up to 4.70 GHz. With 6 Performance Cores and 8 Efficient Cores, The new Intel I7 chip is what you need to be the best in the game.");
 
-        PartChoiceEntity b1 = new PartChoiceEntity("NVIDIA GEFORCE RTX 3050 4GB", 100, 10, "NVIDIA", new BigDecimal(0), "Base graphic card", "Description");
-        PartChoiceEntity b2 = new PartChoiceEntity("NVIDIA GEFORCE RTX 3050Ti 4GB", 100, 10, "NVIDIA", new BigDecimal(75), "Recommended graphic card", "Description");
+        PartChoiceEntity b1 = new PartChoiceEntity("NVIDIA GEFORCE RTX 3050 4GB", 100, 10, "NVIDIA", new BigDecimal(300), "Base graphic card", "The GeForce RTX™ 3050 is built with the powerful graphics performance of the NVIDIA Ampere architecture. It offers dedicated 2nd gen RT Cores and 3rd gen Tensor Cores.");
+        PartChoiceEntity b2 = new PartChoiceEntity("NVIDIA GEFORCE RTX 3050Ti 4GB", 100, 10, "NVIDIA", new BigDecimal(500), "Recommended graphic card", "The GeForce RTX™ 3050TI is built with the powerful graphics performance of the NVIDIA Ampere architecture. It offers dedicated 2nd gen RT Cores and 3rd gen Tensor Cores.");
 
-        PartChoiceEntity c1 = new PartChoiceEntity("8GB (8GB x 1) DDR4 3200MHZ", 100, 10, "Memo", new BigDecimal(0), "Base memory", "Description");
-        PartChoiceEntity c2 = new PartChoiceEntity("16GB (8GB x 2) DDR4 3200MHZ", 100, 10, "Memo", new BigDecimal(60), "Dual channel", "Description");
-        PartChoiceEntity c3 = new PartChoiceEntity("32GB (16GB x 2) DDR4 3200MHZ (Dual Channel)", 100, 10, "Memo", new BigDecimal(280), "Dual channel", "Description");
+        PartChoiceEntity c1 = new PartChoiceEntity("8GB (8GB x 1) DDR4 3200MHZ", 100, 10, "Memo", new BigDecimal(80), "Base memory", "Blaze through your games and productive work with our lightning fast RAM");
+        PartChoiceEntity c2 = new PartChoiceEntity("16GB (8GB x 2) DDR4 3200MHZ", 100, 10, "Memo", new BigDecimal(160), "Dual channel", "Be at the peak of the game with our powerful 16GB RAM");
+        PartChoiceEntity c3 = new PartChoiceEntity("32GB (16GB x 2) DDR4 3200MHZ (Dual Channel)", 100, 10, "Memo", new BigDecimal(300), "Dual channel", "Beat the competition and be unstoppable with 32GB of our lightning fast RAM");
 
-        PartChoiceEntity d1 = new PartChoiceEntity("Stock Thermal Compound", 100, 10, "Kryonaut", new BigDecimal(0), "Basic thermal compound", "Description");
-        PartChoiceEntity d2 = new PartChoiceEntity("Premium Enthusiast Grade Thermal Compound", 100, 10, "Kryonaut", new BigDecimal(35), "Recommended thermal compound", "Description");
+        PartChoiceEntity d1 = new PartChoiceEntity("Stock Thermal Compound", 100, 10, "Kryonaut", new BigDecimal(0), "Basic thermal compound", "Basic thermal compound provided to ensure that your CPU runs cool at all time");
+        PartChoiceEntity d2 = new PartChoiceEntity("Premium Enthusiast Grade Thermal Compound", 100, 10, "Kryonaut", new BigDecimal(35), "Recommended thermal compound", "Advanced thermal compound made for champions. Experience the cool performance of our Kryonaut Thermal Compound");
 
-        PartChoiceEntity e1 = new PartChoiceEntity("No operating system", 100, 0, "NIL", new BigDecimal(0), "Base operating system", "Description");
-        PartChoiceEntity e2 = new PartChoiceEntity("Windows 10 Home 64 Bit", 100, 10, "Windows", new BigDecimal(134), "Recommended operating system", "Description");
-        PartChoiceEntity e3 = new PartChoiceEntity("Windows 10 Professional 64 Bit", 100, 10, "Windows", new BigDecimal(202), "Advanced operating system", "Description");
-        PartChoiceEntity e4 = new PartChoiceEntity("Windows 11 Home 64 Bit", 100, 10, "Windows", new BigDecimal(130), "Basic operating system", "Description");
-        PartChoiceEntity e5 = new PartChoiceEntity("Windows 11 Professional 64 Bit", 100, 10, "Windows", new BigDecimal(202), "Newest operating system", "Description");
+        PartChoiceEntity e1 = new PartChoiceEntity("No operating system", 100, 0, "NIL", new BigDecimal(0), "Base operating system", "No Operating System provided");
+        PartChoiceEntity e2 = new PartChoiceEntity("Windows 10 Home 64 Bit", 100, 10, "Windows", new BigDecimal(134), "Recommended operating system", "Windows 10 Home 64 bit is the basic operating system that any household would require");
+        PartChoiceEntity e3 = new PartChoiceEntity("Windows 10 Professional 64 Bit", 100, 10, "Windows", new BigDecimal(202), "Advanced operating system", "Windows 10 Professional 64 bit, for all your professional needs");
+        PartChoiceEntity e4 = new PartChoiceEntity("Windows 11 Home 64 Bit", 100, 10, "Windows", new BigDecimal(130), "Basic operating system", "Windows 11 Home 64 bit is the basic operating system that any household would require");
+        PartChoiceEntity e5 = new PartChoiceEntity("Windows 11 Professional 64 Bit", 100, 10, "Windows", new BigDecimal(202), "Newest operating system", "Windows 11 Professional 64 bit, for all your professional needs");
 
         //Accessory
-        AccessoryEntity ac1 = new AccessoryEntity("Mouse", "Accessory Description");
-        AccessoryEntity ac2 = new AccessoryEntity("Speaker", "Accessory Description");
+        AccessoryEntity ac1 = new AccessoryEntity("Mouse", "The most versatile laptop peripheral in the world. View our specially curated selection of only the finest gaming mice, with both performance and comfort in mind.");
+        AccessoryEntity ac2 = new AccessoryEntity("Speaker", "A special collection of hand-picked brands that will make any audiophille live in the music they play.");
 
         //Accessory Item
-        AccessoryItemEntity mouse1 = new AccessoryItemEntity("LOGITECH PRO 910-005940 HIGHLIGHTS", "ACSY001", 100, 10, "Logitech", new BigDecimal(150), "This is a mouse");
-        AccessoryItemEntity mouse2 = new AccessoryItemEntity("LOGITECH G305 HIGHLIGHTS", "ACSY002", 100, 10, "Logitech", new BigDecimal(50), "This is a mouse");
-        AccessoryItemEntity mouse3 = new AccessoryItemEntity("CORSAIR SABRE RGB HIGHLIGHTS", "ACSY003", 100, 10, "Corsair", new BigDecimal(50), "This is a mouse");
+        AccessoryItemEntity mouse1 = new AccessoryItemEntity("LOGITECH PRO 910-005940", "ACSY001", 100, 10, "Logitech", new BigDecimal(150), "Beat the competition with one of the highest performing gaming mouse.");
+        AccessoryItemEntity mouse2 = new AccessoryItemEntity("LOGITECH G305", "ACSY002", 100, 10, "Logitech", new BigDecimal(80), "Experience the comfort and performance of a high end gaming mouse");
+        AccessoryItemEntity mouse3 = new AccessoryItemEntity("CORSAIR SABRE RGB", "ACSY003", 100, 10, "Corsair", new BigDecimal(120), "Apart from its lightning performance and comfort, match the color of your gaming mouse to any setup");
 
-        AccessoryItemEntity speaker1 = new AccessoryItemEntity("KEF LS50 Meta", "ACSY004", 100, 10, "KEF", new BigDecimal(150), "This is a speaker");
-        AccessoryItemEntity speaker2 = new AccessoryItemEntity("Wharfedale Diamond 12.3", "ACSY005", 100, 10, "Wharfedale", new BigDecimal(150), "This is a speaker");
-        AccessoryItemEntity speaker3 = new AccessoryItemEntity("Elac Debut B5.2", "ACSY006", 100, 10, "Elac", new BigDecimal(150), "This is a speaker");
+        AccessoryItemEntity speaker1 = new AccessoryItemEntity("KEF LS50 Meta", "ACSY004", 100, 10, "KEF", new BigDecimal(170), "Best in class HIFI speakers, made specially for audiophilles");
+        AccessoryItemEntity speaker2 = new AccessoryItemEntity("Wharfedale Diamond 12.3", "ACSY005", 100, 10, "Wharfedale", new BigDecimal(130), "HIFI Speakers with added bass for any music lover.");
+        AccessoryItemEntity speaker3 = new AccessoryItemEntity("Elac Debut B5.2", "ACSY006", 100, 10, "Elac", new BigDecimal(120), "Experience the amazing sound quality of Elac, made by the best in the industry");
 
         try {
             productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500));

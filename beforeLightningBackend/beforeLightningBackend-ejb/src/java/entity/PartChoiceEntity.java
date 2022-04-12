@@ -49,12 +49,12 @@ public class PartChoiceEntity implements Serializable {
     @DecimalMin("0.00")
     @Digits(integer = 9, fraction = 2)
     private BigDecimal price;
-    @Column(length = 1000)
-    @Size(max = 1000)
+//    @Size(max = 1000)
+    @Column(nullable = false)
     private String partOverview;
-    @Column(nullable = false, length = 128)
+    @Column(nullable = false)
     @NotNull
-    @Size(max = 128)
+//    @Size(max = 128)
     private String partDescription;
     @Column(nullable = true, length = 256)
     @Size(max = 256)
