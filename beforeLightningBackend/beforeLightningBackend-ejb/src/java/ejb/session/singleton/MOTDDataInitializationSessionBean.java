@@ -71,44 +71,47 @@ public class MOTDDataInitializationSessionBean {
 	@EJB
 	private EmployeeEntitySessionBeanLocal employeeEntitySessionBean;
 
-    @EJB
-    private MessageOfTheDayEntitySessionBeanLocal messageOfTheDayEntitySessionBeanLocal;
-	
-    @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
-    private EntityManager em;
+	@EJB
+	private MessageOfTheDayEntitySessionBeanLocal messageOfTheDayEntitySessionBeanLocal;
 
-    public MOTDDataInitializationSessionBean() {
-    }
+	@PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
+	private EntityManager em;
 
-    @PostConstruct
-    public void postConstruct() {
+	public MOTDDataInitializationSessionBean() {
+	}
 
-        if (messageOfTheDayEntitySessionBeanLocal.retrieveAllMessagesOfTheDay().isEmpty()) {
-            System.out.println("done");
-            initializeData();
-        }
-    }
+	@PostConstruct
+	public void postConstruct() {
 
-    private void initializeData() {
+		if (messageOfTheDayEntitySessionBeanLocal.retrieveAllMessagesOfTheDay().isEmpty()) {
+			System.out.println("done");
+			initializeData();
+		}
+	}
 
-        try {
-			EmployeeEntity dummy = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "dummy", "1234qwer!@#$", "dummy","dummy", "dummy@gmail.com", "82828282");
+	private void initializeData() {
+
+		try {
+			EmployeeEntity dummy = new EmployeeEntity(EmployeeAccessRightEnum.ADMIN, "Thomas", "1234qwer!@#$", "thomas", "thomas", "thomas@gmail.com", "82828282");
+			EmployeeEntity dummy2 = new EmployeeEntity(EmployeeAccessRightEnum.SALES, "Mary", "1234qwer!@#$", "Mary", "Mary", "Mary@gmail.com", "92929292");
 			employeeEntitySessionBean.createNewEmployeeEntity(dummy);
-            Date today = Calendar.getInstance().getTime();
-            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Live Laugh Love", "when life gets tough just live laugh love bro", today), dummy);
-            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("SAF 8 core values", "loyalty to country, leadership, etc", today), dummy);
-            messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Google please hire me", "willing to work long hours, will occasionally tell jokes #worthEveryBuck", today), dummy);
-            System.out.print("hello irene");
-        } catch (InputDataValidationException ex) {
-            System.out.println("THIS IS THE ERROR");
-            System.out.println(ex.getMessage());
-        } catch (EmployeeEntityUsernameExistException ex) {
-            System.out.println("employee name already exists bruh");
+			employeeEntitySessionBean.createNewEmployeeEntity(dummy2);
+			
+			Date today = Calendar.getInstance().getTime();
+			messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("Company meeting next week", "Gentle reminder that company meeting on 22 April 11am is compulsory for all employees thanks!", today), dummy);
+			messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("AC Maintenance", "There will be maintenance for our air condition this week, sorry for the inconvenience", today), dummy);
+			messageOfTheDayEntitySessionBeanLocal.createNewMessageOfTheDay(new MessageOfTheDayEntity("April Fire Sale approved", "New promotion: April Fire Sale is approved and will take place starting this week!", today), dummy2);
+			System.out.print("hello irene");
+		} catch (InputDataValidationException ex) {
+			System.out.println("THIS IS THE ERROR");
+			System.out.println(ex.getMessage());
+		} catch (EmployeeEntityUsernameExistException ex) {
+			System.out.println("employee name already exists bruh");
 		} catch (UnknownPersistenceException ex) {
-            System.out.println("unknwn persistence exception!");			
+			System.out.println("unknwn persistence exception!");
 		} catch (EmployeeEntityNotFoundException ex) {
 			System.out.println("employee name not found");
 		}
 
-    }
+	}
 }
