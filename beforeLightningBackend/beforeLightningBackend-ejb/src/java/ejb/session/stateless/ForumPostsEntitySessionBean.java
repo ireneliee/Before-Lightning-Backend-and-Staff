@@ -45,7 +45,7 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
     }
 
     public List<ForumPostEntity> retrieveAllViewableForumPost() {
-        String queryInString = "SELECT f FROM ForumPostEntity f WHERE f.isVisible = :iVisible AND f.isBanned = :iBanned";
+        String queryInString = "SELECT f FROM ForumPostEntity f WHERE f.isVisible = :iVisible AND f.isBanned = :iBanned  ORDER BY f.timestamp DESC";
         Query query = em.createQuery(queryInString);
         query.setParameter("iVisible", true);
         query.setParameter("iBanned", false);
@@ -106,7 +106,7 @@ public class ForumPostsEntitySessionBean implements ForumPostsEntitySessionBeanL
 
     @Override
     public List<ForumPostEntity> retrieveForumPostByUsername(String username) {
-        String queryInString = "SELECT f FROM ForumPostEntity f WHERE f.author.username = :iUsername";
+        String queryInString = "SELECT f FROM ForumPostEntity f WHERE f.author.username = :iUsername  ORDER BY f.timestamp DESC";
         Query query = em.createQuery(queryInString);
         query.setParameter("iUsername", username);
         return query.getResultList();

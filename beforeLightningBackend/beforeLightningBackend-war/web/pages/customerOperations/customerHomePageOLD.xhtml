@@ -41,7 +41,7 @@
                     <p:outputLabel value="#{memberEntity.email}" />
                 </p:column>
                 <p:column headerText="Banned" sortBy="#{memberEntity.isActive}" filterBy="#{memberEntity.isActive}" filterMatchMode="contains">
-                    <p:outputLabel value="#{memberEntity.isActive}" />
+                    <p:outputLabel value="#{!memberEntity.isActive}" />
                 </p:column>                
 
                 <p:column headerText="Action" >
