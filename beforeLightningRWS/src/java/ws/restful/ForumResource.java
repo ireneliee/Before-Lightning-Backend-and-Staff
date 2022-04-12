@@ -263,6 +263,7 @@ public class ForumResource {
         memberToUnmarshall.getForumReplies().clear();
         memberToUnmarshall.getPostsDisliked().clear();
         memberToUnmarshall.getPostsLiked().clear();
+        memberToUnmarshall.getCreditCards().clear();
     }
 
     private void handleForumPostsUnmarshalling(List<ForumPostEntity> forumPosts) {
