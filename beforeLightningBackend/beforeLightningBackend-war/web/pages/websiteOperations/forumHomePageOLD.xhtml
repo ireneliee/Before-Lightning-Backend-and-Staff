@@ -44,9 +44,6 @@
                 <p:column headerText="Number of likes" sortBy="#{fn: length(forumEntity.userWhoLikes)}" filterBy="#{fn: length(forumEntity.userWhoLikes)}" filterMatchMode="contains">
                     <p:outputLabel value="#{fn: length(forumEntity.userWhoLikes)}" />
                 </p:column>  
-                <p:column headerText="Number of dislikes" sortBy="#{fn: length(forumEntity.userWhoDislikes)}" filterBy="#{fn: length(forumEntity.userWhoDislikes)}" filterMatchMode="contains">
-                    <p:outputLabel value="#{fn: length(forumEntity.userWhoDislikes)}" />
-                </p:column>  
                 <p:column headerText="Banned" sortBy="#{forumEntity.isBanned}" filterBy="#{forumEntity.isBanned}" filterMatchMode="contains">
                     <p:outputLabel value="#{forumEntity.isBanned}" />
                 </p:column>                

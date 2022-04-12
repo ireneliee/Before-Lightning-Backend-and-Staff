@@ -55,5 +55,7 @@ public interface ForumPostsEntitySessionBeanLocal {
 
     public void changeLikes(Long postId, String username) throws MemberEntityNotFoundException, ForumPostNotFoundException;
 
+    public boolean userLikes(Long postId, String username) throws MemberEntityNotFoundException, ForumPostNotFoundException;
+
     
 }

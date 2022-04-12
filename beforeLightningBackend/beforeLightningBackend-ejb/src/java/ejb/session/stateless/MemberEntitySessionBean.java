@@ -140,7 +140,6 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
             }
             memberEntity.getForumPosts().size();
             memberEntity.getForumReplies().size();
-            memberEntity.getPostsDisliked().size();
             memberEntity.getPostsLiked().size();
             return (MemberEntity) query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException ex) {
