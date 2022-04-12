@@ -18,6 +18,7 @@ import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
 import entity.AccessoryEntity;
 import entity.AccessoryItemEntity;
 import entity.AddressEntity;
+import entity.CreditCardEntity;
 import entity.DeliverySlotEntity;
 import entity.EmployeeEntity;
 import entity.ForumPostEntity;
@@ -204,14 +205,23 @@ public class PurchaseOrderDataInitializationSessionBean {
                     try {
                         DeliverySlotEntity ds1 = new DeliverySlotEntity(DeliveryStatusEnum.INSTORE, LocalDateTime.now());
                         DeliverySlotEntity ds2 = new DeliverySlotEntity(DeliveryStatusEnum.OUTSTORE, LocalDateTime.now());
-                        
+
                         deliverySlotSessionBean.createInStoreDelivery(po1.getPurchaseOrderEntityId(), ds1);
-                        deliverySlotSessionBean.createOutStoreDelivery(po2.getPurchaseOrderEntityId(),1l , ds2);
-                        
+                        deliverySlotSessionBean.createOutStoreDelivery(po2.getPurchaseOrderEntityId(), 1l, ds2);
+
+                        CreditCardEntity card1 = new CreditCardEntity(1234567891234567l, "srini", "03/23");
+                        CreditCardEntity card2 = new CreditCardEntity(1234567831234567l, "wenjie", "05/23");
+
+                        memberEntitySessionBeanLocal.createNewCreditCardEntity(m1.getUserEntityId(), card1);
+                        memberEntitySessionBeanLocal.createNewCreditCardEntity(m1.getUserEntityId(), card2);
 
                     } catch (PurchaseOrderEntityNotFoundException ex) {
                         Logger.getLogger(PurchaseOrderDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (AddressEntityNotFoundException ex) {
+                        Logger.getLogger(PurchaseOrderDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InputDataValidationException ex) {
+                        Logger.getLogger(PurchaseOrderDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (UnknownPersistenceException ex) {
                         Logger.getLogger(PurchaseOrderDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
                     }
 

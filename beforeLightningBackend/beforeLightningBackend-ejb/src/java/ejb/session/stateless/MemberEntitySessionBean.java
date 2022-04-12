@@ -86,6 +86,17 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         }
     }
 
+    public Long addAddress(Long memberId, AddressEntity newAddressEntity) throws InputDataValidationException, AddressEntityNotFoundException, UnknownPersistenceException, MemberEntityNotFoundException {
+
+        Long addressEntityId = createNewAddressEntity(newAddressEntity);
+        AddressEntity addressEntity = retrieveAddressEntityByAddressEntityId(addressEntityId);
+
+        MemberEntity mem = retrieveMemberEntityByMemberEntityId(memberId);
+        mem.getAddresses().add(newAddressEntity);
+        return addressEntityId;
+    }
+    
+
     @Override
     public List<MemberEntity> retrieveAllMemberEntities() {
         Query query = em.createQuery("SELECT e FROM MemberEntity e");
