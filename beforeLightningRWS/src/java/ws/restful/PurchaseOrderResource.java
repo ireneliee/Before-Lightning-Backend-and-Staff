@@ -136,7 +136,7 @@ public class PurchaseOrderResource {
 
         memberToUnmarshall.getForumPosts().clear();
         memberToUnmarshall.getForumReplies().clear();
-        memberToUnmarshall.getPostsDisliked().clear();
+        //memberToUnmarshall.getPostsDisliked().clear();
         memberToUnmarshall.getPostsLiked().clear();
         memberToUnmarshall.getCreditCards().clear();
         System.out.println("  ");

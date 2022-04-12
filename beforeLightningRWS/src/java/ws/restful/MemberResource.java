@@ -104,7 +104,7 @@ public class MemberResource {
             }
             memberEntity.getForumPosts().clear();
             memberEntity.getForumReplies().clear();
-            memberEntity.getPostsDisliked().clear();
+            //memberEntity.getPostsDisliked().clear();
             memberEntity.getPostsLiked().clear();
             System.out.println("======================================");
             System.out.println("credit card size " + memberEntity.getCreditCards().size());
@@ -366,7 +366,7 @@ public class MemberResource {
                 }
                 memberEntity.getForumPosts().clear();
                 memberEntity.getForumReplies().clear();
-                memberEntity.getPostsDisliked().clear();
+                //memberEntity.getPostsDisliked().clear();
                 memberEntity.getPostsLiked().clear();
 
                 return Response.status(Status.OK).entity(memberEntity).build();
