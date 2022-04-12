@@ -242,7 +242,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
 
     @Override
     public List<PurchaseOrderEntity> retrievePurchaseOrderByUsername(String username) {
-        String queryInString = "SELECT po FROM PurchaseOrderEntity po WHERE po.member = :iMemberUsername";
+        String queryInString = "SELECT po FROM PurchaseOrderEntity po WHERE po.member.username = :iMemberUsername ORDER BY po.dateCreated DESC";
         Query query = em.createQuery(queryInString);
         query.setParameter("iMemberUsername", username);
         return query.getResultList();
