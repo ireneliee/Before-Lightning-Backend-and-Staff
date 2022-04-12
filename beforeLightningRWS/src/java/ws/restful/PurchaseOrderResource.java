@@ -139,6 +139,7 @@ public class PurchaseOrderResource {
         memberToUnmarshall.getPostsDisliked().clear();
         memberToUnmarshall.getPostsLiked().clear();
         memberToUnmarshall.getCreditCards().clear();
+        System.out.println("  ");
     }
 
     @Path("createNewPurchaseOrder")
