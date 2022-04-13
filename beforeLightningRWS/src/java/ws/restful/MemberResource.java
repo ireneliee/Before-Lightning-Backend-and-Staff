@@ -35,9 +35,12 @@ import util.exception.InvalidLoginCredentialException;
 import util.exception.MemberEntityNotFoundException;
 import util.exception.MemberEntityUsernameExistException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateMemberEntityException;
 import ws.datamodel.CreateNewAddressReq;
 import ws.datamodel.CreateNewCreditCardReq;
 import ws.datamodel.CreateNewMemberReq;
+import ws.datamodel.DeleteAddressReq;
+import ws.datamodel.DeleteCreditCardReq;
 import ws.datamodel.UpdateMemberReq;
 
 /**
@@ -226,10 +229,12 @@ public class MemberResource {
                 memberEntity.setContact(updateMemberReq.getContact());
                 memberEntity.setEmail(updateMemberReq.getEmail());
                 memberEntity.setImageLink(updateMemberReq.getImageLink());
-
+                System.out.println("member entity image updated" + memberEntity.getImageLink());
+                
+                memberEntitySessionBeanLocal.updateMemberEntity(memberEntity);
                 return Response.status(Response.Status.OK).build();
 
-            } catch (MemberEntityNotFoundException ex) {
+            } catch (MemberEntityNotFoundException | UpdateMemberEntityException | InputDataValidationException ex) {
 
                 return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
 
@@ -296,12 +301,12 @@ public class MemberResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteCreditCard(@QueryParam("creditCardId") String creditCardId, @QueryParam("memberId") String memberId) {
+    public Response deleteCreditCard(DeleteCreditCardReq deleteCreditCardReq) {
 
-        if (creditCardId != null && memberId != null) {
+        if (deleteCreditCardReq != null) {
 
             try {
-                memberEntitySessionBeanLocal.deleteCreditCardEntity(Long.parseLong(memberId), Long.parseLong(creditCardId));
+                memberEntitySessionBeanLocal.deleteCreditCardEntity(Long.parseLong(deleteCreditCardReq.getMemberId()), Long.parseLong(deleteCreditCardReq.getCreditCardId()));
 
                 return Response.status(Response.Status.OK).build();
             } catch (CreditCardEntityNotFoundException | DeleteCreditCardEntityException | MemberEntityNotFoundException ex) {
@@ -319,13 +324,13 @@ public class MemberResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteAddress(@QueryParam("addressId") String addressId, @QueryParam("memberId") String memberId) {
+    public Response deleteAddress(DeleteAddressReq deleteAddressReq) {
 
-        if (addressId != null && memberId != null) {
+        if (deleteAddressReq != null) {
 
          
             try {
-                memberEntitySessionBeanLocal.deleteAddressEntity(Long.parseLong(memberId), Long.parseLong(addressId));
+                memberEntitySessionBeanLocal.deleteAddressEntity(Long.parseLong(deleteAddressReq.getMemberId()), Long.parseLong(deleteAddressReq.getAddressId()));
 
                 return Response.status(Response.Status.OK).build();
             } catch (AddressEntityNotFoundException | DeleteAddressEntityException | MemberEntityNotFoundException ex) {

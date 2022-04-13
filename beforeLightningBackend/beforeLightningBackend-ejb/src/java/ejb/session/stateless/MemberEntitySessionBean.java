@@ -7,10 +7,12 @@ package ejb.session.stateless;
 
 import entity.AddressEntity;
 import entity.CreditCardEntity;
+import entity.DeliverySlotEntity;
 import entity.MemberEntity;
 import entity.UserEntity;
 import java.util.List;
 import java.util.Set;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -43,6 +45,9 @@ import util.security.CryptographicHelper;
  */
 @Stateless
 public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
+
+    @EJB
+    private DeliverySlotSessionBeanLocal deliverySlotSessionBean;
 
     @PersistenceContext(unitName = "beforeLightningBackend-ejbPU")
     private EntityManager em;
@@ -95,7 +100,6 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         mem.getAddresses().add(newAddressEntity);
         return addressEntityId;
     }
-    
 
     @Override
     public List<MemberEntity> retrieveAllMemberEntities() {
@@ -198,6 +202,7 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
                     memberEntityEntityToUpdate.setEmail(memberEntity.getEmail());
                     memberEntityEntityToUpdate.setContact(memberEntity.getContact());
                     memberEntityEntityToUpdate.setIsActive(memberEntity.getIsActive());
+                    memberEntityEntityToUpdate.setImageLink(memberEntity.getImageLink());
                     // Username and password are deliberately NOT updated to demonstrate that client is not allowed to update account credential through this business method
                 } else {
                     throw new UpdateMemberEntityException("Username of memberEntity record to be updated does not match the existing record");
@@ -286,9 +291,12 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
 
         AddressEntity addressEntityToRemove = retrieveAddressEntityByAddressEntityId(addressEntityId);
 
+        List<DeliverySlotEntity> list = deliverySlotSessionBean.retrieveDeliverySlotsByAddressId(addressEntityId);
         if (memberEntity.getAddresses().contains(addressEntityToRemove) && memberEntity.getAddresses().size() >= 2) {
             memberEntity.getAddresses().remove(addressEntityToRemove);
-            em.remove(addressEntityToRemove);
+            if (list.isEmpty()) {
+                em.remove(addressEntityToRemove);
+            }
         } else {
             throw new DeleteAddressEntityException("Address ID " + addressEntityId + " does not exist in Member " + memberEntityId + " list of addresses");
         }
@@ -391,5 +399,13 @@ public class MemberEntitySessionBean implements MemberEntitySessionBeanLocal {
         }
 
         return msg;
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
+    }
+
+    public void persist1(Object object) {
+        em.persist(object);
     }
 }

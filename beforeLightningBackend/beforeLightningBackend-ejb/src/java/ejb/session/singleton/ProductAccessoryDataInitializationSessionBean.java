@@ -13,11 +13,13 @@ import ejb.session.stateless.MemberEntitySessionBeanLocal;
 import ejb.session.stateless.PartChoiceEntitySessionBeanLocal;
 import ejb.session.stateless.PartEntitySessionBeanLocal;
 import ejb.session.stateless.ProductEntitySessionBeanLocal;
+import ejb.session.stateless.ReviewEntitySessionBeanLocal;
 import entity.AccessoryEntity;
 import entity.AccessoryItemEntity;
 import entity.PartChoiceEntity;
 import entity.PartEntity;
 import entity.ProductEntity;
+import entity.ReviewEntity;
 import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,8 +57,9 @@ import util.exception.UnknownPersistenceException;
 @DependsOn("MemberEmployeeDataInitializationSessionBean")
 public class ProductAccessoryDataInitializationSessionBean {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @EJB(name = "ReviewEntitySessionBeanLocal")
+    private ReviewEntitySessionBeanLocal reviewEntitySessionBeanLocal;
+
     @EJB
     private MemberEntitySessionBeanLocal memberEntitySessionBeanLocal;
 
@@ -100,9 +103,9 @@ public class ProductAccessoryDataInitializationSessionBean {
     private void initializeData() {
         System.out.println("============CALLED INIT DATA IN PRODUCT ACCESSORY DATA INIT ===========");
         //Product
-        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001",  "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.","Ultra-slim performance");
-        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002",  "Ultra Long Battery Life | Ultraslim | RTX 30 Series", "Ultra powerful, ultra portable");
-        
+        ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.", "Ultra-slim performance");
+        ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", "Ultra Long Battery Life | Ultraslim | RTX 30 Series", "Ultra powerful, ultra portable");
+
         //Part
         PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
         PartEntity b = new PartEntity("Graphic Cards", "Single most important piece of hardware for a gaming machine.");
@@ -142,6 +145,12 @@ public class ProductAccessoryDataInitializationSessionBean {
         AccessoryItemEntity speaker1 = new AccessoryItemEntity("KEF LS50 Meta", "ACSY004", 100, 10, "KEF", new BigDecimal(170), "Best in class HIFI speakers, made specially for audiophilles");
         AccessoryItemEntity speaker2 = new AccessoryItemEntity("Wharfedale Diamond 12.3", "ACSY005", 100, 10, "Wharfedale", new BigDecimal(130), "HIFI Speakers with added bass for any music lover.");
         AccessoryItemEntity speaker3 = new AccessoryItemEntity("Elac Debut B5.2", "ACSY006", 100, 10, "Elac", new BigDecimal(120), "Experience the amazing sound quality of Elac, made by the best in the industry");
+
+        ReviewEntity review1 = new ReviewEntity("testUser1", 5, "I love this product, it has been a game changer and i will recommend it to anyone!");
+        ReviewEntity review2 = new ReviewEntity("testUser2", 5, "Good mouse, will buy again when i need it again next time");
+        ReviewEntity review3 = new ReviewEntity("testUser3", 3, "Not really that good, was really hyped but i guess its okay");
+        ReviewEntity review4 = new ReviewEntity("testUser4", 5, "I have been missing this from my life for too long... THANKS BEFORELIGHTNING!!!");
+        ReviewEntity review5 = new ReviewEntity("testUser5", 4, "Great Product!");
 
         try {
             productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500));
@@ -254,6 +263,12 @@ public class ProductAccessoryDataInitializationSessionBean {
             accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker1, ass2.getAccessoryEntityId());
             accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker2, ass2.getAccessoryEntityId());
             accessoryItemEntitySessionBeanLocal.createNewAccessoryItemEntity(speaker3, ass2.getAccessoryEntityId());
+
+            reviewEntitySessionBeanLocal.createNewReviewEntityForAcc(review1, mouse1.getAccessoryItemEntityId());
+            reviewEntitySessionBeanLocal.createNewReviewEntityForAcc(review2, mouse1.getAccessoryItemEntityId());
+            reviewEntitySessionBeanLocal.createNewReviewEntityForAcc(review3, mouse1.getAccessoryItemEntityId());
+            reviewEntitySessionBeanLocal.createNewReviewEntityForAcc(review4, mouse1.getAccessoryItemEntityId());
+            reviewEntitySessionBeanLocal.createNewReviewEntityForAcc(review5, mouse1.getAccessoryItemEntityId());
 
         } catch (CreateNewProductEntityException | InputDataValidationException | UnknownPersistenceException | ProductSkuCodeExistException | PartEntityExistException | PartChoiceEntityExistException | PartEntityNotFoundException | PartChoiceEntityNotFoundException | UnableToAddPartChoiceToPartException | ProductEntityNotFoundException | UnableToAddPartToProductException | UnableToAddPartChoiceToPartChoiceException | AccessoryNameExistsException | AccessoryItemNameExists | AccessoryEntityNotFoundException ex) {
             System.out.println("THIS IS THE ERROR");

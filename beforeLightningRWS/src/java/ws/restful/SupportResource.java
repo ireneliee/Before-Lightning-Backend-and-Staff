@@ -97,4 +97,27 @@ public class SupportResource {
 			return Response.status(Response.Status.BAD_REQUEST).entity("Invalid create new support ticket request").build();
 		}
 	}
+
+	@Path("createSupportTicketWithEmail")
+	@GET
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createSupportTicketWithEmail(@QueryParam("email") String email,
+			@QueryParam("issue") String issue) {
+		System.out.println(":: rws supportresource createsupportticket :: ");
+		System.out.println("email is" + email);
+		System.out.println("Issue is" + issue);
+		if (email != null && issue != null) {
+			try {
+				SupportTicketEntity newSupportTicketToMake = new SupportTicketEntity(email, issue);
+				SupportTicketEntity newlyCreatedSupportTicket = supportTicketEntitySessionBeanLocal.createNewSupportTicketEntity(newSupportTicketToMake);
+				Long newSupportTicketId = newlyCreatedSupportTicket.getSupportTicketId();
+				return Response.status(Response.Status.OK).entity(newSupportTicketId).build();
+			} catch (Exception ex) {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+			}
+		} else {
+			return Response.status(Response.Status.BAD_REQUEST).entity("Invalid create new support ticket request").build();
+		}
+	}
 }
