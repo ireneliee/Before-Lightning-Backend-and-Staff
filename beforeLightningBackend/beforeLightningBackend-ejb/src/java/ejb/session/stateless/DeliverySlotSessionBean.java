@@ -69,6 +69,18 @@ public class DeliverySlotSessionBean implements DeliverySlotSessionBeanLocal {
         }
 
     }
+        public List<DeliverySlotEntity> retrieveDeliverySlotsByAddressId(Long addressId)  {
+        Query query = em.createQuery("SELECT d FROM DeliverySlotEntity d WHERE d.address.addressEntityId = :addressId");
+        query.setParameter("addressId", addressId);
+        List<DeliverySlotEntity> allItems = query.getResultList();
+        for (DeliverySlotEntity item : allItems) {
+
+            item.getAddress();
+            item.getDeliveryOrder();
+        }
+        return allItems;
+
+    }
 
     public List<DeliverySlotEntity> retrieveAllOutStoreDelivery() {
         Query query = em.createQuery("SELECT d FROM DeliverySlotEntity d WHERE d.deliveryStatus = :statusName");
