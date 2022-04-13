@@ -31,7 +31,9 @@
                         <p:column>
                             <p:outputLabel value="Quantity"/>
                         </p:column>
-
+                        <p:column>
+                            <p:outputLabel value="Image"/>
+                        </p:column>
                     </p:row>
                     <p:repeat value="#{viewPurchaseOrderManagedBean.listOfLineItems}" var="productEntity">
                         <p:row>
@@ -44,7 +46,7 @@
                             <p:column>
                                 <p:outputLabel value="#{productEntity.name}"/>
                                 <br></br>
-                                                                <p:repeat value="#{productEntity.partChoiceEntities}" var="partChoice">
+                                <p:repeat value="#{productEntity.partChoiceEntities}" var="partChoice">
                                     <p:outputLabel value=" -#{partChoice.partChoiceName}"/>
                                     <br></br>
 
@@ -54,7 +56,11 @@
                             <p:column>
                                 <p:outputLabel value="#{productEntity.quantity}"/>
                             </p:column>
-
+                            <p:column>
+                                <p:outputLabel rendered="#{productEntity.cosmeticImageLink.length() > 0}">
+                                    <p:graphicImage width="40"  url="/uploadedFiles/#{productEntity.cosmeticImageLink}"/>
+                                </p:outputLabel>
+                            </p:column>
                             <br/>
                         </p:row>
                     </p:repeat>

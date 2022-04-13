@@ -63,19 +63,26 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
         for (PurchaseOrderEntity po : listOfAllPurchaseOrders) {
             System.out.println("REF : " + po.getReferenceNumber());
             for (PurchaseOrderLineItemEntity poli : po.getPurchaseOrderLineItems()) {
-                System.out.println("---"  + poli.getSerialNumber());
+                System.out.println("---" + poli.getSerialNumber());
             }
             System.out.println("TOTAL SIZE: " + po.getPurchaseOrderLineItems().size());
         }
     }
-    
+
     public void refundOrder(ActionEvent event) {
-        PurchaseOrderEntity po = (PurchaseOrderEntity)event.getComponent().getAttributes().get("orderToRefund");
+        PurchaseOrderEntity po = (PurchaseOrderEntity) event.getComponent().getAttributes().get("orderToRefund");
         try {
             purchaseOrderEntitySessionBean.refundPurchaseOrder(po.getPurchaseOrderEntityId());
         } catch (PurchaseOrderEntityNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
+        initialiseState();
+    }
+
+    public void changeToReady(ActionEvent event) {
+        PurchaseOrderEntity po = (PurchaseOrderEntity) event.getComponent().getAttributes().get("orderToReady");
+
+        purchaseOrderEntitySessionBean.changeToReady(po.getPurchaseOrderEntityId());
         initialiseState();
     }
 
@@ -123,7 +130,6 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
         this.readyToShipManagedBean = readyToShipManagedBean;
     }
 
-
     public List<PurchaseOrderEntity> getFilteredListOfAllPurchaseOrders() {
         return filteredListOfAllPurchaseOrders;
     }
@@ -131,6 +137,5 @@ public class PurchaseOrderProgressManagementManagedBean implements Serializable 
     public void setFilteredListOfAllPurchaseOrders(List<PurchaseOrderEntity> filteredListOfAllPurchaseOrders) {
         this.filteredListOfAllPurchaseOrders = filteredListOfAllPurchaseOrders;
     }
-
 
 }

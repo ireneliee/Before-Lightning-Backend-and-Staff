@@ -43,9 +43,10 @@
 
                     </p:commandButton>
 
-                    <p:commandButton value="Ready To Ship" update="ccReadyToShip:formReadyToShip" oncomplete="PF('dialogReadyToShip').show()" icon="ui-icon-document" title="View">
-                        <f:setPropertyActionListener value="#{purchaseOrderEntity}" target="#{purchaseOrderProgressManagementManagedBean.readyToShipManagedBean.purchaseOrderToUpdate}" />
-
+                    <p:commandButton value="Ready To Ship" update="formAllPurchaseOrders:dataTableAllPurchaseOrders" actionListener="#{purchaseOrderProgressManagementManagedBean.changeToReady}">
+                    <f:attribute name="orderToReady" value="#{purchaseOrderEntity}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to change the status of order #{purchaseOrderEntity.referenceNumber} to ready?" icon="ui-icon-alert" />
+    
                         
                     </p:commandButton>
                     <p:commandButton value="Refund Order" actionListener="#{purchaseOrderProgressManagementManagedBean.refundOrder}" update="formAllPurchaseOrders:dataTableAllPurchaseOrders">

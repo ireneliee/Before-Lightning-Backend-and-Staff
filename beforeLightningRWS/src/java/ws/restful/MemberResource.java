@@ -35,6 +35,7 @@ import util.exception.InvalidLoginCredentialException;
 import util.exception.MemberEntityNotFoundException;
 import util.exception.MemberEntityUsernameExistException;
 import util.exception.UnknownPersistenceException;
+import util.exception.UpdateMemberEntityException;
 import ws.datamodel.CreateNewAddressReq;
 import ws.datamodel.CreateNewCreditCardReq;
 import ws.datamodel.CreateNewMemberReq;
@@ -228,10 +229,12 @@ public class MemberResource {
                 memberEntity.setContact(updateMemberReq.getContact());
                 memberEntity.setEmail(updateMemberReq.getEmail());
                 memberEntity.setImageLink(updateMemberReq.getImageLink());
-
+                System.out.println("member entity image updated" + memberEntity.getImageLink());
+                
+                memberEntitySessionBeanLocal.updateMemberEntity(memberEntity);
                 return Response.status(Response.Status.OK).build();
 
-            } catch (MemberEntityNotFoundException ex) {
+            } catch (MemberEntityNotFoundException | UpdateMemberEntityException | InputDataValidationException ex) {
 
                 return Response.status(Status.UNAUTHORIZED).entity(ex.getMessage()).build();
 
