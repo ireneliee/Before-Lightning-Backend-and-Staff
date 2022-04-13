@@ -97,8 +97,8 @@ public class SupportResource {
 			return Response.status(Response.Status.BAD_REQUEST).entity("Invalid create new support ticket request").build();
 		}
 	}
-	
-		@Path("createSupportTicketWithEmail")
+
+	@Path("createSupportTicketWithEmail")
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
