@@ -202,28 +202,28 @@ public class ForumResource {
         }
     }
     
-    @Path("checkUserLikes")
-    @GET
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response checkUserLikes(@QueryParam("postId") String postId, @QueryParam("username") String username) {
-        System.out.println("Reach a");
-        try {
-            Long postIdInLong = Long.parseLong(postId);
-            System.out.println("Reach b");
-            boolean checkResult = forumPostsEntitySessionBeanLocal.userLikes(postIdInLong, username);
-            System.out.println("Reach c");
-            return Response.status(Status.OK).entity(checkResult).build();
-             
-        } catch (MemberEntityNotFoundException ex) {
-            System.out.println("Reach d");
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Member entity not found.").build();
-            
-        } catch (ForumPostNotFoundException ex) {
-            System.out.println("Reach e");
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Forum post not found.").build();
-        }
-    }
+//    @Path("checkUserLikes")
+//    @GET
+//    @Consumes(MediaType.TEXT_PLAIN)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response checkUserLikes(@QueryParam("postId") String postId, @QueryParam("username") String username) {
+//        System.out.println("Reach a");
+//        try {
+//            Long postIdInLong = Long.parseLong(postId);
+//            System.out.println("Reach b");
+//            boolean checkResult = forumPostsEntitySessionBeanLocal.userLikes(postIdInLong, username);
+//            System.out.println("Reach c");
+//            return Response.status(Status.OK).entity(checkResult).build();
+//             
+//        } catch (MemberEntityNotFoundException ex) {
+//            System.out.println("Reach d");
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Member entity not found.").build();
+//            
+//        } catch (ForumPostNotFoundException ex) {
+//            System.out.println("Reach e");
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Forum post not found.").build();
+//        }
+//    }
 
 
     @Path("retrieveMyForumPosts")
