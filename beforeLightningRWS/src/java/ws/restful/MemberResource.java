@@ -381,4 +381,45 @@ public class MemberResource {
         }
 
     }
+    
+    @Path("retrieveMemberByUsername")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveMemberByUsername(@QueryParam("username") String username) {
+        if (username != null) {
+            try {
+                MemberEntity memberEntity = memberEntitySessionBeanLocal.retrieveMemberEntityByUsername(username);
+                memberEntity.setPassword("00000000");
+                memberEntity.setSalt("00000000000000000000000000000000");
+                memberEntity.getAddresses().size();
+                memberEntity.getPurchaseOrders().clear();
+
+                for (CreditCardEntity card : memberEntity.getCreditCards()) {
+                    card.setMemberEntity(null);
+                }
+                if (memberEntity.getShoppingCart() != null) {
+                    for (PurchaseOrderLineItemEntity poli : memberEntity.getShoppingCart().getPurchaseOrderLineItemEntities()) {
+                        poli.getPartChoiceEntities().clear();
+                        poli.setAccessoryItemEntity(null);
+                        poli.setProductEntity(null);
+                    }
+                }
+                memberEntity.getForumPosts().clear();
+                memberEntity.getForumReplies().clear();
+                //memberEntity.getPostsDisliked().clear();
+                memberEntity.getPostsLiked().clear();
+
+                return Response.status(Status.OK).entity(memberEntity).build();
+
+            } catch (MemberEntityNotFoundException ex) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Member username is not valid").build();
+
+            }
+
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Member ID not provided.").build();
+        }
+
+    }
 }
