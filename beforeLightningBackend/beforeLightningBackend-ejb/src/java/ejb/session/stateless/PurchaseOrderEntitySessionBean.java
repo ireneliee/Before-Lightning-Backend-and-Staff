@@ -15,6 +15,7 @@ import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -99,18 +100,54 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
     private String generateUniqueReferenceNumber() {
         Double serialNumber = (Math.random() * 100000000);
         //need to check not in used
+        boolean check = false;
+        List<PurchaseOrderEntity> listOfAllPOs = retrieveAllPurchaseOrders();
+        while (check == false) {
+            boolean restart = false;
+            for (PurchaseOrderEntity po : listOfAllPOs) {
+                if (po.getReferenceNumber().equals(serialNumber)) {
+                    restart = true;
+                    break;
+                }
+            }
+            if (restart) {
+                serialNumber = (Math.random() * 100000000);
+            } else {
+                check = true;
+            }
+        }
         return Integer.toString(serialNumber.intValue());
     }
 
     private Integer generateUniqueSerialNumber() {
         Double serialNumber = (Math.random() * 100000000);
         //need to check not in used
+        boolean check = false;
+        List<PurchaseOrderEntity> listOfAllPOs = retrieveAllPurchaseOrders();
+        List<PurchaseOrderLineItemEntity> listOfPOLIs = new ArrayList<>();
+        
+        for (PurchaseOrderEntity po : listOfAllPOs) {
+            listOfPOLIs.addAll(po.getPurchaseOrderLineItems());
+        }
+        while (check == false) {
+            boolean restart = false;
+            for (PurchaseOrderLineItemEntity poli : listOfPOLIs) {
+                if (poli.getSerialNumber().equals(serialNumber.intValue())) {
+                    restart = true;
+                    break;
+                }
+            }
+            if (restart) {
+                serialNumber = (Math.random() * 100000000);
+            } else {
+                check = true;
+            }
+        }
         return serialNumber.intValue();
     }
-//DeliverySlotEntity deliverySlot, 
-//LocalDateTime deliveryDate, String deliveryOption)
+
     @Override
-    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice, LocalDateTime deliveryDate, String deliveryOption)  throws MemberEntityNotFoundException, CreateNewPurchaseOrderException {
+    public PurchaseOrderEntity createNewPurchaseOrderRWS(String username, List<PurchaseOrderLineItemEntity> listOfLineItems, AddressEntity address, String deliveryType, BigDecimal totalPrice, LocalDateTime deliveryDate, String deliveryOption) throws MemberEntityNotFoundException, CreateNewPurchaseOrderException {
         System.out.println("CALLED SESSION BEAN METHOD createNewPurchaseOrderRWS");
 
         if (!listOfLineItems.isEmpty()) {
@@ -192,7 +229,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
             em.persist(newPurchaseOrderEntity);
             em.flush();
             System.out.println("List of Line Item size in managed PO: " + newPurchaseOrderEntity.getPurchaseOrderLineItems().size());
-            
+
 //            CREATING DELIVERY
             DeliveryStatusEnum delEnum;
             if (deliveryOption.equals("OUTSTORE")) {
