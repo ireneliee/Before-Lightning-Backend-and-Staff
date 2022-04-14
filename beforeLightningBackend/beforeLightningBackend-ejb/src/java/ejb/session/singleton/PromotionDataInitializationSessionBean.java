@@ -96,7 +96,7 @@ public class PromotionDataInitializationSessionBean {
 
 			//make list of promo partChoices
 			List<PartChoiceEntity> listPromoPartChoices = new ArrayList<>();
-			PartChoiceEntity promoPartChoice1 = partChoiceEntitySessionBean.retrievePartChoiceEntityByPartChoiceName("Forge 15S Chassis");
+			PartChoiceEntity promoPartChoice1 = partChoiceEntitySessionBean.retrievePartChoiceEntityByPartChoiceName("Beast 15S Chassis");
 			PartChoiceEntity promoPartChoice2 = partChoiceEntitySessionBean.retrievePartChoiceEntityByPartChoiceName("Intel® Core™ i5-12500H Processor (12 Cores)");
 			listPromoPartChoices.add(promoPartChoice1);
 			listPromoPartChoices.add(promoPartChoice2);
@@ -149,13 +149,5 @@ public class PromotionDataInitializationSessionBean {
 		} catch (PartChoiceAlreadyExistsInPromotionException ex) {
 			System.out.println("accessory exists in promo");
 		}
-	}
-
-	public void persist(Object object) {
-		em.persist(object);
-	}
-
-	public void persist1(Object object) {
-		em.persist(object);
 	}
 }

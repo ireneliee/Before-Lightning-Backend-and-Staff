@@ -156,8 +156,8 @@ public class ProductAccessoryDataInitializationSessionBean {
 		ReviewEntity review6 = new ReviewEntity("testUser5", 3, "Did not like this Product at all...");
 
 		try {
-			productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500));
-			productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "Aftershock", new BigDecimal(600));
+			productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "BeforeLightning", new BigDecimal(500));
+			productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "BeforeLightning", new BigDecimal(600));
 
 			partEntitySessionBeanLocal.createNewPartEntity(a);
 			partEntitySessionBeanLocal.createNewPartEntity(b);
