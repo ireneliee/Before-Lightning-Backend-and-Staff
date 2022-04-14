@@ -107,7 +107,7 @@ public class ProductAccessoryDataInitializationSessionBean {
 		ProductEntity p2 = new ProductEntity("Ghost 17X", "PROD002", "Ultra Long Battery Life | Ultraslim | RTX 30 Series", "Ultra powerful, ultra portable");
 //                p1.setImageLink("beast15S.png");
 //                p2.setImageLink("ghost17x.png");
-
+                
 		//Part
 		PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
 		PartEntity b = new PartEntity("Graphic Cards", "Single most important piece of hardware for a gaming machine.");
@@ -156,8 +156,8 @@ public class ProductAccessoryDataInitializationSessionBean {
 		ReviewEntity review6 = new ReviewEntity("testUser5", 3, "Did not like this Product at all...");
 
 		try {
-			productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "BeforeLightning", new BigDecimal(500));
-			productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "BeforeLightning", new BigDecimal(600));
+			productEntitySessionBeanLocal.createBrandNewProductEntity(p1, 10, 5, "Aftershock", new BigDecimal(500));
+			productEntitySessionBeanLocal.createBrandNewProductEntity(p2, 10, 5, "Aftershock", new BigDecimal(600));
 
 			partEntitySessionBeanLocal.createNewPartEntity(a);
 			partEntitySessionBeanLocal.createNewPartEntity(b);
@@ -234,8 +234,8 @@ public class ProductAccessoryDataInitializationSessionBean {
 			productEntitySessionBeanLocal.addPartToProduct(part5.getPartEntityId(), product2.getProductEntityId());
 
 			//Compatibility Check
-			PartChoiceEntity chassis1 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Forge 15S Chassis");
-			PartChoiceEntity chassis2 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Vapor 17X Chassis");
+			PartChoiceEntity chassis1 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Beast 15S Chassis");
+			PartChoiceEntity chassis2 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Ghost 17X Chassis");
 
 			partChoiceEntitySessionBeanLocal.addPartChoiceToChassisChoice(partChoiceA1.getPartChoiceEntityId(), chassis1.getPartChoiceEntityId());
 			partChoiceEntitySessionBeanLocal.addPartChoiceToChassisChoice(partChoiceB1.getPartChoiceEntityId(), chassis1.getPartChoiceEntityId());
