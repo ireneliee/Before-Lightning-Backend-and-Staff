@@ -33,14 +33,13 @@
                 <p:column headerText="Delivery ID" sortBy="#{deliverySlotEntity.deliverySlotId}" filterBy="#{deliverySlotEntity.deliverySlotEntityId}" filterMatchMode="contains">
                     <p:outputLabel value="#{deliverySlotEntity.deliverySlotId}" />
                 </p:column>
-                <p:column headerText="Requested Delivery Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
-                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
+                <p:column headerText="Requested Collection Date " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery.toLocalDate()}" />
+                </p:column>
+                <p:column headerText="Requested Collection Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery.toLocalTime()}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton value="Complete Delivery"  update="formAllInStoreDeliveries:dataTableAllInStoreDeliveries" actionListener="#{activeDeliveryMangementManagedBean.completeDelivery}">
-                        <f:attribute name="deliveryToComplete" value="#{deliverySlotEntity}" />
-                        <p:confirm header="Confirmation" message="Are you sure you want to change the status of order #{deliverySlotEntity.deliverySlotId} to complete?" icon="ui-icon-alert" />
-                    </p:commandButton> 
                     <p:commandButton  value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{deliverySlotEntity.deliveryOrder}" target="#{viewPurchaseOrderManagedBean.purchaseOrderToView}" />
                     </p:commandButton>
@@ -72,14 +71,12 @@
                 <p:column headerText="Delivery ID" sortBy="#{deliverySlotEntity.deliverySlotId}" filterBy="#{deliverySlotEntity.deliverySlotEntityId}" filterMatchMode="contains">
                     <p:outputLabel value="#{deliverySlotEntity.deliverySlotId}" />
                 </p:column>
-                <p:column headerText="Requested Delivery Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
-                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
+                <p:column headerText="Requested Delivery Date " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery.toLocalDate()}" />
+                </p:column>                <p:column headerText="Requested Delivery Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery.toLocalTime()}" />
                 </p:column>
                 <p:column headerText="Action" >
-                    <p:commandButton value="Complete Delivery"  update="formAllOutStoreDeliveries:dataTableAllOutStoreDeliveries" actionListener="#{activeDeliveryMangementManagedBean.completeDelivery}">
-                        <f:attribute name="deliveryToComplete" value="#{deliverySlotEntity}" />
-                        <p:confirm header="Confirmation" message="Are you sure you want to change the status of order #{deliverySlotEntity.deliverySlotId} to complete?" icon="ui-icon-alert" />
-                    </p:commandButton> 
                     <p:commandButton  value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
                         <f:setPropertyActionListener value="#{deliverySlotEntity.deliveryOrder}" target="#{viewPurchaseOrderManagedBean.purchaseOrderToView}" />
                     </p:commandButton>

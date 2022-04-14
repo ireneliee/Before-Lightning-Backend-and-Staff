@@ -31,7 +31,7 @@
                     <p:outputLabel value="#{purchaseOrderEntity.totalPrice}" />
                 </p:column>
                 <p:column headerText="Creation Date" sortBy="#{purchaseOrderEntity.dateCreated}" filterBy="#{purchaseOrderEntity.dateCreated}" filterMatchMode="contains">
-                    <p:outputLabel value="#{purchaseOrderEntity.dateCreated}" />
+                    <p:outputLabel value="#{purchaseOrderEntity.dateCreated.toLocalDate()}" />
                 </p:column>
                 <p:column headerText="Action" >
                     <p:commandButton value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">

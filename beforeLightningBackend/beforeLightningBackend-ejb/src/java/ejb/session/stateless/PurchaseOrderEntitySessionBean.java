@@ -374,6 +374,9 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
     public void changeToComplete(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException {
         PurchaseOrderEntity purchaseOrderEntity = retrievePurchaseOrderEntityByPurchaseOrderEntityId(purchaseOrderId);
         purchaseOrderEntity.setPurchaseOrderStatus(PurchaseOrderStatusEnum.COMPLETE);
+        
+        DeliverySlotEntity dslot = deliverySlotSessionBeanLocal.retrieveDeliverySlotByPurchaseOrderId(purchaseOrderId);
+        dslot.setDeliveryStatus(DeliveryStatusEnum.COMPLETE);
 
     }
 

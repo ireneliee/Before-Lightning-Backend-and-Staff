@@ -69,7 +69,8 @@ public class DeliverySlotSessionBean implements DeliverySlotSessionBeanLocal {
         }
 
     }
-        public List<DeliverySlotEntity> retrieveDeliverySlotsByAddressId(Long addressId)  {
+
+    public List<DeliverySlotEntity> retrieveDeliverySlotsByAddressId(Long addressId) {
         Query query = em.createQuery("SELECT d FROM DeliverySlotEntity d WHERE d.address.addressEntityId = :addressId");
         query.setParameter("addressId", addressId);
         List<DeliverySlotEntity> allItems = query.getResultList();
@@ -80,6 +81,13 @@ public class DeliverySlotSessionBean implements DeliverySlotSessionBeanLocal {
         }
         return allItems;
 
+    }
+
+    public DeliverySlotEntity retrieveDeliverySlotByPurchaseOrderId(Long purchaseOrderId) {
+        Query query = em.createQuery("SELECT d FROM DeliverySlotEntity d WHERE d.deliveryOrder.purchaseOrderEntityId =:purchaseOrderId");
+        query.setParameter("purchaseOrderId", purchaseOrderId);
+
+        return (DeliverySlotEntity) query.getSingleResult();
     }
 
     public List<DeliverySlotEntity> retrieveAllOutStoreDelivery() {

@@ -34,5 +34,7 @@ public interface DeliverySlotSessionBeanLocal {
     public void completeDelivery(Long deliveryId) throws DeliverySlotEntityNotFoundException;
 
     public List<DeliverySlotEntity> retrieveDeliverySlotsByAddressId(Long addressId);
+
+    public DeliverySlotEntity retrieveDeliverySlotByPurchaseOrderId(Long purchaseOrderId);
     
 }
