@@ -18,8 +18,8 @@
     <h:body>
         <p:layout fullPage="true" styleClass="ui-noborder" >
             <p:growl id="growl" showDetail="true" redisplay="false" />  
-            <p:layoutUnit position="north" size="80" styleClass="ui-noborder">
-                <div style = "overflow-y: hidden">
+            <p:layoutUnit position="north" size="80" style="border: none; overflow-y: hidden">
+                <div style = "overflow: hidden">
                     <ui:insert class = "header-section" name="header">
                         <ui:include src="/header.xhtml" />
                     </ui:insert>
@@ -27,38 +27,35 @@
 
             </p:layoutUnit>
 
-            <p:layoutUnit size="240" position="west" styleClass="ui-noborder">
-
+            <p:layoutUnit size="240" position="west" style="border: none">
+                <div class = "profile-viewing">
+                    <h:form id="form">   
+                        <p:panelGrid styleClass="ui-noborder" >
+                            <p:graphicImage style="padding-left: 5px; border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/account.png" rendered="#{empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
+                            <p:graphicImage style="padding-left: 5px; border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/#{sessionScope.currentEmployeeEntity.imageLink}" rendered="#{not empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
+                            <br></br>
+                            <p:outputLabel value="#{sessionScope.currentEmployeeEntity.firstname} #{sessionScope.currentEmployeeEntity.lastname}" style="font-family: Helvetica; font-size: large; font-weight: bold; padding-left: 5px;" />
+                            <br></br>
+                            <p:outputLabel value="Access right:  #{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: small; font-weight: bold; padding-left: 5px;"/>
+                            <br></br>
+                        </p:panelGrid>
+                    </h:form>  
+                </div>
+                
+                <br/>
                 <ui:insert name="sidebar-navigation">
                     <ui:include src="/sidebarNavigation.xhtml" />
                 </ui:insert>        
 
             </p:layoutUnit>
 
-            <p:layoutUnit position="center" styleClass="ui-noborder">
-                <div class = "profile-viewing">
-                    <h:form id="form">   
-                        <p:commandButton id="imageBtn" value ="View profile" icon ="pi pi-user-minus" type="button"  />
-                        <p:overlayPanel id="imagePanel" for="imageBtn" hideEffect="fade">
-                            <p:panel>
-                                <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/account.png" rendered="#{empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
-                                <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/#{sessionScope.currentEmployeeEntity.imageLink}" rendered="#{not empty sessionScope.currentEmployeeEntity.imageLink}" height="50px" width="50px"/>
-                                <br></br>
-                                <p:outputLabel value="#{sessionScope.currentEmployeeEntity.firstname} #{sessionScope.currentEmployeeEntity.lastname}" style="font-family: Helvetica; font-size: large; font-weight: bold" />
-                                <br></br>
-                                <p:outputLabel value="Access right:  #{sessionScope.currentEmployeeEntity.employeeAccessRight} Staff" style="font-family: Helvetica; font-size: large; font-weight: bold;"/>
-                                <br></br>
+            <p:layoutUnit position="center" style="border: none">
 
-                            </p:panel>
-                        </p:overlayPanel>
-
-                    </h:form>  
-                </div>
                 <ui:insert name="content">Content</ui:insert>
 
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="50" styleClass="ui-noborder">
+            <p:layoutUnit position="south" size="50" style="border: none">
 
                 <ui:insert name="footer">
                     <ui:include src="/footer.xhtml" />

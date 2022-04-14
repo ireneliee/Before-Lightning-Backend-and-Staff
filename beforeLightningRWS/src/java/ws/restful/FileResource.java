@@ -45,7 +45,7 @@ public class FileResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response upload(@FormDataParam("file") InputStream uploadedFileInputStream,
             @FormDataParam("file") FormDataContentDisposition uploadedFileDetails) {
-        try {
+        try {  
             System.err.println("********** FileResource.upload()");
             if (uploadedFileInputStream == null) {
                 System.out.println("Nothing has been sent.");

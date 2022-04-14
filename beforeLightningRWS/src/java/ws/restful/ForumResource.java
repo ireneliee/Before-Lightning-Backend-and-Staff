@@ -7,6 +7,7 @@ package ws.restful;
 
 import ejb.session.stateless.ForumPostsEntitySessionBeanLocal;
 import ejb.session.stateless.MemberEntitySessionBeanLocal;
+import entity.CreditCardEntity;
 import entity.ForumPostEntity;
 import entity.MemberEntity;
 import entity.PurchaseOrderLineItemEntity;
@@ -67,7 +68,7 @@ public class ForumResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("createNewReply")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -177,7 +178,7 @@ public class ForumResource {
         }
 
     }
-    
+
     @Path("changeLikes")
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
@@ -190,41 +191,41 @@ public class ForumResource {
             //System.out.println("Reach b");
             forumPostsEntitySessionBeanLocal.changeLikes(postIdInLong, username);
             //System.out.println("Reach c");
-             return Response.status(Status.OK).entity(postIdInLong).build();
-             
+            return Response.status(Status.OK).entity(postIdInLong).build();
+
         } catch (MemberEntityNotFoundException ex) {
             //System.out.println("Reach d");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Member entity not found.").build();
-            
+
         } catch (ForumPostNotFoundException ex) {
             //System.out.println("Reach e");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Forum post not found.").build();
         }
     }
-    
-//    @Path("checkUserLikes")
-//    @GET
-//    @Consumes(MediaType.TEXT_PLAIN)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response checkUserLikes(@QueryParam("postId") String postId, @QueryParam("username") String username) {
-//        System.out.println("Reach a");
-//        try {
-//            Long postIdInLong = Long.parseLong(postId);
-//            System.out.println("Reach b");
-//            boolean checkResult = forumPostsEntitySessionBeanLocal.userLikes(postIdInLong, username);
-//            System.out.println("Reach c");
-//            return Response.status(Status.OK).entity(checkResult).build();
-//             
-//        } catch (MemberEntityNotFoundException ex) {
-//            System.out.println("Reach d");
-//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Member entity not found.").build();
-//            
-//        } catch (ForumPostNotFoundException ex) {
-//            System.out.println("Reach e");
-//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Forum post not found.").build();
-//        }
-//    }
 
+    @Path("checkUserLikes")
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response checkUserLikes(@QueryParam("postId") String postId, @QueryParam("username") String username) {
+
+        System.out.println("Check if user likes in RWS called");
+        try {
+            Long postIdInLong = Long.parseLong(postId);
+            //System.out.println("Reach b");
+            boolean checkResult = forumPostsEntitySessionBeanLocal.userLikes(postIdInLong, username);
+            //System.out.println("Reach c");
+            return Response.status(Status.OK).entity(checkResult).build();
+
+        } catch (MemberEntityNotFoundException ex) {
+            //System.out.println("Reach d");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Member entity not found.").build();
+
+        } catch (ForumPostNotFoundException ex) {
+            //System.out.println("Reach e");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Forum post not found.").build();
+        }
+    }
 
     @Path("retrieveMyForumPosts")
     @GET
@@ -271,24 +272,26 @@ public class ForumResource {
         }
     }
 
-    private void handleMemberUnmarshalling(MemberEntity memberToUnmarshall) {
-        memberToUnmarshall.setPassword("00000000");
-        memberToUnmarshall.setSalt("00000000000000000000000000000000");
-        memberToUnmarshall.getAddresses().size();
-        memberToUnmarshall.getPurchaseOrders().clear();
-        if (memberToUnmarshall.getShoppingCart() != null) {
-            for (PurchaseOrderLineItemEntity poli : memberToUnmarshall.getShoppingCart().getPurchaseOrderLineItemEntities()) {
+    private void handleMemberUnmarshalling(MemberEntity memberEntity) {
+        memberEntity.setPassword("00000000");
+        memberEntity.setSalt("00000000000000000000000000000000");
+        memberEntity.getAddresses().size();
+        memberEntity.getPurchaseOrders().clear();
+
+        for (CreditCardEntity card : memberEntity.getCreditCards()) {
+            card.setMemberEntity(null);
+        }
+        if (memberEntity.getShoppingCart() != null) {
+            for (PurchaseOrderLineItemEntity poli : memberEntity.getShoppingCart().getPurchaseOrderLineItemEntities()) {
                 poli.getPartChoiceEntities().clear();
                 poli.setAccessoryItemEntity(null);
                 poli.setProductEntity(null);
             }
         }
-
-        memberToUnmarshall.getForumPosts().clear();
-        memberToUnmarshall.getForumReplies().clear();
-       // memberToUnmarshall.getPostsDisliked().clear();
-        memberToUnmarshall.getPostsLiked().clear();
-        memberToUnmarshall.getCreditCards().clear();
+        memberEntity.getForumPosts().clear();
+        memberEntity.getForumReplies().clear();
+        //memberEntity.getPostsDisliked().clear();
+        memberEntity.getPostsLiked().clear();
     }
 
     private void handleForumPostsUnmarshalling(List<ForumPostEntity> forumPosts) {
@@ -309,7 +312,6 @@ public class ForumResource {
 //            for (MemberEntity m : listOfUserWhoDislikesThePost) {
 //                handleMemberUnmarshalling(m);
 //            }
-
             MemberEntity forumAuthor = f.getAuthor();
             handleMemberUnmarshalling(forumAuthor);
         }

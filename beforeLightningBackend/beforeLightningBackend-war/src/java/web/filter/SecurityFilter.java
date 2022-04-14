@@ -66,22 +66,35 @@ public class SecurityFilter implements Filter {
     }
 
     private Boolean checkAccessRight(String path, EmployeeAccessRightEnum accessRight) {
-        if (path.equals("/homePage.xhtml") || path.equals("/settingsPage.xhtml") || path.endsWith(".png")) {
+        if (path.equals("/homePage.xhtml") || path.equals("/settingsPage.xhtml")|| path.equals("/calendarPage.xhtml") || path.endsWith(".png")) {
             return true;
         }
+        //access everything
         if (accessRight.equals(accessRight.ADMIN)) {
             return true;
-        } else if (accessRight.equals(accessRight.OPERATION)) {
-            if (path.equals("/pages/orderOperations/orderHomePage.xhtml")
-                    || path.equals("/pages/supportOperations/supportHomePage.xhtml")
-                    || path.equals("/pages/customerOperations/customerHomepage.xhtml")) {
 
+            //access Orders, Support and Customer related stuff
+        } else if (accessRight.equals(accessRight.OPERATION)) {
+            if ( //                    path.startsWith("/supportOperations")
+                    //                    || path.startsWith("/customerOperations")
+                    //                    || path.startsWith("/orderOperations"))) {
+                    path.equals("/pages/orderOperations/orderHomePage.xhtml")
+                    || path.equals("/pages/orderOperations/orderActiveDelivery.xhtml")
+                    || path.equals("/pages/orderOperations/orderComplete.xhtml")
+                    || path.equals("/pages/orderOperations/orderCompleteDelivery.xhtml")
+                    || path.equals("/pages/orderOperations/orderReady.xhtml")
+                    || path.equals("/pages/orderOperations/orderRefund.xhtml")
+                    || path.equals("/pages/supportOperations/supportHomePage.xhtml")
+                    || path.equals("/pages/customerOperations/customerHomePageOLD.xhtml")) {
                 return true;
             } else {
                 return false;
             }
+            //access Product Accessory related stuff
         } else if (accessRight.equals(accessRight.PRODUCT)) {
-            if (path.equals("/pages/productOperations/productHomePage.xhtml")
+            if ( //                    path.equals(path.startsWith("/pages/productOperations")
+                    //                    || path.startsWith("/pages/accessoryOperations"))) {
+                    path.equals("/pages/productOperations/productHomePage.xhtml")
                     || path.equals("/pages/productOperations/manageAllProductsPage.xhtml")
                     || path.equals("/pages/productOperations/manageAllPartsPage.xhtml")
                     || path.equals("/pages/productOperations/manageAllPartChoicesPage.xhtml")
@@ -92,10 +105,15 @@ public class SecurityFilter implements Filter {
             } else {
                 return false;
             }
+
+            //access Forum, Website and Promotion stuff
         } else if (accessRight.equals(accessRight.SALES)) {
-            if (path.equals("/pages/promotionOperations/promotionHomePage.xhtml")
-                    || path.equals("/pages/websiteOperations/forumHomePage.xhtml")
-                    || path.equals("/pages/websiteOperations/websiteAllAccessoryPage.xhtml") 
+            if ( //                    path.equals(path.startsWith("/pages/promotionOperations")
+                    //                    || path.startsWith("/pages/websiteOperations"))) {
+                    path.equals("/pages/promotionOperations/promotionHomePage.xhtml")
+                    || path.equals("/pages/websiteOperations/forumHomePageOLD.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteHomePage.xhtml")
+                    || path.equals("/pages/websiteOperations/websiteAllAccessoryPage.xhtml")
                     || path.equals("/pages/websiteOperations/websiteAllAccessoryItemsPage.xhtml")
                     || path.equals("/pages/websiteOperations/websiteAllProductsPage.xhtml")
                     || path.equals("/pages/websiteOperations/websiteAllPartsPage.xhtml")
@@ -119,9 +137,11 @@ public class SecurityFilter implements Filter {
         System.out.println(path);
         if (path.equals("/index.xhtml")
                 || path.equals("/accessRightError.xhtml")
+                || path.equals("/settingsPage.xhtml")
+                || path.equals("/calendarPage.xhtml")
                 || path.startsWith("/uploadedFiles")
                 || path.startsWith("/javax.faces.resource")) {
-            
+
             return true;
         } else {
             return false;
