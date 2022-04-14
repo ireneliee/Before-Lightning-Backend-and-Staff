@@ -23,6 +23,8 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
+                <br/>
+
                 <p:commandButton value="Confirm Disable" icon="pi pi-ban" actionListener="#{disablePartChoiceManagedBean.disablePartChoice}" update="formAllPartChoices:dataTableAllPartChoices :growl" oncomplete="PF('dialogDisablePartChoice').hide()" rendered="#{disablePartChoiceManagedBean.partChoiceEntityToDisable.isDisabled eq false}">
                     <p:confirm header="Confirmation" message="Are you sure you want to Disable #{disablePartChoiceManagedBean.partChoiceEntityToDisable.partChoiceName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>

@@ -12,10 +12,10 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <h:form id="formViewAccessoryItem">
-            <p:dialog id="dialogViewAccessoryItem" widgetVar="dialogViewAccessoryItem" header="View AccessoryItem" closable="true">
-                <p:panelGrid>
+            <p:dialog id="dialogViewAccessoryItem" widgetVar="dialogViewAccessoryItem" header="View Accessory Item" closable="true">
+                <p:panelGrid style="border: none">
                     <p:row>
-                        <p:column colspan="2">
+                        <p:column colspan="2" style="text-align: center">
                             <p:graphicImage value="/uploadedFiles/sampleAccessoryItem.png" height="300px" width="300px" rendered="#{empty viewAccessoryItemManagedBean.accessoryItemEntityToView.imageLink}"/>
                             <p:graphicImage value="/uploadedFiles/#{viewAccessoryItemManagedBean.accessoryItemEntityToView.imageLink}" height="300px" width="300px" rendered="#{not empty viewAccessoryItemManagedBean.accessoryItemEntityToView.imageLink}"/>
                         </p:column>
@@ -81,7 +81,7 @@
                             <p:outputLabel value="Price: " />
                         </p:column>
                         <p:column>
-                            <p:outputLabel value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.price}" />
+                            <p:outputLabel value="$#{viewAccessoryItemManagedBean.accessoryItemEntityToView.price}" />
                         </p:column>
                     </p:row>  
                     <p:row>
@@ -106,11 +106,15 @@
                         </p:column>
                         <p:column>
                             <p:repeat value="#{viewAccessoryItemManagedBean.accessoryItemEntityToView.promotionEntities}" var="promotionEntity">
-                                <p:outputLabel value="- Promotion Name: #{promotionEntity.promotionName}"/>
-                                <p:outputLabel value="- Start Date: #{promotionEntity.startDate}"/>     
-                                <p:outputLabel value="- End Date: #{promotionEntity.promotionName}"/>
-                                <p:outputLabel value="- Discount: #{promotionEntity.discount}"/>
-                                <p:outputLabel value="- Discount Price: #{promotionEntity.discountedPrice}"/>
+                                <p:outputLabel value="Promotion Name: #{promotionEntity.promotionName}"/>
+                                <br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<p:outputLabel value="- Start Date: #{promotionEntity.startDate}"/>  
+                                <br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<p:outputLabel value="- End Date: #{promotionEntity.endDate}"/>
+                                <br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<p:outputLabel value="- Discount: #{promotionEntity.discount}%"/>
+                                <br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<p:outputLabel value="- Discount Price: $#{promotionEntity.discountedPrice}"/>
                                 <br/>
                             </p:repeat>
                         </p:column>

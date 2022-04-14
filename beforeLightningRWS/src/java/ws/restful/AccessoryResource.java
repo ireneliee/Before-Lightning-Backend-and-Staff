@@ -96,6 +96,7 @@ public class AccessoryResource {
             for (AccessoryEntity accessory : accessoryEntities) {
                 System.out.println("here");
                 if (accessory.getAccessoryEntityId().equals(accessoryId)) {
+                    List<AccessoryItemEntity> listOfAccessoryItemsToSell = new ArrayList<>();
                     for (AccessoryItemEntity accessoryItem : accessory.getAccessoryItemEntities()) {
                         System.out.println("here 2");
                         accessoryItem.setAccessoryEntity(null);
@@ -108,7 +109,11 @@ public class AccessoryResource {
                             System.out.println("here 5");
                         }
                         System.out.println("hereeeee");
+                        if (accessoryItem.getIsDisabled() == false) {
+                            listOfAccessoryItemsToSell.add(accessoryItem);
+                        }
                     }
+                    accessory.setAccessoryItemEntities(listOfAccessoryItemsToSell);
                     System.out.println("SENDING ACCESSORY: ");
                     System.out.println(accessory);
                     return Response.status(Response.Status.OK).entity(accessory).build();

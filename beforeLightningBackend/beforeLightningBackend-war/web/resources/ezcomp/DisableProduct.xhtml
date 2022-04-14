@@ -32,6 +32,8 @@
                     </p:row>
 
                 </p:panelGrid>
+                <br/>
+
                 <p:commandButton value="Confirm Disable" icon="pi pi-ban" actionListener="#{disableProductManagedBean.disableProduct}" update="formAllProducts:dataTableAllProducts :growl" oncomplete="PF('dialogDisableProduct').hide()" rendered="#{disableProductManagedBean.productEntityToDisable.isDisabled eq false}">
                     <p:confirm header="Confirmation" message="Are you sure you want to Disable #{disableProductManagedBean.productEntityToDisable.productName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>

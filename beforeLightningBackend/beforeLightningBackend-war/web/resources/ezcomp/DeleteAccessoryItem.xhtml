@@ -40,6 +40,7 @@
                     </p:row>
 
                 </p:panelGrid>
+                <br/>
                 <p:commandButton value="Confirm Delete" icon="pi pi-ban" actionListener="#{deleteAccessoryItemManagedBean.deleteAccessoryItem}" update="formAllAccessoryItem:dataTableAllAccessoryItem :growl" oncomplete="PF('dialogDeleteAccessoryItem').hide()">
                     <p:confirm header="Confirmation" message="Are you sure you want to Delete #{deleteAccessoryItemManagedBean.accessoryItemEntityToDelete.accessoryItemName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>
