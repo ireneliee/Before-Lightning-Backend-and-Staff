@@ -113,6 +113,8 @@ public class UpdatePromotionManagedBean implements Serializable {
 			promotionEntitySessionBean.addAccessoryItemsToPromotion(promotionEntityToUpdate.getPromotionEntityId(), accessoryItemToAdd);
 			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Added Accessory to Promotion", null));
+
 		} catch (AccessoryAlreadyExistsInPromotionException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Existing accessory items under this promotion cannot be added!", null));
 		} catch (AccessoryItemEntityNotFoundException ex) {
@@ -124,15 +126,15 @@ public class UpdatePromotionManagedBean implements Serializable {
 
 	public void removeAccessoryItemToPromotion(ActionEvent event) {
 		try {
-			System.out.println("updatePromoManagedBean :: removeAccessoryItemToPromotion() ::\n " +
-					"list of accessories to remove: " );
-			for(AccessoryItemEntity a : accessoryItemToRemove) {
+			System.out.println("updatePromoManagedBean :: removeAccessoryItemToPromotion() ::\n "
+					+ "list of accessories to remove: ");
+			for (AccessoryItemEntity a : accessoryItemToRemove) {
 				System.out.print(a);
 			}
 			promotionEntitySessionBean.removeAccessoryItemsFromPromotion(promotionEntityToUpdate.getPromotionEntityId(), accessoryItemToRemove);
 			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
-			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Removed Accessory from Promotion", null));
 		} catch (AccessoryItemEntityNotFoundException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Part choice not under promotion!", null));
 		} catch (PromotionEntityNotFoundException ex) {
@@ -145,7 +147,7 @@ public class UpdatePromotionManagedBean implements Serializable {
 			promotionEntitySessionBean.addPartChoicesToPromotion(promotionEntityToUpdate.getPromotionEntityId(), partChoiceToAdd);
 			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
-
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Added Part Choice to Promotion", null));
 		} catch (PartChoiceAlreadyExistsInPromotionException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Existing part choices under this promotion cannot be added!", null));
 		} catch (PartChoiceEntityNotFoundException ex) {
@@ -160,7 +162,7 @@ public class UpdatePromotionManagedBean implements Serializable {
 			promotionEntitySessionBean.removePartChoicesFromPromotion(promotionEntityToUpdate.getPromotionEntityId(), partChoiceToRemove);
 			this.initializeState();
 			viewPromotionManagedBean.initialiseState();
-
+	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Removed Part Choice from Promotion", null));
 		} catch (PartChoiceEntityNotFoundException ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Part choice not under promotion!", null));
 		} catch (PromotionEntityNotFoundException ex) {

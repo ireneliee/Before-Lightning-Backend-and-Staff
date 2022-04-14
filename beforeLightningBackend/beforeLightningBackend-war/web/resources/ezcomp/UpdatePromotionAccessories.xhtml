@@ -25,7 +25,7 @@
                                     <p:outputLabel value="#{accessoryItemEntityToAdd.accessoryItemName}" />
                                 </p:column>
                             </p:selectManyMenu>                            
-                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Add Accessory Items" actionListener="#{updatePromotionManagedBean.addAccessoryItemToPromotion}" update="formAllPromotions:dataTableAllPromotions" oncomplete="PF('dialogUpdatePromotionalAccessories').hide()">
+                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Add Accessory Items" actionListener="#{updatePromotionManagedBean.addAccessoryItemToPromotion}" update="formUpdatePromotionalAccessories :formAllPromotions growl" oncomplete="PF('dialogUpdatePromotionalAccessories').hide()">
                                 <p:confirm header="Confirmation" message="Are you sure you want to add selected accessories to: #{updatePromotionManagedBean.promotionEntityToUpdate.promotionName} Promotion?"  icon="ui-icon-alert" />
                             </p:commandButton>
                         </p:column>
@@ -39,8 +39,8 @@
                                     <p:outputLabel value="#{accessoryItemEntity.accessoryItemName}" />
                                 </p:column>
                             </p:selectManyMenu>    
-                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Remove Accessory Items" actionListener="#{updatePromotionManagedBean.removeAccessoryItemToPromotion}" update="formAllPromotions:dataTableAllPromotions" oncomplete="PF('dialogUpdatePromotionalAccessories').hide()">
-                                <p:confirm header="Confirmation" message="Are you sure you want to add selected accessories to: #{updatePromotionManagedBean.promotionEntityToUpdate.promotionName} Promotion?"  icon="ui-icon-alert" />
+                            <p:commandButton icon="ui-icon-refresh" title="Update" value="Remove Accessory Items" actionListener="#{updatePromotionManagedBean.removeAccessoryItemToPromotion}" update="formUpdatePromotionalAccessories :formAllPromotions growl" oncomplete="PF('dialogUpdatePromotionalAccessories').hide()">
+                                <p:confirm header="Confirmation" message="Are you sure you want to remove selected accessories from: #{updatePromotionManagedBean.promotionEntityToUpdate.promotionName} Promotion?"  icon="ui-icon-alert" />
                             </p:commandButton>
                         </p:column>
 
