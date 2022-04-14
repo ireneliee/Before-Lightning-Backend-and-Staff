@@ -103,9 +103,11 @@ public class ProductAccessoryDataInitializationSessionBean {
 	private void initializeData() {
 		System.out.println("============CALLED INIT DATA IN PRODUCT ACCESSORY DATA INIT ===========");
 		//Product
-		ProductEntity p1 = new ProductEntity("Forge 15S", "PROD001", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.", "Ultra-slim performance");
-		ProductEntity p2 = new ProductEntity("Vapor 17X", "PROD002", "Ultra Long Battery Life | Ultraslim | RTX 30 Series", "Ultra powerful, ultra portable");
-
+		ProductEntity p1 = new ProductEntity("Beast 15S", "PROD001", "Delivers great performance at an unbeatable pricepoint. Featuring the latest and greatest in next gen mobile hardware.", "Ultra-slim performance");
+		ProductEntity p2 = new ProductEntity("Ghost 17X", "PROD002", "Ultra Long Battery Life | Ultraslim | RTX 30 Series", "Ultra powerful, ultra portable");
+//                p1.setImageLink("beast15S.png");
+//                p2.setImageLink("ghost17x.png");
+                
 		//Part
 		PartEntity a = new PartEntity("Central Processing Unit", "Responsible for carrying out the instructions of computer programs. .");
 		PartEntity b = new PartEntity("Graphic Cards", "Single most important piece of hardware for a gaming machine.");
@@ -143,7 +145,7 @@ public class ProductAccessoryDataInitializationSessionBean {
 		AccessoryItemEntity mouse3 = new AccessoryItemEntity("CORSAIR SABRE RGB", "ACSY003", 100, 10, "Corsair", new BigDecimal(120), "Apart from its lightning performance and comfort, match the color of your gaming mouse to any setup");
 
 		AccessoryItemEntity speaker1 = new AccessoryItemEntity("KEF LS50 Meta", "ACSY004", 100, 10, "KEF", new BigDecimal(170), "Best in class HIFI speakers, made specially for audiophilles");
-		AccessoryItemEntity speaker2 = new AccessoryItemEntity("Wharfedale Diamond 12.3", "ACSY005", 100, 10, "Wharfedale", new BigDecimal(130), "HIFI Speakers with added bass for any music lover.");
+		AccessoryItemEntity speaker2 = new AccessoryItemEntity("Creative Pebble V3", "ACSY005", 100, 10, "Creative", new BigDecimal(130), "HIFI Speakers with added bass for any music lover.");
 		AccessoryItemEntity speaker3 = new AccessoryItemEntity("Elac Debut B5.2", "ACSY006", 100, 10, "Elac", new BigDecimal(120), "Experience the amazing sound quality of Elac, made by the best in the industry");
 
 		ReviewEntity review1 = new ReviewEntity("testUser1", 5, "I love this product, it has been a game changer and i will recommend it to anyone!");
@@ -232,8 +234,8 @@ public class ProductAccessoryDataInitializationSessionBean {
 			productEntitySessionBeanLocal.addPartToProduct(part5.getPartEntityId(), product2.getProductEntityId());
 
 			//Compatibility Check
-			PartChoiceEntity chassis1 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Forge 15S Chassis");
-			PartChoiceEntity chassis2 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Vapor 17X Chassis");
+			PartChoiceEntity chassis1 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Beast 15S Chassis");
+			PartChoiceEntity chassis2 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Ghost 17X Chassis");
 
 			partChoiceEntitySessionBeanLocal.addPartChoiceToChassisChoice(partChoiceA1.getPartChoiceEntityId(), chassis1.getPartChoiceEntityId());
 			partChoiceEntitySessionBeanLocal.addPartChoiceToChassisChoice(partChoiceB1.getPartChoiceEntityId(), chassis1.getPartChoiceEntityId());

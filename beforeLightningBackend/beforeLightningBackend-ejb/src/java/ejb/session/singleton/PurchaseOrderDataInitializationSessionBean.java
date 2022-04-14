@@ -151,7 +151,7 @@ public class PurchaseOrderDataInitializationSessionBean {
             PartChoiceEntity e5 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Windows 11 Professional 64 Bit");
 
             //Accessory
-            AccessoryEntity ac1 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityByAccessoryName("mouse");
+            AccessoryEntity ac1 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityByAccessoryName("Mouse");
             AccessoryEntity ac2 = accessoryEntitySessionBeanLocal.retrieveAccessoryEntityByAccessoryName("Speaker");
 
             //Accessory Item
@@ -163,8 +163,8 @@ public class PurchaseOrderDataInitializationSessionBean {
             AccessoryItemEntity speaker2 = accessoryItemEntitySessionBeanLocal.retrieveAccessoryItemBySkuCode("ACSY005");
             AccessoryItemEntity speaker3 = accessoryItemEntitySessionBeanLocal.retrieveAccessoryItemBySkuCode("ACSY006");
 
-            PartChoiceEntity chassis1 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Forge 15S Chassis");
-            PartChoiceEntity chassis2 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Vapor 17X Chassis");
+            PartChoiceEntity chassis1 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Beast 15S Chassis");
+            PartChoiceEntity chassis2 = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName("Ghost 17X Chassis");
 
             try {
 
