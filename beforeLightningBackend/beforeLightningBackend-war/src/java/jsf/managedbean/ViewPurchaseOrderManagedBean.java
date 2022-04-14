@@ -21,7 +21,6 @@ import javax.faces.context.FacesContext;
 
 import javax.faces.event.ActionEvent;
 
-
 /**
  *
  * @author srinivas
@@ -42,6 +41,7 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
         this.purchaseOrderToView = new PurchaseOrderEntity();
     }
 //helo
+
     @PostConstruct
     public void postConstruct() {
         initializeState();
@@ -57,7 +57,6 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
     public void test(ActionEvent event) {
         System.out.println("this works");
     }
-
 
     public PurchaseOrderEntity getPurchaseOrderToView() {
         System.out.println("============GETTER CALLED=========");
@@ -104,7 +103,6 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
         this.filteredList = filteredList;
     }
 
-
     /**
      * @param purchaseOrderToView the purchaseOrderToView to set
      */
@@ -118,5 +116,4 @@ public class ViewPurchaseOrderManagedBean implements Serializable {
             System.out.println(p.getName());
         }
     }
-
 }

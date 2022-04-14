@@ -58,17 +58,25 @@
                             </p:column>
                             <p:column>
                                 <p:outputLabel rendered="#{productEntity.cosmeticImageLink.length() > 0}">
-                                    <p:graphicImage width="40"  url="/uploadedFiles/#{productEntity.cosmeticImageLink}"/>
+                                    <p:commandButton value="View" update="dialogViewCosmeticImage" oncomplete="PF('dialogViewCosmeticImage').show()" title="View">
+                                    </p:commandButton>                                
                                 </p:outputLabel>
                             </p:column>
                             <br/>
                         </p:row>
+                        <p:dialog id="dialogViewCosmeticImage" widgetVar="dialogViewCosmeticImage" header="View Cosmetic Image">
+
+                            <p:graphicImage style="width: 300px;height: 300px"  url="/uploadedFiles/#{productEntity.cosmeticImageLink}"/>
+                        </p:dialog>
                     </p:repeat>
 
                 </p:panelGrid>
             </p:dialog>
 
         </h:form>
+
+
+
 
     </cc:implementation>
 </html>

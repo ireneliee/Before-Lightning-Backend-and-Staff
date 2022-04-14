@@ -13,7 +13,7 @@
         <ez:Breadcrumb pageName="Settings" />
 
         <h:form id="formSettings" >
-            <div style="margin: 0 auto;">
+            <div style="margin: 0 auto">
                 <p:panel id="panelSettings" header="View My Profile" style="margin-bottom:20px; margin: auto" >
                     <p:panelGrid id="panelGridImage">
                         <p:row>
@@ -24,6 +24,7 @@
                             </p:column>
                         </p:row>
                     </p:panelGrid>
+                    <br/>
                     <p:panelGrid >
 
                         <p:row>
@@ -76,6 +77,7 @@
                         </p:row>
 
                     </p:panelGrid>
+                    <br/>
                     <p:commandButton update="ccUpdateSettings:formUpdateSettings" oncomplete="PF('dialogUpdateSettings').show()" icon="ui-icon-refresh" title="Update Profile" value="Update Profile">
                         <f:setPropertyActionListener value="#{settingsManagementManagedBean.currentEmployeeEntity}" target="#{settingsManagementManagedBean.updateEmployeeManagedBean.employeeEntityToUpdate}" />
                     </p:commandButton>
