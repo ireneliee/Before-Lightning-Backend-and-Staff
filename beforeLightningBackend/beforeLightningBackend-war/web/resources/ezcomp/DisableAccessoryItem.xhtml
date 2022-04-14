@@ -31,6 +31,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
+                <br/>
                 <p:commandButton value="Confirm Disable" icon="pi pi-ban" actionListener="#{disableAccessoryItemManagedBean.disableAccessoryItem}" update="formAllAccessoryItem:dataTableAllAccessoryItem :growl" oncomplete="PF('dialogDisableAccessoryItem').hide()" rendered="#{disableAccessoryItemManagedBean.accessoryItemEntityToDisable.isDisabled eq false}">
                     <p:confirm header="Confirmation" message="Are you sure you want to Disable #{disableAccessoryItemManagedBean.accessoryItemEntityToDisable.accessoryItemName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>

@@ -37,6 +37,8 @@
                         </p:row>    
 
                     </p:panelGrid>
+                    <br/>
+
                     <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Linked Part Choices" actionListener="#{updateChassisLinkedPartChoicesManagedBean.updateChassisLinkedPartChoices}" update="formAllPartChoices:dataTableAllPartChoices formAllChassisPartChoices:dataTableAllChassisPartChoices growl" oncomplete="PF('dialogUpdateChassisLinkedPartChoices').hide()">
                         <p:confirm header="Confirmation" message="Are you sure you want to update #{updateLinkedPartChoicesManagedBean.partChoiceEntityChassisPartChoicesToUpdate.partChoiceName} ?"  icon="ui-icon-alert" />
                     </p:commandButton>

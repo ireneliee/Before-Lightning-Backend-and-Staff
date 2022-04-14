@@ -22,7 +22,9 @@
                             <p:outputLabel value="#{disablePartManagedBean.partEntityToDisable.partName}" />
                         </p:column>
                     </p:row>
-                </p:panelGrid>
+                </p:panelGrid> 
+                <br/>
+
                 <p:commandButton value="Confirm Disable" icon="pi pi-ban" actionListener="#{disablePartManagedBean.disablePart}" update="formAllParts:dataTableAllParts :growl" oncomplete="PF('dialogDisablePart').hide()" rendered="#{disablePartManagedBean.partEntityToDisable.isDisabled eq false}">
                     <p:confirm header="Confirmation" message="Are you sure you want to Disable #{disablePartManagedBean.partEntityToDisable.partName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>

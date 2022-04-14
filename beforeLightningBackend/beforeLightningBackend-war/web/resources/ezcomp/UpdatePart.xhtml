@@ -35,6 +35,8 @@
 
                     </p:panelGrid>
                 </p:panel>
+                <br/>
+
                 <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Part" actionListener="#{updatePartManagedBean.updatePart}" update="formAllParts:dataTableAllParts growl" oncomplete="PF('dialogUpdatePart').hide()">
                     <p:confirm header="Confirmation" message="Are you sure you want to update #{updatePartManagedBean.partEntityToUpdate.partName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>

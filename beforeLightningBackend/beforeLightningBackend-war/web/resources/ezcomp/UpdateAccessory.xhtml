@@ -35,6 +35,7 @@
 
                     </p:panelGrid>
                 </p:panel>
+                <br/>
                 <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Accessory" actionListener="#{updateAccessoryManagedBean.updateAccessory}" update="formAllAccessory:dataTableAllAccessory :growl" oncomplete="PF('dialogUpdateAccessory').hide()">
                     <p:confirm header="Confirmation" message="Are you sure you want to update #{updateAccessoryManagedBean.accessoryEntityToUpdate.accessoryName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>

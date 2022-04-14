@@ -76,7 +76,7 @@
                             <p:column>
                                 <p:outputLabel for="imageLink" value="Image: " style="font-weight: bold;" />
                             </p:column>
-                            <p:column>
+                            <p:column style="text-align: center">
                                 <p:fileUpload id="imageLink" listener="#{updateProductManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
                                 <p:graphicImage id="imagePreview1" value="/uploadedFiles/sampleLaptop.png" height="150px" width="150px" rendered="#{empty updateProductManagedBean.imageLink}"/>
                                 <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateProductManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updateProductManagedBean.imageLink}"/>
@@ -84,6 +84,7 @@
                         </p:row>    
                     </p:panelGrid>
                 </p:panel>
+                <br/>
                 <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Product" actionListener="#{updateProductManagedBean.updateProduct}" update="formAllProducts:dataTableAllProducts growl" oncomplete="PF('dialogUpdateProduct').hide()">
                     <p:confirm header="Confirmation" message="Are you sure you want to update #{updateProductManagedBean.productEntityToUpdate.productName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>

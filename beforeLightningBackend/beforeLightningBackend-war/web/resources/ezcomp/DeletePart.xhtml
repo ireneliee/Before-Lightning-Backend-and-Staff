@@ -39,7 +39,9 @@
                         </p:column>
                     </p:row>
 
-                </p:panelGrid>
+                </p:panelGrid>  
+                <br/>
+
                 <p:commandButton value="Confirm Delete" icon="pi pi-ban" actionListener="#{deletePartManagedBean.deletePart}" update="formAllParts:dataTableAllParts :growl" oncomplete="PF('dialogDeletePart').hide()">
                     <p:confirm header="Confirmation" message="Are you sure you want to Delete #{deletePartManagedBean.partEntityToDelete.partName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>
