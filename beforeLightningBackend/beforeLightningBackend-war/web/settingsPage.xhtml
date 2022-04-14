@@ -92,9 +92,9 @@
 
                 <p:panel header="Please Upload Image">
                     <p:panelGrid>
-                        <p:fileUpload id="fileUpload" update="@form dialogUpdateSettingsImage" listener="#{settingsManagementManagedBean.handleFileUpload}"  oncomplete="PF('dialogUpdateSettingsImage').show()" previewWidth="300"/>
+                        <p:fileUpload id="fileUpload" update="@form dialogUpdateSettingsImage " listener="#{settingsManagementManagedBean.handleFileUpload}"  oncomplete="PF('dialogUpdateSettingsImage').show()" previewWidth="300"/>
                     </p:panelGrid>
-                    <p:commandButton icon="ui-icon-refresh" title="Update Image" value="Update Image" actionListener="#{settingsManagementManagedBean.updateProfileImage}" update=":panelGroupLoggedInUser formSettings:panelGridImage formSettingsImage :growl" oncomplete="PF('dialogUpdateSettingsImage').hide();">
+                    <p:commandButton icon="ui-icon-refresh" title="Update Image" value="Update Image" actionListener="#{settingsManagementManagedBean.updateProfileImage}" update=":panelGroupLoggedInUser formSettings:panelGridImage formSettingsImage :form :growl" oncomplete="PF('dialogUpdateSettingsImage').hide();">
                         <p:confirm header="Confirmation" message="Are you sure you want to update image?"  icon="ui-icon-alert" />
                     </p:commandButton>
                 </p:panel>
