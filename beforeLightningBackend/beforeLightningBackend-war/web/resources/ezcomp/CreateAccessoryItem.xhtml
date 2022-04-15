@@ -27,6 +27,10 @@
                     <p:inputText id="brand" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.brand}"  required="true" requiredMessage="Brand is required" />
                     <p:message for="brand" />
 
+                    <p:outputLabel for="description" value="Description: " style="font-weight: bold;" />
+                    <p:inputText id="description" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.description}"  required="true" requiredMessage="Description is required" />
+                    <p:message for="description" />
+
                     <p:outputLabel for="quantityOnHand" value="Quantity On Hand " style="font-weight: bold;" />
                     <p:spinner id="quantityOnHand" value="#{createAccessoryItemManagedBean.newAccessoryItemEntity.quantityOnHand}" min="0" max="1000" required="true" requiredMessage="Quantity is required" />
                     <p:message for="quantityOnHand" />

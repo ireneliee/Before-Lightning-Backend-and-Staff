@@ -183,7 +183,7 @@ public class ProductResource {
                         if (!part.getPartName().equals("Chassis")) {
                             List<PartChoiceEntity> newList = new ArrayList<>();
                             for (PartChoiceEntity pce : part.getPartChoiceEntities()) {
-                                if (chassisPartChoice.getCompatiblePartsPartChoiceEntities().contains(pce)) {
+                                if (chassisPartChoice.getCompatiblePartsPartChoiceEntities().contains(pce) && pce.getIsDisabled()==false) {
                                     newList.add(pce);
                                 }
                             }

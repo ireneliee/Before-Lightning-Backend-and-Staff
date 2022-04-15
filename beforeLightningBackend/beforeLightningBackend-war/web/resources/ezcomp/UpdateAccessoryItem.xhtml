@@ -61,7 +61,7 @@
                                 <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:spinner id="price" value="$#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.price}" prefix="$" min="0"  />
+                                <p:spinner id="price" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.price}" prefix="$" min="0"  />
                             </p:column>
                         </p:row>
                         <p:row>
@@ -71,8 +71,8 @@
                             <p:column style="text-align: center">
                                 <p:fileUpload id="imageLink" listener="#{updateAccessoryItemManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
                                 <br/>
-                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/sampleAccessoryItem.png" height="150px" width="150px" rendered="#{empty updateAccessoryItemManagedBean.imageLink}"/>
-                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateAccessoryItemManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updateAccessoryItemManagedBean.imageLink}"/>
+                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/sampleAccessoryItem.png" height="150px" width="150px" rendered="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.imageLink == ''}"/>
+                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.imageLink}" height="150px" width="150px" rendered="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.imageLink != ''}"/>
                             </p:column>
                         </p:row>  
 

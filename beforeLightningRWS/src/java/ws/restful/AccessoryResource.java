@@ -51,10 +51,14 @@ public class AccessoryResource {
             System.out.println(" ============== RETRIEVE Accessory TO SELL ===============");
             List<AccessoryEntity> accessoryEntities = accessoryEntitySessionBeanLocal.retrieveAllAccessoryEntitiesNotDisabled();
             System.out.println("PROCESSING SIZE: " + accessoryEntities.size());
-
+            List<AccessoryEntity> listOfAccessoryEntitiesToSend = new ArrayList<>();
+            
             // =============== UNMARSHALLING =============
             for (AccessoryEntity accessory : accessoryEntities) {
                 System.out.println("here");
+                
+                List<AccessoryItemEntity> listOfAccessoryItemEntitiesToSend = new ArrayList<>();
+                
                 for (AccessoryItemEntity accessoryItem : accessory.getAccessoryItemEntities()) {
                     System.out.println("here 2");
                     accessoryItem.setAccessoryEntity(null);
@@ -68,14 +72,21 @@ public class AccessoryResource {
                         System.out.println("here 5");
                     }
                     System.out.println("hereeeee");
+                    if(accessoryItem.getIsDisabled() == false) {
+                        listOfAccessoryItemEntitiesToSend.add(accessoryItem);
+                    }
                 }
                 System.out.println("OUT HERE NOW");
+                
+                if (!listOfAccessoryItemEntitiesToSend.isEmpty()) {
+                    accessory.setAccessoryItemEntities(listOfAccessoryItemEntitiesToSend);
+                    listOfAccessoryEntitiesToSend.add(accessory);
+                }
             }
-            System.out.println("SENDING OUT Accessories.... TOTAL SIZE: " + accessoryEntities.size());
+            System.out.println("SENDING OUT Accessories.... TOTAL SIZE: " + listOfAccessoryEntitiesToSend.size());
 
-            GenericEntity<List<AccessoryEntity>> genericEntity = new GenericEntity<List<AccessoryEntity>>(accessoryEntities) {
+            GenericEntity<List<AccessoryEntity>> genericEntity = new GenericEntity<List<AccessoryEntity>>(listOfAccessoryEntitiesToSend) {
             };
-
             return Response.status(Response.Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();

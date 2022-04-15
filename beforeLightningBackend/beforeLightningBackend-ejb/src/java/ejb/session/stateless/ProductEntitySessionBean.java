@@ -241,12 +241,18 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
                         //retrieve instance of Chassis Part Choice first
                         PartChoiceEntity chassisPartChoice = partChoiceEntitySessionBeanLocal.retrievePartChoiceEntityByPartChoiceName(pe.getProductName() + " Chassis");
                         for (PartEntity part : pe.getPartEntities()) {
+                            
+                            if(part.getIsDisabled() == true) {
+                                check = false;
+                                break;
+                            }
+                            
                             if (part.getPartName().equals("Chassis")) {
                                 continue;
                             } else {
                                 boolean checkCompatiblePartChoice = false;
                                 for (PartChoiceEntity pce : part.getPartChoiceEntities()) {
-                                    if (chassisPartChoice.getCompatiblePartsPartChoiceEntities().contains(pce)) {
+                                    if (chassisPartChoice.getCompatiblePartsPartChoiceEntities().contains(pce) && pce.getIsDisabled() == false) {
                                         checkCompatiblePartChoice= true;
                                         break;
                                     }
@@ -339,6 +345,8 @@ public class ProductEntitySessionBean implements ProductEntitySessionBeanLocal {
 //        }
 //        return newList;
 //    }
+    
+    
     @Override
     public ProductEntity retrieveProductEntityByProductEntityId(Long productId) throws ProductEntityNotFoundException {
         ProductEntity productEntity = entityManager.find(ProductEntity.class,

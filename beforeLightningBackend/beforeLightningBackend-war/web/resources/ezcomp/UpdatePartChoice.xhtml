@@ -78,8 +78,8 @@
                             </p:column>
                             <p:column style="text-align: center">
                                 <p:fileUpload id="imageLink" listener="#{updatePartChoiceManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
-                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/samplePartChoice.png" height="150px" width="150px" rendered="#{empty updatePartChoiceManagedBean.imageLink}"/>
-                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updatePartChoiceManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updatePartChoiceManagedBean.imageLink}"/>
+                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/samplePartChoice.png" height="150px" width="150px" rendered="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.imageLink == ''}"/>
+                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.imageLink}" height="150px" width="150px" rendered="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.imageLink != ''}"/>
                             </p:column>
                         </p:row>    
                     </p:panelGrid>

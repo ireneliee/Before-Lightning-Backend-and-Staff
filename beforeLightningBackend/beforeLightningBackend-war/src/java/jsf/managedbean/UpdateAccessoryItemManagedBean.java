@@ -62,6 +62,7 @@ public class UpdateAccessoryItemManagedBean implements Serializable {
     public void updateAccessoryItem(ActionEvent event) {
         if (!imageLink.equals("")) {
             accessoryItemEntityToUpdate.setImageLink(imageLink);
+            System.out.println("SETTING NEW IMAGE LINK");
         }
         try {
             accessoryItemEntitySessionBeanLocal.updateAccessoryItem(accessoryItemEntityToUpdate);
