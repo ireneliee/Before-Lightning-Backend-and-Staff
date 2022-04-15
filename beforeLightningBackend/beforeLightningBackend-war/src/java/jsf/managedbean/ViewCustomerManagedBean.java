@@ -36,26 +36,40 @@ public class ViewCustomerManagedBean implements Serializable {
 
     private MemberEntity memberEntityToView;
     
+    private Boolean hasProfilePic;
+
     public ViewCustomerManagedBean() {
         memberEntityToView = new MemberEntity();
     }
-    
+
     public void deactivateCustomer(ActionEvent event) throws IOException {
         memberEntityToView.setIsActive(false);
         System.out.println(memberEntityToView.getIsActive());
         try {
             memberEntitySessionBeanLocal.updateMemberEntity(memberEntityToView);
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Customer account has been successfully deactivated", null));
-             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-    ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Customer account has been successfully deactivated", null));
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
         } catch (MemberEntityNotFoundException | UpdateMemberEntityException | InputDataValidationException ex) {
             Logger.getLogger(ViewCustomerManagedBean.class.getName()).log(Level.SEVERE, null, ex);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
-        
+
     }
-    
-    public void activateCustomer(ActionEvent event) throws IOException {
+
+    public void hasAProfilePicture() {
+        System.out.println("MemberEntityToView image: " + memberEntityToView.getImageLink());
+        if (memberEntityToView.getImageLink() != null && !memberEntityToView.getImageLink().equals("")) {
+            System.out.println("==================Checking profile pic======================");
+            System.out.println("Returning true");
+            hasProfilePic = true;
+        } else {
+            System.out.println("Returning false");
+            hasProfilePic = false;
+        }
+    }
+
+public void activateCustomer(ActionEvent event) throws IOException {
         memberEntityToView.setIsActive(true);
         System.out.println(memberEntityToView.getIsActive());
         try {
@@ -64,7 +78,10 @@ public class ViewCustomerManagedBean implements Serializable {
              ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
     ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
         } catch (MemberEntityNotFoundException | UpdateMemberEntityException | InputDataValidationException ex) {
-            Logger.getLogger(ViewCustomerManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewCustomerManagedBean
+
+.class
+.getName()).log(Level.SEVERE, null, ex);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
         
@@ -76,6 +93,7 @@ public class ViewCustomerManagedBean implements Serializable {
 
     public void setMemberEntityToView(MemberEntity memberEntityToView) {
         this.memberEntityToView = memberEntityToView;
+        hasAProfilePicture();
     }
 
     public MemberEntitySessionBeanLocal getMemberEntitySessionBeanLocal() {
@@ -84,6 +102,14 @@ public class ViewCustomerManagedBean implements Serializable {
 
     public void setMemberEntitySessionBeanLocal(MemberEntitySessionBeanLocal memberEntitySessionBeanLocal) {
         this.memberEntitySessionBeanLocal = memberEntitySessionBeanLocal;
+    }
+
+    public Boolean getHasProfilePic() {
+        return hasProfilePic;
+    }
+
+    public void setHasProfilePic(Boolean hasProfilePic) {
+        this.hasProfilePic = hasProfilePic;
     }
     
 }
