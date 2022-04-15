@@ -34,7 +34,7 @@
                     </p:panelGrid>
                     <br/>
 
-                    <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Part's Part Choices" actionListener="#{updateAccessoryItemAccessoryManagedBean.updateAccessoryItem}" update = "formUpdateAccessoryItemAccessory :formAllAccessoryItem growl" oncomplete="PF('dialogUpdateAccessoryItemAccessory').hide()">
+                    <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Accessory Item" actionListener="#{updateAccessoryItemAccessoryManagedBean.updateAccessoryItem}" update = "formUpdateAccessoryItemAccessory :formAllAccessoryItem growl" oncomplete="PF('dialogUpdateAccessoryItemAccessory').hide()">
                         <p:confirm header="Confirmation" message="Are you sure you want to update #{updateAccessoryItemAccessoryManagedBean.updateAccessoryItemAccessoryEntity.accessoryItemName} ?"  icon="ui-icon-alert" />
                     </p:commandButton>
                 </p:panel>
