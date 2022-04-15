@@ -46,6 +46,7 @@ public class PromotionManagementManagedBean implements Serializable {
 
 	@PostConstruct
 	public void PostConstruct() {
+            System.out.println("HEREE");
 		initializeState();
 	}
 
