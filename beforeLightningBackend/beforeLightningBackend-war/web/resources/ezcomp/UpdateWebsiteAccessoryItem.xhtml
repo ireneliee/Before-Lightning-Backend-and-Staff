@@ -21,7 +21,7 @@
                                 <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="brand" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
+                                <p:inputText id="brand" value="#{updateWebsiteAccessoryItemManagedBean.accessoryItemEntityToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
                             </p:column>
                         </p:row> 
                         <p:row>
@@ -29,24 +29,26 @@
                                 <p:outputLabel for="accessoryItemDescription" value="Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="accessoryItemDescription" value="#{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
+                                <p:inputText id="accessoryItemDescription" value="#{updateWebsiteAccessoryItemManagedBean.accessoryItemEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="imageLink" value="Image: " style="font-weight: bold;" />
                             </p:column>
-                            <p:column>
-                                <p:fileUpload id="imageLink" listener="#{updateAccessoryItemManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
-                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/sampleAccessoryItem.png" height="150px" width="150px" rendered="#{empty updateAccessoryItemManagedBean.imageLink}"/>
-                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateAccessoryItemManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updateAccessoryItemManagedBean.imageLink}"/>
+                            <p:column style="text-align: center">
+                                <p:fileUpload id="imageLink" listener="#{updateWebsiteAccessoryItemManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
+                                <br/>
+                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/sampleAccessoryItem.png" height="150px" width="150px" rendered="#{updateWebsiteAccessoryItemManagedBean.accessoryItemEntityToUpdate.imageLink == ''}"/>
+                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateWebsiteAccessoryItemManagedBean.accessoryItemEntityToUpdate.imageLink}" height="150px" width="150px" rendered="#{updateWebsiteAccessoryItemManagedBean.accessoryItemEntityToUpdate.imageLink != ''}"/>
                             </p:column>
                         </p:row>  
 
                     </p:panelGrid>
                 </p:panel>
-                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update AccessoryItem" actionListener="#{updateAccessoryItemManagedBean.updateAccessoryItem}" update="formAllAccessoryItem:dataTableAllAccessoryItem :growl" oncomplete="PF('dialogUpdateAccessoryItem').hide()">
-                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateAccessoryItemManagedBean.accessoryItemEntityToUpdate.accessoryItemName} ?"  icon="ui-icon-alert" />
+                <br/>
+                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update AccessoryItem" actionListener="#{updateWebsiteAccessoryItemManagedBean.updateAccessoryItem}" update="formAllAccessoryItem:dataTableAllAccessoryItem :growl" oncomplete="PF('dialogUpdateAccessoryItem').hide()">
+                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateWebsiteAccessoryItemManagedBean.accessoryItemEntityToUpdate.accessoryItemName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>
             </p:dialog>
 

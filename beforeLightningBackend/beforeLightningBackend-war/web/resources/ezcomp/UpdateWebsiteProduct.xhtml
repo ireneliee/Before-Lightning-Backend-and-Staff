@@ -20,7 +20,7 @@
                                 <p:outputLabel for="productOverview" value="Product Overview: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="productOverview" value="#{updateProductManagedBean.productEntityToUpdate.productOverview}" required="true" requiredMessage="Overview is required"/>
+                                <p:inputText id="productOverview" value="#{updateWebsiteProductManagedBean.productEntityToUpdate.productOverview}" required="true" requiredMessage="Overview is required"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -28,7 +28,7 @@
                                 <p:outputLabel for="productDescription" value="Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="productDescription" value="#{updateProductManagedBean.productEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
+                                <p:inputText id="productDescription" value="#{updateWebsiteProductManagedBean.productEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -36,23 +36,25 @@
                                 <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="brand" value="#{updateProductManagedBean.chassisPartChoiceToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
+                                <p:inputText id="brand" value="#{updateWebsiteProductManagedBean.chassisPartChoiceToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
                             </p:column>
                         </p:row>                        
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="imageLink" value="Image: " style="font-weight: bold;" />
                             </p:column>
-                            <p:column>
-                                <p:fileUpload id="imageLink" listener="#{updateProductManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
-                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/sampleLaptop.png" height="150px" width="150px" rendered="#{empty updateProductManagedBean.imageLink}"/>
-                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateProductManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updateProductManagedBean.imageLink}"/>
+                            <p:column style="text-align: center">
+                                <p:fileUpload id="imageLink" listener="#{updateWebsiteProductManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
+                                <br/>
+                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/sampleLaptop.png" height="150px" width="150px" rendered="#{updateWebsiteProductManagedBean.productEntityToUpdate.imageLink == ''}"/>
+                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateWebsiteProductManagedBean.productEntityToUpdate.imageLink}" height="150px" width="150px" rendered="#{updateWebsiteProductManagedBean.productEntityToUpdate.imageLink != ''}"/>
                             </p:column>
                         </p:row>    
                     </p:panelGrid>
                 </p:panel>
-                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Product" actionListener="#{updateProductManagedBean.updateProduct}" update="formAllProducts:dataTableAllProducts growl" oncomplete="PF('dialogUpdateProduct').hide()">
-                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateProductManagedBean.productEntityToUpdate.productName} ?"  icon="ui-icon-alert" />
+                <br/>
+                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Product" actionListener="#{updateWebsiteProductManagedBean.updateProduct}" update="formAllProducts:dataTableAllProducts growl" oncomplete="PF('dialogUpdateProduct').hide()">
+                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateWebsiteProductManagedBean.productEntityToUpdate.productName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>
             </p:dialog>
 

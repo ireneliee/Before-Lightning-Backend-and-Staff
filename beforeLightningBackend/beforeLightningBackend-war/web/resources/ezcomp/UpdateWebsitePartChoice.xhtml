@@ -20,7 +20,7 @@
                                 <p:outputLabel for="partChoiceOverview" value="Part Choice Overview: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="partChoiceOverview" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.partOverview}" required="true" requiredMessage="Overview is required"/>
+                                <p:inputText id="partChoiceOverview" value="#{updateWebsitePartChoiceManagedBean.partChoiceEntityToUpdate.partOverview}" required="true" requiredMessage="Overview is required"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -28,7 +28,7 @@
                                 <p:outputLabel for="partChoiceDescription" value="Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="partChoiceDescription" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.partDescription}" required="true" requiredMessage="Description is required"/>
+                                <p:inputText id="partChoiceDescription" value="#{updateWebsitePartChoiceManagedBean.partChoiceEntityToUpdate.partDescription}" required="true" requiredMessage="Description is required"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -36,23 +36,25 @@
                                 <p:outputLabel for="brand" value="Brand: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="brand" value="#{updatePartChoiceManagedBean.partChoiceEntityToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
+                                <p:inputText id="brand" value="#{updateWebsitePartChoiceManagedBean.partChoiceEntityToUpdate.brand}" required="true" requiredMessage="Brand is required"/>
                             </p:column>
                         </p:row>                        
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="imageLink" value="Image: " style="font-weight: bold;" />
                             </p:column>
-                            <p:column>
-                                <p:fileUpload id="imageLink" listener="#{updatePartChoiceManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
-                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/samplePartChoice.png" height="150px" width="150px" rendered="#{empty updatePartChoiceManagedBean.imageLink}"/>
-                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updatePartChoiceManagedBean.imageLink}" height="150px" width="150px" rendered="#{not empty updatePartChoiceManagedBean.imageLink}"/>
+                            <p:column style="text-align: center">
+                                <p:fileUpload id="imageLink" listener="#{updateWebsitePartChoiceManagedBean.handleFileUpload}" update="growl imagePreview1 imagePreview2" previewWidth="200" mode="advanced" skinSimple="true"/>
+                                <br/>
+                                <p:graphicImage id="imagePreview1" value="/uploadedFiles/samplePartChoice.png" height="150px" width="150px" rendered="#{updateWebsitePartChoiceManagedBean.partChoiceEntityToUpdate.imageLink == ''}"/>
+                                <p:graphicImage id="imagePreview2" value="/uploadedFiles/#{updateWebsitePartChoiceManagedBean.partChoiceEntityToUpdate.imageLink}" height="150px" width="150px" rendered="#{updateWebsitePartChoiceManagedBean.partChoiceEntityToUpdate.imageLink != ''}"/>
                             </p:column>
                         </p:row>    
                     </p:panelGrid>
                 </p:panel>
-                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Part Choice" actionListener="#{updatePartChoiceManagedBean.updatePartChoice}" update="formAllPartChoices:dataTableAllPartChoices growl" oncomplete="PF('dialogUpdatePartChoice').hide()">
-                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updatePartChoiceManagedBean.partChoiceEntityToUpdate.partChoiceName} ?"  icon="ui-icon-alert" />
+                <br/>
+                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Part Choice" actionListener="#{updateWebsitePartChoiceManagedBean.updatePartChoice}" update="formAllPartChoices:dataTableAllPartChoices growl" oncomplete="PF('dialogUpdatePartChoice').hide()">
+                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateWebsitePartChoiceManagedBean.partChoiceEntityToUpdate.partChoiceName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>
             </p:dialog>
 

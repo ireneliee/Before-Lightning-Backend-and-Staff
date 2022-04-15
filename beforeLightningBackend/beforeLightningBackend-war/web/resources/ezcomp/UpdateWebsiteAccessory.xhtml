@@ -20,14 +20,15 @@
                                 <p:outputLabel for="description" value="Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{updateAccessoryManagedBean.accessoryEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
+                                <p:inputText id="description" value="#{updateWebsiteAccessoryManagedBean.accessoryEntityToUpdate.description}" required="true" requiredMessage="Description is required"/>
                             </p:column>
                         </p:row>
 
                     </p:panelGrid>
                 </p:panel>
-                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Accessory" actionListener="#{updateAccessoryManagedBean.updateAccessory}" update="formAllAccessory:dataTableAllAccessory :growl" oncomplete="PF('dialogUpdateAccessory').hide()">
-                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateAccessoryManagedBean.accessoryEntityToUpdate.accessoryName} ?"  icon="ui-icon-alert" />
+                <br/>
+                <p:commandButton icon="ui-icon-refresh" title="Update" value="Update Accessory" actionListener="#{updateWebsiteAccessoryManagedBean.updateAccessory}" update="formAllAccessory:dataTableAllAccessory :growl" oncomplete="PF('dialogUpdateAccessory').hide()">
+                    <p:confirm header="Confirmation" message="Are you sure you want to update #{updateWebsiteAccessoryManagedBean.accessoryEntityToUpdate.accessoryName} ?"  icon="ui-icon-alert" />
                 </p:commandButton>
             </p:dialog>
 
