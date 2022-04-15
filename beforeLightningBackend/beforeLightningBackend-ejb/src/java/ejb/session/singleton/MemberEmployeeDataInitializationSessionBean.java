@@ -84,7 +84,7 @@ public class MemberEmployeeDataInitializationSessionBean {
 
             MemberEntity m1 = new MemberEntity("marymary", "password", "Mary", "Magdalene", "mary_magdalene@gmail.com", "96726568");
             MemberEntity m2 = new MemberEntity("bobbybob", "password", "Bobby", "Bob", "bobby_bob@gmail.com", "90418041");
-            MemberEntity m3 = new MemberEntity("aliceinwonderland", "password", "Alice", "lilili", "alice_alice@gmail.com", "84756473");
+            MemberEntity m3 = new MemberEntity("wonderland", "password", "Alice", "lilili", "alice_alice@gmail.com", "84756473");
             AddressEntity ad1 = new AddressEntity("23", "23", "196758", "Singapore");
             AddressEntity ad2 = new AddressEntity("24", "266", "196658", "Singapore");
             AddressEntity ad3 = new AddressEntity("25", "54", "195758", "Singapore");
@@ -98,10 +98,22 @@ public class MemberEmployeeDataInitializationSessionBean {
                 memberEntitySessionBeanLocal.createNewMemberEntity(m2, ad2);
                 memberEntitySessionBeanLocal.createNewMemberEntity(m3, ad3);
 
-                ForumPostEntity f1 = new ForumPostEntity("I like my new laptop!", "My new laptop is xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  the specification is xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m1);
-                ForumPostEntity f2 = new ForumPostEntity("I don't like my new laptop!", "I hate my new laptop it sucks big timexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m2);
-                ForumPostEntity f3 = new ForumPostEntity("I like my new mouse!", "I like my new mouse  it moves so fast xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m3);
-                ForumPostEntity f4 = new ForumPostEntity("I need a warranty, what should I do?!", "I broke my laptop within 3 months, it's expensive I don't know what to doxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", m1);
+                ForumPostEntity f1 = new ForumPostEntity("Custom built laptops?", "Hello peeps!\n"
+                        + "\n"
+                        + "I was doing a google search (as you do) for people/companies that do custom built laptops & every single one that I tried did not do what I wanted.\n"
+                        + "\n"
+                        + "These are the two things (specs) I was looking for to start off with;\n"
+                        + "\n"
+                        + "At least 17\" screen (most did this...but...)\n"
+                        + "\n"
+                        + "Touch Screen (...most didn't offer this & of the ones that did they did not do the two together...)\n", m1);
+                ForumPostEntity f2 = new ForumPostEntity("Custom laptop built", "Have we reached a point in geekdom where PC system builders can cross-over to laptops, safely unlatching ourselves from the teet of the big-time manufacturers (Dell, Apple, etc.)?\n"
+                        + "\n"
+                        + "I sure hope so.\n"
+                        + "\n"
+                        + "I posed a similar question to Google, which returned seemingly helpful articles that detailed some pros and (mostly) cons of starting with a barebones, modular laptop case and building up from there. Unfortunately, said articles were quite dated; ie. tomshardware circa 2005 and pcmech crica 2007.", m2);
+                ForumPostEntity f3 = new ForumPostEntity("Thinking about building your first PC? Don't – buy a gaming laptop instead", "I think Main Gear looks good. Anyone have a better site.", m3);
+                ForumPostEntity f4 = new ForumPostEntity("I need a warranty, what should I do?!", "I broke my laptop within 3 months, it's expensive I don't know what to do!", m1);
 
                 try {
                     forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f1);
@@ -109,18 +121,12 @@ public class MemberEmployeeDataInitializationSessionBean {
                     forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f3);
                     forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f4);
 
-                    ReplyEntity r1 = new ReplyEntity("I like this post!", m1, f1);
-                    ReplyEntity r2 = new ReplyEntity("Thank you for sharing this :)", m2, f1);
-                    ReplyEntity r3 = new ReplyEntity("Do you mind sharing more", m3, f1);
-                    ReplyEntity r4 = new ReplyEntity("I don't like this", m3, f1);
-                    ReplyEntity r5 = new ReplyEntity("Do you mind sharing more hehe", m1, f1);
+                    ReplyEntity r1 = new ReplyEntity("Looks like PCSpecialist can make laptops with up to three drives (one SSD, two M.2s). Not sure about touchscreen you'd need to dig through the specs on each one", m1, f1);
+                    ReplyEntity r2 = new ReplyEntity("Yeah, I checked that out before & as far as I can tell they are not touchscreen.", m2, f1);
 
                     try {
                         forumPostsEntitySessionBeanLocal.createNewReplyEntity(r1, m1.getUserEntityId());
                         forumPostsEntitySessionBeanLocal.createNewReplyEntity(r2, m2.getUserEntityId());
-                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r3, m3.getUserEntityId());
-                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r4, m3.getUserEntityId());
-                        forumPostsEntitySessionBeanLocal.createNewReplyEntity(r5, m1.getUserEntityId());
                     } catch (ForumPostNotFoundException ex) {
                         Logger.getLogger(MemberEmployeeDataInitializationSessionBean.class.getName()).log(Level.SEVERE, null, ex);
                     }
