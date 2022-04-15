@@ -30,6 +30,7 @@ import entity.PurchaseOrderEntity;
 import entity.PurchaseOrderLineItemEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -188,26 +189,24 @@ public class PurchaseOrderDataInitializationSessionBean {
 
                     l4.setPartChoiceEntities(list1);
 
-                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.IN_PROGRESS);
+                    PurchaseOrderEntity po = new PurchaseOrderEntity("12341234", new BigDecimal("1150"), LocalDateTime.now(), PurchaseOrderStatusEnum.IN_PROGRESS);
                     po.getPurchaseOrderLineItems().add(l1);
                     po.getPurchaseOrderLineItems().add(l2);
                     po.getPurchaseOrderLineItems().add(l3);
                     po.getPurchaseOrderLineItems().add(l4);
 
-                    PurchaseOrderEntity po1 = new PurchaseOrderEntity("12341235", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.READY_FOR_SHIPMENT);
-                    PurchaseOrderEntity po2 = new PurchaseOrderEntity("12341236", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.COMPLETE);
-                    PurchaseOrderEntity po3 = new PurchaseOrderEntity("12341237", new BigDecimal("3.50"), LocalDateTime.now(), PurchaseOrderStatusEnum.REFUNDED);
+                    PurchaseOrderEntity po1 = new PurchaseOrderEntity("12341235", new BigDecimal("2150"), LocalDateTime.now(), PurchaseOrderStatusEnum.READY_FOR_SHIPMENT);
+                    PurchaseOrderEntity po3 = new PurchaseOrderEntity("12341237", new BigDecimal("1700"), LocalDateTime.now(), PurchaseOrderStatusEnum.REFUNDED);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po1);
-                    purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po2);
                     purchaseOrderEntitySessionBeanLocal.createNewPurchaseOrder(m1.getUserEntityId(), po3);
 
                     try {
-                        DeliverySlotEntity ds1 = new DeliverySlotEntity(DeliveryStatusEnum.INSTORE, LocalDateTime.now());
-                        DeliverySlotEntity ds2 = new DeliverySlotEntity(DeliveryStatusEnum.OUTSTORE, LocalDateTime.now());
+                        DeliverySlotEntity ds1 = new DeliverySlotEntity(DeliveryStatusEnum.INSTORE, LocalDateTime.of(2022, Month.MARCH, 12, 13,0));
+                        DeliverySlotEntity ds2 = new DeliverySlotEntity(DeliveryStatusEnum.OUTSTORE, LocalDateTime.of(2022, Month.MARCH, 12, 16,0));
 
                         deliverySlotSessionBean.createInStoreDelivery(po1.getPurchaseOrderEntityId(), ds1);
-                        deliverySlotSessionBean.createOutStoreDelivery(po2.getPurchaseOrderEntityId(), 1l, ds2);
+                        deliverySlotSessionBean.createOutStoreDelivery(po.getPurchaseOrderEntityId(), 1l, ds2);
 
                         CreditCardEntity card1 = new CreditCardEntity(1234567891234567l, "srini", "03/23");
                         CreditCardEntity card2 = new CreditCardEntity(1234567831234567l, "wenjie", "05/23");

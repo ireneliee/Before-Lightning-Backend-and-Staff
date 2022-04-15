@@ -29,11 +29,14 @@
                     </p:outputPanel>
                 </f:facet>
 
-                <p:column headerText="Delivery ID" sortBy="#{deliverySlotEntity.deliverySlotId}" filterBy="#{deliverySlotEntity.deliverySlotEntityId}" filterMatchMode="contains">
+                <p:column headerText="Delivery ID" sortBy="#{deliverySlotEntity.deliverySlotId}" filterBy="#{deliverySlotEntity.deliverySlotId}" filterMatchMode="contains">
                     <p:outputLabel value="#{deliverySlotEntity.deliverySlotId}" />
                 </p:column>
-                <p:column headerText="Requested Delivery Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.deliverySlotName}" filterMatchMode="contains">
-                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery}" />
+                <p:column headerText="Requested Collection Date " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery.toLocalDate()}" />
+                </p:column>
+                <p:column headerText="Requested Collection Time " sortBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterBy="#{deliverySlotEntity.requestedTimeOfDelivery}" filterMatchMode="contains">
+                    <p:outputLabel value="#{deliverySlotEntity.requestedTimeOfDelivery.toLocalTime()}" />
                 </p:column>
                 <p:column headerText="Action" >
                     <p:commandButton  value="View Purchase Order" update="ccViewPurchaseOrder:formViewPurchaseOrder" oncomplete="PF('dialogViewPurchaseOrder').show()" icon="ui-icon-document" title="View">
