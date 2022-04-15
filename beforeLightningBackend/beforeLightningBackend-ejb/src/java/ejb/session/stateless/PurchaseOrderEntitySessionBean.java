@@ -125,7 +125,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
         boolean check = false;
         List<PurchaseOrderEntity> listOfAllPOs = retrieveAllPurchaseOrders();
         List<PurchaseOrderLineItemEntity> listOfPOLIs = new ArrayList<>();
-        
+
         for (PurchaseOrderEntity po : listOfAllPOs) {
             listOfPOLIs.addAll(po.getPurchaseOrderLineItems());
         }
@@ -274,6 +274,8 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
                 }
             }
         }
+        DeliverySlotEntity dslot = deliverySlotSessionBeanLocal.retrieveDeliverySlotByPurchaseOrderId(purchaseOrderId);
+        dslot.setDeliveryStatus(DeliveryStatusEnum.COMPLETE);
 
     }
 
@@ -374,7 +376,7 @@ public class PurchaseOrderEntitySessionBean implements PurchaseOrderEntitySessio
     public void changeToComplete(Long purchaseOrderId) throws PurchaseOrderEntityNotFoundException {
         PurchaseOrderEntity purchaseOrderEntity = retrievePurchaseOrderEntityByPurchaseOrderEntityId(purchaseOrderId);
         purchaseOrderEntity.setPurchaseOrderStatus(PurchaseOrderStatusEnum.COMPLETE);
-        
+
         DeliverySlotEntity dslot = deliverySlotSessionBeanLocal.retrieveDeliverySlotByPurchaseOrderId(purchaseOrderId);
         dslot.setDeliveryStatus(DeliveryStatusEnum.COMPLETE);
 
