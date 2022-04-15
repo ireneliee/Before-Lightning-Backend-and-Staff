@@ -53,7 +53,7 @@ public class CreatePartManagedBean implements Serializable {
             Long partId = partEntitySessionBeanLocal.createNewPartEntity(newPartEntity);
 
             if (!partId.equals(null)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created Product " + newPartEntity.getPartName(), null));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created Part " + newPartEntity.getPartName(), null));
                 initializeState();
                 partManagementManagedBean.initializeState();
             }
