@@ -6,9 +6,11 @@
 package jsf.managedbean;
 
 import entity.AccessoryItemEntity;
+import entity.ReviewEntity;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -21,6 +23,7 @@ import javax.inject.Inject;
 public class ViewAccessoryItemManagedBean implements Serializable {
 
     private AccessoryItemEntity accessoryItemEntityToView;
+    private Integer rating;
 
     @Inject
     private AccessoryItemManagementManagedBean accessoryItemManagementManagedBean;
@@ -30,14 +33,14 @@ public class ViewAccessoryItemManagedBean implements Serializable {
      */
     public ViewAccessoryItemManagedBean() {
     }
-    
+
     @PostConstruct
     public void postConstruct() {
         initializeState();
     }
 
     public void initializeState() {
-        
+
     }
 
     public AccessoryItemManagementManagedBean getAccessoryItemManagementManagedBean() {
@@ -46,6 +49,7 @@ public class ViewAccessoryItemManagedBean implements Serializable {
 
     public void setAccessoryItemManagementManagedBean(AccessoryItemManagementManagedBean accessoryItemManagementManagedBean) {
         this.accessoryItemManagementManagedBean = accessoryItemManagementManagedBean;
+
     }
 
     public AccessoryItemEntity getAccessoryItemEntityToView() {
@@ -54,6 +58,30 @@ public class ViewAccessoryItemManagedBean implements Serializable {
 
     public void setAccessoryItemEntityToView(AccessoryItemEntity accessoryItemEntityToView) {
         this.accessoryItemEntityToView = accessoryItemEntityToView;
+        System.out.println(accessoryItemEntityToView.getAccessoryItemName());
+        List<ReviewEntity> listReviews = accessoryItemEntityToView.getReviewEntities();
+        System.out.println("Size: " + accessoryItemEntityToView.getReviewEntities().size());
+        int total = 0;
+        int count = 0;
+        for (ReviewEntity rev : listReviews) {
+            System.out.println("Rating: " + rev.getDescription());
+            total += rev.getRating();
+            count += 1;
+        }
+        if (count == 0) {
+            rating = 0;
+        } else {
+            rating = Math.round(total / count);
+        }
+        System.out.println("RATING IS: " + this.rating);
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 
 }

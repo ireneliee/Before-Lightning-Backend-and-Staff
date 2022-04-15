@@ -26,22 +26,12 @@ public class ViewProductManagedBean implements Serializable {
 
     public ViewProductManagedBean() {
         productEntityToView = new ProductEntity();
+        rating = 0;
     }
 
     @PostConstruct
     public void postConstruct() {
-        List<ReviewEntity> listReviews = productEntityToView.getReviewEntities();
-        int total = 0;
-        int count = 0;
-        for (ReviewEntity rev : listReviews) {
-            total += rev.getRating();
-            count += 1;
-        }
-        if (count == 0) {
-            rating = 0;
-        } else {
-            rating = total / count;
-        }
+
     }
 
     /**
@@ -56,6 +46,22 @@ public class ViewProductManagedBean implements Serializable {
      */
     public void setProductEntityToView(ProductEntity productEntityToView) {
         this.productEntityToView = productEntityToView;
+        System.out.println(productEntityToView.getProductName());
+        List<ReviewEntity> listReviews = productEntityToView.getReviewEntities();
+        System.out.println("Size: " + productEntityToView.getReviewEntities().size());
+        int total = 0;
+        int count = 0;
+        for (ReviewEntity rev : listReviews) {
+            System.out.println("Rating: " + rev.getDescription());
+            total += rev.getRating();
+            count += 1;
+        }
+        if (count == 0) {
+            rating = 0;
+        } else {
+            rating = Math.round(total / count);
+        }
+        System.out.println("RATING IS: " + this.rating);
     }
 
     public Integer getRating() {
