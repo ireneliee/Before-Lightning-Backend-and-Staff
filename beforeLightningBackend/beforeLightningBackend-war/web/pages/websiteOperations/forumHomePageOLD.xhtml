@@ -35,8 +35,11 @@
                 <p:column headerText="Author" sortBy="#{forumEntity.author.username}" filterBy="#{forumEntity.author.username}" filterMatchMode="contains">
                     <p:outputLabel value="#{forumEntity.author.username}" />
                 </p:column>
-                <p:column headerText="Time stamp" sortBy="#{forumEntity.timestamp}" filterBy="#{forumEntity.timestamp}" filterMatchMode="contains">
-                    <p:outputLabel value="#{forumEntity.timestamp}" />
+                <p:column headerText="Time stamp(Date)" sortBy="#{forumEntity.timestamp}" filterBy="#{forumEntity.timestamp}" filterMatchMode="contains">
+                    <p:outputLabel value="#{forumEntity.timestamp.format(forumPostManagementBean.formatter)}" />
+                </p:column>
+                <p:column headerText="Time stamp(Time)" sortBy="#{forumEntity.timestamp}" filterBy="#{forumEntity.timestamp}" filterMatchMode="contains">
+                    <p:outputLabel value="#{forumEntity.timestamp.format(forumPostManagementBean.formatterTime)}" />
                 </p:column>
                 <p:column headerText="Visible" sortBy="#{forumEntity.isVisible}" filterBy="#{forumEntity.isVisible}" filterMatchMode="contains">
                     <p:outputLabel value="#{forumEntity.isVisible}" />

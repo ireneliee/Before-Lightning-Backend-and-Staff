@@ -9,6 +9,7 @@ import ejb.session.stateless.ForumPostsEntitySessionBeanLocal;
 import entity.ForumPostEntity;
 import entity.ReplyEntity;
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -36,11 +37,15 @@ public class ForumPostManagementBean implements Serializable {
     private List<ReplyEntity> listOfComments;
     private List<ForumPostEntity> filteredForumPosts;
     private ReplyEntity replyEntityToUpdate;
+    private DateTimeFormatter formatter;
+    private DateTimeFormatter formatterTime;
     
     @Inject
     private ViewForumManagedBean viewForumManagedBean;
 
     public ForumPostManagementBean() {
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatterTime = DateTimeFormatter.ofPattern("HH:mm");
     }
     
     @PostConstruct
@@ -130,6 +135,22 @@ public class ForumPostManagementBean implements Serializable {
 
     public void setViewForumManagedBean(ViewForumManagedBean viewForumManagedBean) {
         this.viewForumManagedBean = viewForumManagedBean;
+    }
+
+    public DateTimeFormatter getFormatter() {
+        return formatter;
+    }
+
+    public void setFormatter(DateTimeFormatter formatter) {
+        this.formatter = formatter;
+    }
+
+    public DateTimeFormatter getFormatterTime() {
+        return formatterTime;
+    }
+
+    public void setFormatterTime(DateTimeFormatter formatterTime) {
+        this.formatterTime = formatterTime;
     }
 
 }
