@@ -106,14 +106,14 @@ public class MemberEmployeeDataInitializationSessionBean {
                         + "\n"
                         + "At least 17\" screen (most did this...but...)\n"
                         + "\n"
-                        + "Touch Screen (...most didn't offer this & of the ones that did they did not do the two together...)\n", m1);
+                        + "Touch Screen (...most didn't offer this & of the ones that did they did not do the two together...)\n", "forumPost4.jpg" ,m1);
                 ForumPostEntity f2 = new ForumPostEntity("Custom laptop built", "Have we reached a point in geekdom where PC system builders can cross-over to laptops, safely unlatching ourselves from the teet of the big-time manufacturers (Dell, Apple, etc.)?\n"
                         + "\n"
                         + "I sure hope so.\n"
                         + "\n"
-                        + "I posed a similar question to Google, which returned seemingly helpful articles that detailed some pros and (mostly) cons of starting with a barebones, modular laptop case and building up from there. Unfortunately, said articles were quite dated; ie. tomshardware circa 2005 and pcmech crica 2007.", m2);
-                ForumPostEntity f3 = new ForumPostEntity("Thinking about building your first PC? Don't – buy a gaming laptop instead", "I think Main Gear looks good. Anyone have a better site.", m3);
-                ForumPostEntity f4 = new ForumPostEntity("I need a warranty, what should I do?!", "I broke my laptop within 3 months, it's expensive I don't know what to do!", m1);
+                        + "I posed a similar question to Google, which returned seemingly helpful articles that detailed some pros and (mostly) cons of starting with a barebones, modular laptop case and building up from there. Unfortunately, said articles were quite dated; ie. tomshardware circa 2005 and pcmech crica 2007.", "forumPost1.jpg", m2);
+                ForumPostEntity f3 = new ForumPostEntity("Thinking about building your first PC? Don't – buy a gaming laptop instead", "I think Main Gear looks good. Anyone have a better site.", "forumPost2.jpg", m3);
+                ForumPostEntity f4 = new ForumPostEntity("I need a warranty, what should I do?!", "I broke my laptop within 3 months, it's expensive I don't know what to do!", "forumPost3.jpg", m1);
 
                 try {
                     forumPostsEntitySessionBeanLocal.createNewForumPostEntity(f1);
