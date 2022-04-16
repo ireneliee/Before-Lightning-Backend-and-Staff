@@ -44,7 +44,7 @@
                     </p:column>
                     <p:column>
                         <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/account.png" rendered="#{!viewCustomerManagedBean.hasProfilePic}" height="50px" width="50px"/>
-                        <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/#{sessionScope.currentEmployeeEntity.imageLink}" rendered="#{viewCustomerManagedBean.hasProfilePic}" height="50px" width="50px"/>
+                        <p:graphicImage style="border-radius: 50%; max-height: 50px; min-height: 50px; max-width: 50px; min-width: 50px" value="/uploadedFiles/#{viewCustomerManagedBean.memberEntityToView.imageLink}" rendered="#{viewCustomerManagedBean.hasProfilePic}" height="50px" width="50px"/>
                     </p:column>
                 </p:row>
                 <p:row>
