@@ -7,7 +7,6 @@ package jsf.managedbean;
 
 import ejb.session.stateless.PurchaseOrderEntitySessionBeanLocal;
 import entity.PurchaseOrderEntity;
-import entity.PurchaseOrderEntity_;
 import entity.PurchaseOrderLineItemEntity;
 import entity.ReviewEntity;
 import javax.inject.Named;
