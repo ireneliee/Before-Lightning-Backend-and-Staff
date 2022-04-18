@@ -2,7 +2,7 @@
 BeforeLightningBackend is a part of Before Lightning Enterprise, an enterprise system created to facilitate customizable laptops and simple accessories online sales.  The enterprise system consists of two web-app, one for BeforeLightning Staff to handle administration matters such as handling purchase orders, regulating forum posts, etc. 
 The backend and staff portal are in this repository, while the customer portal source code would be in the other repository: BeforeLightningAngular. 
 Tech stack used in this repository is Jakarta EE and JSF. 
-To know more about our project, please take a look at the thorough documentation the team has prepared. This documentation would have been included inside this repository. 
+To know more about our project, please take a look at the thorough documentation the team has prepared inside the docs folder in this repository. 
 
 Instructions to Deploy:
 1. start MySQL80 in your services
